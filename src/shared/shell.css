@@ -128,3 +128,4 @@ a.og-b { text-decoration: none; display: inline-flex; align-items: center; }
 }
 .og-whatif .wi-src ul { list-style: none; padding: 0; margin: .3rem 0 0; display: flex; flex-wrap: wrap; gap: .3rem 1rem; } .og-whatif .wi-src li { white-space: nowrap; }
 @media (max-width: 560px) { .og-whatif .wi-src li { white-space: normal; } }
+.og-credit { font-weight: 600; margin: 0 0 .4rem; }

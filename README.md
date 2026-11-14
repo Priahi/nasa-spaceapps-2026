@@ -1,6 +1,6 @@
 # Orbit to Ground: an Earth-change intelligence pipeline, from orbit to decision
 
-NASA Space Apps Challenge 2026 · **Be An Earth System Trend Detective!** · team GeoAI Toronto
+NASA Space Apps Challenge 2026 · **Be An Earth System Trend Detective!** · built solo by Parsa Riahi, Toronto
 
 - Live site: **https://nasa-spaceapps-2026.pages.dev**
 - Demo video (29 s): https://nasa-spaceapps-2026.pages.dev/submission/demo.mp4 · Slides: https://nasa-spaceapps-2026.pages.dev/submission/deck.pdf

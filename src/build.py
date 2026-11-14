@@ -50,6 +50,8 @@ def copy_demo(slug):
     h = h.replace("Cite every source in a Space Apps submission and disclose this pre-existing tooling. This is a local demo, not a submitted project and not a published benchmark.",
                   "All sources are cited above. Builds on our earlier code and open-source libraries. One seed, not a published benchmark.")
     h = h.replace("Cite every source in a Space Apps submission and disclose this pre-existing tooling.", "Builds on our earlier code and open-source libraries.")
+    h = re.sub(r"<title>(.*?)</title>", lambda m: f"<title>{m.group(1)} · Parsa Riahi</title>\n  <meta name=\"author\" content=\"Parsa Riahi\" />", h, count=1)
+    h = re.sub(r"(<footer[^>]*>)", lambda m: m.group(1) + f'<p class="og-credit">{html.escape(SITE["credit"])}.</p>', h, count=1)
     idx.write_text(h)
     for f in list(out.glob("*.js")) + list(out.glob("*.css")) + [idx]:
         if f.name.startswith("suite-"): continue
@@ -60,6 +62,7 @@ def copy_demo(slug):
 
 # ---------- page chrome ----------
 def head(title, desc, path, img="og.png"):
+    if SITE["author"] not in title: title = f"{title} · {SITE['author']}"
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -67,6 +70,8 @@ def head(title, desc, path, img="og.png"):
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>{e(title)}</title>
 <meta name="description" content="{e(desc)}" />
+<meta name="author" content="{e(SITE['author'])}" />
+<meta property="og:site_name" content="Orbit to Ground · {e(SITE['credit'])}" />
 <link rel="canonical" href="{SITE_URL}{path}" />
 <meta property="og:title" content="{e(title)}" />
 <meta property="og:description" content="{e(desc)}" />
@@ -98,7 +103,7 @@ def nav(active):
 
 REPO_NOTE = f' Source code: <a href="{REPO_URL}">{REPO_URL.replace("https://","")}</a> (Apache-2.0).' if SHOW_REPO else " Code licence: Apache-2.0."
 FOOT = f"""<footer class="site"><div class="wrap">
-<p><strong>Orbit to Ground</strong> · NASA International Space Apps Challenge 2026 · {e(SITE['challenge'])} · Team {e(SITE['team'])} ({e(SITE['author'])}).{REPO_NOTE}</p>
+<p><strong>Orbit to Ground</strong> · NASA International Space Apps Challenge 2026 · {e(SITE['challenge'])} · {e(SITE['credit'])}.{REPO_NOTE}</p>
 <p>Data: NASA FIRMS, NASA-ISRO NISAR (via NASA CMR and ASF DAAC), NASA POWER, NASADEM, MODIS, plus ESA Copernicus Sentinel-1, Sen1Floods11, USDA NASS CDL and ISRIC SoilGrids. Province outlines: Natural Earth (public domain). Each project page lists its sources and licences. This site is not affiliated with or endorsed by NASA.</p>
 <p>AI disclosure: AI coding assistants helped write and refactor parts of the code, site and text. All models, metrics and figures come from our own runs on the public data listed. Photos of people are AI-generated illustrations, not real people or events; every chart, map and number comes from data. Model metrics are one seed each, not a published benchmark. {e(SITE['built_on'])}</p>
 </div></footer>
@@ -349,7 +354,7 @@ def landing():
 <details class="deep"><summary>Methods</summary><ul class="facts">{meth}</ul></details>
 <details class="deep"><summary>Validation and limits</summary><ul class="facts"><li><b>What holds up.</b> Models trained on earlier years, tested on later ones, against simple baselines. Trends checked on a second NASA record where one exists.</li><li><b>Where it falls short.</b> Canada's monthly-total fire error is worse than the baseline (39.4% vs 16.7%). Provincial fire trends are tentative. Trends show change, not cause. GPM IMERG doesn't confirm the reanalysis drop in southern Ontario's rain extremes, so we don't claim it. The flood rewind uses archive data; we haven't tested near-real-time timing.</li></ul></details>
 <details class="deep"><summary>Judging criteria</summary><ul class="facts">{crit}</ul></details>
-<p class="fine center">Team {e(SITE['team'])} · {e(SITE['author'])}</p>
+<p class="fine center">{e(SITE['credit'])}</p>
 </div></section>
 </main>
 """ + FOOT

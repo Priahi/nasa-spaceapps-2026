@@ -337,6 +337,33 @@ h1,h2,h3{font-weight:600;letter-spacing:-.03em}
 .v3 .big3 .st strong small{font-size:30px;letter-spacing:-.02em;color:var(--muted);font-weight:600}
 .v3 .big3 .st span{font-size:20px}
 .v3 .est{font-size:14px}
+
+/* polish4 */
+.ft{padding-right:200px;gap:28px}
+.ft .pill{white-space:nowrap;flex:none}
+.ft .src{text-align:right}
+.v4{display:grid;grid-template-columns:minmax(0,1fr) 700px;grid-template-rows:auto 1fr;column-gap:28px;row-gap:14px;margin-top:16px;flex:1;min-height:0}
+.v4 .map{grid-row:1;grid-column:1;position:relative;margin:0;height:650px;border-radius:18px;overflow:hidden;background:#0b0e20;box-shadow:0 14px 40px rgba(11,18,48,.22)}
+.v4 .map img{width:100%;height:100%;object-fit:cover;object-position:center bottom;display:block}
+.v4 .map figcaption{position:absolute;left:14px;top:14px;font:600 15px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#fff;background:rgba(11,14,32,.82);padding:8px 12px;border-radius:10px}
+.v4 .map .lg{position:absolute;left:14px;bottom:14px;display:flex;gap:14px;font:600 15px var(--font);color:#fff;background:rgba(11,14,32,.82);padding:8px 12px;border-radius:10px}
+.v4 .map .lg i{display:inline-block;width:13px;height:13px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.v4 .right{grid-row:1 / span 2;grid-column:2;display:flex;flex-direction:column;gap:12px;min-height:0}
+.v4 .loop{position:relative;width:700px;height:438px;border-radius:16px;overflow:hidden;background:#0b0e20;flex:none}
+.v4 .loop img,.v4 .loop video{position:absolute;inset:0;width:100%;height:100%;display:block}
+.v4 .loop video{z-index:1}
+.v4 .loop .tk{position:absolute;right:10px;bottom:10px;z-index:2}
+.v4 .how{font:600 14px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--water);margin-top:-4px}
+.v4 .cards{display:flex;flex-direction:column;gap:10px}
+.v4 .cards .st{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:10px 20px}
+.v4 .cards .st strong{display:block;font-size:42px;line-height:1.05;letter-spacing:-.03em}
+.v4 .cards .st strong small{font-size:26px;color:var(--muted);font-weight:600;letter-spacing:-.01em}
+.v4 .cards .st span{display:block;font-size:19px;color:var(--muted);line-height:1.25;margin-top:2px}
+.v4 .low{grid-row:2;grid-column:1;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:16px;align-items:start;min-height:0}
+.v4 .whatif{font-size:22px}
+.v4 .est2{font-size:14px;line-height:1.4;color:#6b7280;border:1px dashed #c5cbd8;border-radius:12px;padding:9px 14px;background:rgba(255,255,255,.6)}
+.v4 .est2 b{display:block;font:600 12px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#8a93a6;margin-bottom:2px}
+@media print{.v4 .loop video{display:none}}
 </style></head><body>
 <!-- 1 · Hook -->
 <section class="s">
@@ -428,46 +455,32 @@ h1,h2,h3{font-weight:600;letter-spacing:-.03em}
 <section class="s">
  <div class="hd"><span>Story 2 · Hot Spots · wildfire</span><span>5 / 7</span></div>
  <h2 class="title" style="font-size:50px;margin-top:14px">Fire: staff crews from the record, not a fixed date.</h2>
- <div class="v3">
-  <div class="vis">
-   <div class="shot"><img class="lp-poster" src="assets/shots/deck-fire-ready.jpg" alt="Hot Spots, Alberta: the 2026 outlook flags May, crews are tasked (simulated), and What if? shows +16 days and ~65,000 ha" style="object-fit:contain"><video class="lp" autoplay muted loop playsinline preload="auto" poster="assets/shots/deck-fire-ready.jpg" style="object-fit:contain"><source src="clips/deck-fire-ready.webm" type="video/webm"><source src="clips/deck-fire-ready.mp4" type="video/mp4"></video><span class="tk">Tasking (simulated)</span></div>
-   <div class="how">In the app: Alberta's calendar flags May → Assign crews → What if? +16 days</div>
+ <div class="v4">
+  <figure class="map"><img src="assets/shots/map8-fire.jpg" alt="Canada burn history: satellite fire detections per year, 2003-2025 average, on the live Hot Spots map"><figcaption>Canada burn history · fires per year, 2003–2025</figcaption></figure>
+  <div class="right">
+   <div class="loop shot"><img class="lp-poster" src="assets/shots/deck-fire-map.jpg" alt="Hot Spots live: the burn-history layer across Canada, the boreal belt and B.C., the burn calendar, then Assign crews (simulated)" style="object-fit:contain"><video class="lp" autoplay muted loop playsinline preload="auto" poster="assets/shots/deck-fire-map.jpg" style="object-fit:contain"><source src="clips/deck-fire-map.webm" type="video/webm"><source src="clips/deck-fire-map.mp4" type="video/mp4"></video><span class="tk">Tasking (simulated)</span></div>
+   <div class="how">In the app: burn history → calendar flags May → Assign crews</div>
+   <div class="cards"><div class="st"><strong>~1,500 more fires</strong><span>detected in Alberta each year than the year before (2003–2025 trend)</span></div><div class="st"><strong>+16 days</strong><span>of full readiness: crews staffed 15 April instead of 1 May</span></div><div class="st"><strong>~65,000 ha <small>+ ~$25 M</small></strong><span>of forest and firefighting cost spared per escaped fire stopped</span></div></div>
   </div>
-  <div class="side">
-   <div class="big3">
-    <div class="st"><strong>~1,500 more fires</strong><span>detected by satellite in Alberta every year, compared with the year before (2003–2025 trend)</span></div>
-    <div class="st"><strong>+16 days</strong><span>of full readiness: crews staffed 15 April instead of 1 May, because the record flags May</span></div>
-    <div class="st"><strong>~65,000 ha <small>+ ~$25 M</small></strong><span>of forest and firefighting cost spared for every escaped fire those crews stop</span></div>
-   </div>
-   <div class="whatif"><b>What if · illustrative estimate</b>Each escaped May fire stopped spares an area about the size of the City of Toronto.</div>
-   <div class="est"><b>How we estimated</b>~1,500 = Sen's slope of Alberta's yearly satellite fire detections, 2003–2025 (p = 0.035, tentative). +16 days = 15 Apr vs 1 May (Alberta's 2024 staffing date; Horse River began 1 May 2016). Per escape: 1,088 fires × 3% ≈ 33 escapes carry 97% of 2.2 M ha ≈ 65,000 ha each; Alberta spent $851 M on 2023 presuppression + response ÷ 2.2 M ha ≈ $387/ha × 65,000 ha ≈ $25 M. Toronto: 631 km². How many escapes earlier crews stop is the assumption; Horse River's initial attack was immediate.</div>
-  </div>
+  <div class="low"><div class="whatif"><b>What if · illustrative estimate</b>Each escaped May fire stopped spares an area about the size of the City of Toronto.</div><div class="est2"><b>How we estimated</b>Trend in NASA FIRMS detections; 15 Apr vs 1 May staffing; Alberta 2023 area and cost ÷ ~33 escapes. Full formulas in speaker notes.</div></div>
  </div>
- <div class="ft"><span class="pill">Illustrative estimate · staffing tasks simulated</span><span class="src">NASA FIRMS (MODIS + VIIRS) · Alberta Forestry and Parks 2023–24 · MNP 2017/2025 · Stocks et al. 2002 · Statistics Canada</span></div>
+ <div class="ft"><span class="pill">Illustrative estimate · staffing tasks simulated</span><span class="src">NASA FIRMS (MODIS + VIIRS) · Alberta Forestry and Parks 2023–24 · Stocks et al. 2002 · StatCan · tiles © Esri</span></div>
 </section>
-
 <!-- 6 · Fields vertical -->
 <section class="s">
  <div class="hd"><span>Story 3 · Field Shift · farms</span><span>6 / 7</span></div>
  <h2 class="title" style="font-size:50px;margin-top:14px">Fields: next season's crop map, before planting.</h2>
- <div class="v3">
-  <div class="vis">
-   <div class="shot"><img class="lp-poster" src="assets/shots/deck-field-rye.jpg" alt="Field Shift, Story County: slope map, the 92 steepest squares, Act: seed winter rye, task queued (simulated), What if? ~$1.2 M" style="object-fit:contain"><video class="lp" autoplay muted loop playsinline preload="auto" poster="assets/shots/deck-field-rye.jpg" style="object-fit:contain"><source src="clips/deck-field-rye.webm" type="video/webm"><source src="clips/deck-field-rye.mp4" type="video/mp4"></video><span class="tk">Tasking (simulated)</span></div>
-   <div class="how">In the app: slope map → 92 steepest squares → Act: seed winter rye → task → What if? ~$1.2 M</div>
+ <div class="v4">
+  <figure class="map"><img src="assets/shots/map8-field.jpg" alt="Story County, Iowa: crop classification map at 30 m (corn, soybean, grass, hay) on the live Field Shift map"><figcaption>Story County, Iowa · crop map, 30 m</figcaption><div class="lg"><span><i style="background:#f5c02c"></i>Corn</span><span><i style="background:#2a8a4a"></i>Soybean</span><span><i style="background:#a5d94a"></i>Grass</span><span><i style="background:#a85a32"></i>Hay</span><span><i style="background:#7a2bd6"></i>Small grain</span></div></figure>
+  <div class="right">
+   <div class="loop shot"><img class="lp-poster" src="assets/shots/deck-field-rye.jpg" alt="Field Shift, Story County: slope map, the 92 steepest squares, Act: seed winter rye, task queued (simulated), What if? ~$1.2 M" style="object-fit:contain"><video class="lp" autoplay muted loop playsinline preload="auto" poster="assets/shots/deck-field-rye.jpg" style="object-fit:contain"><source src="clips/deck-field-rye.webm" type="video/webm"><source src="clips/deck-field-rye.mp4" type="video/mp4"></video><span class="tk">Tasking (simulated)</span></div>
+   <div class="how">In the app: slope map → Act: winter rye → task → What if?</div>
+   <div class="cards"><div class="st"><strong>~$1.2 M</strong><span>net in a 2012-type drought from winter rye on the steepest squares</span></div><div class="st"><strong>26,500 acres <small>≈ 10,700 ha</small></strong><span>of the most erosion-prone farmland protected</span></div><div class="st"><strong>Before planting</strong><span>our map is ready in February; USDA's arrives ~11 months later</span></div></div>
   </div>
-  <div class="side">
-   <div class="big3">
-    <div class="st"><strong>~$1.2 M</strong><span>net in a 2012-type drought from winter rye on the 92 steepest squares</span></div>
-    <div class="st"><strong>26,500 acres <small>≈ 10,700 ha</small></strong><span>of the most erosion-prone farmland protected, picked square by square</span></div>
-    <div class="st"><strong>Before planting</strong><span>our map is ready in February; USDA's crop map arrives ~11 months later</span></div>
-   </div>
-   <div class="whatif"><b>What if · illustrative estimate</b>Rye on the steepest fields costs a little most years and pays back in a dry one.</div>
-   <div class="est"><b>How we estimated</b>(+11.1 bu × $6.89 − $32.09) ≈ $44 an acre × 26,500 acres ≈ $1.2 M in a drought year (SARE 2012 farmer survey × Iowa State costs); about 2.4× its seed and planting cost. Iowa corn fell 20% in 2012. Area: 92 squares of farmed 30 m pixels ≈ 107 km². Next-crop map ~82% right vs ~81% from crop history alone: a small edge. Frost-free season +19 days since 1981.</div>
-  </div>
+  <div class="low"><div class="whatif"><b>What if · illustrative estimate</b>Rye on the steepest fields costs a little most years and pays back in a dry one.</div><div class="est2"><b>How we estimated</b>~$44 an acre net in a drought (SARE 2012 yield gain × Iowa State costs) × 26,500 acres. Next-crop map ~82% vs ~81% from history alone. Full formulas in speaker notes.</div></div>
  </div>
- <div class="ft"><span class="pill">Illustrative estimate · seeding and scouting tasks simulated</span><span class="src">USDA NASS CDL + Crop Production 2012 · SARE/CTIC · Iowa State · NASA HLS · NASA POWER · NASA SRTM</span></div>
+ <div class="ft"><span class="pill">Illustrative · seeding tasks simulated</span><span class="src">USDA NASS CDL · SARE/CTIC · Iowa State · NASA HLS · NASA POWER · NASA SRTM · tiles © Esri</span></div>
 </section>
-
 <!-- 7 · System + close -->
 <section class="s">
  <div class="hd"><span>One system · how it works</span><span>7 / 7</span></div>

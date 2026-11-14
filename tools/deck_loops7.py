@@ -5,14 +5,15 @@ from pathlib import Path
 R = Path(__file__).resolve().parents[1]; B = R / "submission/build/loops7"; OUT = R / "submission/clips"; SH = R / "submission/assets/shots"
 OW, OH, BG = 1200, 750, "0x0b0e20"
 # seconds each phase gets in the loop (the 2x recording runs slow; each phase is retimed to its target)
-TARGET = {"fire": {"outlook": 3.6, "actions": 5.2, "whatif": 4.0}, "field": {"map": 2.4, "act": 3.0, "map2": 1.8, "go": 2.8, "whatif": 3.6}}
+TARGET = {"firemap": {"canada": 2.6, "boreal": 2.2, "bc": 3.6, "canada2": 2.2, "cal": 2.0, "crews": 1.8}, "fire": {"outlook": 3.6, "actions": 5.2, "whatif": 4.0}, "field": {"map": 2.4, "act": 3.0, "map2": 1.8, "go": 2.8, "whatif": 3.6}}
 # crop overrides (CSS px in the 1600x800 viewport)
 CROP = {("fire", "outlook"): dict(x=1012, y=76, w=588, h=420), ("fire", "actions"): dict(x=1012, y=76, w=588, h=420),
         ("fire", "whatif"): dict(x=90, y=40, w=1420, h=760), ("field", "whatif"): dict(x=90, y=40, w=1420, h=760),
         ("field", "act"): dict(x=1012, y=76, w=588, h=420), ("field", "go"): dict(x=1012, y=76, w=588, h=420)}
-NAMES = {"fire": "deck-fire-ready", "field": "deck-field-rye"}
-POSTER_AT = {"fire": "actions", "field": "go"}
+NAMES = {"firemap": "deck-fire-map", "fire": "deck-fire-ready", "field": "deck-field-rye"}
+POSTER_AT = {"firemap": "bc", "fire": "actions", "field": "go"}
 meta = json.loads((B / "takes.json").read_text())
+if len(sys.argv) > 1: meta = {k: v for k, v in meta.items() if k in sys.argv[1].split(",")}
 def run(*a): subprocess.run(a, check=True, capture_output=True)
 for name, t in meta.items():
     d = Path(t["dir"]); fr = t["frames"]; mk = t["marks"]; segs = []

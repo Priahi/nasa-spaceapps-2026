@@ -46,6 +46,20 @@ const TAKES = {
       const wy = await topOf(p, '#whatif .wi-kpis'); m('whatif', { x: 90, y: 40, w: 1420, h: 760 }); await scrollY(p, wy - 56, 10); await p.waitForTimeout(150);
       await hover(p, '#whatif .wi-kpis > :nth-child(2)', 1500, 700); await hover(p, '#whatif table tr:nth-child(1)', 1600, 600);
       m('end'); } },
+  firemap: { url: '/hotspots/app/', prep: async (p) => { await p.selectOption('#preset', 'canada'); await p.waitForTimeout(800); await p.locator('#canadaBtn').click().catch(() => {}); await p.waitForTimeout(3000); await p.evaluate(() => scrollTo(0, 0)); },
+    // >60% on the burn-history map layer: full Canada, drag over the burned belt, fly to the boreal and B.C., pan B.C. into Alberta, trend layer; then the burn calendar; then one short Assign crews
+    act: async (p, m) => {
+      const map = { x: 0, y: 76, w: 1020, h: 724 }, dock = { x: 1012, y: 76, w: 588, h: 420 };
+      const drag = async (x0, y0, x1, y1, ms) => { await glide(p, x0, y0, 250); await p.mouse.down(); await glide(p, x1, y1, ms); await p.mouse.up(); };
+      m('canada', map); await p.waitForTimeout(700); await drag(560, 520, 470, 470, 1400); await p.waitForTimeout(400);
+      m('boreal', map); await p.selectOption('#preset', 'canada-boreal'); await p.waitForTimeout(2100); await glide(p, 420, 420, 700); await p.waitForTimeout(300);
+      m('bc', map); await p.selectOption('#preset', 'bc'); await p.waitForTimeout(1700); await drag(700, 560, 360, 420, 2600); await p.waitForTimeout(500);
+      m('canada2', map); await p.locator('#canadaBtn').click(); await p.waitForTimeout(1600); await drag(380, 560, 520, 500, 1500); await p.waitForTimeout(300);
+      const cy = await topOf(p, '.hs-cal'); await scrollY(p, cy - 70, 10); const cb = await p.locator('.hs-cal').boundingBox();
+      m('cal', { x: 0, y: Math.max(0, cb.y - 6), w: 1600, h: Math.min(800 - Math.max(0, cb.y - 6), cb.height + 12) }); await p.waitForTimeout(150);
+      for (const y of [2016, 2019, 2023, 2025]) await hover(p, `td[data-year="${y}"][data-month="5"]`, 260, 380);
+      await scrollY(p, 0, 10); m('crews', dock); await p.waitForTimeout(150); await click(p, '.c2-card[data-id=hotspots-1] .c2-go', 900, 450);
+      m('end'); } },
   field: { url: '/field-shift/app/', prep: async (p) => { await p.evaluate(() => scrollTo(0, 0)); },
     act: async (p, m) => {
       const map = { x: 0, y: 76, w: 1012, h: 632 }, dock = { x: 1012, y: 76, w: 588, h: 368 };
@@ -61,7 +75,7 @@ const TAKES = {
       await hover(p, '#whatif .wi-kpis > :nth-child(2)', 1500, 700); await hover(p, '#whatif table tr:nth-child(3)', 1500, 600);
       m('end'); } },
 };
-const meta = {};
+const meta = fs.existsSync(out + "takes.json") ? JSON.parse(fs.readFileSync(out + "takes.json", "utf8")) : {};
 for (const [name, c] of Object.entries(TAKES)) {
   if (only && !only.includes(name)) continue;
   const ctx = await b.newContext({ viewport: { width: W, height: H }, deviceScaleFactor: 2, colorScheme: 'dark' }); await ctx.addInitScript(CURSOR);

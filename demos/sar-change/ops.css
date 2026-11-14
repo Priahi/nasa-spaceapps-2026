@@ -217,3 +217,51 @@ section.panel:not(#panel-ops) { padding: 20px; }
   .sar-app nav.tabs button { min-height: 32px; padding: 6px 12px !important; font-size: 13px; }
   .sar-app .ops-top .bf-inline { order: 3; }
 }
+
+/* ---- v2 layout (Nov 14 PM): readable type, no nested scroll, clear alert button ---- */
+.sar-app { --dock-w: clamp(440px, 40vw, 680px); }
+.sar-app .ops-bar { gap: 8px 12px; padding: 10px 12px; }
+.sar-app .ops-bar .ops-toolbar button { min-height: 38px; padding: 8px 14px; font-size: 14px; }
+.sar-app .ops-tog { font-size: 14px; display: inline-flex; align-items: center; gap: 6px; }
+.sar-app .ops-alert-all { margin-left: auto; display: inline-flex; align-items: center; gap: 8px; min-height: 42px; padding: 8px 16px 8px 13px; border-radius: 11px; border: 2px solid #fde68a; background: #fbbf24; color: #1a1205; font: 700 15px/1.1 var(--og-font, var(--sans)); cursor: pointer; box-shadow: 0 6px 22px rgba(251,191,36,.28); white-space: nowrap; }
+.sar-app .ops-alert-all small { font: 600 12px/1 var(--og-mono, var(--mono)); letter-spacing: .04em; padding: 4px 7px; border-radius: 6px; background: rgba(26,18,5,.14); }
+.sar-app .ops-alert-all:hover { background: #fcd34d; } .sar-app .ops-alert-all:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+.sar-app .ops-alert-all[hidden] { display: none; }
+.sar-app .ops-bar .og-selbar.ops-sel { order: 10; flex: 1 1 100%; margin: 0; font-size: 14px; }
+.sar-app .og-selbar .ops-go { min-height: 34px; padding: 7px 12px; font-size: 14px; }
+.sar-app .ops-stage .ops-cap { font-size: 12.5px; padding: 7px 12px 9px; }
+.sar-app .ops-legend { font-size: 13px; padding: 8px 10px; } .sar-app .ops-legend b { font-size: 11px; }
+.sar-app .ops-side-lab span { font-size: 13px; } .sar-app .ops-side-lab em { font-size: 14px; }
+.sar-app .zlab { font-size: 12px; } .sar-app .zlab i { font-size: 11px; }
+/* asset pins: icon only on the map (names and status are in the action card), status shown by ring colour */
+.sar-app .ops-asset { grid-template-columns: auto; padding: 4px; border-radius: 50%; border-width: 2px; max-width: none; }
+.sar-app .ops-asset span, .sar-app .ops-asset em { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.sar-app .ops-asset .c2-ico { width: 18px; height: 18px; grid-row: auto; }
+.sar-app .og-dock .ops-kpis { gap: 8px; }
+.sar-app .og-dock .ops-kpis li { padding: 9px 10px; }
+.sar-app .og-dock .ops-kpis small { font-size: 11px; white-space: normal; }
+.sar-app .og-dock .ops-kpis b { font-size: 22px; } .sar-app .og-dock .ops-kpis span { font-size: 12.5px; }
+.sar-app .ops-wch { font-size: 20px; } .sar-app .ops-split b { font-size: 22px; } .sar-app .ops-split span { font-size: 13px; }
+.sar-app .ops-delta .ops-legend.static { font-size: 13px; }
+.sar-app .ops-rank li { grid-template-columns: 120px 1fr 52px; font-size: 14px; }
+.sar-app .ops-note { font-size: 14px; line-height: 1.5; }
+.sar-app .ops-rain-leg { font-size: 13px; } .sar-app .ops-rain-notes span { font-size: 14px; }
+@media (max-width: 1023px) {
+  .sar-app .ops-alert-all { position: fixed; z-index: 1200; left: 12px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); justify-content: center; margin: 0; min-height: 50px; font-size: 16px; }
+  .sar-app main { padding-bottom: 78px; }
+}
+@media (max-width: 560px) { .sar-app .og-dock .ops-kpis { grid-template-columns: repeat(2, 1fr); } .sar-app .ops-rank li { grid-template-columns: 96px 1fr 48px; } }
+.sar-app .ops-side-lab b, .sar-app .ops-legend b, .sar-app .og-dock .ops-kpis small { font-size: 12px; } .sar-app .ops-side-lab small { font-size: 12px; }
+.sar-app .kicker { font-size: 12px; }
+/* narrow screens: the alert button sits in the toolbar; once it scrolls away a fixed copy appears at the bottom */
+@media (max-width: 1023px) {
+  .sar-app .ops-alert-all { position: static; left: auto; right: auto; bottom: auto; margin-left: auto; min-height: 44px; font-size: 15px; }
+  .sar-app .ops-alert-all.float { position: fixed; z-index: 1200; left: 12px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); justify-content: center; margin: 0; min-height: 50px; }
+  .sar-app main { padding-bottom: 0; } .sar-app.alert-float main { padding-bottom: 78px; }
+}
+@media (max-width: 560px) { .sar-app .ops-alert-all:not(.float) { flex: 1 1 100%; justify-content: center; } }
+.sar-app .ops-k { font-size: 12px; }
+@media (max-width: 560px) { .sar-app .ops-bar .ops-toolbar { flex-wrap: nowrap; } .sar-app .ops-bar .ops-toolbar button { padding: 7px 9px; font-size: 13.5px; } }
+.sar-app .c2-al { scroll-margin-top: 14px; }
+/* the map column is the sticky element now; the page header scrolls away so it never covers the map toolbar */
+.sar-app header.app-header { position: relative; }

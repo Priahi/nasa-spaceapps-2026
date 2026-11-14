@@ -52,7 +52,7 @@ APPS = {
               ("What changes", "Those calls rest on 23 years of evidence, not on one bad summer.")]},
   "metrics": [("8.5%", "lower error than the best baseline (RMSE 0.2844 vs 0.3109, Canada 2022–25)"),
               ("88.6%", "interval coverage, target 90%"),
-              ("11.6 M", "FIRMS detections behind the model"),
+              ("7.46 M", "NASA FIRMS detections over Canada (11.6 M with Argentina)"),
               ("39.4%", "honest miss: monthly-total error vs baseline 16.7%", "neg")],
   "guide": {"map": "Pick Alberta in the Region menu, or draw a box over any forest.", "map_btn": ("Show Alberta", "preset:alberta"),
             "changed": "Outlined squares in the calendar are unusual months. May and July light up again and again.",

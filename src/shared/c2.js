@@ -17,7 +17,8 @@
   const STEPS = ["Queued", "Tasked", "In progress", "Done"];
   const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const icon = (k) => `<svg class="c2-ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${ICON[k] || ICON.plan}</svg>`;
-  const clock = () => new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+  /* scenario clock: time since the first simulated step (T+m:ss), never the real wall-clock time */
+  const clock = (t0) => { const s = Math.max(0, Math.round((performance.now() - t0) / 1000)); return `T+${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; };
   const fire = (type, detail) => window.dispatchEvent(new CustomEvent("og:c2", { detail: Object.assign({ type }, detail) }));
   const reduce = () => window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -63,7 +64,7 @@
     const card = (id) => root.querySelector(`.c2-card[data-id="${CSS.escape(id)}"]`);
     const byId = (id) => A.find((a) => a.id === id);
 
-    function log(msg) { st.log.unshift({ t: clock(), msg }); $(".c2-log").innerHTML = st.log.slice(0, 14).map((l) => `<li><time>${l.t}</time><span>${esc(l.msg)}</span></li>`).join(""); }
+    function log(msg) { if (st.t0 == null) st.t0 = performance.now(); st.log.unshift({ t: clock(st.t0), msg }); $(".c2-log").innerHTML = st.log.slice(0, 14).map((l) => `<li><time>${l.t}</time><span>${esc(l.msg)}</span></li>`).join(""); }
     function renderTasks() {
       $(".c2-empty").hidden = st.tasks.length > 0;
       $(".c2-tasks").innerHTML = st.tasks.map((t) => `<li class="c2-task" data-s="${t.s}">${icon(t.asset)}<div><b>${esc(t.label)}</b><small>${esc(t.from)}${t.eta ? " · " + esc(t.eta) : ""}</small>
@@ -136,7 +137,7 @@
     function alertClose() { const a = st.alert && byId(st.alert.id); st.alert = null; const box = $(".c2-al"); box.hidden = true; box.innerHTML = "";
       try { a && cfg.onAlert && cfg.onAlert(a, "closed"); } catch (e) { console.warn(e); } }
     function reset() {
-      st.timers.forEach(clearTimeout); st.timers = []; st.approved = {}; st.tasks = []; st.log = [];
+      st.timers.forEach(clearTimeout); st.timers = []; st.approved = {}; st.tasks = []; st.log = []; st.t0 = null;
       A.forEach((a) => { setState(a.id, "proposed", "Proposed"); card(a.id).querySelector(".c2-go").textContent = a.verb || "Approve"; });
       if (st.alert) alertClose();
       renderTasks(); $(".c2-log").innerHTML = ""; if (st.sel) select(st.sel);

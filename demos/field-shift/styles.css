@@ -248,3 +248,7 @@ body.fs { margin: 0; background: radial-gradient(900px 480px at 8% -10%, rgba(80
 .fs .og-below .fs-sec { margin-top: 0; }
 @media (max-width: 1023px) { .fs .og-dock-head { top: 0; } }
 @media (max-width: 560px) { .fs .og-chips { display: none; } .fs-legendbox .fs-mapnote { display: none; } .fs-legendbox .fs-legend { font-size: .64rem; } }
+/* v2: readable type in the map legend and cards */
+.fs .fs-mini { font-size: .75rem; }
+.fs .fs-legendbox .fs-legend { font-size: .8rem; } .fs .fs-legendbox .fs-mapnote { font-size: .78rem; }
+@media (max-width: 560px) { .fs .fs-legendbox .fs-legend { font-size: .75rem; gap: .2rem .55rem; } }

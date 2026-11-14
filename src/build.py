@@ -36,11 +36,11 @@ def copy_demo(slug):
     shutil.copytree(src, out, ignore=shutil.ignore_patterns("_headers", "robots.txt"))
     shutil.copy(SRC / "demo-theme" / "common.css", out / "suite-common.css")
     shutil.copy(SRC / "demo-theme" / THEME[slug], out / "suite-theme.css")
-    (out / "og-data.js").write_text("window.OG_SLUG=" + json.dumps(slug) + ";window.OG_APP=" + json.dumps(app_data(slug), ensure_ascii=False) + ";")
+    (out / "og-data.js").write_text("window.OG_SLUG=" + json.dumps(slug) + ";window.OG_APP=" + json.dumps(app_data(slug), ensure_ascii=False) + ";" + ("window.OG_IMPACT=true;" if (ROOT / "submission" / "impact.json").exists() else ""))
     idx = out / "index.html"; h = idx.read_text()
     h = re.sub(r'\s*<meta name="robots"[^>]*>', "", h)
     h = re.sub(r'(href|src)="/(?!/)', r'\1="', h)  # root-absolute assets -> relative (demo now lives under /<slug>/app/)
-    h = h.replace("</head>", '  <link rel="stylesheet" href="suite-common.css" />\n  <link rel="stylesheet" href="suite-theme.css" />\n  <link rel="stylesheet" href="/shared/tokens.css" />\n  <link rel="stylesheet" href="/shared/c2.css" />\n  <link rel="stylesheet" href="/shared/shell.css" />\n  <script src="og-data.js"></script>\n  <script src="/shared/shell.js"></script>\n  <script src="/shared/c2.js"></script>\n</head>', 1)
+    h = h.replace("</head>", '  <link rel="stylesheet" href="suite-common.css" />\n  <link rel="stylesheet" href="suite-theme.css" />\n  <link rel="stylesheet" href="/shared/tokens.css" />\n  <link rel="stylesheet" href="/shared/c2.css" />\n  <link rel="stylesheet" href="/shared/shell.css" />\n  <script src="og-data.js"></script>\n  <script src="/shared/shell.js"></script>\n  <script src="/shared/c2.js"></script>\n  <script src="/shared/whatif.js" defer></script>\n</head>', 1)
     h = re.sub(r"(<body[^>]*>)", lambda m: m.group(1) + suite_bar(slug), h, count=1)
     # public-build wording (was written for the private preview)
     h = h.replace("NASA Space Apps 2026 · unlisted demo · not submitted", "NASA Space Apps 2026")
@@ -87,7 +87,7 @@ def head(title, desc, path, img="og.png"):
 """
 
 def nav(active):
-    items = [("/#actions", "Actions"), ("/#impact", "Impact")] + [(f"/{p['slug']}/", APPS[p["slug"]]["name"]) for p in PROJECTS] + [("/slides/", "Slides"), ("/#how", "How")]
+    items = [("/#night", "The night"), ("/#rewind", "Rewind"), ("/#fire", "Fire"), ("/#more", "Sectors")] + [(f"/{p['slug']}/", APPS[p["slug"]]["name"]) for p in PROJECTS] + [("/slides/", "Slides"), ("/#how", "Under the hood")]
     li = "".join(f'<li><a href="{h}"{" aria-current=\"page\"" if h==active else ""}>{e(t)}</a></li>' for h, t in items)
     mi = "".join(f'<a href="{h}">{e(t)}</a>' for h, t in items)
     return f"""<header class="nav"><a class="brand" href="/"><span class="brand-dot" aria-hidden="true"></span>Orbit to Ground</a>
@@ -265,51 +265,91 @@ def landing():
         cases += (f'<a class="spot case" href="/{p["slug"]}/#trend"><div class="spot-body"><span class="num">{e(MODULES[p["slug"]]["role"])} · {e(t["theme"])}</span><h3>{e(t["title"])}</h3>'
                   f'<dl><dt>What</dt><dd>{e(c["what"])}</dd><dt>Where</dt><dd>{e(c["where"])}</dd><dt>How much</dt><dd>{e(c["how"])}</dd><dt>Significant?</dt><dd class="{"yes" if ok else "no"}">{e(sigt)}</dd></dl></div></a>')
     crit = "".join(f'<li><b>{e(c)}</b> {e(d)}</li>' for c, d in CRITERIA)
+    from home import home_sections, alert_card, SRC as _HS
+    from story import story as _story, slider as _slider
+    sar = app_data("sar-change"); al = next(a["alert"] for a in sar["actions"] if a.get("alert"))
+    night, rewind = home_sections(_story, _slider, alert_card(al))
+    from arch import figures as _arch
+    sectors = [("built", "Emergency management", "Flood · Valencia", "77.7 km² of new water mapped through 99% cloud; one drafted alert to 8 towns.", "/sar-change/app/#demo", "Open SAR Change"),
+               ("built", "Wildfire services", "Fire · Canada", "7.46 M detections; May flagged as the watch month. Draw any area for its own burn calendar.", "/hotspots/app/#demo", "Open Hot Spots"),
+               ("built", "Wildfire services", "Fire · Argentina", "4.15 M detections in the same tool. Here the trend falls: −1,909 a year.", "/hotspots/app/", "Open Hot Spots"),
+               ("built", "Water resources", "Groundwater · eastern Spain", "Stored water falling 0.39 cm a year since 2002 (p = 0.002), from gravity satellites.", "/sar-change/#trend", "See the trend"),
+               ("future", "Transport", "Landslides after rain", "Rain signal plus slope maps, to close roads before they slide.", "", ""),
+               ("future", "Food security", "Drought and crop stress", "Soil water and greenness, to target aid before harvests fail.", "", ""),
+               ("future", "Coastal cities", "Storm surge", "Radar water maps for low streets, the way we mapped Valencia.", "", ""),
+               ("future", "Schools", "Smoke and air quality", "Fire detections plus wind, to move recess indoors in time.", "", ""),
+               ("future", "Care homes", "Heat waves", "Surface heat by block, to send staff where it's hottest.", "", "")]
+    def _sc(k, sec, t, d, u, lt):
+        tag = "Built · live" if k == "built" else "Future · not built"
+        link = f'<a class="more" href="{u}">{e(lt)} &rarr;</a>' if u else ""
+        return f'<article class="x20 {k}"><span class="x20-tag mono">{tag}</span><p class="eyebrow">{e(sec)}</p><h3>{e(t)}</h3><p>{e(d)}</p>{link}</article>'
+    sec_built = "".join(_sc(*x) for x in sectors if x[0] == "built")
+    sec_fut = "".join(_sc(*x) for x in sectors if x[0] == "future")
+    field_feat = ('<article class="x20 built eng-feat"><div class="eng-feat-copy"><span class="x20-tag mono">Built · live</span><p class="eyebrow">Agriculture · Iowa</p>'
+                  '<h3>Field Shift: what each field grows next</h3><p>Trained on NASA optical, climate and terrain data with USDA crop labels, the model maps next season\'s crop for a whole county: <b>81.8%</b> accurate on a held-out year. A farmer view suggests rye on steep fields, for 67% lower erosion risk. The frost-free season is 19 days longer than in 1981 (p = 0.006).</p>'
+                  '<a class="btn launch" href="/field-shift/app/">Open Field Shift</a></div>'
+                  '<figure class="eng-map"><img src="/assets/img/field-map.webp" alt="Story County, Iowa, 2025: actual crops (USDA CDL), crops predicted by the model, and where they disagree (30.2% of farmed pixels)." width="1280" height="551" loading="lazy" />'
+                  '<figcaption>Crop classification, Story County, Iowa, held-out 2025: actual (USDA CDL), predicted, and disagreement (30.2% of farmed pixels).</figcaption></figure></article>')
+    eng_flow = '<ol class="eng-flow mono">' + "".join(f"<li>{x}</li>" for x in ("Satellite signal", "Map", "Drafted alert", "Task")) + "</ol>"
     return head(SITE["title"], SITE["desc"], "/") + nav("/") + f"""<main id="content">
-<section class="hero hero-tight"><div class="topo-hero" aria-hidden="true"></div><div class="wrap hero-copy">
+<section class="hero hero-tight hs-hook" id="hook"><div class="topo-hero" aria-hidden="true"></div><div class="wrap hero-copy">
 <p class="chip"><i></i>NASA Space Apps 2026 · {e(SITE['challenge'])}</p>
-<h1>Orbit to <span class="grad">Ground</span></h1>
-<p class="lede">NASA satellites see the change. We turn it into the next move.</p>
-<div class="actions"><a class="btn" href="#demo-video">&#9654; Watch the demo</a><a class="btn ghost" href="#actions">See the actions</a><a class="btn ghost" href="/slides/">Slides</a></div>
-</div><div class="wrap pcards">{people}</div></section>
-
-<section class="section tight" id="problem"><div class="wrap">
-{step_head(1, "The problem", "Change is fast. Decisions come late.")}
-<ul class="stakes" data-fx="stagger">{stakes}</ul></div></section>
-
-<section class="section tight" id="satellite"><div class="wrap">
-{step_head(2, "What the satellites show", "Four changes, tested on decades of NASA data.")}
-{cases_scrolly()}
-<details class="deep"><summary>Do independent NASA records agree? · the agreement matrix</summary><div id="trend">{_mx()}</div></details>
-<details class="deep"><summary>Compare regions · same test, three places</summary>{_sm()}</details>
+<p class="eyebrow">Valencia, Spain · 29 October 2024</p>
+<h1>The red warning came at <span class="grad">07:36</span>.<br/>The phone alert came at <span class="grad">20:11</span>.</h1>
+<p class="lede">229 people died in the Valencia region. This is one night told twice: as it happened, and rewound with NASA satellite data.</p>
+<div class="actions"><a class="btn" href="#night">Start the story &darr;</a><a class="btn ghost" href="/sar-change/app/#demo">Open the flood dashboard</a><a class="btn ghost" href="#demo-video">&#9654; Demo video</a></div>
+<p class="fine">Sources: <a href="{_HS['aemet'][1]}" rel="noopener">AEMET</a>, <a href="{_HS['elpais'][1]}" rel="noopener">El País</a>. Orbit to Ground turns NASA satellite data into the next move.</p>
+</div></section>
+{night}
+{rewind}
+<section class="section tight hs-could"><div class="wrap" data-fx="rise">
+<p class="eyebrow">What could have changed</p>
+<blockquote>With an upstream rain signal and a radar map, Elena could have had a drafted alert for her town hours before 20:11, and a map of where the water went on day two.</blockquote>
+<p class="fine">A rewind, not a claim: alerts and tasking are simulated, and we make no claim about lives saved.</p>
+<div class="actions"><a class="btn launch" href="/sar-change/app/#demo">Try the rewind in the flood dashboard</a><a class="btn ghost" href="/sar-change/">The flood project</a></div>
 </div></section>
 
-<section class="section tight" id="actions"><div class="wrap">
-{step_head(3, "What people do with it", "Satellite shows → I will → expected.")}
-<div class="ucmap-wrap" data-fx="rise">{_um()}</div>
-<div class="act-apps">{acts}</div>
-<p class="fine">Outcomes are what each action is meant to change; we haven't measured yields, lives or costs. Tasking in the dashboards is simulated.</p>
+<section class="section tight" id="fire"><div class="wrap hs-fire">
+<div class="hs-fire-copy" data-fx="rise"><p class="eyebrow">Second story · Canada, before fire season</p>
+<h2>A duty officer staffs up before May, not after.</h2>
+<ul class="hs-pts"><li><b>Rising.</b> Fire detections grow about 1,503 a year in Alberta (p = 0.035) and 2,587 in B.C. (p = 0.045), 2003–2025. Tentative: one sensor alone isn't significant.</li>
+<li><b>May is the watch month.</b> 5 of Alberta's 16 unusual fire months since 2000 were in May.</li>
+<li><b>The move (simulated).</b> Stage initial-attack crews before July, open seasonal hiring this spring, and tell forest communities to check evacuation plans before May.</li></ul>
+<p class="fine">7.46 M NASA FIRMS detections over Canada. A 2026 trend line of about 41,000 (Alberta) and 72,000 (B.C.) is a trend line, not a forecast.</p>
+<div class="actions"><a class="btn launch" href="/hotspots/app/#demo">Open Hot Spots</a><a class="btn ghost" href="/hotspots/">The fire project</a></div></div>
+<div data-fx="rise">{shows_visual("heat_map")}</div>
 </div></section>
 
-<section class="section tight" id="impact"><div class="wrap">
-{step_head(4, "Impact", "Who decides what, before → with these tools.")}
-{home_impact()}
-<p class="mstrip-k">Backed by model accuracy · one seed per run, not a published benchmark</p>{mall}
-<p class="fine center">Qualitative on purpose: we haven't measured lives, hectares or costs. The numbers are the satellite results and model tests each decision rests on.</p>
+<section class="section tight" id="more"><div class="wrap">
+<div class="split-head" data-fx="rise"><div><p class="eyebrow">One engine, many sectors</p><h2>Same engine. Every sector.</h2></div><p>Flood and fire run on one loop. Swap the satellite input and the same loop serves farms, water and cities. Built ones are live today; future ones are clearly marked.</p></div>
+{eng_flow}
+{field_feat}
+<div class="x20-grid" data-fx="stagger">{sec_built}</div>
+<div class="x20-grid fut" data-fx="stagger">{sec_fut}</div>
 </div></section>
+
+<section class="section tight" id="apps"><div class="wrap">
+<div class="split-head" data-fx="rise"><div><p class="eyebrow">Three dashboards</p><h2>Open them. Every number is live data.</h2></div><p>Each one shows the signal, the map and the next move, with alerts and tasking clearly marked as simulated.</p></div>
+<div class="pcards">{people}</div></div></section>
 
 <section class="section tight" id="demo-video"><div class="wrap">
 <figure class="spot video-card" data-fx="rise"><video controls preload="metadata" playsinline src="/submission/demo.mp4"><track kind="captions" srclang="en" label="English" src="/submission/demo.en.vtt" /></video>
-<figcaption><span class="mono">Demo · under 30 s</span> <a href="/submission/demo.mp4">MP4</a> · <a href="/submission/demo.en.srt">Captions</a> · <a href="/submission/deck.pdf">Slides (PDF)</a></figcaption></figure>
+<figcaption><span class="mono">Demo video</span> <a href="/submission/demo.mp4">MP4</a> · <a href="/submission/demo.en.srt">Captions</a> · <a href="/submission/deck.pdf">Slides (PDF)</a></figcaption></figure>
 </div></section>
 """ + slides_strip(SLIDES) + f"""
 <section class="section tight" id="how"><div class="wrap">
-<div class="step-head" data-fx="rise"><p class="eyebrow">How</p><h2>Built on NASA data. Tested before trusted.</h2></div>
+<div class="step-head" data-fx="rise"><p class="eyebrow">Under the hood</p><h2>Built on NASA data. Tested before trusted.</h2></div>
+<h3 class="af-h">How each model works</h3>
+{_arch()}
+<p class="mstrip-k">Model accuracy · one seed per run, not a published benchmark</p>{mall}
 <details class="deep"><summary>The four trend questions, per module</summary><div class="case-grid">{cases}</div></details>
+<details class="deep"><summary>Do independent NASA records agree? · the agreement matrix</summary><div id="trend">{_mx()}</div></details>
+<details class="deep"><summary>Compare regions · same test, three places</summary>{_sm()}</details>
 <details class="deep"><summary>Data sources ({len(seen)})</summary><div class="table-wrap"><table><thead><tr><th>Dataset</th><th>Module</th><th>How it's used</th><th>Access</th></tr></thead><tbody>{drows}</tbody></table></div></details>
 <details class="deep"><summary>Methods</summary><ul class="facts">{meth}</ul></details>
-<details class="deep"><summary>Validation and limits</summary><ul class="facts"><li><b>What holds up.</b> Models trained on earlier years, tested on later ones, against simple baselines. Trends checked on a second NASA record where one exists.</li><li><b>Where it falls short.</b> Canada's monthly-total fire error is worse than the baseline (39.4% vs 16.7%). Provincial fire trends are tentative. Trends show change, not cause. GPM IMERG doesn't confirm the reanalysis drop in southern Ontario's rain extremes, so we don't claim it.</li></ul></details>
+<details class="deep"><summary>Validation and limits</summary><ul class="facts"><li><b>What holds up.</b> Models trained on earlier years, tested on later ones, against simple baselines. Trends checked on a second NASA record where one exists.</li><li><b>Where it falls short.</b> Canada's monthly-total fire error is worse than the baseline (39.4% vs 16.7%). Provincial fire trends are tentative. Trends show change, not cause. GPM IMERG doesn't confirm the reanalysis drop in southern Ontario's rain extremes, so we don't claim it. The flood rewind uses archive data; we haven't tested near-real-time timing.</li></ul></details>
 <details class="deep"><summary>Judging criteria</summary><ul class="facts">{crit}</ul></details>
+<p class="fine center">Team {e(SITE['team'])} · {e(SITE['author'])}</p>
 </div></section>
 </main>
 """ + FOOT
@@ -513,6 +553,10 @@ def main():
         '<main id="content"><section class="hero short"><div class="wrap hero-copy"><h1>Page not found</h1><p class="lede">That page doesn\'t exist.</p><div class="actions"><a class="btn" href="/">Back to the projects</a></div></div></section></main>' + FOOT)
     shutil.copy(SRC / "assets/img/favicon.ico", DIST / "favicon.ico")
     sub = DIST / "submission"; sub.mkdir(exist_ok=True)
+    # What-if panel data (another worker writes submission/impact.json); dashboards hide the panel until it exists
+    imp = ROOT / "submission" / "impact.json"; out_imp = DIST / "shared" / "impact.json"
+    if imp.exists(): shutil.copy(imp, out_imp)
+    elif out_imp.exists(): out_imp.unlink()
     # deck.html (slide 8 embeds the demo videos) + its assets and the per-app clips
     if (ROOT / "submission" / "deck.html").exists():
         shutil.copy(ROOT / "submission" / "deck.html", sub / "deck.html")
@@ -529,8 +573,27 @@ def main():
     urls = ["/", "/slides/"] + [f"/{p['slug']}/" for p in PROJECTS] + [f"/{p['slug']}/app/" for p in PROJECTS]
     (DIST / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + "".join(f"<url><loc>{SITE_URL}{u}</loc></url>" for u in urls) + "</urlset>\n")
     (DIST / "_headers").write_text("/assets/*\n  Cache-Control: public, max-age=3600\n/submission/*.srt\n  Content-Type: text/plain; charset=utf-8\n/submission/*.vtt\n  Content-Type: text/vtt; charset=utf-8\n/submission/*\n  Cache-Control: public, max-age=600\n/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n")
+    bust_cache()
     n = sum(1 for _ in DIST.rglob("*") if _.is_file())
     print(f"built {DIST} ({n} files)")
+
+def bust_cache():
+    """Append ?v=<content hash> to every local .js/.css URL in the built HTML, so a browser never pairs new HTML with an
+    old cached script or stylesheet (e.g. /assets/* is cached for an hour)."""
+    import hashlib
+    rx = re.compile(r'((?:src|href)=")([^"?#:]+\.(?:js|css))(")')
+    memo = {}
+    for page in DIST.rglob("*.html"):
+        if "submission" in page.relative_to(DIST).parts: continue
+        h = page.read_text()
+        def rep(m):
+            u = m.group(2); f = (DIST / u.lstrip("/")) if u.startswith("/") else (page.parent / u)
+            try: f = f.resolve(strict=True)
+            except OSError: return m.group(0)
+            if f not in memo: memo[f] = hashlib.sha256(f.read_bytes()).hexdigest()[:10]
+            return f"{m.group(1)}{u}?v={memo[f]}{m.group(3)}"
+        h2 = rx.sub(rep, h)
+        if h2 != h: page.write_text(h2)
 
 if __name__ == "__main__":
     main()

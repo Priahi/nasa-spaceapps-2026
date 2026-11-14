@@ -82,23 +82,31 @@
    Collapsed cards show class, state, title and buttons; the selected or expanded card shows the evidence and assets. */
 .c2.c2-dock { background: transparent; border: 0; border-radius: 0; padding: 0; }
 .c2-dock .c2-head { margin-bottom: .6rem; gap: .5rem; }
-.c2-dock .c2-title { font-size: 1.02rem; } .c2-dock .c2-kick { font-size: .62rem; } .c2-dock .c2-user { font-size: .8rem; margin-top: .15rem; }
-.c2-dock .c2-hr { gap: .4rem; } .c2-dock .c2-sim { font-size: .6rem; padding: .3rem .45rem; } .c2-dock .c2-reset { min-height: 30px; padding: .35rem .6rem; font-size: .78rem; }
-.c2-dock .c2-grid { grid-template-columns: 1fr; gap: .6rem; }
-.c2-dock .c2-list { grid-template-columns: 1fr; gap: .45rem; }
-.c2-dock .c2-card { padding: .6rem .7rem; gap: .4rem; cursor: default; }
-.c2-dock .c2-act { font-size: .9rem; line-height: 1.28; }
+.c2-dock .c2-title { font-size: 1.15rem; } .c2-dock .c2-kick { font-size: .7rem; } .c2-dock .c2-user { font-size: .9rem; margin-top: .2rem; }
+.c2-dock .c2-hr { gap: .4rem; } .c2-dock .c2-sim { font-size: .68rem; padding: .35rem .5rem; } .c2-dock .c2-reset { min-height: 36px; padding: .4rem .7rem; font-size: .875rem; }
+.c2-dock .c2-grid { grid-template-columns: 1fr; gap: .8rem; }
+.c2-dock .c2-list { grid-template-columns: 1fr; gap: .7rem; }
+.c2-dock .c2-card { padding: .85rem 1rem; gap: .55rem; cursor: default; }
+.c2-dock .c2-act { font-size: 1.02rem; line-height: 1.35; }
 .c2-dock .c2-card:not(.sel):not(.open) .c2-flow, .c2-dock .c2-card:not(.sel):not(.open) .c2-assets { display: none; }
-.c2-dock .c2-flow dd { font-size: .8rem; } .c2-dock .c2-assets li { font-size: .7rem; }
-.c2-dock .c2-btns { gap: .35rem; }
-.c2-dock .c2-btn { min-height: 34px; padding: .45rem .7rem; font-size: .8rem; border-radius: 9px; flex: 0 1 auto; }
+.c2-dock .c2-flow dd { font-size: .9rem; line-height: 1.45; } .c2-dock .c2-flow dt { font-size: .68rem; } .c2-dock .c2-assets li { font-size: .84rem; }
+.c2-dock .c2-btns { gap: .45rem; flex-wrap: wrap; }
+.c2-dock .c2-btn { min-height: 40px; padding: .55rem .85rem; font-size: .875rem; border-radius: 10px; flex: 0 1 auto; }
 .c2-more { margin-left: auto; font: 600 .66rem/1 var(--og-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--og-accent); background: transparent; border: 1px solid var(--og-line); border-radius: 6px; padding: .3rem .45rem; cursor: pointer; }
 .c2-card.sel .c2-more { display: none; }
 .c2-dock .c2-card-top { gap: .4rem; } .c2-dock .c2-card-top .c2-state { margin-left: auto; } .c2-dock .c2-card-top .c2-more + * { margin-left: 0; }
 .c2-dock .c2-side { position: static; gap: .5rem; }
 .c2-dock .c2-side section { padding: .6rem .7rem; }
-.c2-dock .c2-log { max-height: 140px; }
-.c2-dock .c2-card .c2-al { margin-top: .3rem; padding: .7rem; }
-.c2-dock .c2-msg { font-size: .82rem; padding: .65rem .75rem; }
-.c2-dock .c2-foot { font-size: .7rem; margin-top: .5rem; }
+.c2-dock .c2-log { max-height: none; overflow: visible; }
+.c2-dock .c2-card .c2-al { margin-top: .4rem; padding: .85rem; }
+.c2-dock .c2-msg { font-size: .9375rem; padding: .85rem .95rem; }
+.c2-dock .c2-foot { font-size: .82rem; margin-top: .6rem; }
 @media (max-width: 520px) { .c2.c2-dock { padding: 0; } .c2-dock .c2-btn { flex: 1 1 auto; } }
+
+/* readable dock type: no text under 13px, body at 14-15px */
+.c2-dock .c2-cls, .c2-dock .c2-state, .c2-dock .c2-more, .c2-dock .c2-pill, .c2-dock .c2-sim, .c2-dock .c2-kick, .c2-dock .c2-flow dt, .c2-dock .c2-side h3 { font-size: .75rem; }
+.c2-dock .c2-task b { font-size: .9rem; } .c2-dock .c2-task small, .c2-dock .c2-log li { font-size: .82rem; }
+.c2-dock .c2-side h3 { font-size: .74rem; } .c2-dock .c2-msg .c2-msg-h { font-size: 1.02rem; } .c2-dock .c2-msg .c2-msg-src, .c2-dock .c2-msg-to { font-size: .84rem; }
+.c2-dock .c2-ba ul { font-size: .9rem; } .c2-dock .c2-imp footer span { font-size: .8rem; }
+.c2-dock .c2-log li:nth-child(n+7) { display: none; }
+.c2-cls, .c2-ba p, .c2-state { font-size: .75rem; }

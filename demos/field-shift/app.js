@@ -240,13 +240,17 @@
     FIT = { m, win, name: plan.name };
   }
   /* Leaflet map: USDA CDL 2025 reprojected to Web Mercator (data/geo.json) on a basemap, with the 1.2 km analysis squares as polygons. */
-  let LM = null, SQ = {}, CDL = null, ASSETS = null, GEO = null;
+  let LM = null, SQ = {}, CDL = null, ASSETS = null, GEO = null, lastFit = null, userMoved = false;
+  /* every programmatic view goes through fitTo(); until the user pans or zooms, a resize (layout settling, Farmer/Full switch) refits the same view */
+  function fitTo(b, opts) { lastFit = [L.latLngBounds(b), Object.assign({ padding: [12, 12] }, opts || {})]; userMoved = false; LM.fitBounds(lastFit[0], Object.assign({}, lastFit[1], { animate: false })); }
   const SQ_BASE = { color: "rgba(7,9,26,.55)", weight: 0.6, opacity: 1, fillOpacity: 0, dashArray: null };
   function initMap(geo) {
     GEO = geo; if (window.OGShell) OGShell.fit();
     LM = L.map("map", { zoomControl: false, zoomSnap: 0.25, preferCanvas: true });
     L.control.zoom({ position: "bottomright" }).addTo(LM);
-    const b = L.latLngBounds(geo.bounds); LM.fitBounds(b, { padding: [12, 12] }); LM.setMaxBounds(b.pad(0.6)); LM.setMinZoom(Math.floor(LM.getZoom() - 1));
+    const b = L.latLngBounds(geo.bounds); fitTo(b); LM.setMaxBounds(b.pad(0.6));
+    let minSet = false; const setMin = () => { const r = $("map").getBoundingClientRect(); if (minSet || !r.width || !r.height) return; LM.setMinZoom(Math.max(0, Math.floor(LM.getBoundsZoom(b)) - 1)); minSet = true; }; setMin();
+    ["mousedown", "wheel", "touchstart", "keydown", "dblclick"].forEach((ev) => $("map").addEventListener(ev, (e) => { if (!e.target.closest || !e.target.closest(".og-ovl, .leaflet-control")) userMoved = true; }, { passive: true }));
     L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}", { attribution: "Tiles &copy; Esri · Crops: USDA NASS CDL 2025", maxZoom: 16 }).addTo(LM);
     LM.createPane("labels"); LM.getPane("labels").style.zIndex = 650; LM.getPane("labels").style.pointerEvents = "none";
     L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}", { pane: "labels", maxZoom: 16 }).addTo(LM);
@@ -261,7 +265,7 @@
       SQ[f.id] = pg;
     });
     ASSETS = L.layerGroup().addTo(LM);
-    if ("ResizeObserver" in window) new ResizeObserver(() => LM.invalidateSize()).observe($("map"));
+    if ("ResizeObserver" in window) new ResizeObserver(() => { const r = $("map").getBoundingClientRect(); if (!r.width || !r.height) return; LM.invalidateSize({ pan: false }); setMin(); if (lastFit && !userMoved) LM.fitBounds(lastFit[0], Object.assign({}, lastFit[1], { animate: false })); }).observe($("map"));
   }
   const ZONE = { Proposed: "#d4c4ff", Queued: "#fbbf24", Tasked: "#9ec1ff", "In progress": "#9ec1ff", Done: "#6ee7b7" };
   function sqStyle(f) {
@@ -341,8 +345,8 @@
     state.zone.list = t.ids;
     drawMap();
     if (LM && t.ids.length) { const bb = L.latLngBounds(t.ids.map((id) => SQ[id] && SQ[id].getBounds()).filter(Boolean).reduce((acc, x) => acc.concat([x.getSouthWest(), x.getNorthEast()]), []));
-      const anim = !state.fromHash && performance.now() > 4000;
-      if (t.ids.length <= 2) LM.fitBounds(bb.pad(2.5), { maxZoom: 12.5, animate: anim }); else LM.fitBounds(L.latLngBounds(GEO.bounds), { padding: [12, 12], animate: anim }); }
+      /* no fly animation: an animated zoom cancels basemap tiles mid-flight */
+      if (t.ids.length <= 2) fitTo(bb.pad(2.5), { maxZoom: 12.5, padding: [0, 0] }); else fitTo(GEO.bounds); }
   }
   function selectField(id) {
     state.fieldId = id || null;
@@ -363,7 +367,7 @@
     body.innerHTML = `
       <article class="fs-s-card"><h3><i>1</i>What you grew</h3>
         ${f ? `<div class="fs-s-chips">${hist.map((h) => chip(h.crop, h.year, { small: true })).join("")}</div><p>${f.id} · ${ha(f)} ha · slope ${f.slope.toFixed(1)}°${steep ? " (steeper than most)" : ""}</p>`
-            : `<p>Pick one of the fields above, or a square on the map in the full dashboard.</p>`}</article>
+            : `<p>Pick one of the fields above, or a square on the map below.</p>`}</article>
       <article class="fs-s-card"><h3><i>2</i>What the land and weather show</h3>
         <ul><li><b>Season:</b> about 19 days longer without frost than in 1981, so longer-season varieties have room.</li>
         <li><b>Soil water:</b> steady. No trend in four NASA records, so no case for new irrigation.</li>
@@ -375,10 +379,12 @@
         <div class="fs-s-btns"><button type="button" class="c2-btn c2-primary" data-s="approve">Approve plan</button><button type="button" class="c2-btn c2-ghost" data-s="alert">Draft message to grower</button><button type="button" class="c2-btn c2-ghost" data-s="full">See why</button></div></article>`;
   }
   function setMode(m) {
-    const simple = m === "simple"; $("s-simple").hidden = !simple; [...document.querySelector("main").children].forEach((el) => { if (el.id !== "s-simple") el.hidden = simple; });
+    /* Farmer view adds the plain-language cards above the map; the map, legend and data stay visible in both modes */
+    const simple = m === "simple"; $("s-simple").hidden = !simple;
     document.querySelectorAll(".fs-mode [data-mode]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.mode === m)));
     document.querySelectorAll(".fs-steps a").forEach((a) => a.classList.toggle("dim", simple));
-    if (!simple) { window.dispatchEvent(new Event("resize")); if (LM) setTimeout(() => LM.invalidateSize(), 30); }
+    if (window.OGShell) OGShell.fit(); window.dispatchEvent(new Event("resize"));
+    if (simple) $("s-simple").scrollIntoView({ block: "nearest" });
   }
   document.addEventListener("click", (ev) => {
     const mb = ev.target.closest(".fs-mode [data-mode]"); if (mb) return setMode(mb.dataset.mode);

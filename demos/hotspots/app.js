@@ -26,14 +26,20 @@
   if (window.OGShell) OGShell.fit(); // size the workspace before the map takes its first view
   const map = L.map("map", { worldCopyJump: true, preferCanvas: true, zoomSnap: 0.25, zoomControl: false });
   L.control.zoom({ position: "bottomright" }).addTo(map);
-  map.fitBounds([[42, -141], [70, -52]]); // set the first view before any tile loads, so no tile request is cancelled
+  /* every programmatic view goes through fitTo(); while the user hasn't panned or zoomed, a resize refits the same bounds,
+     so the data never ends up cropped when the layout settles after load. */
+  const DATA_BOUNDS = L.latLngBounds([[41.6, -141.4], [82.1, -52.4]]); // all Canada fire cells (0.25°), 2003–2025
+  let lastFit = null, userMoved = false;
+  function fitTo(b, opts) { lastFit = [L.latLngBounds(b), Object.assign({ padding: [12, 12] }, opts || {})]; userMoved = false; map.fitBounds(lastFit[0], Object.assign({ animate: false }, lastFit[1])); }
+  ["mousedown", "wheel", "touchstart", "keydown", "dblclick"].forEach((ev) => $("map").addEventListener(ev, (e) => { if (!e.target.closest || !e.target.closest(".og-ovl, .leaflet-control")) userMoved = true; }, { passive: true }));
+  fitTo(DATA_BOUNDS); // set the first view before any tile loads, so no tile request is cancelled
   L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}", { attribution: "Tiles &copy; Esri", maxZoom: 16 }).addTo(map);
   map.createPane("labels"); map.getPane("labels").style.zIndex = 450; map.getPane("labels").style.pointerEvents = "none";
   L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}", { pane: "labels", maxZoom: 16 }).addTo(map);
   const layers = { fire: L.layerGroup(), trend: L.layerGroup(), ratio: L.layerGroup() };
   const boxLayer = L.layerGroup().addTo(map), taskLayer = L.layerGroup().addTo(map), assetLayer = L.layerGroup().addTo(map);
-  if ("ResizeObserver" in window) new ResizeObserver(() => map.invalidateSize()).observe($("map"));
-  const fitCanada = () => { const b = L.latLngBounds([[42, -141], [70, -52]]); if (!map.getBounds().equals(b, 0.5)) map.fitBounds(b); };
+  if ("ResizeObserver" in window) new ResizeObserver(() => { const r = $("map").getBoundingClientRect(); if (!r.width || !r.height) return; map.invalidateSize({ pan: false }); if (lastFit && !userMoved) map.fitBounds(lastFit[0], Object.assign({ animate: false }, lastFit[1])); }).observe($("map"));
+  const fitCanada = () => fitTo(DATA_BOUNDS);
 
   function setBBox(bbox, country) {
     state.bbox = bbox.map(Number); window.__hotspotsBBox = state.bbox; if (country) state.country = country;
@@ -210,11 +216,14 @@
   function usePreset(key, fly) {
     const p = state.meta.presets[key]; if (!p) return Promise.resolve();
     state.presetKey = key; $("preset").value = key; const changed = p.country !== state.country; setBBox(p.bbox, p.country);
-    if (fly !== false) { if (key === "canada") fitCanada(); else map.fitBounds([[p.bbox[1], p.bbox[0]], [p.bbox[3], p.bbox[2]]], { padding: [16, 16], maxZoom: 7 }); }
+    if (fly !== false) { if (key === "canada") fitCanada(); else fitTo([[p.bbox[1], p.bbox[0]], [p.bbox[3], p.bbox[2]]], { padding: [16, 16], maxZoom: 7 }); }
     if (changed && state.layer === "fire") drawFire();
     return refresh();
   }
   $("preset").addEventListener("change", () => usePreset($("preset").value));
+  // Full Canada view (also deep link #view=canada): every Canada detection in frame, uncropped.
+  function fullCanada() { if (state.c2 && state.action) state.c2.select(null); return usePreset("canada", true).then(() => { fitCanada(); if (window.OGShell) OGShell.fit && OGShell.fit(); }); }
+  $("canadaBtn").addEventListener("click", fullCanada);
 
   /* ---------- decision support (simulated) ---------- */
   // MODIS sinusoidal tile h11v03 (50–60°N), the burned-area tile behind +272 km²/yr: x from -7,783,459 m to -6,671,509 m.
@@ -275,10 +284,10 @@
     }
     marks.forEach((ll) => L.marker(ll, { icon: pin(P.asset, "pending"), keyboard: false, interactive: false }).addTo(taskLayer));
     targets = marks.slice(0, Math.max(1, Math.min(marks.length, (a.tasks || []).length)));
-    if (P.provinces) map.fitBounds([[48, -140], [61, -109]]);
-    else if (P.tile) map.fitBounds(L.polygon(tileH11V03).getBounds(), { padding: [40, 40] });
+    if (P.provinces) fitTo([[48, -140], [61, -109]]);
+    else if (P.tile) fitTo(L.polygon(tileH11V03).getBounds(), { padding: [40, 40] });
     else if (P.view === "trend") fitCanada();
-    else if (marks.length) map.fitBounds(L.latLngBounds(marks).pad(0.3), { maxZoom: 6 });
+    else if (marks.length) fitTo(L.latLngBounds(marks).pad(0.3), { maxZoom: 6 });
     state.action.noteTxt = P.note || ""; legend();
     drawAssets(); zoneState();
   }
@@ -309,6 +318,7 @@
       $("preset").innerHTML = Object.entries(meta.presets).map(([k, p]) => `<option value="${k}">${esc(p.label)}</option>`).join("") + '<option value="custom" hidden>Custom area</option>';
       renderMetrics(meta); mountC2(); setLayer("fire");
       await usePreset("canada", true);
+      if (/view=canada/.test(location.hash)) fullCanada();
     } catch (err) { setStatus(`Failed to start: ${err.message}`, true); console.error(err); }
   }
   boot();

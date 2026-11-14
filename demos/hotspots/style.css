@@ -86,3 +86,13 @@ body > footer { max-width: 1400px; margin: 0 auto; padding: 1rem clamp(.75rem, 2
 .og-dock details.more { padding: .55rem .75rem; } .og-dock details.more summary { font-size: .84rem; }
 .rs { font-size: .76rem; }
 .hs-tnote { border-top: 1px solid var(--og-line); padding-top: .3rem; color: var(--og-muted) !important; } .hs-tnote b { color: #fbbf24; font-size: .72rem; }
+/* v2: the burn calendar sits below the workspace at full width (the map keeps the whole first screen) */
+.hs-app .hs-cal { padding: 1rem clamp(.75rem, 2.5vw, 1.5rem) 1.1rem; border-top: 0; border-bottom: 1px solid var(--og-line); scroll-margin-top: 8px; }
+.hs-app .hs-cal > * { max-width: 1400px; margin-left: auto; margin-right: auto; }
+.hs-app .hs-cal .og-h { font-size: .8rem; } .hs-app .aoi { font-size: .75rem; }
+.hs-app .cl-keys { font-size: .82rem; } .hs-app .cl-bar small, .hs-app .map-legend .ticks, .hs-app .cl-bar .ticks { font-size: .72rem; }
+.hs-app table.cal th { font-size: .7rem; height: 14px; } .hs-app table.cal td { height: 16px; }
+@media (min-width: 1024px) { .hs-app table.cal td { height: 20px; } }
+.hs-app .map-legend { font-size: .8rem; } .hs-app .map-legend small { font-size: .78rem; }
+@media (max-width: 560px) { .hs-app table.cal th { font-size: .56rem; } .hs-app table.cal td { height: 13px; } }
+.hs-app table.cal th { font-size: .75rem; } @media (max-width: 560px) { .hs-app table.cal th { font-size: .62rem; } .hs-app table.cal th.mon { width: 2.3rem; } }

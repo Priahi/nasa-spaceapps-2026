@@ -82,17 +82,24 @@
   const taskState = {};
   function drawAssets() {
     const box = $("opsAssets");
-    if (!sel) { box.innerHTML = ""; return; }
+    if (!sel) { box.innerHTML = ""; requestAnimationFrame(declutter); return; }
     const main = (sel.zones || []).map((n) => byName[n]).filter(Boolean), alt = (sel.zones_alt || []).map((n) => byName[n]).filter(Boolean);
     box.innerHTML = (sel.tasks || []).map((t, k) => {
       const pool = t.asset === "drone" && alt.length ? alt : main; const z = pool[k % Math.max(1, pool.length)] || main[0];
       if (!z) return ""; const zc = (pool === alt ? z.c : (z.wc || z.c));
       const st = taskState[sel.id + "|" + t.label] || (approved[sel.id] ? "Queued" : "Proposed");
       const dx = [0, 5, -5][k % 3], dy = [-7, 6, 9][k % 3];
-      return `<div class="ops-asset" data-s="${esc(st)}" style="left:${Math.min(92, Math.max(8, (zc[0] / W) * 100 + dx))}%;top:${Math.min(92, Math.max(8, (zc[1] / H) * 100 + dy))}%">
+      return `<div class="ops-asset" data-s="${esc(st)}" title="${esc(t.label)} · ${esc(st)} (simulated)" style="left:${Math.min(92, Math.max(8, (zc[0] / W) * 100 + dx))}%;top:${Math.min(92, Math.max(8, (zc[1] / H) * 100 + dy))}%">
         ${window.OGC2 ? OGC2.icon(t.asset) : ""}<span>${esc(t.label)}</span><em>${esc(st)}</em></div>`;
     }).join("");
+    requestAnimationFrame(declutter);
   }
+  function declutter() {
+    if (!window.OGShell || !OGShell.declutter) return;
+    const q = (sel) => [...map.querySelectorAll(sel)];
+    OGShell.declutter(q(".ops-asset"), q(".ops-side-lab, .ops-legend, .ops-handle i"), q(".zlab"));
+  }
+  window.addEventListener("resize", () => requestAnimationFrame(declutter));
   function drawSel() {
     const box = $("opsSel");
     if (!sel) { box.hidden = true; return; }
@@ -133,6 +140,18 @@
       OGC2.impact("#opsImpact", APP.impact, { title: "Impact: who decides what, before → after", note: "Outcomes are qualitative: we haven't measured lives, damage or cost. The numbers are the real inputs: OPERA water areas and our model's test scores (one seed, not a published benchmark)." });
       document.querySelectorAll("#opsImpact .c2-imp").forEach((el, i) => { const it = APP.impact[i]; if (it && it.img) el.insertAdjacentHTML("afterbegin", `<img class="ops-imp-img" src="/assets/img/${esc(it.img)}" alt="" loading="lazy" width="1152" height="864">`); });
     }
+    /* the always-visible "Alert everyone (simulated)" button opens the 8-town alert draft */
+    const AL = ACTS.find((a) => a.alert && (a.zones || []).length) || ACTS.find((a) => a.alert);
+    const ab = $("opsAlertAll");
+    if (ab && AL) { $("opsAlertSub").textContent = (AL.zones || []).length ? `${AL.zones.length} towns` : "draft";
+      ab.addEventListener("click", () => { if (window.OGShell) OGShell.show("act"); c2.alert(AL.id, { quiet: true, source: "alert" });
+        const box = $("opsC2").querySelector(".c2-al"); if (box) { if (window.innerWidth >= 1024 && window.OGShell) OGShell.scrollDock(box); else box.scrollIntoView({ behavior: "auto", block: "start" }); const sb = box.querySelector(".c2-send"); if (sb) sb.focus({ preventScroll: true }); } });
+      /* narrow screens: float a copy of the button once the toolbar one has scrolled off screen */
+      const ph = document.createElement("span"); ph.className = "ops-alert-ph"; ab.after(ph);
+      if ("IntersectionObserver" in window) new IntersectionObserver(([en]) => { const fl = !en.isIntersecting && en.boundingClientRect.top < 0 && window.innerWidth < 1024; if (fl === ab.classList.contains("float")) return;
+        if (fl) { const r = ab.getBoundingClientRect(); ph.style.cssText = `display:block;width:${r.width}px;height:${r.height}px;flex:0 0 auto;${window.innerWidth <= 560 ? "flex-basis:100%;" : ""}`; } else ph.style.cssText = "";
+        ab.classList.toggle("float", fl); document.body.classList.toggle("alert-float", fl); }).observe(ph);
+    } else if (ab) ab.hidden = true;
     const m = /act=([\w-]+)/.exec(location.hash); if (m && ACTS.some((a) => a.id === m[1])) { c2.select(m[1]); setTimeout(() => window.OGShell && OGShell.scrollDock($("opsC2").querySelector(`[data-id="${m[1]}"]`)), 300); }
     // #demo or #demo=<id>: capture state for the video and slides (select, approve: tasks run to Done in ~5 s, open the alert draft)
     const dm = /demo(?:=([\w-]+))?/.exec(location.hash);
@@ -173,7 +192,7 @@
     const over = D.filter((d) => d.mean >= 50), cl = D.find((d) => d.d === "2024-10-29");
     $("rainNotes").innerHTML = `<li><b>${pk.mean} mm</b><span>average rain upstream on ${+pk.d.slice(8)} Oct, ${pk.max} mm in the wettest 10 km cell. ${over.length === 1 ? "The only day over 50 mm in these five weeks." : ""}</span></li>
       <li><b>${cl && cl.cloud != null ? cl.cloud + "%" : "n/a"}</b><span>cloud cover that day. Optical satellites can't see the ground; radar can.</span></li>
-      <li><b>2 days</b><span>from the rain peak (29 Oct) to the first radar map of the water (31 Oct). A rain rule like "over 50 mm upstream" would have raised the flag on day zero; the radar then shows where the water went.</span></li>`;
+      <li><b>2 days</b><span>from the rain peak (29 Oct) to the first radar map of the water (31 Oct). A rain rule like "over 50 mm upstream" could have raised the flag on day zero; the radar then shows where the water went.</span></li>`;
     $("rainCap").textContent = "Rain: " + R.source.split("; cloud")[0] + ". Cloud: NASA POWER (CERES SYN1deg) daily cloud amount at 39.4° N, 0.65° W. IMERG days are UTC. Reanalysis and satellite rain smooth local extremes; rain gauges in the storm core recorded more.";
   }
   fetch("ops/rain.json").then((r) => r.json()).then(rain).catch((e) => console.warn("rain", e));

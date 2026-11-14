@@ -25,6 +25,27 @@
     if (input) { input.addEventListener("input", () => set(input.value)); set(input.value); }
   });
 
+  // Case selector: sticky chart that swaps with the step in view (wide screens) or with the tabs; phones show each step's own chart.
+  document.querySelectorAll("[data-cases]").forEach((cs) => {
+    const tabs = [...cs.querySelectorAll("[data-case][role=tab]")], panels = [...cs.querySelectorAll(".cs-panel")], steps = [...cs.querySelectorAll(".cs-step")];
+    const set = (k) => {
+      tabs.forEach((t) => t.setAttribute("aria-selected", String(t.dataset.case === k)));
+      panels.forEach((p) => { const on = p.dataset.case === k; p.classList.toggle("on", on); if (on) p.classList.add("play"); });
+      steps.forEach((s) => s.classList.toggle("on", s.dataset.case === k));
+    };
+    const wideQ = window.matchMedia("(min-width: 960px)");
+    tabs.forEach((t) => t.addEventListener("click", () => {
+      set(t.dataset.case);
+      const st = steps.find((s) => s.dataset.case === t.dataset.case);
+      if (st && wideQ.matches) window.scrollTo({ top: st.getBoundingClientRect().top + scrollY - innerHeight * 0.4, behavior: reduce ? "auto" : "smooth" });
+    }));
+    steps.forEach((s) => s.addEventListener("click", (ev) => { if (!ev.target.closest("a")) set(s.dataset.case); }));
+    if ("IntersectionObserver" in window) {
+      const io = new IntersectionObserver((ents) => ents.forEach((en) => { if (en.isIntersecting && wideQ.matches) set(en.target.dataset.case); }), { rootMargin: "-45% 0px -45% 0px" });
+      steps.forEach((s) => io.observe(s));
+    }
+  });
+
   // Count-up numbers: <strong data-count="0.8176" data-dec="4" data-prefix="" data-suffix="">
   function fmt(v, el) {
     const d = +(el.dataset.dec || 0), s = d ? v.toFixed(d) : Math.round(v).toLocaleString("en-US");

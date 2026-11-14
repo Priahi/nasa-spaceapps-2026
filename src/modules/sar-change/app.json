@@ -1,0 +1,221 @@
+{
+ "actions": [
+  {
+   "id": "sar-change-1",
+   "cls": "Evacuate & flag",
+   "verb": "Dispatch",
+   "layer": "after",
+   "zones": [
+    "Sueca",
+    "València",
+    "Sollana",
+    "Silla",
+    "Alfafar",
+    "Catarroja",
+    "Cullera",
+    "Massanassa"
+   ],
+   "img": "people/evacuate.webp",
+   "user": "Civil-protection duty officer",
+   "short": "Evacuate",
+   "title": "Clear the 8 municipalities inside the new-water footprint first: Sueca, València, Sollana and 5 more.",
+   "sat": "New water jumped from 30.7 to 77.7 km² between 26 and 31 Oct, mapped through cloud. These 8 hold 75.8 km² of it.",
+   "out": "Rescue and evacuation start from a radar map on day two instead of from phone calls.",
+   "src": "NASA/JPL OPERA DSWx-S1, 30 m; municipality outlines from OpenStreetMap.",
+   "tasks": [
+    {
+     "asset": "notice",
+     "label": "Evacuation alert to 8 municipalities",
+     "eta": "now"
+    },
+    {
+     "asset": "crew",
+     "label": "Rescue teams to Sueca and València",
+     "eta": "now"
+    },
+    {
+     "asset": "satellite",
+     "label": "Pull the next Sentinel-1 / OPERA pass",
+     "eta": "next pass"
+    }
+   ]
+  },
+  {
+   "id": "sar-change-2",
+   "cls": "Damage teams",
+   "verb": "Assign teams",
+   "layer": "still",
+   "zones": [
+    "Sueca",
+    "València",
+    "Silla",
+    "Sollana",
+    "Cullera",
+    "Alfafar",
+    "Catarroja"
+   ],
+   "zones_alt": [
+    "Paiporta",
+    "Picanya",
+    "Sedaví",
+    "Aldaia",
+    "Alaquàs",
+    "Xirivella",
+    "Albal",
+    "Beniparrell"
+   ],
+   "img": "people/damage.webp",
+   "user": "Damage-assessment lead",
+   "short": "Damage teams",
+   "title": "Send damage teams to the 7 municipalities still wet three weeks later, and drone-survey the streets of 8 l'Horta Sud towns where radar sees almost no water.",
+   "sat": "52.0 km² was still new water on 19 Nov. In Paiporta, Picanya, Sedaví and nearby towns, radar maps only 0.48 km²: water between buildings is a known radar blind spot.",
+   "out": "Teams go where water lingers, and the radar's blind spot is covered by drones and on foot.",
+   "src": "OPERA DSWx-S1 pass of 19 Nov 2024; urban under-detection is a documented limit of radar water maps.",
+   "tasks": [
+    {
+     "asset": "crew",
+     "label": "Damage teams to Sueca and València",
+     "eta": "this week"
+    },
+    {
+     "asset": "drone",
+     "label": "Drone street survey: Paiporta, Picanya, Sedaví",
+     "eta": "this week"
+    },
+    {
+     "asset": "camera",
+     "label": "Street-camera check for standing water",
+     "eta": "today"
+    }
+   ]
+  },
+  {
+   "id": "sar-change-3",
+   "cls": "Drainage plan",
+   "verb": "Add to plan",
+   "layer": "delta",
+   "zones": [
+    "València",
+    "Alfafar",
+    "Silla",
+    "Catarroja",
+    "Massanassa",
+    "Albal",
+    "Sedaví"
+   ],
+   "img": "people/engineer.webp",
+   "user": "City drainage engineer",
+   "short": "Drainage plan",
+   "title": "Put retention basins and drainage upgrades for València, Alfafar, Silla, Catarroja and 3 more into next year's plan, sized for the 2024 event.",
+   "sat": "Water spread into these towns on the Albufera's edge: +17.8 km² of newly wet ground. The year's wettest day shows no 45-year trend (p = 0.28), so size for the event, not for a trend.",
+   "out": "The plan is built on what happened, and on what 45 years of rain data do and don't show.",
+   "src": "OPERA DSWx-S1 change 26 → 31 Oct 2024; NASA POWER 1981–2025 wettest day, Mann-Kendall p = 0.28 (GPM IMERG 1998–2024 agrees, p = 0.62).",
+   "tasks": [
+    {
+     "asset": "engineer",
+     "label": "Retention-basin and drainage study",
+     "eta": "this year"
+    },
+    {
+     "asset": "plan",
+     "label": "Line in next year's municipal plan",
+     "eta": "next budget"
+    },
+    {
+     "asset": "sensor",
+     "label": "Re-check with each new OPERA flood map",
+     "eta": "each event"
+    }
+   ]
+  },
+  {
+   "id": "sar-change-4",
+   "cls": "Farm aid & insurance",
+   "verb": "Approve aid",
+   "layer": "after",
+   "zones": [
+    "Sueca",
+    "València",
+    "Sollana",
+    "Cullera"
+   ],
+   "img": "people/paddies.webp",
+   "user": "Agriculture recovery officer",
+   "short": "Farm aid",
+   "title": "Send farm recovery aid and crop-insurance checks to rice growers in Sueca, València, Sollana and Cullera.",
+   "sat": "Most new water sits in the Albufera rice paddies: 58.2 km² in these 4 municipalities, 28.6 km² in Sueca alone.",
+   "out": "Aid reaches the farms the flood covered, with urban losses flagged as larger than radar shows.",
+   "src": "OPERA DSWx-S1, 31 Oct 2024. The paddies were already filling before the storm (4 → 31 km², 1–26 Oct).",
+   "tasks": [
+    {
+     "asset": "plan",
+     "label": "Crop-insurance checks: Sueca, València",
+     "eta": "this month"
+    },
+    {
+     "asset": "truck",
+     "label": "Recovery aid to paddy owners",
+     "eta": "this month"
+    }
+   ]
+  }
+ ],
+ "impact": [
+  {
+   "user": "Emergency manager (civil protection)",
+   "decision": "Which towns to clear first after the storm",
+   "img": "people/flood-ops.webp",
+   "before": [
+    "Optical satellites see only cloud",
+    "Towns ranked from calls and road reports"
+   ],
+   "after": [
+    "A water map from the first radar pass after the storm, ranked by municipality",
+    "8 municipalities flagged on day two; l'Horta Sud streets checked by drone"
+   ],
+   "geo": {
+    "v": "77.7 km²",
+    "l": "new water on 31 Oct, up from 30.7 km² on 26 Oct (NASA OPERA)"
+   },
+   "metric": {
+    "v": "66.4%",
+    "l": "water IoU of our radar model vs 21.8% for the Otsu threshold (Sen1Floods11 test, 90 chips)"
+   }
+  },
+  {
+   "user": "City drainage engineer",
+   "decision": "What to build before the next storm",
+   "img": "people/engineer.webp",
+   "before": [
+    "Upgrades sized for an assumed rising trend in extreme rain",
+    "No map of where the water actually spread"
+   ],
+   "after": [
+    "Basins and drains planned for València, Alfafar, Silla, Catarroja and 3 more",
+    "Sized for the 2024 event; the 45-year record shows no trend in the wettest day"
+   ],
+   "geo": {
+    "v": "+17.8 km²",
+    "l": "newly wet ground in those towns, 26 → 31 Oct"
+   },
+   "metric": {
+    "v": "1.63 s",
+    "l": "per 512 × 512 tile on a CPU (ONNX), so a fresh map takes minutes, not days"
+   }
+  }
+ ],
+ "kpi": {
+  "before": 30.73,
+  "after": 77.7,
+  "net": 46.97,
+  "added": 53.58,
+  "gone": 6.61,
+  "kept": 24.12,
+  "still": 51.96,
+  "iou": 0.6635,
+  "otsu": 0.2181,
+  "cpu_s": 1.6289,
+  "blind_km2": 0.48,
+  "n_blind": 8
+ }
+}

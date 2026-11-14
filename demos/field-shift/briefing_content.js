@@ -178,7 +178,7 @@
         ["Equal-weight score (macro-F1)", "Averages how well each crop is predicted, so rare crops count as much as corn."],
         ["Rule of thumb (Markov-2)", "Predict the crop that most often follows the last two years' crops."],
         ["Confidence error (ECE)", "How far stated confidence is from actual accuracy. Lower is better."],
-        ["Pareto option", "A plan where no other plan is better on every score at once."],
+        ["Search-found plan", "A four-year plan from the trade-off search: no other plan is better on every score at once."],
       ]),
     },
     {

@@ -1,0 +1,7 @@
+/* Field Shift project page: photo-led before -> after impact cards. */
+.fs-impact { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.fs-imp { padding: 0 !important; overflow: hidden; }
+.fs-imp > header, .fs-imp > .c2-ba, .fs-imp > footer { margin: 0 1rem; }
+.fs-imp > footer { margin-bottom: 1rem; }
+.fs-imp-img { width: 100%; height: 220px; object-fit: cover; display: block; }
+@media (max-width: 760px) { .fs-impact { grid-template-columns: 1fr; } .fs-imp-img { height: 180px; } }

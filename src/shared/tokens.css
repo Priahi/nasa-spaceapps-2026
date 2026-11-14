@@ -1,0 +1,28 @@
+/* Orbit to Ground: one shared token set for the site and all three dashboards. */
+@font-face { font-family: "Geist"; src: url("/assets/fonts/Geist-Variable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Geist Mono"; src: url("/assets/fonts/GeistMono-Variable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+:root {
+  /* surfaces */
+  --og-bg: #07091a; --og-bg-2: #10142c; --og-card: #121733; --og-card-2: #182046; --og-raise: rgba(16, 20, 44, 0.78);
+  /* text */
+  --og-ink: #f4f6fb; --og-muted: #b7c0d6; --og-faint: #8b95ad; --og-on-accent: #071018;
+  /* lines */
+  --og-line: rgba(190, 205, 255, 0.14); --og-line-strong: rgba(190, 205, 255, 0.28);
+  /* brand */
+  --og-accent: #9ec1ff; --og-accent-2: #d4c4ff; --og-grad: linear-gradient(120deg, #9ec1ff, #d4c4ff);
+  /* status (UI only) */
+  --og-ok: #6ee7b7; --og-warn: #fbbf24; --og-bad: #f87171; --og-info: #9ec1ff;
+  /* data ramps: fire (low -> high), water, crops */
+  --og-fire-0: #2a1d14; --og-fire-1: #7c2d12; --og-fire-2: #c2410c; --og-fire-3: #f97316; --og-fire-4: #fbbf24; --og-fire-5: #fde68a;
+  --og-water-perm: #1e40af; --og-water-new: #38bdf8; --og-water-gone: #f59e0b; --og-dry: #3b4256;
+  --og-crop-corn: #facc15; --og-crop-soy: #84cc16; --og-crop-wheat: #d6a35c; --og-crop-cover: #2dd4bf; --og-crop-fallow: #a8a29e;
+  /* type + shape */
+  --og-font: "Geist", Inter, ui-sans-serif, system-ui, sans-serif; --og-mono: "Geist Mono", ui-monospace, monospace;
+  --og-r: 14px; --og-r-sm: 9px; --og-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+  /* aliases the three dashboards already use, so their own CSS picks up the shared palette */
+  --bg: var(--og-bg); --bg-2: var(--og-bg-2); --card: var(--og-card); --panel: var(--og-card); --surface: var(--og-raise);
+  --ink: var(--og-ink); --text: var(--og-ink); --fg: var(--og-ink); --muted: var(--og-muted); --faint: var(--og-faint);
+  --line: var(--og-line); --border: var(--og-line); --accent: var(--og-accent); --accent-2: var(--og-accent-2); --danger: var(--og-bad);
+  --font: var(--og-font); --mono: var(--og-mono);
+  color-scheme: dark;
+}

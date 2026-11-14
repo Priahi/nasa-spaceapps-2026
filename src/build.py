@@ -6,7 +6,7 @@ Usage: python3 src/build.py [--demos /path/to/nasa-spaceapps/deploy]"""
 import html, json, re, shutil, sys
 from pathlib import Path
 from story import maps_block
-from recs import APPS, PEOPLE_NOTE, rec_card, recs_block, impact_block, guide_data
+from recs import APPS, PEOPLE_NOTE, rec_card, recs_block, impact_block, guide_data, app_data, BA, ba_html, metrics_strip
 from content import SITE, PROJECTS, CRITERIA, TRENDS, GLOSSARY, STAKES, SYSTEM_PROBLEM, MODULES, UPGRADES
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -36,13 +36,11 @@ def copy_demo(slug):
     shutil.copytree(src, out, ignore=shutil.ignore_patterns("_headers", "robots.txt"))
     shutil.copy(SRC / "demo-theme" / "common.css", out / "suite-common.css")
     shutil.copy(SRC / "demo-theme" / THEME[slug], out / "suite-theme.css")
-    shutil.copy(SRC / "demo-theme" / "guide.css", out / "guide.css")
-    shutil.copy(SRC / "demo-theme" / "guide.js", out / "guide.js")
-    (out / "guide-data.js").write_text("window.OG_SLUG=" + json.dumps(slug) + ";window.OG_GUIDE=" + json.dumps(guide_data(), ensure_ascii=False) + ";")
+    (out / "og-data.js").write_text("window.OG_SLUG=" + json.dumps(slug) + ";window.OG_APP=" + json.dumps(app_data(slug), ensure_ascii=False) + ";")
     idx = out / "index.html"; h = idx.read_text()
     h = re.sub(r'\s*<meta name="robots"[^>]*>', "", h)
     h = re.sub(r'(href|src)="/(?!/)', r'\1="', h)  # root-absolute assets -> relative (demo now lives under /<slug>/app/)
-    h = h.replace("</head>", '  <link rel="stylesheet" href="suite-common.css" />\n  <link rel="stylesheet" href="suite-theme.css" />\n  <link rel="stylesheet" href="guide.css" />\n</head>', 1)
+    h = h.replace("</head>", '  <link rel="stylesheet" href="suite-common.css" />\n  <link rel="stylesheet" href="suite-theme.css" />\n  <link rel="stylesheet" href="/shared/tokens.css" />\n  <link rel="stylesheet" href="/shared/c2.css" />\n  <script src="og-data.js"></script>\n  <script src="/shared/c2.js"></script>\n</head>', 1)
     h = re.sub(r"(<body[^>]*>)", lambda m: m.group(1) + suite_bar(slug), h, count=1)
     # public-build wording (was written for the private preview)
     h = h.replace("NASA Space Apps 2026 · unlisted demo · not submitted", "NASA Space Apps 2026")
@@ -52,7 +50,6 @@ def copy_demo(slug):
     h = h.replace("Cite every source in a Space Apps submission and disclose this pre-existing tooling. This is a local demo, not a submitted project and not a published benchmark.",
                   "All sources are cited above. Builds on our earlier code and open-source libraries. One seed, not a published benchmark.")
     h = h.replace("Cite every source in a Space Apps submission and disclose this pre-existing tooling.", "Builds on our earlier code and open-source libraries.")
-    h = h.replace("</body>", '<script src="guide-data.js" defer></script><script src="guide.js" defer></script>\n</body>', 1)
     idx.write_text(h)
     for f in list(out.glob("*.js")) + list(out.glob("*.css")) + [idx]:
         if f.name.startswith("suite-"): continue
@@ -80,8 +77,10 @@ def head(title, desc, path, img="og.png"):
 <meta name="theme-color" content="#07091a" />
 <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
 <link rel="preload" href="/assets/fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="stylesheet" href="/shared/tokens.css" />
 <link rel="stylesheet" href="/assets/css/site.css" />
 <link rel="stylesheet" href="/assets/css/system.css" />
+<link rel="stylesheet" href="/shared/c2.css" />
 </head>
 <body>
 <a class="skip" href="#content">Skip to content</a>
@@ -101,7 +100,7 @@ REPO_NOTE = f' Source code: <a href="{REPO_URL}">{REPO_URL.replace("https://",""
 FOOT = f"""<footer class="site"><div class="wrap">
 <p><strong>Orbit to Ground</strong> · NASA International Space Apps Challenge 2026 · {e(SITE['challenge'])} · Team {e(SITE['team'])} ({e(SITE['author'])}).{REPO_NOTE}</p>
 <p>Data: NASA FIRMS, NASA-ISRO NISAR (via NASA CMR and ASF DAAC), NASA POWER, NASADEM, MODIS, plus ESA Copernicus Sentinel-1, Sen1Floods11, USDA NASS CDL and ISRIC SoilGrids. Province outlines: Natural Earth (public domain). Each project page lists its sources and licences. This site is not affiliated with or endorsed by NASA.</p>
-<p>AI disclosure: AI coding assistants helped write and refactor parts of the code, site and text. All models, metrics and figures come from our own runs on the public data listed. Photos of people are illustrative AI-generated images, not real people or events; every chart, map and number comes from data. Model metrics are one seed each, not a published benchmark. {e(SITE['built_on'])}</p>
+<p>AI disclosure: AI coding assistants helped write and refactor parts of the code, site and text. All models, metrics and figures come from our own runs on the public data listed. Photos of people are AI-generated illustrations, not real people or events; every chart, map and number comes from data. Model metrics are one seed each, not a published benchmark. {e(SITE['built_on'])}</p>
 </div></footer>
 <script src="/assets/vendor/gsap.min.js" defer></script>
 <script src="/assets/vendor/ScrollTrigger.min.js" defer></script>
@@ -153,6 +152,17 @@ def opera_svg():
 
 # ---------- pages ----------
 def shows_visual(key):
+    v = _shows_visual(key)
+    if key in ("mcd64_bars", "canada_line", "calendar"): return f'<div class="fire">{v}</div>'
+    if key in ("opera_bars", "grace_line"): return f'<div class="water">{v}</div>'
+    if key in ("frost_line",): return f'<div class="crop">{v}</div>'
+    return v
+
+def _shows_visual(key):
+    if key == "heat_map":
+        return ('<figure class="heat-fig"><img src="/assets/img/canada-fire-heat.webp" alt="Map of Canada: fire detections per 0.25° cell, 2003–2025 average. Brightest across the N.W.T., B.C., Saskatchewan and Alberta." width="1799" height="1223" loading="lazy" />'
+                '<div class="heat-leg"><b>Fire detections per year, per 0.25° cell (≈ 28 km)</b><i></i><span class="ticks"><span>1</span><span>10</span><span>100</span><span>440</span></span></div>'
+                '<figcaption>NASA FIRMS, harmonized to the VIIRS scale, 2003–2025 average · province outlines Natural Earth.</figcaption></figure>')
     from story import T, ED, MCD, OPERA, line_chart, bar_chart, img as simg, slider as sslider, _opera_bars, matrix, fmt
     if key == "mcd64_bars":
         t = MCD["trend"]; return bar_chart(t["x"], t["series"], "km²", "Burned area per Apr–Oct season, km² · NASA MODIS MCD64A1", hl=2023)
@@ -178,18 +188,47 @@ def shows_visual(key):
     return ""
 
 def person_fig(src, alt, cls=""):
-    return (f'<figure class="person {cls}"><img src="/assets/img/{src}" alt="{e(alt)} (illustrative)" width="1280" height="720" />'
-            f'<span class="ill" title="{e(PEOPLE_NOTE)}">Illustrative image</span></figure>')
+    return f'<figure class="person {cls}"><img src="/assets/img/{src}" alt="{e(alt)}" width="1280" height="720" /></figure>'
 
 def step_head(n, kicker, title):
     return f'<div class="step-head" data-fx="rise"><span class="step-n">{n}</span><p class="eyebrow">{e(kicker)}</p>{f"<h2>{e(title)}</h2>" if title else ""}</div>'
+
+def home_impact():
+    out = ""
+    def li(xs): return "".join(f"<li>{e(x)}</li>" for x in xs)
+    for sl in ("hotspots", "sar-change", "field-shift"):
+        A = APPS[sl]; it = BA[sl][0]
+        out += (f'<article class="c2-imp"><header><span class="c2-cls">{e(A["name"])} · {e(it["user"])}</span><h3>{e(it["decision"])}</h3></header>'
+                f'<div class="c2-ba"><div class="c2-b"><p>Before</p><ul>{li(it["before"])}</ul></div><span class="c2-arrow" aria-hidden="true">→</span>'
+                f'<div class="c2-a"><p>With this tool</p><ul>{li(it["after"])}</ul></div></div>'
+                f'<footer><div><b>{e(it["geo"]["v"])}</b><span>{e(it["geo"]["l"])}</span></div><div><b>{e(it["metric"]["v"])}</b><span>{e(it["metric"]["l"])}</span></div></footer>'
+                f'<a class="more" href="/{sl}/#impact">More for {e(A["name"])} &rarr;</a></article>')
+    return f'<div class="c2-impact home-imp" data-fx="rise"><div class="c2-imp-grid three">{out}</div></div>'
+
+def cases_scrolly():
+    """Sticky chart + steps: each case swaps the chart (scroll or tabs). On narrow screens each step carries its own chart."""
+    from story import T as _T, ED as _ED, MCD as _MCD, line_chart as _lc, bar_chart as _bc, _opera_bars, OPERA as _OP, fmt as _fmt
+    t = _MCD["trend"]; g = _ED["grace"]["valencia"]; ff = _T["crops"]["frost_free_days"]["region"]
+    C = [("fire", "Fire · Canada", "+272 km²/yr", "More burned ground every year in the boreal tile (NE B.C., Alberta, Sask.), 2003–2025. p = 0.004.", "/hotspots/",
+          '<div class="fire">' + _bc(t["x"], t["series"], "km²", "Burned area per Apr–Oct season, km² · NASA MODIS MCD64A1", hl=2023) + "</div>"),
+         ("flood", "Flood · Valencia", "77.7 km²", "New surface water two days after the October 2024 storm, up from 30.7 km², mapped by radar through cloud.", "/sar-change/",
+          '<div class="water">' + _opera_bars([r for r in _OP.get("series", []) if r["valid_frac"] >= 0.8]) + "</div>"),
+         ("season", "Season · Iowa", "+19 days", "Frost-free season about 19 days longer than in 1981 (+0.43 days a year, p = 0.006).", "/field-shift/",
+          '<div class="crop">' + _lc(ff["x"], ff["series"], ff["sen_slope_per_year"], "days", "Frost-free days per year, central Iowa · NASA POWER", ci=ff["sen_ci95"], note=f"+{ff['sen_slope_per_year']:.2f} d/yr · p = {ff['p']:.3f}") + "</div>"),
+         ("water", "Water · eastern Spain", "−0.39 cm/yr", "Stored water (ground, soil and surface) is falling, measured by gravity satellites since 2002. p = 0.002.", "/sar-change/#trend",
+          '<div class="water">' + _lc(g["x"], g["series"], g["sen_slope_per_year"], "cm", "Stored water, eastern Spain, cm · NASA GRACE/GRACE-FO", dec=1, mark=2017, ci=g["sen_ci95"], note=f"{_fmt(g['sen_slope_per_year'], 2)} cm/yr · p = {g['p']:.3f}") + "</div>")]
+    tabs = "".join(f'<button type="button" role="tab" data-case="{k}" aria-selected="{str(i == 0).lower()}">{e(lbl.split(" · ")[0])}</button>' for i, (k, lbl, *_r) in enumerate(C))
+    panels = "".join(f'<div class="cs-panel beat-media{" on play" if i == 0 else ""}" data-case="{k}" role="tabpanel">{vis}</div>' for i, (k, _l, _b, _t, _h, vis) in enumerate(C))
+    steps = "".join(f'<article class="cs-step{" on" if i == 0 else ""}" data-case="{k}"><p class="eyebrow">{e(lbl)}</p><strong class="grad">{e(b)}</strong><p>{e(txt)}</p>'
+                    f'<a class="more" href="{h}">See what people do with it &rarr;</a><div class="cs-inline beat-media play">{vis}</div></article>' for i, (k, lbl, b, txt, h, vis) in enumerate(C))
+    return f'<div class="cases" data-cases><div class="cs-stage"><div class="cs-tabs" role="tablist" aria-label="Choose a case">{tabs}</div><div class="cs-panels">{panels}</div></div><div class="cs-steps">{steps}</div></div>'
 
 def landing():
     stakes = "".join(f'<li class="stake"><strong class="grad">{e(x["big"])}</strong><p>{e(x["line"])}</p><a href="{x["url"]}">{e(x["src"])}</a></li>' for x in STAKES)
     people = ""
     for s in ("hotspots", "sar-change", "field-shift"):
         A = APPS[s]; src, alt = A["hero"]
-        people += (f'<article class="pcard"><a href="/{s}/" class="pcard-img"><img src="/assets/img/{src}" alt="{e(alt)} (illustrative)" width="1280" height="720" /><span class="ill" title="{e(PEOPLE_NOTE)}">Illustrative</span></a>'
+        people += (f'<article class="pcard"><a href="/{s}/" class="pcard-img"><img src="/assets/img/{src}" alt="{e(alt)}" width="1280" height="720" /></a>'
                    f'<div class="pcard-body"><p class="eyebrow">{e(A["role"])} · {e(A["who"])}</p><h3>{e(A["headline"])}</h3>'
                    f'<div class="actions"><a class="btn launch" href="/{s}/app/">Launch {e(A["name"])}</a><a class="btn ghost" href="/{s}/">See the actions</a></div></div></article>')
     from story import T as _T, ED as _ED, MCD as _MCD, line_chart as _lc, fmt as _fmt, matrix as _mx, small_multiples as _sm, usecase_map as _um
@@ -202,7 +241,7 @@ def landing():
     for s in ("hotspots", "sar-change", "field-shift"):
         A = APPS[s]
         acts += (f'<div class="act-app"><div class="act-head"><img src="/assets/img/{A["hero"][0]}" alt="" width="96" height="96" loading="lazy" /><div><p class="eyebrow">{e(A["role"])} · {e(A["name"])}</p><h3>{e(A["who"])}</h3></div>'
-                 f'<a class="btn launch" href="/{s}/app/">Launch</a></div>' + '<div class="recs compact">' + "".join(rec_card(r, i, True) for i, r in enumerate(A["recs"][:3])) + '</div>'
+                 f'<a class="btn launch" href="/{s}/app/">Launch</a></div>' + '<div class="recs compact">' + "".join(rec_card(r, i, True, s) for i, r in enumerate(A["recs"][:3])) + '</div>'
                  f'<a class="more" href="/{s}/#actions">All {len(A["recs"])} actions for {e(A["name"])} &rarr;</a></div>')
     imp = ""
     for s in ("hotspots", "sar-change", "field-shift"):
@@ -240,8 +279,8 @@ def landing():
 
 <section class="section tight" id="satellite"><div class="wrap">
 {step_head(2, "What the satellites show", "Four changes, tested on decades of NASA data.")}
-<div class="hns" data-fx="stagger">{hn}</div>
-<div class="trend-pair" id="trend" data-fx="rise"><div class="beat-media play">{gl}</div><div>{_mx()}</div></div>
+{cases_scrolly()}
+<details class="deep"><summary>Do independent NASA records agree? · the agreement matrix</summary><div id="trend">{_mx()}</div></details>
 <details class="deep"><summary>Compare regions · same test, three places</summary>{_sm()}</details>
 </div></section>
 
@@ -249,14 +288,14 @@ def landing():
 {step_head(3, "What people do with it", "Satellite shows → I will → expected.")}
 <div class="ucmap-wrap" data-fx="rise">{_um()}</div>
 <div class="act-apps">{acts}</div>
-<p class="fine">Images of people are illustrative (AI-generated). Outcomes are what each action is meant to change; we haven't measured yields, lives or costs.</p>
+<p class="fine">Outcomes are what each action is meant to change; we haven't measured yields, lives or costs. Tasking in the dashboards is simulated.</p>
 </div></section>
 
 <section class="section tight" id="impact"><div class="wrap">
-{step_head(4, "Impact", "From orbit to ground.")}
-<div class="imp-head"><span>Geospatial discovery</span><span></span><span>Human impact</span></div>
-<div class="imp-rows" data-fx="stagger">{imp}</div>
+{step_head(4, "Impact", "Who decides what, before → with these tools.")}
+{home_impact()}
 <p class="mstrip-k">Backed by model accuracy · one seed per run, not a published benchmark</p>{mall}
+<p class="fine center">Qualitative on purpose: we haven't measured lives, hectares or costs. The numbers are the satellite results and model tests each decision rests on.</p>
 </div></section>
 
 <section class="section tight" id="demo-video"><div class="wrap">
@@ -275,6 +314,28 @@ def landing():
 </main>
 """ + FOOT
 
+# ---------- per-module hooks (see /PARALLEL.md) ----------
+MODDIR = SRC / "modules"
+def names_default(): return ["hero", "problem", "satellite", "actions", "impact", "try", "trend", "how", "pager"]
+def _modname(slug): return slug.replace("-", "_")
+def module_override(slug, secs, A):
+    f = MODDIR / slug / "page.py"
+    if not f.exists(): return secs
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(f"mod_{_modname(slug)}", f); m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+    return m.override(slug, dict(secs), A) if hasattr(m, "override") else secs
+def module_head(slug):
+    return f'<link rel="stylesheet" href="/{slug}/m/page.css" />\n' if (MODDIR / slug / "page.css").exists() else ""
+def module_foot(slug):
+    return f'<script src="/{slug}/m/page.js" defer></script>\n' if (MODDIR / slug / "page.js").exists() else ""
+def copy_module(slug):
+    d = MODDIR / slug
+    if not d.exists(): return
+    out = DIST / slug / "m"; out.mkdir(parents=True, exist_ok=True)
+    for f in d.rglob("*"):
+        if f.is_file() and f.suffix != ".py" and "__pycache__" not in f.parts:
+            t = out / f.relative_to(d); t.parent.mkdir(parents=True, exist_ok=True); shutil.copy(f, t)
+
 def project(i, p):
     prev_p, next_p = PROJECTS[i - 1], PROJECTS[(i + 1) % len(PROJECTS)]
     s = p["slug"]; A = APPS[s]; M = MODULES[s]; T = TRENDS[s]; U = UPGRADES.get(s)
@@ -290,48 +351,49 @@ def project(i, p):
     crit = "".join(f'<li><b>{e(c)}.</b> {e(p["criteria"][c])}</li>' for c, _ in CRITERIA)
     upt = f'<details class="deep"><summary>Earthdata upgrade · {e(U["title"])}</summary><div class="prose"><p>{e(U["text"])}</p><p class="fine">{e(U["note"])}</p></div>{("<figure class=opera-fig>" + opera_svg() + "</figure>") if U.get("series") == "opera" else ""}</details>' if U else ""
     title = f"{p['name']} · Orbit to Ground"
-    return head(title, p["tagline"], f"/{s}/", p["card_img"].replace(".webp", "-og.png")) + nav(f"/{s}/") + f"""<main id="content">
-<section class="mod-hero"><div class="topo-hero" aria-hidden="true"></div><div class="wrap mod-hero-in">
+    secs = {}
+    secs["hero"] = f"""<section class="mod-hero"><div class="topo-hero" aria-hidden="true"></div><div class="wrap mod-hero-in">
 <div class="mod-hero-txt"><p class="chip"><i></i>Module {p['n']} · {e(M['role'])} · {e(A['name'])}</p>
 <h1>{e(A['headline'])}</h1><p class="lede">{e(A['line'])}</p>
 <div class="actions"><a class="btn launch" href="/{s}/app/">Launch dashboard</a><a class="btn ghost" href="#actions">See the actions</a></div></div>
 {person_fig(*A['hero'], cls="hero-person")}</div></section>
-
-<section class="section tight" id="problem"><div class="wrap">
+"""
+    secs["problem"] = f"""<section class="section tight" id="problem"><div class="wrap">
 {step_head(1, "The problem", "")}
 <div class="problem-pic" data-fx="rise"><img src="/assets/img/{pimg}" alt="{e(pcap)}" loading="lazy" /><div class="pp-txt"><strong class="grad">{e(big)}</strong><p>{e(pline)}</p><small>{e(pcap)}</small></div></div>
 </div></section>
-
-<section class="section tight" id="satellite"><div class="wrap">
+"""
+    secs["satellite"] = f"""<section class="section tight" id="satellite"><div class="wrap">
 {step_head(2, "What the satellite shows", "")}
 <div class="shows">{shows}</div></div></section>
-
-<section class="section tight" id="actions"><div class="wrap">
+"""
+    secs["actions"] = f"""<section class="section tight" id="actions"><div class="wrap">
 {step_head(3, "What I'll do", f"{len(A['recs'])} actions, each tied to a satellite result.")}
 {recs_block(s)}
-<p class="fine">People in photos are illustrative (AI-generated). Outcomes are qualitative: we haven't measured yields, lives or costs.</p>
+<p class="fine">Outcomes are qualitative: we haven't measured yields, lives or costs. Each button opens the dashboard with that action selected; tasking there is simulated.</p>
 </div></section>
-
-<section class="section tight" id="impact"><div class="wrap">
-{step_head(4, "Impact", "Two sides of the same result.")}
-{impact_block(s)}
+"""
+    secs["impact"] = f"""<section class="section tight" id="impact"><div class="wrap">
+{step_head(4, "Impact", "Before → with this tool.")}
+{ba_html(BA[s])}
+<p class="mstrip-k">Backed by the model and the trend tests · one seed, not a published benchmark</p>{metrics_strip(s)}
 </div></section>
-
-<section class="section tight" id="try"><div class="wrap">
+"""
+    secs["try"] = f"""<section class="section tight" id="try"><div class="wrap">
 <div class="step-head" data-fx="rise"><p class="eyebrow">Try it</p><h2>The dashboard, with the same steps built in.</h2></div>
 <div class="demo-frame" data-fx="rise"><div class="demo-bar"><i></i><i></i><i></i><span>/{s}/app/</span><a href="/{s}/app/">Full screen &nearr;</a></div>
 <iframe src="/{s}/app/" title="{e(p['name'])} live demo" loading="lazy" allow="fullscreen"></iframe></div>
 <div class="actions center"><a class="btn launch" href="/{s}/app/">Launch dashboard</a></div>
 </div></section>
-
-<section class="section tight trend-sec" id="trend"><div class="wrap">
+"""
+    secs["trend"] = f"""<section class="section tight trend-sec" id="trend"><div class="wrap">
 <div class="step-head" data-fx="rise"><p class="eyebrow">Trend test · {e(T['theme'])}</p><h2>{e(T['title'])}</h2></div>
 <div class="tw" data-trend="{T['widget']}" data-fx="rise"><noscript><p class="map-cap">The interactive trend chart needs JavaScript.</p></noscript></div>
 <details class="deep"><summary>What the tests found</summary><ul class="findings">{finds}</ul><p class="fine">Mann-Kendall (α = 0.05) and Sen's slope with 95% CI, one value per year.</p></details>
 <details class="deep"><summary>Trend maps</summary>{maps_block(s)}</details>
 </div></section>
-
-<section class="section tight" id="how"><div class="wrap">
+"""
+    secs["how"] = f"""<section class="section tight" id="how"><div class="wrap">
 <div class="step-head" data-fx="rise"><p class="eyebrow">How</p><h2>Method, data and limits</h2></div>
 <details class="deep"><summary>Model results</summary><div class="kpis k3">{kpis}</div><p class="fine">Held-out test data vs baselines. One seed per run, not a published benchmark.</p></details>
 {upt}
@@ -341,16 +403,17 @@ def project(i, p):
 <details class="deep"><summary>Data sources</summary><div class="table-wrap"><table><thead><tr><th>Dataset</th><th>How it's used</th><th>Access</th><th>Link</th></tr></thead><tbody>{data}</tbody></table></div></details>
 <details class="deep"><summary>Judging criteria</summary><ul class="facts">{crit}</ul><p class="fine">First designed around the Space Apps 2026 brief <a href="{p['challenge_url']}">{e(p['challenge'])}</a>; here it is the {e(M['role']).lower()} module of one system in {e(SITE['challenge'])}.</p></details>
 </div></section>
-
-<section class="block"><div class="wrap pager">
+"""
+    secs["pager"] = f"""<section class="block"><div class="wrap pager">
 <a class="spot" href="/{prev_p['slug']}/"><div class="spot-body"><small>&larr; Module {prev_p['n']}</small><b>{e(prev_p['name'])}</b></div></a>
 <a class="spot" href="/{next_p['slug']}/" style="text-align:right"><div class="spot-body"><small>Module {next_p['n']} &rarr;</small><b>{e(next_p['name'])}</b></div></a>
 </div></section>
-</main>
-""" + FOOT
+"""
+    secs = module_override(s, secs, A)
+    order = secs.pop("_order", names_default())
+    return (head(title, p["tagline"], f"/{s}/", p["card_img"].replace(".webp", "-og.png")).replace("</head>", module_head(s) + "</head>", 1) + nav(f"/{s}/")
+            + '<main id="content">\n' + "\n".join(secs[k] for k in order if secs.get(k)) + "</main>\n" + module_foot(s) + FOOT)
 
-
-# ---------- slides ----------
 def slide_list():
     """Newest deck files at build time: slide PNGs from submission/build, titles from submission/deck.html."""
     import re as _re
@@ -442,8 +505,9 @@ def main():
     SLIDES = copy_slides()
     (DIST / "slides").mkdir(exist_ok=True); (DIST / "slides" / "index.html").write_text(slides_page(SLIDES))
     (DIST / "index.html").write_text(landing())
+    shutil.copytree(SRC / "shared", DIST / "shared", dirs_exist_ok=True)
     for i, p in enumerate(PROJECTS):
-        copy_demo(p["slug"])
+        copy_demo(p["slug"]); copy_module(p["slug"])
         (DIST / p["slug"] / "index.html").write_text(project(i, p))
     (DIST / "404.html").write_text(head("Not found · Orbit to Ground", SITE["desc"], "/404") + nav("") +
         '<main id="content"><section class="hero short"><div class="wrap hero-copy"><h1>Page not found</h1><p class="lede">That page doesn\'t exist.</p><div class="actions"><a class="btn" href="/">Back to the projects</a></div></div></section></main>' + FOOT)

@@ -1,437 +1,493 @@
-/* Field Shift local demo. Same-origin data only. */
+/* Field Shift dashboard: pick a field -> set priorities -> choose a 4-year plan -> act (simulated tasking) -> impact.
+   Same-origin data only: data/app_data.json (squares, plans, indicators, climate) and data/colab_run/results.json (model metrics).
+   Ranking is the original weighted score: mean over the five indicators of (1 - value) or value (nitrogen), weighted by priority. */
 (() => {
+  "use strict";
   const $ = (id) => document.getElementById(id);
-  const state = {
-    data: null,
-    colab: null,
-    fieldId: null,
-    weights: {},
-    mapImg: null,
+  const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const BASE_YEAR = 2026;
+  const state = { data: null, colab: null, fieldId: null, weights: {}, mapImg: null, layer: "crops", planId: null, showAll: false,
+    marks: { plan: new Set(), scout: false, cover: false }, c2: null, c2Actions: null, hover: null, fromHash: false };
+
+  /* ---------- crops: names, colours (same as the CDL map image), icons ---------- */
+  const ICON = {
+    corn: '<path d="M12 3c2.6 0 4 3.2 4 7.2S14.6 18.8 12 21c-2.6-2.2-4-6.8-4-10.8S9.4 3 12 3z"/><path d="M10 7.5h4M9.4 11h5.2M9.8 14.5h4.4"/>',
+    soy: '<path d="M5 19c-1-7 5-14 14-14 1 7-5 14-14 14z"/><circle cx="9.5" cy="14.5" r="1.3"/><circle cx="12.5" cy="11.5" r="1.3"/><circle cx="15.5" cy="8.5" r="1.3"/>',
+    hay: '<rect x="3" y="7" width="18" height="11" rx="2.5"/><path d="M8.5 7v11M15.5 7v11"/>',
+    grass: '<path d="M5 20c1.5-4.5 2-9 2-14M11 20c0-4.5 1-8 3.5-12M17 20c0-3.5 1.5-6.5 4-8.5M2 20h20"/>',
+    other_crop: '<path d="M12 21V9"/><path d="M12 9c-2-1-3-3-3-5.5 2 .3 3 2.3 3 5.5zM12 9c2-1 3-3 3-5.5-2 .3-3 2.3-3 5.5zM12 14c-2.5-.6-4-2.4-4-4.6 2.4.5 4 2.1 4 4.6zM12 14c2.5-.6 4-2.4 4-4.6-2.4.5-4 2.1-4 4.6zM12 19c-2.5-.6-4-2.4-4-4.6 2.4.5 4 2.1 4 4.6zM12 19c2.5-.6 4-2.4 4-4.6-2.4.5-4 2.1-4 4.6z"/>',
+    non_ag: '<path d="M4 20h16M7 20v-6l5-4 5 4v6"/>',
+    cover: '<path d="M12 21v-8"/><path d="M12 13c0-4-3-6.5-7-6.5 0 4 3 6.5 7 6.5zM12 13c0-4 3-6.5 7-6.5 0 4-3 6.5-7 6.5z"/>',
   };
+  const CROP = { corn: "Corn", soy: "Soybean", hay: "Hay", grass: "Grass / pasture", other_crop: "Small grain", non_ag: "Not farmed" };
+  const COVER_C = "#2dd4bf";
+  const ico = (k, cls = "fs-ico") => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${ICON[k] || ICON.non_ag}</svg>`;
+  const color = (c) => (state.data.map.colors[c] || "#8b95ad");
+  const split = (t) => ({ crop: t.replace("+cover", ""), cover: t.endsWith("+cover") });
+  const cropLabel = (t) => { const s = split(t); return CROP[s.crop] + (s.cover ? " + winter rye" : ""); };
 
-  function showTab(name) {
-    document.querySelectorAll("nav.tabs button").forEach((b) => {
-      b.setAttribute("aria-selected", b.dataset.tab === name ? "true" : "false");
-    });
-    document.querySelectorAll("section.panel").forEach((p) => {
-      p.classList.toggle("active", p.id === "panel-" + name);
-    });
+  function chip(token, year, opts = {}) {
+    const s = split(token);
+    return `<span class="fs-chip${opts.guess ? " guess" : ""}${opts.small ? " sm" : ""}" style="--c:${color(s.crop)}" title="${esc(year + ": " + cropLabel(token))}">
+      <span class="fs-chip-ic">${ico(s.crop)}</span><small>${year}${opts.guess ? " guess" : ""}</small><b>${esc(CROP[s.crop])}</b>${s.cover ? `<em style="--cc:${COVER_C}">${ico("cover", "fs-ico xs")}+ rye</em>` : ""}${opts.extra ? `<em class="pc">${esc(opts.extra)}</em>` : ""}</span>`;
   }
-  document.querySelectorAll("nav.tabs button").forEach((b) => {
-    b.addEventListener("click", () => showTab(b.dataset.tab));
-  });
+  const seqChips = (seq) => `<div class="fs-seq">${seq.map((t, i) => chip(t, BASE_YEAR + i)).join('<span class="fs-arr" aria-hidden="true">→</span>')}</div>`;
+  const seqText = (seq) => seq.map((t, i) => `${BASE_YEAR + i} ${cropLabel(t)}`).join(" → ");
 
-  function fieldById(id) {
-    return state.data.fields.find((f) => f.id === id);
-  }
-  function indicatorsFor(strategy, field) {
-    if (field && strategy.field_indicators && strategy.field_indicators[field.id]) {
-      return strategy.field_indicators[field.id];
-    }
-    return strategy.county_indicators;
-  }
-  function weightedScore(ind, weights) {
-    const sense = state.data.objectives.sense;
-    let s = 0, w = 0;
-    for (const k of state.data.objectives.keys) {
-      const util = sense[k] === "max" ? ind[k] : 1 - ind[k];
-      const wt = weights[k] ?? 1;
-      s += wt * util;
-      w += wt;
-    }
-    return w ? s / w : 0;
-  }
+  /* ---------- priorities: plain-language meaning, scale, and the formula from model-code/03-field-shift/scripts/run_model.py ---------- */
+  const PRIO = {
+    erosion_risk: { t: "Keep soil on the field", s: "Erosion risk", lower: true,
+      what: "How exposed the soil is to washing away: the field's slope times the months the ground is bare.",
+      scale: "Index, lower is better. Today's corn–soybean on a typical field scores about 0.22; adding winter rye cuts it to about 0.07.",
+      how: "Each year: (slope in degrees ÷ 8) × (bare months ÷ 8), averaged over the four years. Bare months: corn or soybean 6, small grain 5, hay 1.5, grass 1, any crop followed by winter rye 2. Slope from NASA NASADEM.",
+      lv: ["Ignored: erosion doesn't change the ranking.", "Counts the same as the other factors.", "Top priority: plans with fewer bare months rise, most of all on slopes."] },
+    water_demand: { t: "Use less water", s: "Water demand", lower: true,
+      what: "How thirsty the crops are across the four years, compared with a reference grass.",
+      scale: "FAO-56 crop coefficient, from about 0.85 (grass every year) to 1.35 (corn + rye). Lower is better. A relative index, not litres.",
+      how: "Average of each year's mid-season crop coefficient: corn 1.20, soybean 1.05, small grain 1.00, hay 0.95, grass 0.85, plus 0.15 when winter rye follows the crop.",
+      lv: ["Ignored: thirsty crops aren't penalised.", "Counts the same as the other factors.", "Top priority: less thirsty crops rise."] },
+    soil_moisture_stress: { t: "Ride out dry spells", s: "Drought stress", lower: true,
+      what: "How much the crops would suffer when the root zone is dry, at this county's recent soil wetness.",
+      scale: "Index from 0 (no stress) up. Lower is better. Corn–soybean scores about 0.20 here.",
+      how: "Each year: the crop's drought sensitivity (corn 0.8, soybean 0.7, small grain 0.6, hay 0.5, grass 0.4) × how far NASA POWER root-zone wetness (median of the last ten years) sits below 0.65. Averaged over the four years.",
+      lv: ["Ignored: drought sensitivity doesn't count.", "Counts the same as the other factors.", "Top priority: hardier crops rise."] },
+    n_fixing_share: { t: "Grow your own nitrogen", s: "Nitrogen from legumes", lower: false,
+      what: "The share of years in crops that put nitrogen back into the soil.",
+      scale: "0 to 1, higher is better. Corn–soybean scores 0.5.",
+      how: "Average over four years of: soybean 1, hay 0.6 (alfalfa or mixed hay), grass 0.2, small grain 0.15, corn 0. Not a fertiliser recommendation.",
+      lv: ["Ignored.", "Counts the same as the other factors.", "Top priority: more soybean and hay years rise."] },
+    heat_frost_exposure: { t: "Avoid heat and frost", s: "Heat and frost", lower: true,
+      what: "Risk of a season too short for the crop, spring frost, and very hot days.",
+      scale: "0 to 1, lower is better.",
+      how: "0.45 × growing-degree-day shortfall for the crop + 0.30 × (spring frost days ÷ 20, capped at 1) + 0.25 × (days at or above 32 °C ÷ 20, capped at 1), from NASA POWER ten-year medians.",
+      lv: ["Ignored.", "Counts the same as the other factors.", "Top priority."] },
+  };
+  const MAIN = ["erosion_risk", "water_demand", "soil_moisture_stress"], MORE = ["n_fixing_share", "heat_frost_exposure"];
+  const LEVELS = ["Ignore", "Matters", "Top priority"];
 
-  function prettySeq(seq) {
-    return seq.map((t) => t.replace("+cover", " + rye cover")).join(" → ");
+  /* ---------- scoring (unchanged from the original tool) ---------- */
+  const fieldById = (id) => state.data.fields.find((f) => f.id === id);
+  const curField = () => (state.fieldId ? fieldById(state.fieldId) : null);
+  function weightedScore(ind, w) {
+    const sense = state.data.objectives.sense; let s = 0, n = 0;
+    for (const k of state.data.objectives.keys) { const u = sense[k] === "max" ? ind[k] : 1 - ind[k]; const wt = w[k] ?? 1; s += wt * u; n += wt; }
+    return n ? s / n : 0;
   }
-
-  function allOptions(field) {
-    const named = state.data.strategies.map((st) => ({
-      kind: "named",
-      id: st.id,
-      name: st.name,
-      sequence: st.sequence,
-      why: st.why,
-      benefits: st.benefits,
-      risks: st.risks,
-      gaps: st.gaps,
-      indicators: indicatorsFor(st, field),
-    }));
+  const median = (arr) => { const a = arr.filter(Number.isFinite).sort((x, y) => x - y); return a.length ? a[Math.floor(a.length / 2)] : 1; };
+  let TYP_SLOPE = 1;
+  const NAMED = {
+    current_corn_soy: { name: "Today's corn–soybean", tag: "What most fields do now" },
+    diversified_small_grain_hay: { name: "Corn, soybean, small grain, hay", tag: "Diversified" },
+    cover_crop_conservation: { name: "Corn–soybean + winter rye", tag: "Conservation" },
+  };
+  function autoName(seq) {
+    const base = seq.map((t) => split(t).crop), cover = seq.some((t) => split(t).cover);
+    const uniq = [...new Set(base)], cnt = (c) => base.filter((x) => x === c).length;
+    let n;
+    if (uniq.length === 1) n = `${CROP[uniq[0]]}, all four years`;
+    else { const top = uniq.slice().sort((a, b) => cnt(b) - cnt(a)); n = cnt(top[0]) >= 3 ? `Mostly ${CROP[top[0]].toLowerCase()}, one year ${CROP[top[1]].toLowerCase()}` : top.map((c, i) => (i ? CROP[c].toLowerCase() : CROP[c])).join(" and "); }
+    return n + (cover ? " + winter rye" : "");
+  }
+  const backToBack = (seq) => seq.some((t, i) => i > 0 && ["corn", "soy"].includes(split(t).crop) && split(t).crop === split(seq[i - 1]).crop);
+  function indForField(opt, field) {
+    if (opt.kind === "named") { const st = opt.src; return field && st.field_indicators && st.field_indicators[field.id] ? st.field_indicators[field.id] : st.county_indicators; }
+    const p = opt.src; let ind = { water_demand: p.water_demand, erosion_risk: p.erosion_risk, n_fixing_share: p.n_fixing_share, heat_frost_exposure: p.heat_frost_exposure, soil_moisture_stress: p.soil_moisture_stress };
+    if (field) ind = { ...ind, erosion_risk: Math.min(1, p.erosion_risk * (TYP_SLOPE > 0 ? field.slope / TYP_SLOPE : 1)) }; // same slope scaling as the original tool
+    return ind;
+  }
+  let ALL_OPTS = [];
+  function buildOptions() {
+    const named = state.data.strategies.map((st) => ({ kind: "named", id: st.id, name: (NAMED[st.id] || {}).name || st.name, tag: (NAMED[st.id] || {}).tag || "", sequence: st.sequence, why: st.why, benefits: st.benefits, risks: st.risks, gaps: st.gaps, src: st }));
     const used = new Set(named.map((s) => s.sequence.join("|")));
-    const front = (field && field.id === state.data.pareto.steepest_field_id)
-      ? state.data.pareto.steepest_field
-      : state.data.pareto.typical_field;
-    // Recompute indicators on the selected field for Pareto sequences
-    const extras = [];
-    (front || []).forEach((p, i) => {
-      const key = p.sequence.join("|");
-      if (used.has(key)) return;
-      used.add(key);
-      // Prefer county/typical indicators stored on the front; for a selected field, blend by replacing with a proportional shift if field-level isn't precomputed.
-      let ind = { water_demand: p.water_demand, erosion_risk: p.erosion_risk, n_fixing_share: p.n_fixing_share, heat_frost_exposure: p.heat_frost_exposure, soil_moisture_stress: p.soil_moisture_stress };
-      if (field) {
-        // scale erosion with this field's slope relative to typical
-        const typSlope = median(state.data.fields.map((f) => f.slope));
-        const scale = typSlope > 0 ? field.slope / typSlope : 1;
-        ind = { ...ind, erosion_risk: Math.min(1, p.erosion_risk * scale) };
-      }
-      extras.push({
-        kind: "pareto",
-        id: "pareto_" + i,
-        name: "Pareto option: " + prettySeq(p.sequence),
-        sequence: p.sequence,
-        why: "A non-dominated 4-year sequence from the NSGA-II search (48 individuals, 25 generations, one seed).",
-        benefits: "Sits on the trade-off front for the five indicators. No single objective was improved without hurting another.",
-        risks: "May be agronomically awkward (for example a hay year without a hay market). Treat as a prompt, not a prescription.",
-        gaps: "Search space is small and discrete. Yields, labour and equipment are not modelled.",
-        indicators: ind,
-      });
-    });
-    named.forEach((o) => { o.score = weightedScore(o.indicators, state.weights); });
-    extras.forEach((o) => { o.score = weightedScore(o.indicators, state.weights); });
-    extras.sort((a, b) => b.score - a.score);
-    const all = named.concat(extras.slice(0, 5));
-    all.sort((a, b) => b.score - a.score);
-    return all;
+    const extra = [];
+    const add = (arr, which) => (arr || []).forEach((p) => { const key = which + ":" + p.sequence.join("|"); if (used.has(key) || used.has(p.sequence.join("|"))) return; used.add(key);
+      extra.push({ kind: "search", id: "s_" + key, which, name: autoName(p.sequence), tag: "Found by the trade-off search", sequence: p.sequence, skip: backToBack(p.sequence), mset: p.sequence.slice().sort().join("|"),
+        why: "A four-year plan from the NSGA-II trade-off search: no other plan beats it on every factor at once.",
+        benefits: "Sits on the trade-off front for the five factors.", risks: "Treat it as a prompt for your agronomist, not a prescription.", gaps: "Yields, labour, markets and equipment are not modelled.", src: p }); });
+    add(state.data.pareto.typical_field, "typical"); add(state.data.pareto.steepest_field, "steepest");
+    ALL_OPTS = named.concat(extra);
+  }
+  function optionsFor(field, w = state.weights) {
+    const steep = field && field.id === state.data.pareto.steepest_field_id;
+    const named = ALL_OPTS.filter((o) => o.kind === "named").map((o) => ({ ...o, indicators: indForField(o, field) }));
+    let search = ALL_OPTS.filter((o) => o.kind === "search" && o.which === (steep ? "steepest" : "typical") && !o.skip).map((o) => ({ ...o, indicators: indForField(o, field) }));
+    named.concat(search).forEach((o) => { o.score = weightedScore(o.indicators, w); });
+    search.sort((a, b) => b.score - a.score);
+    const seen = new Set(); search = search.filter((o) => (seen.has(o.mset) ? false : (seen.add(o.mset), true))).slice(0, 3);
+    return named.concat(search).sort((a, b) => b.score - a.score);
   }
 
-  function median(arr) {
-    const a = arr.filter((x) => Number.isFinite(x)).sort((x, y) => x - y);
-    if (!a.length) return 1;
-    return a[Math.floor(a.length / 2)];
-  }
-
-  function renderSliders() {
-    const host = $("sliders");
-    const labels = state.data.objectives.labels;
-    host.innerHTML = state.data.objectives.keys.map((k) => `
-      <label>
-        <span>${labels[k]}</span>
-        <span class="val" id="wval-${k}">${state.weights[k]}</span>
-        <input type="range" min="0" max="100" step="1" value="${state.weights[k]}" data-key="${k}" aria-label="${labels[k]} priority">
-      </label>`).join("");
-    host.querySelectorAll("input").forEach((inp) => {
-      inp.addEventListener("input", () => {
-        state.weights[inp.dataset.key] = Number(inp.value);
-        $("wval-" + inp.dataset.key).textContent = inp.value;
-        renderStrategies();
-        renderPareto();
-      });
-    });
-  }
-
-  function renderField() {
-    const f = state.fieldId ? fieldById(state.fieldId) : null;
-    $("fieldTitle").textContent = f ? `Tile ${f.id}` : "County typical tile";
-    if (!f) {
-      $("fieldMeta").innerHTML = `<div>Using county-median slope and soils so you can still compare rotations before picking a tile.</div>`;
-      $("history").innerHTML = "";
-      $("flags").innerHTML = "";
-      return;
-    }
-    const colors = state.data.map.colors;
-    $("fieldMeta").innerHTML = `
-      <div><strong>Elevation</strong> ${f.elev_m.toFixed(0)} m</div>
-      <div><strong>Slope</strong> ${f.slope.toFixed(2)}°</div>
-      <div><strong>Clay / sand</strong> ${f.clay.toFixed(0)}% / ${f.sand.toFixed(0)}%</div>
-      <div><strong>SOC / pH</strong> ${f.soc.toFixed(1)} g/kg / ${f.ph.toFixed(1)}</div>
-      <div><strong>2026 model guess</strong> ${f.pred_2026} (${(f.pred_confidence * 100).toFixed(0)}% confidence)</div>
-      <div><strong>2024 peak NDVI</strong> ${f.ndvi_peak_2024 != null ? f.ndvi_peak_2024.toFixed(2) : "n/a"} · bare ${f.bare_frac_2024 != null ? (f.bare_frac_2024 * 100).toFixed(0) + "%" : "n/a"}</div>`;
-    $("history").innerHTML = f.history.map((h) =>
-      `<span title="${h.year} ${h.crop}" style="background:${colors[h.crop]}">${String(h.year).slice(2)}</span>`
-    ).join("");
-    $("flags").innerHTML = (f.flags || []).map((t) => `<div class="flag">${t}</div>`).join("");
-  }
-
-  function renderStrategies() {
-    const field = state.fieldId ? fieldById(state.fieldId) : null;
-    const opts = allOptions(field);
-    const labels = state.data.objectives.labels;
-    const sense = state.data.objectives.sense;
-    $("strategyCards").innerHTML = opts.slice(0, 6).map((o, i) => {
-      const bars = state.data.objectives.keys.map((k) => {
-        const v = o.indicators[k];
-        const pct = Math.max(0, Math.min(100, v * 100));
-        const cls = sense[k] === "min" ? "min" : "";
-        return `<div class="mini ${cls}"><span>${labels[k]}</span><div class="bar"><i style="width:${pct}%"></i></div><span>${v.toFixed(2)}</span></div>`;
-      }).join("");
-      return `<article class="strategy ${i === 0 ? "best" : ""}">
-        <div class="rank">${i === 0 ? "Best match to your priorities" : "Rank " + (i + 1)} · score <span class="score">${o.score.toFixed(3)}</span></div>
-        <h3>${o.name}</h3>
-        <p class="hint">${prettySeq(o.sequence)}</p>
-        ${bars}
-        <p><strong>Why.</strong> ${o.why}</p>
-        <p><strong>Possible benefits.</strong> ${o.benefits}</p>
-        <p><strong>Risks and gaps.</strong> ${o.risks} ${o.gaps}</p>
-      </article>`;
-    }).join("");
-
-    const keys = state.data.objectives.keys;
-    const head = `<tr><th>Strategy</th><th class="num">Score</th>${keys.map((k) => `<th class="num">${labels[k]}</th>`).join("")}<th>Sequence</th></tr>`;
-    const body = opts.map((o, i) =>
-      `<tr class="${i === 0 ? "best" : ""}"><td>${o.name}</td><td class="num">${o.score.toFixed(3)}</td>${keys.map((k) => `<td class="num">${o.indicators[k].toFixed(3)}</td>`).join("")}<td>${prettySeq(o.sequence)}</td></tr>`
-    ).join("");
-    $("tradeTable").innerHTML = `<thead>${head}</thead><tbody>${body}</tbody>`;
-  }
-
-  function renderPareto() {
-    const canvas = $("pareto");
-    const ctx = canvas.getContext("2d");
-    const w = canvas.width, h = canvas.height;
-    ctx.clearRect(0, 0, w, h);
-    ctx.fillStyle = "#fffdf7";
-    ctx.fillRect(0, 0, w, h);
-    const pad = { l: 48, r: 16, t: 16, b: 36 };
-    const field = state.fieldId ? fieldById(state.fieldId) : null;
-    const opts = allOptions(field);
-    const xs = opts.map((o) => o.indicators.water_demand);
-    const ys = opts.map((o) => o.indicators.erosion_risk);
-    const xmin = Math.min(...xs) - 0.04, xmax = Math.max(...xs) + 0.04;
-    const ymin = Math.min(...ys) - 0.02, ymax = Math.max(...ys) + 0.02;
-    const X = (v) => pad.l + ((v - xmin) / (xmax - xmin || 1)) * (w - pad.l - pad.r);
-    const Y = (v) => h - pad.b - ((v - ymin) / (ymax - ymin || 1)) * (h - pad.t - pad.b);
-    ctx.strokeStyle = "#d9d0be";
-    ctx.beginPath();
-    ctx.moveTo(pad.l, pad.t);
-    ctx.lineTo(pad.l, h - pad.b);
-    ctx.lineTo(w - pad.r, h - pad.b);
-    ctx.stroke();
-    ctx.fillStyle = "#5c6a5e";
-    ctx.font = "12px sans-serif";
-    ctx.fillText("Water demand →", pad.l, h - 10);
-    ctx.save();
-    ctx.translate(14, h / 2);
-    ctx.rotate(-Math.PI / 2);
-    ctx.fillText("Erosion risk →", 0, 0);
-    ctx.restore();
-    opts.forEach((o) => {
-      ctx.beginPath();
-      const r = o.kind === "named" ? 7 : 5;
-      ctx.fillStyle = o.kind === "named" ? "#c4922c" : "#2c5e3f";
-      ctx.arc(X(o.indicators.water_demand), Y(o.indicators.erosion_risk), r, 0, Math.PI * 2);
-      ctx.fill();
-    });
-    $("paretoNote").textContent = state.data.pareto.note;
-  }
-
-  function drawMap() {
-    const canvas = $("map");
-    const ctx = canvas.getContext("2d");
-    const img = state.mapImg;
-    const m = state.data.map;
-    // image is half-res of native CDL
-    const scale = img.width / m.width;
-    canvas.width = img.width;
-    canvas.height = img.height;
-    ctx.drawImage(img, 0, 0);
-    ctx.lineWidth = 1;
-    state.data.fields.forEach((f) => {
-      const x = f.col * m.block * scale;
-      const y = f.row * m.block * scale;
-      const s = m.block * scale;
-      ctx.strokeStyle = f.id === state.fieldId ? "#f3efe4" : "rgba(255,255,255,.28)";
-      ctx.lineWidth = f.id === state.fieldId ? 2.5 : 0.6;
-      ctx.strokeRect(x, y, s, s);
-      if (f.id === state.fieldId) {
-        ctx.strokeStyle = "#c4922c";
-        ctx.strokeRect(x + 1, y + 1, s - 2, s - 2);
-      }
-    });
-  }
-
-  function hitField(ev) {
-    const canvas = $("map");
-    const r = canvas.getBoundingClientRect();
-    const x = (ev.clientX - r.left) * (canvas.width / r.width);
-    const y = (ev.clientY - r.top) * (canvas.height / r.height);
-    const m = state.data.map;
-    const scale = canvas.width / m.width;
-    const bs = m.block * scale;
-    let hit = null;
-    for (const f of state.data.fields) {
-      const fx = f.col * bs, fy = f.row * bs;
-      if (x >= fx && x <= fx + bs && y >= fy && y <= fy + bs) { hit = f; break; }
-    }
-    if (hit) selectField(hit.id);
-  }
-
-  function selectField(id) {
-    state.fieldId = id;
-    document.querySelectorAll("#featured button").forEach((b) => {
-      b.setAttribute("aria-pressed", (b.dataset.id || "") === (id || "") ? "true" : "false");
-    });
-    drawMap();
-    renderField();
-    renderStrategies();
-    renderPareto();
-  }
-
+  /* ---------- step 1: field ---------- */
+  const FEAT = { T3106: "Steepest field", T1730: "Flattest field", T0119: "Surest forecast", T1821: "Least sure forecast", T0216: "Most bare soil", T0102: "Hay and grass field" };
   function renderFeatured() {
-    const host = $("featured");
-    const buttons = [{ id: "", label: "County typical", reason: "Median tile" }].concat(
-      (state.data.featured || []).map((f) => ({ id: f.id, label: f.id, reason: f.reason }))
-    );
-    host.innerHTML = buttons.map((b) =>
-      `<button type="button" data-id="${b.id}" title="${b.reason || ""}">${b.label}</button>`
-    ).join("");
-    host.querySelectorAll("button").forEach((b) => {
-      b.addEventListener("click", () => selectField(b.dataset.id || null));
-    });
+    const items = [{ id: "", label: "County typical", reason: "Median slope and soils" }].concat((state.data.featured || []).map((f) => ({ id: f.id, label: FEAT[f.id] || f.id, reason: f.reason })));
+    $("featured").innerHTML = items.map((b) => `<button type="button" data-id="${b.id}" title="${esc(b.reason)}" aria-pressed="${(b.id || null) === state.fieldId}">${esc(b.label)}</button>`).join("");
+    $("featured").querySelectorAll("button").forEach((b) => b.addEventListener("click", () => selectField(b.dataset.id || null)));
+  }
+  const ha = (f) => Math.round(f.n_pixels * 0.09); // farmed 30 m pixels x 0.09 ha
+  function renderField() {
+    const f = curField();
+    $("fieldTitle").textContent = f ? `Field square ${f.id}` : "County typical field";
+    $("fieldTag").textContent = f ? (FEAT[f.id] || "") : "Median slope and soils";
+    $("fieldTag").hidden = !$("fieldTag").textContent;
+    if (!f) {
+      $("fieldMeta").innerHTML = `<div><b>${TYP_SLOPE.toFixed(1)}°</b><span>median slope</span></div><div><b>${state.data.fields.length}</b><span>squares in the county</span></div>`;
+      $("history").innerHTML = `<p class="fs-fine">Pick a square on the map to see its crop history.</p>`; $("flags").innerHTML = ""; return;
+    }
+    $("fieldMeta").innerHTML = `<div><b>${f.slope.toFixed(1)}°</b><span>slope${f.slope > TYP_SLOPE * 1.25 ? " · steep" : ""}</span></div>
+      <div><b>${ha(f)} ha</b><span>farmed (${Math.round(ha(f) * 2.471)} acres)</span></div>
+      <div><b>${f.clay.toFixed(0)}% clay</b><span>${f.sand.toFixed(0)}% sand · pH ${f.ph.toFixed(1)}</span></div>
+      <div><b>${f.ndvi_peak_2024 != null ? f.ndvi_peak_2024.toFixed(2) : "n/a"}</b><span>peak greenness 2024</span></div>`;
+    const hist = f.history.slice(-6);
+    $("history").innerHTML = hist.map((h) => chip(h.crop, h.year, { small: true })).join("") + `<span class="fs-arr" aria-hidden="true">→</span>` + chip(f.pred_2026, 2026, { small: true, guess: true, extra: Math.round(f.pred_confidence * 100) + "% sure" });
+    $("flags").innerHTML = (f.flags || []).map((t) => `<p class="fs-flag">${esc(t)}</p>`).join("");
   }
 
-  function renderClimate() {
-    const canvas = $("clim");
-    const ctx = canvas.getContext("2d");
-    const w = canvas.width, h = canvas.height;
-    ctx.clearRect(0, 0, w, h);
-    const rows = state.data.climate_yearly.filter((r) => r.year >= 2000 && r.gs_precip != null);
-    if (!rows.length) return;
-    const pad = { l: 40, r: 40, t: 10, b: 24 };
-    const maxP = Math.max(...rows.map((r) => r.gs_precip));
-    const maxG = Math.max(...rows.map((r) => r.gs_gdd));
-    const bw = (w - pad.l - pad.r) / rows.length;
-    rows.forEach((r, i) => {
-      const x = pad.l + i * bw;
-      ctx.fillStyle = "#8fb89a";
-      ctx.fillRect(x, h - pad.b - (r.gs_precip / maxP) * (h - pad.t - pad.b), Math.max(1, bw * 0.7), (r.gs_precip / maxP) * (h - pad.t - pad.b));
-    });
-    ctx.strokeStyle = "#c4922c";
-    ctx.beginPath();
-    rows.forEach((r, i) => {
-      const x = pad.l + i * bw + bw / 2;
-      const y = h - pad.b - (r.gs_gdd / maxG) * (h - pad.t - pad.b);
-      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-    });
-    ctx.stroke();
-    ctx.fillStyle = "#5c6a5e";
-    ctx.font = "11px sans-serif";
-    ctx.fillText("Bars: Apr–Sep rain (mm)   Line: growing degree days", pad.l, 12);
-    ctx.fillText(String(rows[0].year), pad.l, h - 6);
-    ctx.fillText(String(rows[rows.length - 1].year), w - pad.r - 30, h - 6);
+  /* ---------- step 2: priorities ---------- */
+  function prioHTML(k) {
+    const P = PRIO[k], v = state.weights[k], li = Math.round(v / 50);
+    const same = k === "heat_frost_exposure" && state.heatFlat ? `<p class="fs-note">Every plan scores ${state.heatFlat} here today, so this factor doesn't change the ranking.</p>` : "";
+    return `<div class="fs-prio" data-k="${k}">
+      <div class="fs-prio-top"><div><h3>${esc(P.t)}</h3><p class="fs-prio-s">${esc(P.s)} · ${P.lower ? "lower is better" : "higher is better"}</p></div>
+        <button type="button" class="fs-i" aria-expanded="false" aria-controls="tip-${k}" title="What this means">i</button></div>
+      <input type="range" min="0" max="100" step="50" value="${v}" data-key="${k}" aria-label="${esc(P.t)}: how much it matters" aria-valuetext="${LEVELS[li]}">
+      <div class="fs-ticks" aria-hidden="true">${LEVELS.map((l, i) => `<span class="${i === li ? "on" : ""}">${l}</span>`).join("")}</div>
+      <p class="fs-prio-eff" id="eff-${k}">${esc(P.lv[li])}</p>
+      <div class="fs-tip" id="tip-${k}" hidden><p><b>What it is.</b> ${esc(P.what)}</p><p><b>Scale.</b> ${esc(P.scale)}</p><p><b>How it's computed.</b> ${esc(P.how)}</p>${same}</div>
+    </div>`;
+  }
+  function renderSliders() {
+    $("sliders").innerHTML = MAIN.map(prioHTML).join(""); $("sliders2").innerHTML = MORE.map(prioHTML).join("");
+    document.querySelectorAll(".fs-prio input").forEach((inp) => inp.addEventListener("input", () => {
+      const k = inp.dataset.key, v = Number(inp.value); state.weights[k] = v; const li = Math.round(v / 50);
+      inp.setAttribute("aria-valuetext", LEVELS[li]);
+      inp.parentElement.querySelectorAll(".fs-ticks span").forEach((s, i) => s.classList.toggle("on", i === li));
+      $("eff-" + k).textContent = PRIO[k].lv[li]; update();
+    }));
+    document.querySelectorAll(".fs-i").forEach((b) => b.addEventListener("click", () => { const t = $(b.getAttribute("aria-controls")); const o = t.hidden; t.hidden = !o; b.setAttribute("aria-expanded", String(o)); }));
   }
 
-  function barBlock(host, items, maxKey) {
-    host.innerHTML = items.map(([label, rec, kind]) => {
-      const v = rec[maxKey];
-      const pct = Math.max(0, Math.min(100, v * 100));
-      return `<div class="bar-row"><span>${label}</span><div class="bar ${kind}"><span style="width:${pct}%"></span></div><span>${v.toFixed(3)}</span></div>`;
+  /* ---------- step 3: plans ---------- */
+  const DELTA_KEYS = ["erosion_risk", "water_demand", "soil_moisture_stress", "n_fixing_share"];
+  function deltas(o, base) {
+    return DELTA_KEYS.map((k) => {
+      const a = o.indicators[k], b = base.indicators[k]; const pct = b ? (a - b) / b * 100 : 0;
+      const good = PRIO[k].lower ? pct < -0.5 : pct > 0.5, bad = PRIO[k].lower ? pct > 0.5 : pct < -0.5;
+      const txt = Math.abs(pct) < 0.5 ? "same" : (pct > 0 ? "+" : "−") + Math.abs(pct).toFixed(0) + "%";
+      return `<li class="${good ? "good" : bad ? "bad" : ""}" title="${esc(PRIO[k].s)}: ${a.toFixed(3)} vs ${b.toFixed(3)} for today's corn–soybean"><span>${esc(PRIO[k].s)}</span><b>${txt}</b></li>`;
     }).join("");
   }
-
-  function renderModel() {
-    const m = state.data.metrics;
-    $("modelCaveat").textContent = m.caveat;
-    barBlock($("baseBars"), [
-      ["Persistence", m.baselines.persistence, "base"],
-      ["Corn/soy alternation", m.baselines.corn_soy_alternation, "base"],
-      ["Markov-2 table", m.baselines.markov2, "base"],
-      ["LightGBM (full features)", m.lgbm, ""],
-    ], "acc");
-    $("baseBars").insertAdjacentHTML("beforeend", `<p class="hint">Accuracy shown. Macro-F1: persistence ${m.baselines.persistence.macro_f1.toFixed(3)}, alternation ${m.baselines.corn_soy_alternation.macro_f1.toFixed(3)}, Markov-2 ${m.baselines.markov2.macro_f1.toFixed(3)}, LightGBM ${m.lgbm.macro_f1.toFixed(3)}. Δ accuracy vs Markov-2: ${m.lgbm.delta_acc_vs_markov2 >= 0 ? "+" : ""}${m.lgbm.delta_acc_vs_markov2.toFixed(3)}; Δ macro-F1: ${m.lgbm.delta_macro_f1_vs_markov2 >= 0 ? "+" : ""}${m.lgbm.delta_macro_f1_vs_markov2.toFixed(3)}.</p>`);
-    const abItems = Object.entries(m.ablation).map(([k, v]) => [k, v, ""]);
-    barBlock($("abBars"), abItems, "acc");
-    const c = m.calibration;
-    $("calText").textContent = `${c.method}. Temperature T=${c.temperature.toFixed(2)}. Test ECE ${c.test_ece_before.toFixed(4)} → ${c.test_ece_after.toFixed(4)}. Test NLL ${c.test_nll_before.toFixed(4)} → ${c.test_nll_after.toFixed(4)}.`;
-    $("calImg").src = "data/crop_confusion_calibration.png";
-    $("abImg").src = "data/crop_ablation.png";
-    $("histImg").src = "data/cdl_history.png";
-    $("slopeImg").src = "data/slope_tiles.png";
+  function renderStrategies() {
+    const field = curField(), opts = optionsFor(field), base = opts.find((o) => o.id === "current_corn_soy");
+    if (!opts.some((o) => o.id === state.planId)) state.planId = opts[0].id;
+    const shown = state.showAll ? opts : opts.slice(0, 4);
+    if (!shown.some((o) => o.id === state.planId)) shown.push(opts.find((o) => o.id === state.planId));
+    $("strategyCards").innerHTML = shown.map((o) => {
+      const i = opts.indexOf(o), sel = o.id === state.planId, fit = Math.round(o.score * 100);
+      return `<article class="fs-plan${sel ? " sel" : ""}${i === 0 ? " best" : ""}" data-id="${esc(o.id)}">
+        <div class="fs-plan-top"><span class="fs-rank">${i === 0 ? "Best match" : "#" + (i + 1)}</span><span class="fs-ptag ${o.kind}">${esc(o.tag)}</span><span class="fs-fit" title="Fit for your priorities, out of 100"><b>${fit}</b> fit</span></div>
+        <h3>${esc(o.name)}</h3>
+        ${seqChips(o.sequence)}
+        ${o.id === "current_corn_soy" ? `<p class="fs-fine">The baseline: other plans are compared with this one.</p>` : `<ul class="fs-delta" aria-label="Compared with today's corn–soybean">${deltas(o, base)}</ul>`}
+        <details class="fs-why"><summary>Why, and the risks</summary><p>${esc(o.why)}</p><p><b>Benefits.</b> ${esc(o.benefits)}</p><p><b>Risks.</b> ${esc(o.risks)} ${esc(o.gaps)}</p></details>
+        <div class="fs-plan-btns"><button type="button" class="fs-btn${sel ? " on" : ""}" data-pick="${esc(o.id)}" aria-pressed="${sel}">${sel ? "Selected · on the map" : "Choose this plan"}</button>
+        ${sel ? `<a class="fs-btn primary" href="#s-act">Act on it ↓</a>` : ""}</div>
+      </article>`;
+    }).join("") + (opts.length > 4 ? `<button type="button" class="fs-btn ghost fs-more-btn" id="morePlans">${state.showAll ? "Show fewer plans" : `Show ${opts.length - 4} more plans`}</button>` : "");
+    $("strategyCards").querySelectorAll("[data-pick]").forEach((b) => b.addEventListener("click", () => pickPlan(b.dataset.pick)));
+    const mb = $("morePlans"); if (mb) mb.addEventListener("click", () => { state.showAll = !state.showAll; renderStrategies(); });
+    renderTable(opts);
+  }
+  function pickPlan(id) {
+    state.planId = id; setLayer("fit"); renderStrategies(); renderPareto(); refreshC2();
+    if (window.innerWidth < 980) document.querySelector(".fs-mapcard").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  function renderTable(opts) {
+    const keys = state.data.objectives.keys;
+    $("tradeTable").innerHTML = `<thead><tr><th>Plan</th><th>2026 → 2029</th><th class="num">Fit</th>${keys.map((k) => `<th class="num">${esc(PRIO[k].s)}</th>`).join("")}</tr></thead><tbody>` +
+      opts.map((o) => `<tr class="${o.id === state.planId ? "sel" : ""}"><td>${esc(o.name)}</td><td>${esc(o.sequence.map(cropLabel).join(" → "))}</td><td class="num">${Math.round(o.score * 100)}</td>${keys.map((k) => `<td class="num">${o.indicators[k].toFixed(3)}</td>`).join("")}</tr>`).join("") + "</tbody>";
   }
 
+  /* ---------- map + layers ---------- */
+  const LAYERS = [{ id: "crops", t: "Crops 2025" }, { id: "forecast", t: "2026 forecast" }, { id: "fit", t: "Where the plan fits" }, { id: "erosion", t: "Slope" }, { id: "scout", t: "Scout list" }];
+  const FLAG = { low: /Low model confidence/, slope: /Above-average slope/, repeat: /same cash crop/ };
+  const FLAGC = { low: "#fbbf24", repeat: "#f87171", slope: "#d4c4ff" };
+  const hasFlag = (f, k) => (f.flags || []).some((t) => FLAG[k].test(t));
+  const flagKind = (f) => (hasFlag(f, "low") ? "low" : hasFlag(f, "repeat") ? "repeat" : hasFlag(f, "slope") ? "slope" : null);
+  const SLOPE_RAMP = ["#1b2140", "#3b3a5c", "#7a5a3a", "#c98a3e", "#f3c27a"];
+  let SLOPE_Q = [];
+  function mix(a, b, t) { const p = (h) => [1, 3, 5].map((j) => parseInt(h.slice(j, j + 2), 16)); const A = p(a), B = p(b); return "#" + A.map((v, i) => Math.round(v + (B[i] - v) * t).toString(16).padStart(2, "0")).join(""); }
+  function rampColor(r, t) { const x = Math.max(0, Math.min(0.9999, t)) * (r.length - 1), i = Math.floor(x); return mix(r[i], r[i + 1], x - i); }
+  function slopeT(s) { let i = 0; while (i < SLOPE_Q.length && s > SLOPE_Q[i]) i++; return i / SLOPE_Q.length; }
 
-  function fmt3(v) {
-    return Number(v).toFixed(3);
+  function renderLayers() {
+    $("layers").innerHTML = LAYERS.map((l) => `<button type="button" role="radio" aria-checked="${l.id === state.layer}" data-layer="${l.id}">${esc(l.t)}</button>`).join("");
+    $("layers").querySelectorAll("button").forEach((b) => b.addEventListener("click", () => setLayer(b.dataset.layer)));
   }
+  function setLayer(id) { state.layer = id; $("layers").querySelectorAll("button").forEach((b) => b.setAttribute("aria-checked", String(b.dataset.layer === id))); drawMap(); }
 
-  function renderColab() {
-    const c = state.colab;
-    if (!c) {
-      $("colabCaveat").textContent = "Colab Full-County Run results were not found at data/colab_run/results.json.";
-      return;
+  let FIT = null;
+  function computeFit() {
+    // For the chosen plan, on each square: its score minus the best of the named plans, under your priorities.
+    const plan = ALL_OPTS.find((o) => o.id === state.planId); if (!plan) return (FIT = null);
+    const others = ALL_OPTS.filter((o) => o.kind === "named" && o.id !== plan.id);
+    const m = {}; let win = 0;
+    state.data.fields.forEach((f) => {
+      const s = weightedScore(indForField(plan, f), state.weights);
+      const best = Math.max(...others.map((o) => weightedScore(indForField(o, f), state.weights)));
+      m[f.id] = s - best; if (s - best >= 0) win++;
+    });
+    FIT = { m, win, name: plan.name };
+  }
+  function drawMap() {
+    const canvas = $("map"), ctx = canvas.getContext("2d"), img = state.mapImg, M = state.data.map; if (!img) return;
+    const scale = img.width / M.width, s = M.block * scale;
+    canvas.width = img.width; canvas.height = img.height;
+    ctx.fillStyle = "#07091a"; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    const L = state.layer;
+    ctx.globalAlpha = L === "crops" ? 1 : 0.22; ctx.drawImage(img, 0, 0); ctx.globalAlpha = 1;
+    if (L === "fit") computeFit();
+    const fit = L === "fit" && FIT ? FIT.m : null; const maxM = fit ? Math.max(0.0001, ...Object.values(fit)) : 1;
+    state.data.fields.forEach((f) => {
+      const x = f.col * s, y = f.row * s;
+      let c = null, a = 0.85;
+      if (L === "forecast") { c = color(f.pred_2026); a = 0.3 + 0.65 * f.pred_confidence; }
+      else if (L === "erosion") { c = rampColor(SLOPE_RAMP, slopeT(f.slope)); a = 0.9; }
+      else if (fit) { const v = fit[f.id]; if (v >= 0) { c = mix("#5b7bd6", "#d4c4ff", Math.min(1, v / maxM)); a = 0.92; } else { c = "#20263f"; a = 0.75; } }
+      else if (L === "scout") { const k = flagKind(f); if (k) { c = FLAGC[k]; a = 0.9; } else { c = "#161b33"; a = 0.55; } }
+      if (c) { ctx.globalAlpha = a; ctx.fillStyle = c; ctx.fillRect(x + 0.5, y + 0.5, s - 1, s - 1); ctx.globalAlpha = 1; }
+      if (state.marks.plan.has(f.id)) { ctx.strokeStyle = "#6ee7b7"; ctx.lineWidth = 3; ctx.strokeRect(x + 2, y + 2, s - 4, s - 4); }
+      if (state.marks.scout && hasFlag(f, "low")) { ctx.setLineDash([3, 3]); ctx.strokeStyle = "#fbbf24"; ctx.lineWidth = 2; ctx.strokeRect(x + 2, y + 2, s - 4, s - 4); ctx.setLineDash([]); }
+      if (state.marks.cover && hasFlag(f, "slope")) { ctx.setLineDash([2, 2]); ctx.strokeStyle = COVER_C; ctx.lineWidth = 2; ctx.strokeRect(x + 3, y + 3, s - 6, s - 6); ctx.setLineDash([]); }
+      if (L !== "crops") { ctx.strokeStyle = "rgba(7,9,26,.55)"; ctx.lineWidth = 1; ctx.strokeRect(x, y, s, s); }
+    });
+    const sel = curField(); if (sel) {
+      const x = sel.col * s, y = sel.row * s;
+      ctx.strokeStyle = "#07091a"; ctx.lineWidth = 6; ctx.strokeRect(x - 2, y - 2, s + 4, s + 4);
+      ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 3; ctx.strokeRect(x - 2, y - 2, s + 4, s + 4);
     }
-    $("colabCaveat").textContent = c.caveat;
-    const local = state.data && state.data.metrics;
-    const rows = [];
-    const localL = local && local.lgbm;
-    const localM = local && local.baselines && local.baselines.markov2;
-    const localCal = local && local.calibration;
-    rows.push(["Run", "Local Story County run", "Colab Full-County Run (2024–25)"]);
-    rows.push(["Sample / test pixels", local ? `${local.n_pixels_sampled} sampled · ${local.n_test} test` : "n/a", `${c.n_pixels_sampled} sampled · ${c.n_test} test`]);
-    rows.push(["HPO trials / seed", local ? `${local.hpo_trials} trials · seed in caveat` : "n/a", `${c.hpo_trials} trials · seed ${c.seed}`]);
-    rows.push(["LightGBM accuracy", localL ? fmt3(localL.acc) : "n/a", fmt3(c.lgbm.acc)]);
-    rows.push(["LightGBM macro-F1", localL ? fmt3(localL.macro_f1) : "n/a", fmt3(c.lgbm.macro_f1)]);
-    rows.push(["Markov-2 accuracy / macro-F1", localM ? `${fmt3(localM.acc)} / ${fmt3(localM.macro_f1)}` : "n/a", `${fmt3(c.baselines.markov2.acc)} / ${fmt3(c.baselines.markov2.macro_f1)}`]);
-    rows.push(["Δ acc / Δ macro-F1 vs Markov-2", localL ? `${localL.delta_acc_vs_markov2 >= 0 ? "+" : ""}${fmt3(localL.delta_acc_vs_markov2)} / ${localL.delta_macro_f1_vs_markov2 >= 0 ? "+" : ""}${fmt3(localL.delta_macro_f1_vs_markov2)}` : "n/a", `+${fmt3(c.lgbm.delta_acc_vs_markov2)} / +${fmt3(c.lgbm.delta_macro_f1_vs_markov2)}`]);
-    rows.push(["Test ECE before → after T-scaling", localCal ? `${localCal.test_ece_before.toFixed(4)} → ${localCal.test_ece_after.toFixed(4)} (T=${localCal.temperature.toFixed(2)})` : "n/a", `${c.calibration.test_ece_before.toFixed(4)} → ${c.calibration.test_ece_after.toFixed(4)} (T=${c.calibration.temperature.toFixed(2)})`]);
-    rows.push(["2025 full-county pixel accuracy", "not computed in the local sample run", `${c.map.pixel_accuracy_full_county.toFixed(3)} on ${c.map.farmed_pixels.toLocaleString()} farmed pixels (${(c.map.disagreement_frac * 100).toFixed(1)}% disagreement)`]);
-    const body = rows.slice(1).map((r) => `<tr><th>${r[0]}</th><td class="num">${r[1]}</td><td class="num">${r[2]}</td></tr>`).join("");
-    $("colabCompare").innerHTML = `<table class="compare-table"><caption>Both columns are one seed, not a published benchmark. Temperature scaling slightly worsened ECE on both runs; the raw probabilities are the more honest calibration.</caption><thead><tr><th>Metric</th><th class="num">${rows[0][1]}</th><th class="num">${rows[0][2]}</th></tr></thead><tbody>${body}</tbody></table>`;
+    if (state.hover && state.hover !== state.fieldId) { const h = fieldById(state.hover); if (h) { ctx.strokeStyle = "rgba(255,255,255,.85)"; ctx.lineWidth = 1.5; ctx.strokeRect(h.col * s, h.row * s, s, s); } }
+    renderLegend();
+  }
+  function renderLegend() {
+    const L = state.layer, sw = (c, t) => `<span><i style="background:${c}"></i>${esc(t)}</span>`;
+    let lg = "", note = "";
+    if (L === "crops") { lg = ["corn", "soy", "hay", "grass", "other_crop", "non_ag"].map((k) => sw(color(k), CROP[k])).join(""); note = "USDA cropland map, 2025, 30 m. Each square is 1.2 km. White outline: your field."; }
+    if (L === "forecast") { lg = ["corn", "soy", "grass"].map((k) => sw(color(k), CROP[k])).join("") + `<span class="fs-lg-t">Paler = less sure</span>`; note = "The model's guess for each square's main crop in 2026, from crop history plus NASA terrain, climate and greenness."; }
+    if (L === "erosion") { lg = `<span class="fs-ramp" style="background:linear-gradient(90deg,${SLOPE_RAMP.join(",")})"></span><span class="fs-lg-t">flat → steep (${state.minSlope.toFixed(1)}° to ${state.maxSlope.toFixed(1)}°)</span>`; note = "Slope from NASA NASADEM. Steeper squares lose more soil when bare, so winter rye pays off most there."; }
+    if (L === "fit") { lg = sw("#d4c4ff", "This plan is the best fit") + sw("#20263f", "Another plan fits better"); note = FIT ? `“${FIT.name}” is the best fit on ${FIT.win} of ${state.data.fields.length} squares for your priorities (against the three named plans). Move a priority and watch the map change.` : ""; }
+    if (L === "scout") { const c = state.flagCounts; lg = sw(FLAGC.low, `Forecast unsure (${c.low})`) + sw(FLAGC.repeat, `Same cash crop twice (${c.repeat})`) + sw(FLAGC.slope, `Steep (${c.slopeOnly})`); note = "Squares worth a visit before planting. Each square shows its most urgent reason."; }
+    if (state.marks.plan.size || state.marks.scout || state.marks.cover) lg += `<span class="fs-lg-t mk">Outlined: approved work</span>`;
+    $("mapLegend").innerHTML = lg; $("mapNote").textContent = note;
+  }
+  function tileAt(ev) {
+    const canvas = $("map"), r = canvas.getBoundingClientRect(); const x = (ev.clientX - r.left) * (canvas.width / r.width), y = (ev.clientY - r.top) * (canvas.height / r.height);
+    const M = state.data.map, bs = M.block * (canvas.width / M.width); const col = Math.floor(x / bs), row = Math.floor(y / bs);
+    return state.data.fields.find((f) => f.col === col && f.row === row) || null;
+  }
+  function onHover(ev) {
+    const f = tileAt(ev), tip = $("mapTip"); const id = f ? f.id : null;
+    if (id !== state.hover) { state.hover = id; drawMap(); }
+    if (!f) { tip.hidden = true; return; }
+    const last = f.history[f.history.length - 1];
+    tip.innerHTML = `<b>${f.id}</b> · ${esc(CROP[last.crop])} in ${last.year} · 2026 guess ${esc(CROP[f.pred_2026])} (${Math.round(f.pred_confidence * 100)}%) · ${f.slope.toFixed(1)}° slope`;
+    const box = $("map").parentElement.getBoundingClientRect(); tip.hidden = false;
+    tip.style.left = Math.min(box.width - tip.offsetWidth - 6, Math.max(6, ev.clientX - box.left + 12)) + "px"; tip.style.top = Math.max(6, ev.clientY - box.top - 44) + "px";
+  }
+  function selectField(id) {
+    state.fieldId = id || null;
+    document.querySelectorAll("#featured button").forEach((b) => b.setAttribute("aria-pressed", String((b.dataset.id || null) === state.fieldId)));
+    renderField(); update();
+  }
+  function update() { renderStrategies(); drawMap(); renderPareto(); refreshC2(); }
 
-    barBlock($("colabBars"), [
-      ["Persistence", c.baselines.persistence, "base"],
-      ["Corn/soy alternation", c.baselines.corn_soy_alternation, "base"],
-      ["Markov-2 table", c.baselines.markov2, "base"],
-      ["LightGBM (full features)", c.lgbm, ""],
-    ], "acc");
-    $("colabBars").insertAdjacentHTML("beforeend", `<p class="hint">Accuracy shown. Macro-F1: persistence ${c.baselines.persistence.macro_f1.toFixed(3)}, alternation ${c.baselines.corn_soy_alternation.macro_f1.toFixed(3)}, Markov-2 ${c.baselines.markov2.macro_f1.toFixed(3)}, LightGBM ${c.lgbm.macro_f1.toFixed(3)}. Δ accuracy vs Markov-2: +${c.lgbm.delta_acc_vs_markov2.toFixed(3)}; Δ macro-F1: +${c.lgbm.delta_macro_f1_vs_markov2.toFixed(3)}. Per-class F1: corn ${c.lgbm.per_class_f1.corn.toFixed(3)}, soy ${c.lgbm.per_class_f1.soy.toFixed(3)}, hay ${c.lgbm.per_class_f1.hay.toFixed(3)}, grass ${c.lgbm.per_class_f1.grass.toFixed(3)}, other_crop ${c.lgbm.per_class_f1.other_crop.toFixed(3)}, non_ag ${c.lgbm.per_class_f1.non_ag.toFixed(3)}.</p>`);
-    const abItems = Object.entries(c.ablation).map(([k, v]) => [k, v, ""]);
-    barBlock($("colabAbBars"), abItems, "acc");
-    const cal = c.calibration;
-    $("colabText").textContent = `${cal.method}. Temperature T=${cal.temperature.toFixed(2)}. Test ECE ${cal.test_ece_before.toFixed(4)} → ${cal.test_ece_after.toFixed(4)}. Test NLL ${cal.test_nll_before.toFixed(4)} → ${cal.test_nll_after.toFixed(4)}. Temperature scaling slightly worsened calibration (ECE 0.016 → 0.0351); this is reported honestly. One seed, not a published benchmark.`;
-    $("colabAbImg").src = "data/colab_run/crop_ablation.png";
-    $("colabCalImg").src = "data/colab_run/crop_confusion_calibration.png";
-    $("colabMapImg").src = "data/colab_run/crop_map.png";
+  /* ---------- step 4: act (shared C2 component, simulated tasking). Ids match the project page's #act=field-shift-N links. ---------- */
+  function actionDefs() {
+    const f = curField(), opts = optionsFor(f), plan = opts.find((o) => o.id === state.planId) || opts[0];
+    const where = f ? `field ${f.id}` : "the typical field", c26 = split(plan.sequence[0]).crop, area = f ? ` for ${ha(f)} ha` : "";
+    const cover = plan.sequence.some((t) => split(t).cover), C = state.flagCounts;
+    return [
+      { id: "field-shift-1", cls: "Rotation plan", verb: "Approve plan", title: `Approve “${plan.name}” for ${where}`,
+        sat: "The frost-free season is about 19 days longer than in 1981 (+0.43 days a year, p = 0.006), and soil water shows no trend.",
+        act: seqText(plan.sequence), out: "The next four years on this field are set, with the longer season in mind.",
+        tasks: [{ asset: "plan", label: `Record 2026–2029 plan · ${where}` }].concat(c26 === "corn" ? [{ asset: "seed", label: "Longer-season corn hybrid on a test strip" }] : []).concat([{ asset: "crew", label: "Send to grower for sign-off" }]) },
+      { id: "field-shift-2", cls: "Soil cover", verb: "Approve cover crop", title: `Seed winter rye on the ${C.slopeAll} steep squares`,
+        sat: "On a typical field, winter rye cuts the erosion score by 67% for 13% more water demand (a planning score, not measured soil loss).",
+        act: "Drill winter rye right after harvest on the steepest squares first.", out: "Less bare soil in spring and autumn on the slopes most at risk.",
+        tasks: [{ asset: "seed", label: `Winter rye seed · ${C.slopeAll} squares` }, { asset: "crew", label: "Drill rye after harvest" }] },
+      { id: "field-shift-3", cls: "Water", verb: "Approve", title: "Hold off on new irrigation; check soil moisture each season",
+        sat: "No trend in soil water: GRACE p = 0.57, GLDAS p = 0.27–0.38, SMAP p = 0.47.",
+        act: "Keep a rain-fed plan and add a seasonal NASA SMAP soil-moisture check.", out: "No irrigation spending the data doesn't call for, with a check in place if that changes.",
+        tasks: [{ asset: "sensor", label: "Seasonal SMAP soil-moisture check" }] },
+      { id: "field-shift-4", cls: "Scouting", verb: "Assign scouting", title: `Scout the ${C.low} squares where the forecast is unsure`,
+        sat: `22.4 km² of fields lost more than 0.1 greenness (NDVI) between 1 Aug 2024 and 31 Jul 2025 (NASA HLS, 30 m). The forecast is unsure on ${C.low} squares.`,
+        act: "Send a drone pass, then a scout on foot, before planting.", out: "Scouting time goes where the land changed or the model is unsure.",
+        tasks: [{ asset: "drone", label: `Drone survey · ${C.low} squares` }, { asset: "crew", label: "Scout walk-through and notes" }] },
+      { id: "field-shift-5", cls: "Seed and inputs", verb: "Order seed", title: `Order ${CROP[c26].toLowerCase()} seed${area}`,
+        sat: "The next-crop forecast is 81.8% right on held-out 2024–25 fields (crop history alone: 81.4%).",
+        act: `Book 2026 ${CROP[c26].toLowerCase()} seed for ${where}${cover ? ", plus winter rye for after harvest" : ""}. Confirm with the grower.`, out: "Seed is booked from the plan, not from last year's order sheet.",
+        tasks: [{ asset: "seed", label: `Reserve ${CROP[c26].toLowerCase()} seed · ${where}${area}` }].concat(cover ? [{ asset: "seed", label: "Reserve winter rye seed" }] : []).concat([{ asset: "truck", label: "Schedule delivery before planting" }]) },
+    ];
+  }
+  const LAYER_FOR = { "field-shift-1": "fit", "field-shift-2": "erosion", "field-shift-3": "crops", "field-shift-4": "scout", "field-shift-5": "forecast" };
+  function mountC2() {
+    if (!window.OGC2) { $("c2").innerHTML = `<p class="fs-fine">The action queue didn't load.</p>`; return; }
+    const defs = actionDefs(); state.c2Actions = defs;
+    state.c2 = window.OGC2.mount("#c2", {
+      app: "field-shift", kicker: "Decision support", title: "Recommended actions", user: "Farmer, agronomist or co-op",
+      actions: defs,
+      onSelect: (a) => { if (!a) return; setLayer(LAYER_FOR[a.id] || "crops"); if (!state.fromHash) document.querySelector(".fs-mapcard").scrollIntoView({ behavior: "smooth", block: "start" }); },
+      onApprove: (a, on) => {
+        if (a.id === "field-shift-1") { const f = curField(); if (f) { if (on) state.marks.plan.add(f.id); else state.marks.plan.delete(f.id); } }
+        if (a.id === "field-shift-4") state.marks.scout = on;
+        if (a.id === "field-shift-2") state.marks.cover = on;
+        drawMap();
+      },
+      onReset: () => { state.marks = { plan: new Set(), scout: false, cover: false }; drawMap(); refreshC2(); },
+      foot: "Simulated: shows how an approved plan would become seed orders, drone surveys and scouting jobs. No real supplier, drone or crew is contacted.",
+    });
+  }
+  function refreshC2() {
+    // Keep proposed cards in sync with the chosen field and plan; approved cards keep what was approved.
+    if (!state.c2 || !state.c2Actions) return; const approved = state.c2.state.approved;
+    actionDefs().forEach((d) => {
+      const card = document.querySelector(`#c2 .c2-card[data-id="${d.id}"]`); if (!card || approved[d.id]) return;
+      const src = state.c2Actions.find((x) => x.id === d.id); if (src) Object.assign(src, d);
+      card.querySelector(".c2-act").textContent = d.title;
+      const dds = card.querySelectorAll(".c2-flow dd"); if (dds[0]) dds[0].textContent = d.sat; if (dds[1]) dds[1].textContent = d.act;
+      const as = card.querySelector(".c2-assets"); if (as) as.innerHTML = d.tasks.map((t) => `<li>${window.OGC2.icon(t.asset)}<span>${esc(t.label)}</span></li>`).join("");
+    });
+  }
+  function deepLink() {
+    // /field-shift/app/#act=field-shift-N (links from the project page): open that action and its map layer.
+    const m = /^#act=([\w-]+)$/.exec(location.hash); if (!m || !state.c2) return;
+    const card = document.querySelector(`#c2 .c2-card[data-id="${CSS.escape(m[1])}"]`); if (!card) return;
+    if (!card.classList.contains("sel")) { state.fromHash = true; state.c2.select(m[1]); state.fromHash = false; }
+    setTimeout(() => card.scrollIntoView({ behavior: "smooth", block: "center" }), 80);
   }
 
+  /* ---------- step 5: impact (copy from OG_APP.impact = src/modules/field-shift/app.json when present) ---------- */
+  function renderImpact() {
+    const C = state.colab, FC = state.flagCounts;
+    const OG = window.OG_APP && Array.isArray(window.OG_APP.impact) && window.OG_APP.impact.length && window.OG_APP.impact.every((x) => x.img) ? window.OG_APP.impact : null;
+    const P = OG || [
+      { img: "farmer", alt: "A farmer at the edge of a corn field checks a field map on a tablet", user: "Farmer", decision: "What to plant on each field for 2026–2029, and whether to add a cover crop.",
+        before: ["Plants corn, then soybean, out of habit.", "Plans the season from memory of when frost comes."],
+        after: ["Has a four-year plan per field, ranked by what matters to them.", "Plans for a frost-free season about 19 days longer than in 1981.", "Puts winter rye on steep fields: erosion score 67% lower (a planning score)."],
+        geo: { v: "+0.43 d/yr", l: "frost-free season, NASA POWER 1981–2025, p = 0.006" }, metric: { v: (C.lgbm.acc * 100).toFixed(1) + "%", l: `next-crop accuracy vs ${(C.baselines.markov2.acc * 100).toFixed(1)}% from crop history alone` } },
+      { img: "agronomist", alt: "An agronomist reviews field data on a tablet with a grower", user: "Agronomist or co-op", decision: "Which fields to scout first, and how much of each seed to stock.",
+        before: ["Scouts in drive-by order.", "Starts seed orders from last year's sheet.", "Weighs irrigation on a hunch."],
+        after: [`Scouts the ${FC.low} squares where the forecast is unsure, and the 22.4 km² that lost greenness, first.`, "Stocks seed from a 30 m next-crop forecast for every field in the county.", "Holds off on irrigation spending: four NASA water records show no trend."],
+        geo: { v: "22.4 km²", l: "fields with NDVI down by more than 0.1, NASA HLS, Aug 2024 → Jul 2025" }, metric: { v: C.lgbm.macro_f1.toFixed(4), l: `macro-F1 across six crops vs ${C.baselines.markov2.macro_f1.toFixed(4)} from crop history alone` } },
+    ];
+    $("people").innerHTML = P.map((p) => `<article class="fs-person c2-imp">
+      <img src="../../assets/img/people/${esc(p.img)}.webp" alt="${esc(p.alt)}" loading="lazy" width="1280" height="720">
+      <header><span class="c2-cls">${esc(p.user)}</span><h3>${esc(p.decision)}</h3></header>
+      <div class="c2-ba"><div class="c2-b"><p>Before</p><ul>${p.before.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div><span class="c2-arrow" aria-hidden="true">→</span>
+      <div class="c2-a"><p>With Field Shift</p><ul>${p.after.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div></div>
+      <footer><div><b>${esc(p.geo.v)}</b><span>${esc(p.geo.l)}</span></div><div><b>${esc(p.metric.v)}</b><span>${esc(p.metric.l)}</span></div></footer></article>`).join("");
+    $("impGeo").innerHTML = [["+19 days", "longer frost-free season since 1981 (+0.43 d/yr, p = 0.006)"], ["No trend", "in soil water: GRACE p = 0.57, GLDAS p = 0.27–0.38"], ["22.4 km²", "of fields got less green, summer 2024 → 2025 (HLS, 30 m)"]].map(([a, b]) => `<li><b>${a}</b><span>${b}</span></li>`).join("");
+    $("impHum").innerHTML = [["Plant", "for the longer season, field by field"], ["Protect", "steep fields with winter rye (−67% erosion score)"], ["Save", "irrigation money the data doesn't call for"]].map(([a, b]) => `<li><b>${a}</b><span>${b}</span></li>`).join("");
+    $("impMetrics").innerHTML = [[C.lgbm.acc.toFixed(4), `next-crop accuracy (crop history alone ${C.baselines.markov2.acc.toFixed(4)})`], [C.lgbm.macro_f1.toFixed(4), `macro-F1, six crops (crop history alone ${C.baselines.markov2.macro_f1.toFixed(4)})`], [C.map.pixel_accuracy_full_county.toFixed(3), `pixel accuracy, full-county 2025 map (${C.map.farmed_pixels.toLocaleString("en-US")} pixels)`], [C.lgbm.per_class_f1.hay.toFixed(2), "honest miss: hay F1 (rare 'other' class 0)", "neg"]]
+      .map(([v, t, n]) => `<li class="${n || ""}"><strong>${v}</strong><span>${esc(t)}</span></li>`).join("");
+  }
+
+  /* ---------- evidence ---------- */
+  function renderPareto() {
+    const canvas = $("pareto"), ctx = canvas.getContext("2d"), w = canvas.width, h = canvas.height; ctx.clearRect(0, 0, w, h);
+    const pad = { l: 56, r: 18, t: 18, b: 44 }, opts = optionsFor(curField());
+    const xs = opts.map((o) => o.indicators.water_demand), ys = opts.map((o) => o.indicators.erosion_risk);
+    const x0 = Math.min(...xs) - 0.04, x1 = Math.max(...xs) + 0.04, y0 = Math.max(0, Math.min(...ys) - 0.02), y1 = Math.max(...ys) + 0.02;
+    const X = (v) => pad.l + (v - x0) / (x1 - x0 || 1) * (w - pad.l - pad.r), Y = (v) => h - pad.b - (v - y0) / (y1 - y0 || 1) * (h - pad.t - pad.b);
+    ctx.strokeStyle = "rgba(190,205,255,.28)"; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(pad.l, pad.t); ctx.lineTo(pad.l, h - pad.b); ctx.lineTo(w - pad.r, h - pad.b); ctx.stroke();
+    ctx.fillStyle = "#b7c0d6"; ctx.font = "13px Geist, system-ui, sans-serif";
+    ctx.fillText("Water demand (crop coefficient) →", pad.l, h - 12);
+    ctx.save(); ctx.translate(18, h - pad.b); ctx.rotate(-Math.PI / 2); ctx.fillText("Erosion score →", 0, 0); ctx.restore();
+    opts.forEach((o) => {
+      const sel = o.id === state.planId; ctx.beginPath(); ctx.arc(X(o.indicators.water_demand), Y(o.indicators.erosion_risk), sel ? 9 : o.kind === "named" ? 7 : 5.5, 0, Math.PI * 2);
+      ctx.fillStyle = o.kind === "named" ? "#d4c4ff" : "#9ec1ff"; ctx.fill(); if (sel) { ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 2.5; ctx.stroke(); }
+      if (o.kind === "named" || sel) { ctx.fillStyle = "#dfe5f5"; ctx.fillText(o.name, Math.min(w - 240, X(o.indicators.water_demand) + 12), Y(o.indicators.erosion_risk) + 4); }
+    });
+    $("paretoNote").textContent = state.data.pareto.note + " Plans that grow corn or soybean in the same field two years running are left out.";
+  }
+  function renderClimate() {
+    const canvas = $("clim"), ctx = canvas.getContext("2d"), w = canvas.width, h = canvas.height; ctx.clearRect(0, 0, w, h);
+    const rows = state.data.climate_yearly.filter((r) => r.year >= 2000 && r.gs_precip != null); if (!rows.length) return;
+    const pad = { l: 44, r: 44, t: 26, b: 26 }, maxP = Math.max(...rows.map((r) => r.gs_precip)), gs = rows.map((r) => r.gs_gdd), gmin = Math.min(...gs) * 0.95, gmax = Math.max(...gs) * 1.02, bw = (w - pad.l - pad.r) / rows.length, H = h - pad.t - pad.b;
+    rows.forEach((r, i) => { ctx.fillStyle = "rgba(158,193,255,.55)"; const bh = r.gs_precip / maxP * H; ctx.fillRect(pad.l + i * bw + bw * 0.15, h - pad.b - bh, bw * 0.7, bh); });
+    ctx.strokeStyle = "#facc15"; ctx.lineWidth = 2.2; ctx.beginPath();
+    rows.forEach((r, i) => { const x = pad.l + i * bw + bw / 2, y = h - pad.b - (r.gs_gdd - gmin) / (gmax - gmin) * H; if (i) ctx.lineTo(x, y); else ctx.moveTo(x, y); }); ctx.stroke();
+    ctx.font = "12px Geist, system-ui, sans-serif"; ctx.fillStyle = "#b7c0d6"; ctx.fillText(`Bars: Apr–Sep rain, max ${Math.round(maxP)} mm`, pad.l, 14);
+    ctx.fillStyle = "#facc15"; ctx.fillText("Line: growing degree days", pad.l + 230, 14);
+    ctx.fillStyle = "#b7c0d6"; ctx.fillText(String(rows[0].year), pad.l, h - 6); ctx.fillText(String(rows[rows.length - 1].year), w - pad.r - 30, h - 6);
+  }
+  function barBlock(host, items, key) {
+    const max = Math.max(...items.map((it) => it[1][key]));
+    host.innerHTML = items.map(([label, rec, kind]) => `<div class="fs-bar ${kind}"><span>${esc(label)}</span><div><i style="width:${Math.max(2, rec[key] / max * 100)}%"></i></div><b>${rec[key].toFixed(3)}</b></div>`).join("");
+  }
+  const LABEL_AB = (k) => ({ history_only: "Crop history only", "+terrain_soil": "+ NASADEM terrain and soil", "+climate": "+ NASA POWER climate", "+ndvi (full)": "+ MODIS greenness (all)" }[k] || k.replace(/_/g, " "));
+  const BASES = (b, l) => [["Same as last year", b.persistence, "base"], ["Corn/soy alternation", b.corn_soy_alternation, "base"], ["Crop-history table", b.markov2, "base"], ["Our model", l, "ours"]];
+  function renderModel() {
+    const m = state.data.metrics; $("modelCaveat").textContent = m.caveat;
+    barBlock($("baseBars"), BASES(m.baselines, m.lgbm), "acc");
+    barBlock($("abBars"), Object.entries(m.ablation).map(([k, v]) => [LABEL_AB(k), v, ""]), "acc");
+    const c = m.calibration; $("calText").textContent = `Accuracy shown. ${c.method}: ECE ${c.test_ece_before.toFixed(4)} → ${c.test_ece_after.toFixed(4)} (slightly worse, so the raw probabilities are kept).`;
+    $("calImg").src = "data/crop_confusion_calibration.png"; $("abImg").src = "data/crop_ablation.png"; $("histImg").src = "data/cdl_history.png"; $("slopeImg").src = "data/slope_tiles.png";
+  }
+  function renderColab() {
+    const c = state.colab, local = state.data.metrics; $("colabCaveat").textContent = c.caveat;
+    barBlock($("colabBars"), BASES(c.baselines, c.lgbm), "acc");
+    const pc = c.lgbm.per_class_f1;
+    $("colabText").textContent = `Accuracy shown. Macro-F1: crop-history table ${c.baselines.markov2.macro_f1.toFixed(4)}, our model ${c.lgbm.macro_f1.toFixed(4)}. Per-crop F1: corn ${pc.corn.toFixed(3)}, soybean ${pc.soy.toFixed(3)}, hay ${pc.hay.toFixed(3)}, grass ${pc.grass.toFixed(3)}, other ${pc.other_crop.toFixed(3)}, not farmed ${pc.non_ag.toFixed(3)}.`;
+    barBlock($("colabAbBars"), Object.entries(c.ablation).map(([k, v]) => [LABEL_AB(k), v, ""]), "acc");
+    const nf = (v) => Number(v).toLocaleString("en-US");
+    const rows = [["Pixels sampled / tested", `${nf(local.n_pixels_sampled)} / ${nf(local.n_test)}`, `${nf(c.n_pixels_sampled)} / ${nf(c.n_test)}`],
+      ["Accuracy", local.lgbm.acc.toFixed(3), c.lgbm.acc.toFixed(3)], ["Macro-F1", local.lgbm.macro_f1.toFixed(3), c.lgbm.macro_f1.toFixed(3)],
+      ["Crop-history table accuracy / macro-F1", `${local.baselines.markov2.acc.toFixed(3)} / ${local.baselines.markov2.macro_f1.toFixed(3)}`, `${c.baselines.markov2.acc.toFixed(3)} / ${c.baselines.markov2.macro_f1.toFixed(3)}`],
+      ["Calibration error (ECE) before → after scaling", `${local.calibration.test_ece_before.toFixed(4)} → ${local.calibration.test_ece_after.toFixed(4)}`, `${c.calibration.test_ece_before.toFixed(4)} → ${c.calibration.test_ece_after.toFixed(4)}`],
+      ["2025 full-county pixel accuracy", "not computed", `${c.map.pixel_accuracy_full_county.toFixed(3)} on ${nf(c.map.farmed_pixels)} pixels`]];
+    $("colabCompare").innerHTML = `<table class="fs-table"><thead><tr><th>Metric</th><th class="num">Smaller run</th><th class="num">Full-county run</th></tr></thead><tbody>${rows.map((r) => `<tr><th>${esc(r[0])}</th><td class="num">${esc(r[1])}</td><td class="num">${esc(r[2])}</td></tr>`).join("")}</tbody></table>`;
+    $("colabAbImg").src = "data/colab_run/crop_ablation.png"; $("colabCalImg").src = "data/colab_run/crop_confusion_calibration.png"; $("colabMapImg").src = "data/colab_run/crop_map.png";
+  }
   function renderHelp() {
     const o = state.data.objectives;
-    $("objHelp").innerHTML = o.keys.map((k) =>
-      `<h3>${o.labels[k]} (${o.sense[k] === "min" ? "lower is better" : "higher is better"})</h3><p>${o.help[k]}</p>`
-    ).join("");
+    $("objHelp").innerHTML = `<p>Each plan gets five factor values for the chosen field. For the fit, each is turned so higher is better (1 − value; nitrogen as is), then averaged with your settings as weights (Ignore = 0, Matters = 1, Top priority = 2) and shown × 100. Water demand is a crop coefficient near 1, so it lowers every plan's fit by a similar amount: compare fits between plans, not against 100.</p>` +
+      o.keys.map((k) => `<h3>${esc(PRIO[k].t)} <small>${esc(PRIO[k].s)} · ${o.sense[k] === "min" ? "lower is better" : "higher is better"}</small></h3><p>${esc(PRIO[k].how)}</p>`).join("");
+    $("disclaimer").textContent = state.data.disclaimer;
+  }
+  function renderCitations() {
+    $("citeList").innerHTML = state.data.citations.map((c) => `<li><b>${esc(c.item)}.</b> ${esc(c.credit)} Licence: ${esc(c.licence)}. ${c.url ? `<a href="${esc(c.url)}">${esc(c.url)}</a>` : ""}</li>`).join("");
   }
 
-  function renderCitations() {
-    $("citeList").innerHTML = state.data.citations.map((c) =>
-      `<li><strong>${c.item}.</strong> ${c.credit} Licence: ${c.licence}. ${c.url ? `<a href="${c.url}">${c.url}</a>` : ""}</li>`
-    ).join("");
+  /* ---------- step nav ---------- */
+  function stepNav() {
+    const links = [...document.querySelectorAll(".fs-steps a")];
+    const io = new IntersectionObserver((es) => es.forEach((en) => { if (en.isIntersecting) links.forEach((a) => a.classList.toggle("on", a.dataset.step === en.target.dataset.step)); }), { rootMargin: "-40% 0px -55% 0px" });
+    document.querySelectorAll("section[data-step]").forEach((s) => io.observe(s));
+    document.querySelectorAll("[data-open]").forEach((b) => b.addEventListener("click", () => { const d = document.querySelector(b.dataset.open); if (d) { d.open = true; d.scrollIntoView({ behavior: "smooth", block: "start" }); } }));
   }
 
   Promise.all([
-    fetch("data/app_data.json").then((r) => {
-      if (!r.ok) throw new Error("app_data.json is not ready yet — run scripts/run_model.py");
-      return r.json();
-    }),
-    fetch("data/colab_run/results.json").then((r) => {
-      if (!r.ok) throw new Error("colab_run/results.json is missing");
-      return r.json();
-    }),
-  ])
-    .then(([data, colab]) => {
-      state.data = data;
-      state.colab = colab;
-      data.objectives.keys.forEach((k) => { state.weights[k] = 50; });
-      $("disclaimer").textContent = data.disclaimer;
-      $("mapLegend").innerHTML = Object.entries(data.map.colors).map(([n, c]) =>
-        `<span><i class="swatch" style="background:${c}"></i>${n}</span>`
-      ).join("");
-      renderSliders();
-      renderFeatured();
-      renderHelp();
-      renderModel();
-      renderColab();
-      renderCitations();
-      renderClimate();
-      const img = new Image();
-      img.onload = () => { state.mapImg = img; drawMap(); };
-      img.src = data.map.cdl_2025;
-      $("map").addEventListener("click", hitField);
-      renderField();
-      renderStrategies();
-      renderPareto();
-      $("loadStatus").textContent = `Loaded ${data.fields.length} analysis tiles · local ${data.metrics.n_test} test pixels · Colab ${colab.n_test} test pixels · local runtime ${data.runtime_seconds}s.`;
-    })
-    .catch((err) => {
-      $("loadStatus").textContent = "Waiting for model outputs: " + err.message;
-    });
+    fetch("data/app_data.json").then((r) => { if (!r.ok) throw new Error("app_data.json missing"); return r.json(); }),
+    fetch("data/colab_run/results.json").then((r) => { if (!r.ok) throw new Error("colab_run/results.json missing"); return r.json(); }),
+  ]).then(([data, colab]) => {
+    state.data = data; state.colab = colab;
+    data.objectives.keys.forEach((k) => { state.weights[k] = 50; });
+    TYP_SLOPE = median(data.fields.map((f) => f.slope));
+    const sl = data.fields.map((f) => f.slope).sort((a, b) => a - b);
+    SLOPE_Q = [0.2, 0.4, 0.6, 0.8].map((q) => sl[Math.floor(q * (sl.length - 1))]); state.minSlope = sl[0]; state.maxSlope = sl[sl.length - 1];
+    const hv = new Set(); data.strategies.forEach((s) => Object.values(s.field_indicators || {}).forEach((v) => hv.add(v.heat_frost_exposure.toFixed(2)))); if (hv.size === 1) state.heatFlat = [...hv][0];
+    const fc = { low: 0, repeat: 0, slopeOnly: 0, slopeAll: 0 };
+    data.fields.forEach((f) => { if (hasFlag(f, "low")) fc.low++; if (flagKind(f) === "repeat") fc.repeat++; if (flagKind(f) === "slope") fc.slopeOnly++; if (hasFlag(f, "slope")) fc.slopeAll++; });
+    state.flagCounts = fc;
+    buildOptions();
+    renderLayers(); renderFeatured(); renderSliders(); renderField(); renderHelp(); renderModel(); renderColab(); renderCitations(); renderClimate(); renderImpact();
+    renderStrategies(); renderPareto();
+    const img = new Image(); img.onload = () => { state.mapImg = img; drawMap(); }; img.src = data.map.cdl_2025;
+    const map = $("map");
+    map.addEventListener("click", (ev) => { const f = tileAt(ev); if (f) selectField(f.id); });
+    map.addEventListener("mousemove", onHover); map.addEventListener("mouseleave", () => { state.hover = null; $("mapTip").hidden = true; drawMap(); });
+    mountC2(); stepNav(); deepLink(); window.addEventListener("hashchange", deepLink);
+    $("loadStatus").textContent = `Loaded ${data.fields.length} field squares · ${colab.n_test.toLocaleString("en-US")} test pixels in the full-county run.`;
+  }).catch((err) => { $("loadStatus").textContent = "Couldn't load the results: " + err.message; console.warn(err); });
 })();

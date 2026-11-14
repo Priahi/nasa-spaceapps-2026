@@ -4,65 +4,80 @@
   <meta charset="utf-8" />
   <meta name="robots" content="noindex, nofollow" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>FIRMS Hot Spots Harmonizer — NASA Space Apps demo</title>
+  <title>Hot Spots · fire activity and burn calendar — NASA Space Apps demo</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%23e8a317'/%3E%3C/svg%3E" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%23f97316'/%3E%3C/svg%3E" />
   <link rel="stylesheet" href="/style.css" />
   <link rel="stylesheet" href="/briefing.css" />
 </head>
 <body>
   <header class="top">
-    <div>
-      <h1>Harmonized burning activity calendar</h1>
-      <p class="sub">MODIS C6.1 (2000–2025) to VIIRS S-NPP scale. NASA Space Apps 2026 demo. One seed, not a published benchmark.</p>
+    <div class="top-t">
+      <p class="kick">Detect · Hot Spots</p>
+      <h1>Where is fire growing, and when does it peak?</h1>
+      <p class="sub">NASA FIRMS MODIS (2000–2025) put on the VIIRS scale, so every year compares fairly. One seed, not a published benchmark.</p>
     </div>
     <div class="controls">
-      <label>Region
-        <select id="preset"></select>
-      </label>
-      <button type="button" id="drawBtn" class="btn">Draw box on map</button>
-      <button type="button" id="csvBtn" class="btn primary">Download CSV</button>
-      <button type="button" class="bf-inline" data-briefing-open="1">▶ Experiment briefing</button>
+      <label class="ctl">Region <select id="preset"></select></label>
+      <button type="button" id="drawBtn" class="btn">Draw a box</button>
+      <button type="button" id="csvBtn" class="btn">Download CSV</button>
+      <button type="button" class="btn bf-inline" data-briefing-open="1">Briefing</button>
     </div>
   </header>
 
-  <main class="layout">
-    <section class="map-pane">
-      <div id="map" role="application" aria-label="Hotspot disagreement map"></div>
-      <p class="legend" id="mapLegend">Color is log2((VIIRS+1)/(MODIS+1)) over 2012–2025. Blue: MODIS sees relatively more. Red: VIIRS sees relatively more. Drag a box, or pick a preset.</p>
-      <p class="aoi" id="aoiLabel"></p>
+  <nav class="steps" aria-label="Dashboard steps">
+    <a href="#mapSec"><b>1</b>See the map</a><a href="#calendar"><b>2</b>What changed</a><a href="#decide"><b>3</b>Decide &amp; task</a><a href="#impact"><b>4</b>Impact</a>
+  </nav>
+
+  <main class="hs">
+    <section class="hs-row" id="mapSec" aria-label="Map">
+      <div class="map-card">
+        <div class="map-head">
+          <div class="seg" role="group" aria-label="Map layer">
+            <button type="button" data-layer="fire" aria-pressed="true">Fire activity</button>
+            <button type="button" data-layer="trend" aria-pressed="false">Province trend</button>
+            <button type="button" data-layer="ratio" aria-pressed="false">Sensor gap</button>
+          </div>
+          <span class="aoi" id="aoiLabel"></span>
+        </div>
+        <div class="map-wrap">
+          <div id="map" role="application" aria-label="Fire map"></div>
+          <div class="map-legend" id="mapLegend" aria-live="polite"></div>
+          <div class="map-task" id="mapTask" hidden></div>
+        </div>
+      </div>
+      <aside class="hs-side">
+        <article class="card kpis" id="kpis" aria-live="polite"><p class="fine">Loading…</p></article>
+        <p class="status" id="status">Loading…</p>
+        <details class="card more"><summary>Why the two sensors disagree</summary><div id="reasons">Select a region to load.</div></details>
+      </aside>
     </section>
 
-    <section class="side">
-      <article class="card" id="statusCard">
-        <h2>Status</h2>
-        <p id="status">Loading…</p>
-      </article>
+    <section class="hs-cal" id="calendar" aria-label="Burn calendar">
+      <div class="sec-head">
+        <div><p class="kick">What changed</p><h2>Burn calendar: every month since 2000</h2>
+          <p class="fine">Each square is one month in the selected area. Colour = fires detected that month (VIIRS-equivalent count). <b>Outlined</b> = unusual month (far above that month's 2000–2025 median).</p></div>
+        <div class="cal-legend" id="calLegend"></div>
+      </div>
+      <div class="cal-grid">
+        <div id="calWrap"><div id="calHost"></div></div>
+        <aside class="flags card"><h3>Unusual months</h3><p class="fine" id="flagNote"></p><ul id="flagList"></ul></aside>
+      </div>
+      <div id="tooltip" class="tooltip" hidden></div>
+    </section>
 
-      <article class="card">
-        <h2>Why the sensors disagree</h2>
-        <div id="reasons">Select a region to load.</div>
-      </article>
+    <section class="hs-sec" id="decide" aria-label="Decision support"><div id="c2"></div></section>
+    <section class="hs-sec" id="impact" aria-label="Impact"><div id="impactHost"></div></section>
 
-      <article class="card">
-        <h2>Held-out test (2022–2025)</h2>
-        <p class="fine">Val year 2021. Residual LightGBM on top of an empirical-Bayes cell-ratio baseline. No raw cell-intensity history features.</p>
-        <div id="metrics" class="table-wrap">Loading…</div>
-      </article>
+    <section class="hs-sec">
+      <details class="card more"><summary>Model test, held out 2022–2025</summary>
+        <p class="fine">Validation year 2021. Residual LightGBM on top of an empirical-Bayes cell-ratio baseline. One seed.</p>
+        <div id="metrics" class="table-wrap">Loading…</div></details>
     </section>
   </main>
 
-  <section class="calendar-pane">
-    <div class="cal-head">
-      <h2>2000–2025 burning calendar</h2>
-      <p class="fine">Color is log10(count + 1). Cyan outline: unusual month (|robust z| &gt; 3.5 vs that calendar month’s 2000–2025 median). The dashed line is 2012, when VIIRS begins. Hover a cell for the count, z-score, and model interval. Back-cast years (2000–2011) carry model error.</p>
-    </div>
-    <div id="calendar"></div>
-    <div id="tooltip" class="tooltip" hidden></div>
-  </section>
-
   <footer>
-    <p>Data: NASA FIRMS, MODIS Collection 6.1 (MCD14ML) and VIIRS S-NPP (VNP14IMG), <a href="https://firms.modaps.eosdis.nasa.gov/">firms.modaps.eosdis.nasa.gov</a>. NASA data has no restriction on use; cite FIRMS.</p>
+    <p>Data: NASA FIRMS, MODIS Collection 6.1 (MCD14ML) and VIIRS S-NPP (VNP14IMG), <a href="https://firms.modaps.eosdis.nasa.gov/">firms.modaps.eosdis.nasa.gov</a>; MODIS MCD64A1 burned area; province outlines Natural Earth (public domain). Tasking on this page is simulated.</p>
     <p>This tool and model code: Apache-2.0. Unlisted demo build (static, precomputed from the local model run). Intervals are Mondrian conformalized quantile regression (90% target), summed over cells in the AOI, and are not a formal regional confidence interval.</p>
   </footer>
 

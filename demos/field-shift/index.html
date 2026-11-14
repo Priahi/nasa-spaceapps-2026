@@ -4,132 +4,155 @@
   <meta charset="utf-8">
   <meta name="robots" content="noindex, nofollow">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Field Shift — Story County, Iowa (NASA Space Apps demo)</title>
+  <title>Field Shift · Story County, Iowa · plan next season's rotation</title>
+  <meta name="theme-color" content="#07091a">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="briefing.css">
 </head>
-<body>
-  <header>
-    <div class="header-inner">
-      <div class="kicker">NASA Space Apps 2026 · unlisted demo · not submitted</div>
-      <h1 style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">Field Shift <button type="button" class="bf-inline" data-briefing-open="1">▶ Experiment briefing</button></h1>
-      <p class="sub">A farmer-facing look at multi-year rotation options for Story County, Iowa, using NASA Earth observations, USDA CDL, and SoilGrids. This tool supports, and does not replace, local agronomic judgment.</p>
-      <nav class="tabs" role="tablist">
-        <button role="tab" aria-selected="true" data-tab="plan" id="tab-plan">Plan a rotation</button>
-        <button role="tab" aria-selected="false" data-tab="scores" id="tab-scores">How we scored it</button>
-        <button role="tab" aria-selected="false" data-tab="model" id="tab-model">Model honesty</button>
-        <button role="tab" aria-selected="false" data-tab="citations" id="tab-citations">Citations</button>
-      </nav>
+<body class="fs">
+  <div class="fs-top">
+    <div class="fs-wrap fs-top-in">
+      <div class="fs-title">
+        <p class="fs-kick">Module 03 · Adapt · Story County, Iowa</p>
+        <h1>Field Shift</h1>
+        <p class="fs-lede">Pick a field. Say what matters. Get a four-year crop plan, then put it to work.</p>
+      </div>
+      <ul class="fs-stats" aria-label="What NASA data shows for this county">
+        <li><b>+19 days</b><span>longer frost-free season than 1981</span></li>
+        <li><b>Steady</b><span>soil water: no trend in 4 NASA records</span></li>
+        <li><b>81.8%</b><span>next-crop forecast accuracy</span></li>
+      </ul>
     </div>
-  </header>
-  <main>
-    <section class="panel active" id="panel-plan" role="tabpanel">
-      <div class="disclaimer" id="disclaimer"></div>
-      <div class="grid-2">
-        <div class="card">
-          <h2>Story County tiles</h2>
-          <p class="hint">Each square is a 1.2 km analysis tile built from 30 m USDA CDL pixels. Click a tile, or pick a featured one. The map shows 2025 crop groups.</p>
-          <canvas id="map" width="657" height="662" aria-label="Story County crop map"></canvas>
-          <div class="legend" id="mapLegend"></div>
-          <div class="featured" id="featured"></div>
-        </div>
-        <div>
-          <div class="card" id="fieldCard">
-            <h2 id="fieldTitle">County typical tile</h2>
-            <div class="meta-grid" id="fieldMeta"></div>
-            <div class="history" id="history" aria-label="Crop history"></div>
-            <div class="flags" id="flags"></div>
+    <nav class="fs-steps fs-wrap" aria-label="Steps">
+      <a href="#s-field" data-step="field"><i>1</i>Pick a field</a>
+      <a href="#s-prio" data-step="prio"><i>2</i>What matters</a>
+      <a href="#s-plan" data-step="plan"><i>3</i>Choose a plan</a>
+      <a href="#s-act" data-step="act"><i>4</i>Act</a>
+      <a href="#s-impact" data-step="impact"><i>5</i>Impact</a>
+      <button type="button" class="fs-brief" data-briefing-open="1">▶ Briefing</button>
+    </nav>
+  </div>
+
+  <main class="fs-wrap">
+    <div class="fs-work">
+      <!-- MAP (sticky on desktop) -->
+      <section class="fs-mapcol" aria-label="Story County map">
+        <div class="fs-mapcard">
+          <div class="fs-layers" role="radiogroup" aria-label="Map layer" id="layers"></div>
+          <div class="fs-mapbox">
+            <canvas id="map" width="657" height="662" aria-label="Story County map. Click a square to pick a field."></canvas>
+            <div class="fs-maptip" id="mapTip" hidden></div>
           </div>
-          <div class="card">
-            <h2>Your priorities</h2>
-            <p class="hint">Move the sliders to say what matters on this farm. Scores update immediately. Equal weights are the default.</p>
-            <div class="sliders" id="sliders"></div>
+          <div class="fs-legend" id="mapLegend"></div>
+          <p class="fs-mapnote" id="mapNote"></p>
+        </div>
+      </section>
+
+      <!-- FLOW -->
+      <div class="fs-flow">
+        <section class="fs-step" id="s-field" data-step="field">
+          <p class="fs-n"><i>1</i>Pick a field</p>
+          <p class="fs-help">Tap a square on the map (each is 1.2 km, about 300 acres), or start from one of these.</p>
+          <div class="fs-featured" id="featured"></div>
+          <article class="fs-field" id="fieldCard" aria-live="polite">
+            <div class="fs-field-head"><h2 id="fieldTitle">County typical field</h2><span class="fs-tag" id="fieldTag"></span></div>
+            <div class="fs-facts" id="fieldMeta"></div>
+            <div class="fs-hist-wrap"><p class="fs-mini">What grew here, and the model's guess for 2026</p><div class="fs-hist" id="history" aria-label="Crop history"></div></div>
+            <div class="fs-flags" id="flags"></div>
+          </article>
+        </section>
+
+        <section class="fs-step" id="s-prio" data-step="prio">
+          <p class="fs-n"><i>2</i>What matters on this farm?</p>
+          <p class="fs-help">Set each one. Plans are re-ranked instantly, and the map recolors.</p>
+          <div class="fs-prios" id="sliders"></div>
+          <details class="fs-more"><summary>Two more factors</summary><div class="fs-prios" id="sliders2"></div></details>
+        </section>
+
+        <section class="fs-step" id="s-plan" data-step="plan">
+          <p class="fs-n"><i>3</i>Choose a four-year plan</p>
+          <p class="fs-help">Best match for your priorities first. Pick one to see where else in the county it fits.</p>
+          <div class="fs-plans" id="strategyCards"></div>
+          <p class="fs-fine">“Fit” is how well a plan matches your settings, out of 100. Changes are against today's corn–soybean rotation on this field. <button type="button" class="fs-link" data-open="#how-score">How it's computed</button></p>
+        </section>
+      </div>
+    </div>
+
+    <section class="fs-sec" id="s-act" data-step="act">
+      <div class="fs-sec-head"><p class="fs-n"><i>4</i>Act on it</p><h2>Turn the plan into work orders.</h2></div>
+      <div id="c2"></div>
+    </section>
+
+    <section class="fs-sec" id="s-impact" data-step="impact">
+      <div class="fs-sec-head"><p class="fs-n"><i>5</i>Impact</p><h2>Same data, two people, better calls.</h2></div>
+      <div class="fs-people" id="people"></div>
+      <div class="fs-two">
+        <div class="fs-side geo"><p class="fs-mini">Geospatial discovery</p><ul id="impGeo"></ul></div>
+        <div class="fs-side hum"><p class="fs-mini">Human impact</p><ul id="impHum"></ul></div>
+      </div>
+      <ul class="fs-metrics" id="impMetrics"></ul>
+      <p class="fs-fine">Every number comes from our runs on public data: one seed each, not a published benchmark. We don't model yields, prices or costs, so we don't state them.</p>
+    </section>
+
+    <section class="fs-sec fs-evidence" id="evidence">
+      <div class="fs-sec-head"><p class="fs-mini">Evidence</p><h2>Check our work.</h2></div>
+
+      <details class="fs-ev" id="how-score"><summary>How the plan scores are computed</summary>
+        <div class="fs-ev-body"><div id="objHelp"></div>
+        <p class="fs-fine" id="disclaimer"></p></div>
+      </details>
+
+      <details class="fs-ev"><summary>All options side by side</summary>
+        <div class="fs-ev-body"><div class="fs-scroll"><table class="fs-table" id="tradeTable"></table></div></div>
+      </details>
+
+      <details class="fs-ev"><summary>Trade-off chart: water vs erosion</summary>
+        <div class="fs-ev-body"><p class="fs-fine">Each dot is a four-year plan on the selected field. Lower-left is better on both. Lilac dots are the three named plans; blue dots were found by the search.</p>
+        <canvas id="pareto" width="800" height="300" aria-label="Water demand versus erosion risk for each plan"></canvas>
+        <p class="fs-fine" id="paretoNote"></p></div>
+      </details>
+
+      <details class="fs-ev"><summary>NASA POWER climate, county centre</summary>
+        <div class="fs-ev-body"><canvas id="clim" width="800" height="200" aria-label="Growing-season rain and growing degree days, 2000 to 2024"></canvas>
+        <p class="fs-fine">April–September rain (bars) and growing degree days (line) at 42.035°N, 93.465°W, 2000–2024. Scores use the median of the last ten years, not a forecast.</p></div>
+      </details>
+
+      <details class="fs-ev" id="panel-model"><summary>Next-crop model: accuracy and honest misses</summary>
+        <div class="fs-ev-body">
+          <h3>Full-county run (test years 2024–2025)</h3>
+          <p class="fs-fine" id="colabCaveat"></p>
+          <div id="colabBars"></div>
+          <p id="colabText" class="fs-fine"></p>
+          <div class="fs-scroll" id="colabCompare"></div>
+          <h3>What each data source adds</h3>
+          <div id="colabAbBars"></div>
+          <div class="fs-imgs">
+            <img id="colabMapImg" alt="Story County 2025: actual crops, predicted crops and where they disagree" loading="lazy">
+            <img id="colabCalImg" alt="Confusion matrix and reliability diagram, full-county run" loading="lazy">
+            <img id="colabAbImg" alt="Baselines versus model, feature-group ablation, full-county run" loading="lazy">
+          </div>
+          <h3>Earlier smaller run</h3>
+          <p class="fs-fine" id="modelCaveat"></p>
+          <div id="baseBars"></div>
+          <div id="abBars"></div>
+          <p id="calText" class="fs-fine"></p>
+          <div class="fs-imgs">
+            <img id="calImg" alt="Confusion matrix and reliability diagram, smaller run" loading="lazy">
+            <img id="abImg" alt="Baseline versus model ablation bars, smaller run" loading="lazy">
+            <img id="histImg" alt="Crop maps 2016, 2020 and 2025" loading="lazy">
+            <img id="slopeImg" alt="NASADEM slope and analysis squares" loading="lazy">
           </div>
         </div>
-      </div>
-      <div class="card">
-        <h2>Rotation strategies compared</h2>
-        <p class="hint">At least three options, including the current corn-soy rotation, plus non-dominated sequences from a small NSGA-II search. Ranked for the selected tile and your weights.</p>
-        <div class="cards" id="strategyCards"></div>
-      </div>
-      <div class="card">
-        <h2>Trade-off table</h2>
-        <div style="overflow:auto">
-          <table class="trade" id="tradeTable"></table>
-        </div>
-      </div>
-      <div class="card">
-        <h2>Pareto front</h2>
-        <p class="hint">Each point is a 4-year sequence on the selected tile. X is water demand, Y is erosion risk (lower is better on both axes). Gold points are named strategies. Green points are other non-dominated NSGA-II options.</p>
-        <canvas id="pareto" width="800" height="280" aria-label="Pareto scatter of water demand versus erosion risk"></canvas>
-        <p class="hint" id="paretoNote"></p>
-      </div>
-      <div class="card">
-        <h2>NASA POWER climate context (county center)</h2>
-        <canvas id="clim" width="800" height="160" aria-label="Annual growing-season precipitation and GDD"></canvas>
-        <p class="hint">Growing-season (Apr–Sep) precipitation and growing degree days at 42.035°N, 93.465°W, 2000–2024. Planning indicators use the median of the last ten years, not a weather forecast.</p>
-      </div>
-    </section>
+      </details>
 
-    <section class="panel" id="panel-scores" role="tabpanel">
-      <div class="card">
-        <h2>What each number means</h2>
-        <div id="objHelp"></div>
-        <p class="hint">Cover-crop “+cover” years assume a winter rye that shrinks bare-soil months and uses a little extra water. That assumption is documented, not observed as a CDL class. SMAP, ECOSTRESS, GPM IMERG and GRACE are named in the challenge and are not in this local demo because they need an Earthdata login.</p>
-      </div>
-    </section>
-
-    <section class="panel" id="panel-model" role="tabpanel">
-      <div class="card caveat" id="modelCaveat"></div>
-      <div class="card">
-        <h2>Next-season crop, test years 2024–2025</h2>
-        <div id="baseBars"></div>
-        <p class="hint">Persistence is weak because Story County already alternates corn and soy. The practical bar is the 2nd-order Markov table. LightGBM is useful when it improves calibration and rare classes, not just headline accuracy.</p>
-      </div>
-      <div class="card">
-        <h2>Feature-group ablation</h2>
-        <div id="abBars"></div>
-      </div>
-      <div class="card">
-        <h2>Calibration (temperature scaling on 2022–2023)</h2>
-        <p id="calText" class="hint"></p>
-        <img id="calImg" alt="Confusion matrix and reliability diagram" style="width:100%;height:auto;border-radius:8px">
-        <img id="abImg" alt="Baseline versus LightGBM ablation bars" style="width:100%;height:auto;border-radius:8px;margin-top:10px">
-      </div>
-      <div class="card">
-        <h2>County maps (local run)</h2>
-        <img id="histImg" alt="CDL history 2016, 2020, 2025 from the local Story County run" style="width:100%;height:auto;border-radius:8px">
-        <img id="slopeImg" alt="NASADEM slope and analysis tiles from the local Story County run" style="width:100%;height:auto;border-radius:8px;margin-top:10px">
-      </div>
-      <div class="card" id="colabCard">
-        <h2>Colab Full-County Run (2024–25)</h2>
-        <p class="hint">A larger personal-Colab CPU run on the same Story County AOI and the same temporal split (train through 2021, validation 2022–2023, test 2024–2025). Seed 0, 25 Optuna trials, 400,000 sampled pixels (266,664 / 66,666 / 66,666), plus a 2025 full-county map over about 1.50 million farmed pixels. Shown here as evidence alongside the local Story County run above, not as a replacement for it. Both runs are labeled <strong>one seed, not a published benchmark</strong>.</p>
-        <div class="caveat" id="colabCaveat"></div>
-        <div class="compare" id="colabCompare"></div>
-        <h3>Baselines vs LightGBM (Colab test years)</h3>
-        <div id="colabBars"></div>
-        <p id="colabText" class="hint"></p>
-        <h3>Feature-group ablation (Colab)</h3>
-        <div id="colabAbBars"></div>
-        <img id="colabAbImg" alt="Colab baselines versus LightGBM feature-group ablation. One seed, not a published benchmark." style="width:100%;height:auto;border-radius:8px;margin-top:10px">
-        <h3>Confusion and calibration (Colab)</h3>
-        <img id="colabCalImg" alt="Colab LightGBM confusion matrix and reliability diagram, test years 2024–2025. Temperature scaling T=0.90 slightly worsened ECE." style="width:100%;height:auto;border-radius:8px;margin-top:10px">
-        <h3>2025 full-county map (Colab)</h3>
-        <p class="hint">Held-out year 2025: USDA CDL actual, LightGBM prediction from history + soil + climate + NDVI, and disagreement (30.2% of farmed pixels). Pixel accuracy over 1,495,561 farmed pixels is 0.811. One seed, not a published benchmark.</p>
-        <img id="colabMapImg" alt="Story County 2025 CDL actual versus predicted next-season crop and disagreement map from the Colab full-county run" style="width:100%;height:auto;border-radius:8px;margin-top:10px">
-      </div>
-    </section>
-
-    <section class="panel" id="panel-citations" role="tabpanel">
-      <div class="card">
-        <h2>Data and software</h2>
-        <ol class="cites" id="citeList"></ol>
-        <p>Original software in this folder is licensed under Apache License 2.0. Cite every source in a Space Apps submission and disclose this pre-existing tooling. This is a local demo, not a submitted project and not a published benchmark.</p>
-      </div>
+      <details class="fs-ev" id="panel-citations"><summary>Data and software</summary>
+        <div class="fs-ev-body"><ol class="fs-cites" id="citeList"></ol>
+        <p class="fs-fine">Original software: Apache License 2.0. Builds on our earlier code and open-source libraries. One seed, not a published benchmark.</p></div>
+      </details>
     </section>
   </main>
-  <footer>
-    <p>Local demo for NASA International Space Apps Challenge 2026, challenge “Field Shift: Adapting Farms with NASA Data”. Apache-2.0.</p>
+  <footer class="fs-foot fs-wrap">
+    <p>NASA International Space Apps Challenge 2026 · Field Shift: adapting farms with NASA data · Apache-2.0. Supports, and does not replace, farmer and agronomist judgment.</p>
     <p class="status" id="loadStatus">Loading Story County results…</p>
   </footer>
   <script src="app.js"></script>

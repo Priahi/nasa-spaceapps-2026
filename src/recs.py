@@ -16,6 +16,7 @@ APPS = {
   "problem": ("14.6 Mha", "of Canada's forest burned in 2023. Over 230,000 people were evacuated.", "mcd64-map.webp",
               "Last-burn year per 500 m pixel, NASA MODIS MCD64A1, 2003–2025"),
   "shows": [  # (big number, one-line caption, visual key)
+    ("322k a year", "Fire detections across Canada, 2003–2025 average (VIIRS scale). Most burn in a belt across the N.W.T., B.C., Saskatchewan and Alberta.", "heat_map"),
     ("+272 km²/yr", "More ground burns every year in the boreal tile (NE B.C., Alberta, Sask.).", "mcd64_bars"),
     ("+3,019/yr", "Fire detections across Canada are rising (MODIS, 2003–2025).", "canada_line"),
     ("May", "Alberta's most-flagged unusual month: 5 of 16 since 2000.", "calendar"),
@@ -112,7 +113,7 @@ APPS = {
   "headline": "A longer season, steady water. Plant for it now.",
   "line": "Your field's history plus 45 years of NASA climate data, turned into this season's plan.",
   "problem": ("33%", "of the world's land is degraded. The rotation picked this year shapes the soil for years.", "people/erosion.webp",
-              "Illustrative image (AI-generated): spring erosion on a bare field"),
+              "Spring erosion on a bare field"),
   "shows": [
     ("+19 days", "Iowa's frost-free season is about 19 days longer than in 1981 (p = 0.006).", "frost_line"),
     ("Steady", "Soil water shows no trend across GRACE, GLDAS, SMAP and IMERG.", "water_matrix"),
@@ -164,18 +165,95 @@ APPS = {
 
 SLUGS = ["hotspots", "sar-change", "field-shift"]
 
-def rec_card(r, i, compact=False):
+# ---- C2 decision-support data: verb + simulated tasks per rec (same order as APPS[slug]["recs"]) ----
+C2 = {
+ "hotspots": [
+  ("Assign crews", [("crew", "Stage initial-attack crews in Alberta and B.C.", "before July"), ("plan", "Open seasonal firefighter hiring", "spring"), ("satellite", "Watch flagged cells on each VIIRS pass", "every pass")]),
+  ("Send notice", [("notice", "Pre-season notice to forest communities", "late April"), ("plan", "Check evacuation plans", "before May"), ("camera", "Cue lookout cameras on the May watch list", "May")]),
+  ("Approve work", [("drone", "Drone survey of long-unburned ground near towns", "this spring"), ("crew", "Prescribed-burn crew", "burn window"), ("plan", "Fuel-break work order", "this season")]),
+  ("Approve budget", [("plan", "Regional baseline budget line", "next season"), ("sensor", "Annual refresh with new FIRMS data", "yearly")]),
+ ],
+ "sar-change": [
+  ("Dispatch", [("notice", "Evacuation alert to districts in the new-water footprint", "now"), ("crew", "Rescue teams to flagged districts", "now"), ("satellite", "Pull the next Sentinel-1 / OPERA pass", "next pass")]),
+  ("Assign teams", [("crew", "Damage teams to areas still wet", "this week"), ("drone", "Drone survey of l'Horta Sud streets (radar blind spot)", "this week")]),
+  ("Add to plan", [("engineer", "Retention-basin and drainage study", "this year"), ("plan", "Line in next year's city plan", "next budget")]),
+  ("Approve aid", [("plan", "Crop-insurance checks for Albufera paddies", "this month"), ("truck", "Recovery aid to paddy owners", "this month")]),
+ ],
+ "field-shift": [
+  ("Schedule", [("seed", "Longer-season hybrid on a test strip", "planting"), ("seed", "Cover crop right after harvest", "harvest"), ("sensor", "Strip yield check", "harvest")]),
+  ("Apply rotation", [("plan", "Move the steepest tiles to the cover-crop rotation", "next season")]),
+  ("Approve plan", [("sensor", "Seasonal SMAP soil-moisture check", "each season"), ("plan", "Hold new irrigation spending", "this year")]),
+  ("Assign scout", [("drone", "Drone scout of fields that lost greenness", "early summer"), ("crew", "Field scout visit", "early summer")]),
+  ("Draft orders", [("plan", "Seed and input orders by predicted crop", "winter"), ("notice", "Confirm the plan with each grower", "winter")]),
+ ],
+}
+
+# ---- concrete impact: before -> after for a named user and decision (qualitative; numbers are the real inputs) ----
+BA = {
+ "hotspots": [
+  {"user": "Provincial fire duty officer", "decision": "Where and when to stage crews next season",
+   "before": ["Two satellite records that don't compare: VIIRS sees about 5.6× more fire than MODIS since 2012", "Staffing set from last summer's headlines"],
+   "after": ["One 2000–2025 fire calendar on a single scale, for any area", "Crews hired and staged in Alberta and B.C. before July, the peak month"],
+   "geo": {"v": "+1,503/yr", "l": "Alberta detections, harmonized (p = 0.035, tentative)"}, "metric": {"v": "8.5%", "l": "lower error than the best baseline (2022–25)"}},
+  {"user": "Community emergency planner", "decision": "When to put forest communities on notice",
+   "before": ["Notice goes out once smoke is visible"],
+   "after": ["Notice by late April, evacuation plans checked before May"],
+   "geo": {"v": "5 of 16", "l": "unusual months in Alberta fell in May"}, "metric": {"v": "88.6%", "l": "interval coverage (target 90%)"}},
+ ],
+ "sar-change": [
+  {"user": "Civil-protection duty officer", "decision": "Which districts to clear first after the storm",
+   "before": ["Optical satellites see only cloud", "Districts ranked from calls and road reports"],
+   "after": ["A water map from the first radar pass after the storm", "Districts inside the new-water footprint cleared first; l'Horta Sud walked on foot"],
+   "geo": {"v": "77.7 km²", "l": "new water two days after the flood (NASA OPERA)"}, "metric": {"v": "66.4%", "l": "water IoU vs 21.8% for the standard threshold"}},
+  {"user": "City drainage engineer", "decision": "What to build for next year",
+   "before": ["Sized for an assumed rising trend in extreme rain"],
+   "after": ["Sized for the 2024 extreme; the 45-year record shows no trend in the wettest day"],
+   "geo": {"v": "p = 0.28", "l": "wettest-day rain, NASA POWER 1981–2025"}, "metric": {"v": "p = 0.62", "l": "GPM IMERG 1998–2024 agrees: no trend"}},
+ ],
+ "field-shift": [
+  {"user": "Crop adviser, Story County, Iowa", "decision": "What to plant on each field next season",
+   "before": ["Same hybrid and rotation as last year", "Season length assumed unchanged since the 1980s"],
+   "after": ["Longer-season hybrid trialled on a strip, cover crop after harvest", "Steepest tiles moved into a cover-crop rotation first"],
+   "geo": {"v": "+19 days", "l": "frost-free season vs 1981 (p = 0.006)"}, "metric": {"v": "0.8176", "l": "next-season crop accuracy (history alone 0.8136)"}},
+  {"user": "Farmer", "decision": "Whether to spend on irrigation",
+   "before": ["Irrigation bought against a drier future"],
+   "after": ["Rain-fed plan kept, with a SMAP soil-moisture check each season"],
+   "geo": {"v": "4 of 4", "l": "NASA water records show no trend"}, "metric": {"v": "0.811", "l": "pixel accuracy, full-county 2025 map"}},
+ ],
+}
+
+def _mod_json(slug):
+    from pathlib import Path
+    f = Path(__file__).parent / "modules" / slug / "app.json"
+    return json.loads(f.read_text()) if f.exists() else {}
+
+def app_data(slug):
+    """Everything a dashboard needs for OGC2.mount / OGC2.impact. src/modules/<slug>/app.json keys override."""
+    A = APPS[slug]
+    acts = []
+    for i, r in enumerate(A["recs"]):
+        verb, tasks = C2[slug][i] if i < len(C2[slug]) else ("Approve", [])
+        acts.append({"id": f"{slug}-{i + 1}", "cls": r["cls"], "title": r["act"], "sat": r["sat"], "out": r["out"], "src": r["src"],
+                     "verb": verb, "tasks": [{"asset": a, "label": l, "eta": t} for a, l, t in tasks]})
+    d = {"slug": slug, "name": A["name"], "role": A["role"], "who": A["who"], "page": f"/{slug}/", "actions": acts, "impact": BA[slug],
+         "metrics": [{"v": m[0], "t": m[1], "neg": len(m) > 2} for m in A["metrics"]]}
+    d.update(_mod_json(slug))
+    return d
+
+def rec_card(r, i, compact=False, slug=None):
+    verb = C2[slug][i][0] if slug and i < len(C2.get(slug, [])) else None
+    cta = (f'<a class="btn rec-cta" href="/{slug}/app/#act={slug}-{i + 1}">{e(verb)} <span aria-hidden="true">→</span></a>' if verb else "")
     return (f'<article class="rec{" compact" if compact else ""}" style="--i:{i}">'
-            + ("" if compact else f'<div class="rec-img"><img src="/assets/img/{r["img"]}" alt="" loading="lazy" width="1152" height="864" /><span class="ill" title="{e(PEOPLE_NOTE)}">Illustrative</span></div>')
+            + ("" if compact else f'<div class="rec-img"><img src="/assets/img/{r["img"]}" alt="" loading="lazy" width="1152" height="864" /></div>')
             + f'<div class="rec-body"><span class="rec-cls">{e(r["cls"])}</span>'
             f'<ol class="rec-flow"><li class="sat"><b>Satellite shows</b><span>{e(r["sat"])}</span></li>'
             f'<li class="act"><b>I will</b><span>{e(r["act"])}</span></li>'
             f'<li class="out"><b>Expected</b><span>{e(r["out"])}</span></li></ol>'
-            f'<details class="rec-src"><summary>Evidence</summary><p>{e(r["src"])}</p></details></div></article>')
+            f'<div class="rec-foot">{cta}<details class="rec-src"><summary>Evidence</summary><p>{e(r["src"])}</p></details></div></div></article>')
 
 def recs_block(slug, compact=False):
     A = APPS[slug]
-    return f'<div class="recs n{len(A["recs"])}">' + "".join(rec_card(r, i, compact) for i, r in enumerate(A["recs"])) + "</div>"
+    return f'<div class="recs n{len(A["recs"])}">' + "".join(rec_card(r, i, compact, slug) for i, r in enumerate(A["recs"])) + "</div>"
 
 def metrics_strip(slug):
     return '<ul class="mstrip">' + "".join(f'<li class="{m[2] if len(m) > 2 else ""}"><strong>{e(m[0])}</strong><span>{e(m[1])}</span></li>' for m in APPS[slug]["metrics"]) + "</ul>"
@@ -200,3 +278,15 @@ def guide_data():
                   "impact": A["impact"], "metrics": [{"v": m[0], "t": m[1], "neg": len(m) > 2} for m in A["metrics"]],
                   "page": f"/{s}/"}
     return out
+
+
+def ba_html(items, title=None):
+    """Server-rendered twin of OGC2.impact (same classes; styled by /shared/c2.css)."""
+    def li(xs): return "".join(f"<li>{e(x)}</li>" for x in ([xs] if isinstance(xs, str) else xs))
+    cards = "".join(
+        f'<article class="c2-imp"><header><span class="c2-cls">{e(it["user"])}</span><h3>{e(it["decision"])}</h3></header>'
+        f'<div class="c2-ba"><div class="c2-b"><p>Before</p><ul>{li(it["before"])}</ul></div><span class="c2-arrow" aria-hidden="true">→</span>'
+        f'<div class="c2-a"><p>With this tool</p><ul>{li(it["after"])}</ul></div></div>'
+        f'<footer><div><b>{e(it["geo"]["v"])}</b><span>{e(it["geo"]["l"])}</span></div><div><b>{e(it["metric"]["v"])}</b><span>{e(it["metric"]["l"])}</span></div></footer></article>'
+        for it in items)
+    return f'<div class="c2-impact" data-fx="rise">{f"<h3 class=c2-title>{e(title)}</h3>" if title else ""}<div class="c2-imp-grid">{cards}</div></div>'

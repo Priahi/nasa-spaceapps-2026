@@ -25,7 +25,7 @@
     box.innerHTML = "";
     const narrow = !opts.small && box.clientWidth && box.clientWidth < 520;
     const W = opts.w || (narrow ? 360 : 640), H = opts.h || (narrow ? 250 : 300), small = !!opts.small;
-    const m = small ? { l: 4, r: 4, t: 6, b: 6 } : { l: narrow ? 50 : 58, r: 22, t: 16, b: 30 };
+    const m = small ? { l: 4, r: 4, t: 6, b: 6 } : { l: narrow ? 50 : 58, r: 22, t: opts.unit ? 26 : 16, b: 30 };
     const xs = t.x, ys = t.series;
     const x0 = xs[0], x1 = xs[xs.length - 1];
     let lo = Math.min(...ys), hi = Math.max(...ys); const pad = (hi - lo) * 0.08 || 1; lo -= pad; hi += pad;
@@ -33,6 +33,7 @@
     let ticks = [];
     if (!small) { const raw = (hi - lo) / 4, mag = Math.pow(10, Math.floor(Math.log10(raw))), st = [1, 2, 2.5, 5, 10].map((k) => k * mag).find((k) => k >= raw);
       lo = Math.floor(lo / st) * st; hi = Math.ceil(hi / st) * st; for (let v = lo; v <= hi + st / 2; v += st) ticks.push(+v.toPrecision(12)); }
+    if (!small && ticks.length) m.l = Math.max(m.l, 16 + 9.6 * Math.max(...ticks.map((v) => fmt(v).length)));
     const X = (x) => m.l + ((x - x0) / (x1 - x0)) * (W - m.l - m.r);
     const Y = (y) => H - m.b - ((y - lo) / (hi - lo)) * (H - m.t - m.b);
     const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, class: "tchart-svg", role: "img", "aria-label": opts.label || "time series" }, box);
@@ -41,13 +42,26 @@
       const step = (x1 - x0) > 30 ? 10 : 5;
       for (let yr = Math.ceil(x0 / step) * step; yr <= x1; yr += step) el("text", { x: X(yr), y: H - 8, "text-anchor": "middle", class: "ax" }, svg).textContent = yr;
     }
-    const d = xs.map((x, i) => `${i ? "L" : "M"}${X(x).toFixed(1)},${Y(ys[i]).toFixed(1)}`).join("");
-    el("path", { d, class: "series" }, svg);
     const b = t.sen_slope_per_year, a = median(ys.map((y, i) => y - b * xs[i]));
-    el("line", { x1: X(x0), y1: Y(a + b * x0), x2: X(x1), y2: Y(a + b * x1), class: "sen", stroke: t.trend === "no trend" ? "#8b95ad" : colorOf(t), "stroke-dasharray": t.trend === "no trend" ? "6 5" : "none" }, svg);
+    const clampY = (v) => Math.max(lo, Math.min(hi, v));
+    if (!small && t.sen_ci95) { const xm = median(xs), ym = a + b * xm, f = (sl, x) => clampY(ym + sl * (x - xm));
+      el("polygon", { points: [[x0, f(t.sen_ci95[0], x0)], [x1, f(t.sen_ci95[0], x1)], [x1, f(t.sen_ci95[1], x1)], [x0, f(t.sen_ci95[1], x0)]].map(([x, y]) => `${X(x).toFixed(1)},${Y(y).toFixed(1)}`).join(" "), class: "ciband" }, svg); }
+    if (opts.bars && !small) {
+      const bw = Math.max(2, ((W - m.l - m.r) / xs.length) * 0.7), base = Y(Math.max(lo, 0)), vmax = Math.max(...ys);
+      xs.forEach((x, i) => { const y = Y(ys[i]), r = el("rect", { x: X(x) - bw / 2, y: Math.min(y, base), width: bw, height: Math.abs(base - y), rx: 2, class: "bar", style: opts.barColor ? `fill:${opts.barColor(ys[i] / vmax)}` : "" }, svg); });
+    } else {
+      const d = xs.map((x, i) => `${i ? "L" : "M"}${X(x).toFixed(1)},${Y(ys[i]).toFixed(1)}`).join("");
+      el("path", { d, class: "series" }, svg);
+    }
+    el("line", { x1: X(x0), y1: Y(a + b * x0), x2: X(x1), y2: Y(a + b * x1), class: "sen", stroke: t.trend === "no trend" ? "#8b95ad" : (opts.senColor || colorOf(t)), "stroke-dasharray": t.trend === "no trend" ? "6 5" : "none" }, svg);
+    if (!small) {
+      const ann = `${sgn(b)} ${opts.perUnit || "/yr"} · p ${pfmt(t.p)}${t.p < 0.05 ? "" : " (no trend)"}`;
+      const ye = Y(a + b * x1); el("text", opts.bars ? { x: m.l + 8, y: m.t + 14, class: "ann" } : { x: X(x1) - 4, y: Math.max(m.t + 12, Math.min(H - m.b - 6, ye + (b >= 0 ? -12 : 18))), "text-anchor": "end", class: "ann" }, svg).textContent = ann;
+      if (opts.unit) el("text", { x: m.l, y: m.t - 4, class: "ax unit" }, svg).textContent = opts.unit;
+    }
     if (opts.mark) { const yr = opts.mark; if (yr >= x0 && yr <= x1) { el("line", { x1: X(yr), x2: X(yr), y1: m.t, y2: H - m.b, class: "mark" }, svg); if (!small) el("text", { x: X(yr) + 4, y: m.t + 10, class: "ax mk" }, svg).textContent = opts.markLabel || yr; } }
     if (small) return;
-    const dots = xs.map((x, i) => el("circle", { cx: X(x), cy: Y(ys[i]), r: 3.2, class: "pt" }, svg));
+    const dots = xs.map((x, i) => el("circle", { cx: X(x), cy: Y(ys[i]), r: opts.bars ? 0 : 3.2, class: "pt" }, svg));
     const guide = el("line", { y1: m.t, y2: H - m.b, class: "guide", opacity: 0 }, svg);
     const tip = h("div", "ttip"); box.appendChild(tip);
     const move = (ev) => {
@@ -113,7 +127,12 @@
   /* ---------- widgets ---------- */
   const FIRE_VARS = [["harmonized_count", "Harmonized count"], ["modis_count", "MODIS only"], ["modis_frp", "MODIS FRP"], ["viirs_count", "VIIRS only"]];
   const FIRE_WHAT = { harmonized_count: "Active-fire detections per year, on the VIIRS scale (Hot Spots harmonized record: model back-cast 2003–2011, observed VIIRS 2012+)", modis_count: "MODIS active-fire detections per year (single sensor, Terra + Aqua)", modis_frp: "Total MODIS fire radiative power per year (GW, summed over detections): how much energy the fires released", viirs_count: "VIIRS S-NPP active-fire detections per year (observed only, from 2012)" };
+  const FIRE_RAMP = [[124, 45, 18], [194, 65, 12], [249, 115, 22], [251, 191, 36], [253, 230, 138]];
+  const fireRamp = (t) => { t = Math.max(0, Math.min(1, t)); const p = t * (FIRE_RAMP.length - 1), i = Math.min(FIRE_RAMP.length - 2, Math.floor(p)), f = p - i, a = FIRE_RAMP[i], b = FIRE_RAMP[i + 1];
+    return `rgb(${Math.round(a[0] + (b[0] - a[0]) * f)},${Math.round(a[1] + (b[1] - a[1]) * f)},${Math.round(a[2] + (b[2] - a[2]) * f)})`; };
+  const FIRE_UNIT = { harmonized_count: "fire detections per year (VIIRS scale)", modis_count: "MODIS fire detections per year", modis_frp: "fire radiative power, GW per year", viirs_count: "VIIRS fire detections per year" };
   function fireWidget(root, D) {
+    root.classList.add("fire");
     const F = D.fire, regions = Object.keys(F.canada).filter((k) => !F.canada[k].note);
     let reg = "Canada", v = "harmonized_count";
     const ctr = h("div", "tw-ctrl"), body = h("div", "tw-body"), mapBox = h("div", "tw-map"), right = h("div", "tw-right"), chartBox = h("div", "tchart"), ver = h("div", "verdict"), leg = h("div", "legend");
@@ -131,16 +150,18 @@
     function draw() {
       for (const [name, p] of Object.entries(paths)) {
         const r = F.canada[name], t = r && !r.note ? r[v] : null;
-        p.setAttribute("fill", t ? colorOf(t) : "url(#none)"); p.classList.toggle("nodata", !t); p.classList.toggle("on", name === reg || reg === "Canada");
+        const sigUp = t && t.p < 0.05 && t.trend === "increasing", sigDn = t && t.p < 0.05 && t.trend === "decreasing";
+        const pct = t && t.slope_pct_of_median_per_decade != null ? Math.min(1, Math.abs(t.slope_pct_of_median_per_decade) / 120) : 0.6;
+        p.setAttribute("fill", !t ? "url(#none)" : sigUp ? fireRamp(0.25 + 0.75 * pct) : sigDn ? "#4a6fa5" : "#262c4a"); p.classList.toggle("nodata", !t); p.classList.toggle("on", name === reg || reg === "Canada");
         p.querySelector("title").textContent = t ? `${name}: ${t.trend} (p ${pfmt(t.p)}), ${sgn(t.sen_slope_per_year)}/yr` : `${name}: too few detections to test`;
       }
       mapBox.classList.toggle("dim", reg === "Argentina");
       const t = get();
-      chart(chartBox, t, { label: `${reg} ${v} per year`, mark: v === "harmonized_count" ? 2012 : null, markLabel: "VIIRS starts" });
+      chart(chartBox, t, { label: `${reg} ${v} per year`, mark: v === "harmonized_count" ? 2012 : null, markLabel: "VIIRS starts", bars: true, barColor: (r) => fireRamp(0.15 + 0.85 * r), senColor: "#fde68a", unit: FIRE_UNIT[v], perUnit: v === "modis_frp" ? "GW/yr" : "/yr" });
       verdict(ver, t, FIRE_WHAT[v], reg === "Canada" ? "All of Canada" : reg === "Argentina" ? "All of Argentina" : reg + ", Canada");
     }
     el("defs", {}, svg).innerHTML = '<pattern id="none" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="rgba(190,205,255,.05)"/><line x1="0" y1="0" x2="0" y2="6" stroke="rgba(190,205,255,.25)" stroke-width="1.5"/></pattern>';
-    legend(leg, '<span><i class="hatch"></i>too few detections</span>');
+    leg.innerHTML = `<span><i style="background:linear-gradient(90deg,${fireRamp(0.25)},${fireRamp(1)})"></i>significant rise (brighter = faster)</span><span><i style="background:#4a6fa5"></i>significant fall</span><span><i style="background:#262c4a"></i>no significant trend</span><span><i class="hatch"></i>too few detections</span>`;
     draw();
   }
 

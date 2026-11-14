@@ -1,2 +1,7 @@
-:root { --bg: #07091a; --bg-elev: #10142c; --bg-elev-2: #161b3a; --line: rgba(190,205,255,.16); --text: #f4f6fb; --muted: #b7c0d6; --cyan: #9ec1ff; --cyan-dim: #4a5fa8; --amber: #d4c4ff; --sans: "Geist", system-ui, sans-serif; --mono: "Geist Mono", ui-monospace, monospace; }
+/* SAR Change dashboard theme: points the app's own variables at the shared site tokens (/shared/tokens.css). */
+:root { --bg: var(--og-bg, #07091a); --bg-elev: var(--og-bg-2, #10142c); --bg-elev-2: var(--og-card-2, #182046); --line: var(--og-line, rgba(190,205,255,.14));
+  --text: var(--og-ink, #f4f6fb); --muted: var(--og-muted, #b7c0d6); --cyan: var(--og-accent, #9ec1ff); --cyan-dim: #4a5fa8; --amber: var(--og-accent-2, #d4c4ff);
+  --red: var(--og-bad, #f87171); --ok: var(--og-ok, #6ee7b7); --sans: var(--og-font, "Geist", system-ui, sans-serif); --mono: var(--og-mono, "Geist Mono", ui-monospace, monospace); }
 header.app-header { background: linear-gradient(180deg, rgba(7,9,26,.97), rgba(7,9,26,.92)) !important; }
+.caveat { background: rgba(158,193,255,.07) !important; border-color: var(--og-line-strong, rgba(190,205,255,.28)) !important; color: var(--og-muted, #b7c0d6) !important; }
+.bar.win > span { background: var(--og-grad, linear-gradient(120deg, #9ec1ff, #d4c4ff)) !important; }

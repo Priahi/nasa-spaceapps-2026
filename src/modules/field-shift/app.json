@@ -1,0 +1,24 @@
+{
+  "impact": [
+    {
+      "user": "Farmer",
+      "img": "farmer",
+      "alt": "A farmer at the edge of a corn field checks a field map on a tablet",
+      "decision": "What to plant on each field for 2026–2029, and whether to add a cover crop.",
+      "before": ["Plants corn, then soybean, out of habit.", "Plans the season from memory of when frost comes."],
+      "after": ["Has a four-year plan per field, ranked by what matters to them.", "Plans for a frost-free season about 19 days longer than in 1981.", "Puts winter rye on steep fields: erosion score 67% lower (a planning score)."],
+      "geo": {"v": "+0.43 d/yr", "l": "frost-free season, NASA POWER 1981–2025, p = 0.006"},
+      "metric": {"v": "81.8%", "l": "next-crop accuracy vs 81.4% from crop history alone"}
+    },
+    {
+      "user": "Agronomist or co-op",
+      "img": "agronomist",
+      "alt": "An agronomist reviews field data on a tablet with a grower",
+      "decision": "Which fields to scout first, and how much of each seed to stock.",
+      "before": ["Scouts in drive-by order.", "Starts seed orders from last year's sheet.", "Weighs irrigation on a hunch."],
+      "after": ["Scouts the 114 squares where the forecast is unsure, and the 22.4 km² that lost greenness, first.", "Stocks seed from a 30 m next-crop forecast for every field in the county.", "Holds off on irrigation spending: four NASA water records show no trend."],
+      "geo": {"v": "22.4 km²", "l": "fields with NDVI down by more than 0.1, NASA HLS, Aug 2024 → Jul 2025"},
+      "metric": {"v": "0.5012", "l": "macro-F1 across six crops vs 0.4633 from crop history alone"}
+    }
+  ]
+}

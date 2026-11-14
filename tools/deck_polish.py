@@ -67,7 +67,7 @@ s3 = f'''<!-- 3 · Rewind -->
 {hd('Story 1 · rewind, with Orbit to Ground', 3)} <h2 class="title" style="font-size:52px">Rewind. Same night, same data, with Orbit to Ground.</h2>
  <div class="rw3">
 {cells}  <div class="vid">
-   <span class="k">The official demo video</span>
+   <span class="k">The official 30-second demo</span>
    <div class="frame"><img src="{dp}" alt="Demo video poster"><video controls preload="metadata" playsinline poster="{dp}"><source src="demo.mp4" type="video/mp4"></video></div>
    <h3>Elena <b>could have</b> had a drafted alert for her town hours before the ~8 PM phone alert.</h3>
    <p>Rain signal → radar map → one alert to 8 towns → teams queued. Press play, or <a href="{L}/sar-change/app/#demo" style="color:var(--accent)">open the flood demo →</a></p>

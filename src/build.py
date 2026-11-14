@@ -339,7 +339,7 @@ def landing():
 
 <section class="section tight" id="demo-video"><div class="wrap">
 <figure class="spot video-card" data-fx="rise"><video controls preload="metadata" playsinline src="/submission/demo.mp4"><track kind="captions" srclang="en" label="English" src="/submission/demo.en.vtt" /></video>
-<figcaption><span class="mono">Demo video</span> <a href="/submission/demo.mp4">MP4</a> · <a href="/submission/demo.en.srt">Captions</a> · <a href="/submission/deck.pdf">Slides (PDF)</a></figcaption></figure>
+<figcaption><span class="mono">Demo video</span> <a href="/submission/demo.mp4">MP4</a> · <a href="/submission/demo.en.srt">Captions</a> · <a href="/submission/deck.pdf">Slides (PDF)</a> · <a href="/submission/deck.pptx" download>Slides with video (PPTX)</a></figcaption></figure>
 </div></section>
 """ + slides_strip(SLIDES) + f"""
 <section class="section tight" id="how"><div class="wrap">
@@ -489,7 +489,7 @@ def slides_strip(sl):
     if not sl: return ""
     cards = "".join(f'<a class="slide-thumb" href="/slides/#slide-{n}"><img src="/slides/img/slide-{n}-thumb.webp" alt="Slide {n}: {e(t)}" loading="lazy" width="640" height="360" /><span class="mono">{n:02d}</span><b>{e(t)}</b></a>' for n, f, t in sl)
     return f"""<section class="section" id="slides" style="padding-top:2rem"><div class="wrap">
-<div class="split-head" data-fx="rise"><div><p class="eyebrow">The deck</p><h2>{len(sl)} slides, same story.</h2></div><p>Read the slides right here, or download the PDF. <span class="actions" style="display:inline-flex;margin:.6rem 0 0"><a class="btn" href="/slides/">View the slides</a><a class="btn ghost" href="/submission/deck.pdf">Download PDF</a></span></p></div>
+<div class="split-head" data-fx="rise"><div><p class="eyebrow">The deck</p><h2>{len(sl)} slides, same story.</h2></div><p>Read the slides right here, or download the PDF. <span class="actions" style="display:inline-flex;margin:.6rem 0 0"><a class="btn" href="/slides/">View the slides</a><a class="btn ghost" href="/submission/deck.pdf">Download PDF</a><a class="btn ghost" href="/submission/deck.pptx" download>Slides with video (PPTX)</a></span></p></div>
 <div class="slide-strip" data-fx="rise">{cards}</div></div></section>"""
 
 def slides_page(sl):
@@ -499,7 +499,7 @@ def slides_page(sl):
 <section class="hero short"><div class="topo-hero" aria-hidden="true"></div><div class="wrap hero-copy">
 <p class="chip"><i></i>NASA Space Apps 2026 · {e(SITE['challenge'])}</p><h1>The slides</h1>
 <p class="lede">{len(sl)} slides: the problem, the system, and one trend question per module, answered with NASA data.</p>
-<div class="actions"><a class="btn" href="/submission/deck.pdf">Download PDF</a><a class="btn ghost" href="/#demo-video">&#9654; Demo video</a><a class="btn ghost" href="/">Back to the site</a></div></div></section>
+<div class="actions"><a class="btn" href="/submission/deck.pdf">Download PDF</a><a class="btn ghost" href="/submission/deck.pptx" download>Slides with video (PPTX)</a><a class="btn ghost" href="/#demo-video">&#9654; Demo video</a><a class="btn ghost" href="/">Back to the site</a></div></div></section>
 <section class="block" style="padding-top:0"><div class="wrap slides-wrap"><nav class="slide-dots mono" aria-label="Jump to slide">{dots}</nav><div class="slides">{slides}</div></div></section>
 </main>
 """ + FOOT
@@ -571,7 +571,7 @@ def main():
         for d in ("assets",):
             if (ROOT / "submission" / d).exists(): shutil.copytree(ROOT / "submission" / d, sub / d, dirs_exist_ok=True)
         if (ROOT / "submission" / "clips").exists(): shutil.copytree(ROOT / "submission" / "clips", sub / "clips", dirs_exist_ok=True)
-    for fn in ("demo.mp4", "demo.en.srt", "deck.pdf"):
+    for fn in ("demo.mp4", "demo.en.srt", "deck.pdf", "deck.pptx"):
         if (ROOT / "submission" / fn).exists(): shutil.copy(ROOT / "submission" / fn, sub / fn)
         else: print("WARNING: missing submission/" + fn)
     if (sub / "demo.en.srt").exists():

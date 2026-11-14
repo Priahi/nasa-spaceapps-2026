@@ -222,7 +222,9 @@ TRENDS = {
     "data": [("NASA POWER daily PRECTOTCORR (trend layer)", "Daily precipitation 1981–2025 (MERRA-2 based), 35 cells per region; Mann-Kendall + Sen's slope", "https://power.larc.nasa.gov/"),
              ("GRACE/GRACE-FO JPL mascon RL06.3 CRI v04 (trend layer)", "Monthly total water storage 2002–2026, land cells over eastern Spain and southern Ontario; deseasonalised annual means", "https://podaac.jpl.nasa.gov/dataset/TELLUS_GRAC-GRFO_MASCON_CRI_GRID_RL06.3_V4"),
              ("GPM IMERG V07 monthly GPM_3IMERGM (trend layer)", "Satellite rainfall, 0.1°, eastern Spain and southern Ontario boxes, 1998–2024: annual, Sep–Nov and wettest-month totals", "https://disc.gsfc.nasa.gov/datasets/GPM_3IMERGM_07/summary"),
-             ("NASA/JPL OPERA DSWx-S1 (module upgrade)", "Radar-derived surface water, 30 m, 18 passes 1 Oct–19 Nov 2024 over the Valencia flood zone", "https://podaac.jpl.nasa.gov/dataset/OPERA_L3_DSWX-S1_V1")],
+             ("NASA/JPL OPERA DSWx-S1 (module upgrade)", "Radar-derived surface water, 30 m, 18 passes 1 Oct–19 Nov 2024 over the Valencia flood zone", "https://podaac.jpl.nasa.gov/dataset/OPERA_L3_DSWX-S1_V1"),
+             ("GPM IMERG V07 Final daily GPM_3IMERGDF (dashboard)", "Daily satellite rainfall, 0.1°, upstream of Valencia (lon −1.0 to −0.3, lat 39.2 to 39.6), 15 Oct–20 Nov 2024: box mean and wettest cell", "https://disc.gsfc.nasa.gov/datasets/GPM_3IMERGDF_07/summary"),
+             ("NASA POWER daily CLOUD_AMT (dashboard)", "Daily cloud amount (CERES SYN1deg based) at 39.4° N, 0.65° W, 15 Oct–20 Nov 2024", "https://power.larc.nasa.gov/")],
   },
   "field-shift": {
     "theme": "Crops", "widget": "crops",

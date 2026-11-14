@@ -75,11 +75,12 @@ Yes. AI coding assistants helped write and refactor parts of the code (data pipe
 - **NASA-ISRO NISAR L2 GCOV** granule metadata (2025–2026) via **NASA CMR**, browse images from **ASF DAAC**. SAR Change (NISAR-ready workflow). https://asf.alaska.edu/nisar/
 - **NASA/JPL OPERA DSWx-S1** surface water from radar (PO.DAAC), Valencia, Oct–Nov 2024. SAR Change. https://podaac.jpl.nasa.gov/dataset/OPERA_L3_DSWX-S1_V1
 - **GRACE/GRACE-FO** JPL mascon RL06.3 CRI v04 total water storage (PO.DAAC), 2002–2026. Water trends. https://podaac.jpl.nasa.gov/dataset/TELLUS_GRAC-GRFO_MASCON_CRI_GRID_RL06.3_V4
-- **NASA POWER** daily PRECTOTCORR, T2M_MIN, T2M_MAX, GWETROOT (MERRA-2 based), 1981–2025. Rain and growing-season trends; Field Shift climate indicators. https://power.larc.nasa.gov/
+- **NASA POWER** daily PRECTOTCORR, T2M_MIN, T2M_MAX, GWETROOT (MERRA-2 based), 1981–2025, and daily CLOUD_AMT (CERES SYN1deg based), 15 Oct–20 Nov 2024 at 39.4° N, 0.65° W. Rain and growing-season trends; Field Shift climate indicators; SAR Change cloud-cover context. https://power.larc.nasa.gov/
 - **NASADEM** elevation and slope (LP DAAC). Field Shift. https://lpdaac.usgs.gov/products/nasadem_hgtv001/
 - **MODIS MOD13Q1 NDVI** (LP DAAC). Field Shift. https://lpdaac.usgs.gov/products/mod13q1v061/
 - **HLS v2.0 HLSL30 + HLSS30** 30 m (LP DAAC), Story County mid-summer 2024 and 2025. Field Shift field-scale NDVI. https://lpdaac.usgs.gov/products/hlss30v002/
 - **GPM IMERG V07** monthly precipitation (GPM_3IMERGM, GES DISC), 1998–2024. Cross-check of the rain trends. https://disc.gsfc.nasa.gov/datasets/GPM_3IMERGM_07/summary
+- **GPM IMERG V07 Final daily** precipitation (GPM_3IMERGDF, GES DISC, OPeNDAP subset), upstream of Valencia (lon −1.0 to −0.3, lat 39.2 to 39.6), 15 Oct–20 Nov 2024. SAR Change rain leading signal. https://disc.gsfc.nasa.gov/datasets/GPM_3IMERGDF_07/summary
 - **GLDAS Noah 2.1** monthly soil moisture (GLDAS_NOAH025_M, GES DISC), central Iowa, 2000–2025. https://disc.gsfc.nasa.gov/datasets/GLDAS_NOAH025_M_2.1/summary
 - **SMAP L3 enhanced 9 km** soil moisture (SPL3SMP_E v006, NSIDC DAAC), central Iowa, May–Sep 2015–2025. https://nsidc.org/data/spl3smp_e/versions/6
 

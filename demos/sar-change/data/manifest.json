@@ -1,5 +1,5 @@
 {
-  "title": "Dancing with the SARs \u2014 local demo",
+  "title": "Dancing with the SARs — local demo",
   "challenge": "https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/",
   "licence": "Apache-2.0",
   "valencia": {
@@ -1645,6 +1645,18 @@
       "credit": "Pekel, Cottam, Gorelick, Belward (2016). High-resolution mapping of global surface water and its long-term changes. Nature.",
       "licence": "Copernicus / JRC open data.",
       "url": "https://global-surface-water.appspot.com/"
+    },
+    {
+      "item": "GPM IMERG V07 Final daily (GPM_3IMERGDF)",
+      "credit": "Huffman, G.J., et al. GPM IMERG Final Precipitation L3 1 day 0.1 degree x 0.1 degree V07, NASA GES DISC. Used for daily rain upstream of Valencia, 15 Oct–20 Nov 2024.",
+      "licence": "NASA open data",
+      "url": "https://disc.gsfc.nasa.gov/datasets/GPM_3IMERGDF_07/summary"
+    },
+    {
+      "item": "NASA POWER daily CLOUD_AMT",
+      "credit": "NASA Langley Research Center POWER Project (CERES SYN1deg based). Daily cloud amount at 39.4° N, 0.65° W, 15 Oct–20 Nov 2024.",
+      "licence": "NASA open data",
+      "url": "https://power.larc.nasa.gov/"
     }
   ],
   "hooks": {

@@ -20,10 +20,11 @@ Times are 12-hour, local (Valencia CET, Alberta MDT). Slides and speech use roun
 ## 3 · Rewind with the decision tool (four walkthrough loops + the official demo video, playable on the slide)
 "Same night, same data. Rain signal, radar map, one alert to all 8 towns, teams and passes queued."
 - 91 mm upstream (IMERG), 99% cloud (POWER). Radar 31 Oct: 77.7 km² new water outside normal water bodies (vs 30.7 km² on 26 Oct); 8 towns hold 75.8 km².
-- The four frames are click-through loops of the live app: (1) radar before/after slider and water classified, (2) recommended actions, (3) teams and passes queued, (4) one alert to all 8 towns (simulated). The right column plays the official demo video (press play).
+- Left: one click-through loop of the live app, dispatch (teams and passes queued, simulated). Right: the official 30-second demo, large, with controls (press play); it shows the slider, classification, actions, tasking and the alert.
 - "Elena could have had a drafted alert for her town hours before the ~8 PM phone alert." (Slide rounds: ~90 mm, ~78 km², up from ~31, ~76 km² in 8 towns.)
 
 ## 4 · What if? (illustrative, from submission/IMPACT.md)
+- Lead with the big number: €4.8 bn insured loss (Consorcio de Compensación de Seguros), then ≈ €1.1 bn within reach of an alert 12 hours earlier. Say "illustrative estimate". The per-claim figure and the curve sit in the small "How we estimated" box.
 - Headline exactly: "12 hours earlier = an alert before the first death. Published warning curves put about €1.1 bn of Valencia's €4.8 bn insured loss within reach."
 - 22% × €4.8 bn = €1.06 bn. Curve: 13% at 6 h (2:11 PM), 22% at 12 h (8:11 AM), 30% at 24 h, ~33% at 48 h. It does not stack per day.
 - Slide rounds the clock times (~2 PM, ~8 AM, ~noon) and claims (~250,000).
@@ -33,6 +34,7 @@ Times are 12-hour, local (Valencia CET, Alberta MDT). Slides and speech use roun
 - Comparison: AEMET (zone warning, not an instruction), EFAS (agency notices, not binding), ES-Alert (8:11 PM, "avoid any travel"), Copernicus EMS (maps from 31 Oct). Sources IMPACT.md [F1]–[F16].
 
 ## 5 · Fire vertical (demo: /hotspots/app/#demo)
+- Slide shows three numbers only: ~1,500 more fires a year in Alberta, May as the watch month, +16 days of readiness. The arithmetic and the 2016 caveat are in the small "How we estimated" box; exact values below.
 "Second story: a wildfire duty officer in Alberta, planning before the season."
 - Map: all of Canada, fires per year (2003–2025 average, 0.25° squares), cropped to the fire extent (B.C. to Quebec, south of 62°N). 11.6 M detections.
 - Loop: Alberta + B.C. with crews, hiring and camera tasks placed; queue moving (simulated).
@@ -44,6 +46,7 @@ Times are 12-hour, local (Valencia CET, Alberta MDT). Slides and speech use roun
 - Comparison: FIRMS (now), CWFIS (fire weather days), fixed staffing date. Sources IMPACT.md [W1]–[W9].
 
 ## 6 · Fields vertical (demo: /field-shift/app/#demo)
+- Slide shows three numbers only: before planting (vs ~11 months later), ~$1.2 M drought insurance, ~82% vs ~81%. The formula is in the small "How we estimated" box; exact values below.
 - Lead with the lead time: the next-season map is ready in February, before planting; the USDA CDL for a season arrives about 11 months later. Then the drought-insurance figure, about $1.2 M.
 - Accuracy, said honestly as a secondary point: ~82% vs ~81% from crop history alone is a small edge; the value is timing plus the attached climate trend.
 - Crop map: Story County, Iowa, every 30 m pixel (USDA NASS CDL in our app). Next-season crop 81.8% correct on held-out 2024–25 (crop history alone 81.4%).

@@ -29,11 +29,18 @@
       <a href="#s-plan" data-step="plan"><i>3</i>Choose a plan</a>
       <a href="#s-act" data-step="act"><i>4</i>Act</a>
       <a href="#s-impact" data-step="impact"><i>5</i>Impact</a>
+      <span class="fs-mode" role="group" aria-label="View"><button type="button" data-mode="simple" aria-pressed="false">Farmer view</button><button type="button" data-mode="full" aria-pressed="true">Full dashboard</button></span>
       <button type="button" class="fs-brief" data-briefing-open="1">▶ Briefing</button>
     </nav>
   </div>
 
   <main class="fs-wrap">
+    <section class="fs-simple" id="s-simple" aria-labelledby="simpleH" hidden>
+      <div class="fs-simple-head"><p class="fs-kick">Farmer view · plain answers for one field</p><h2 id="simpleH">What should I grow next?</h2>
+        <div class="fs-simple-pick" id="simplePick" role="group" aria-label="Pick a field"></div></div>
+      <div class="fs-simple-grid" id="simpleBody"></div>
+      <p class="fs-fine">Based on USDA crop maps (2009–2025), NASA terrain, HLS greenness, SMAP and GRACE soil water, and NASA POWER daily temperatures (frost dates). The plan uses the priorities set in the full dashboard (default: everything equal). Approving or sending here is simulated.</p>
+    </section>
     <div class="fs-work">
       <!-- MAP (sticky on desktop) -->
       <section class="fs-mapcol" aria-label="Story County map">

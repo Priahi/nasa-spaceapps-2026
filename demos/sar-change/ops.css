@@ -149,3 +149,27 @@ main { max-width: 1320px; }
 @media (prefers-reduced-motion: reduce) { .ops-map .ly, .ops-asset { transition: none; animation: none; } }
 .ops-map[data-layer="swipe"].split-l #labL, .ops-map[data-layer="swipe"].split-r #labR { opacity: 0; }
 #labL, #labR { transition: opacity .2s; }
+
+/* leading signal: rain + cloud */
+.ops-rain { margin: 1.1rem 0 1.2rem; padding: 1rem 1.1rem .8rem; border: 1px solid var(--og-line); border-radius: var(--og-r); background: var(--og-bg-2); }
+.ops-rain-head h2 { margin: .2rem 0 .7rem; font-size: clamp(1.05rem, 1.6vw, 1.35rem); }
+.ops-rain-body { display: grid; grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr); gap: 1rem; align-items: start; }
+.ops-rain-chart svg { width: 100%; height: auto; display: block; }
+.ops-rain-chart .g { stroke: var(--og-line); }
+.ops-rain-chart .ax { fill: var(--og-faint); font: 11px var(--og-mono); }
+.ops-rain-chart .ax.cl { fill: #cbd5e1; }
+.ops-rain-chart .rb { fill: color-mix(in srgb, var(--og-water-new) 55%, transparent); }
+.ops-rain-chart .rb.hot { fill: var(--og-water-new); }
+.ops-rain-chart .cloud { fill: none; stroke: #cbd5e1; stroke-width: 1.4; stroke-dasharray: 3 3; opacity: .8; }
+.ops-rain-chart .pass { stroke: var(--og-accent-2); stroke-width: 1.2; stroke-dasharray: 4 3; }
+.ops-rain-chart .pl { fill: var(--og-accent-2); font: 10.5px var(--og-mono); }
+.ops-rain-chart .ann { fill: var(--og-ink); font: 600 12px var(--og-font); }
+.ops-rain-leg { display: flex; flex-wrap: wrap; gap: .4rem 1rem; margin-top: .4rem; font-size: .76rem; color: var(--og-muted); }
+.ops-rain-leg span { display: inline-flex; align-items: center; gap: .35rem; }
+.ops-rain-leg .sw { width: 12px; height: 10px; border-radius: 2px; display: inline-block; }
+.ops-rain-leg .sw.rb { background: color-mix(in srgb, var(--og-water-new) 55%, transparent); } .ops-rain-leg .sw.hot { background: var(--og-water-new); }
+.ops-rain-leg .ln { width: 16px; border-top: 2px dashed #cbd5e1; display: inline-block; } .ops-rain-leg .ln.ps { border-color: var(--og-accent-2); }
+.ops-rain-notes { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+.ops-rain-notes li { display: grid; gap: .1rem; padding: .55rem .7rem; border: 1px solid var(--og-line); border-radius: var(--og-r-sm); background: var(--og-bg); }
+.ops-rain-notes b { font-size: 1.15rem; color: var(--og-water-new); } .ops-rain-notes span { font-size: .82rem; color: var(--og-muted); line-height: 1.4; }
+@media (max-width: 900px) { .ops-rain-body { grid-template-columns: 1fr; } }

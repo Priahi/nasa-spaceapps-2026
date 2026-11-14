@@ -60,3 +60,20 @@
 @media (max-width: 900px) { .c2-grid { grid-template-columns: 1fr; } .c2-side { position: static; } }
 @media (max-width: 520px) { .c2 { padding: .9rem .8rem; } .c2-list { grid-template-columns: 1fr; } .c2-ba { grid-template-columns: 1fr; } .c2-arrow { transform: rotate(90deg); justify-self: center; } .c2-btn { flex: 1 1 auto; } }
 @media (prefers-reduced-motion: reduce) { .c2-card { transition: none; } }
+
+/* alert drafts (simulated) */
+.c2-alrt .c2-ico { width: 15px; height: 15px; margin-right: .35rem; vertical-align: -2px; }
+.c2-al { border: 1px solid color-mix(in srgb, var(--og-warn, #fbbf24) 55%, transparent); border-radius: var(--og-r, 14px); padding: .9rem; background: color-mix(in srgb, var(--og-warn, #fbbf24) 7%, var(--og-bg-2)); }
+.c2-al[hidden] { display: none !important; }
+.c2-al h3 { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; justify-content: space-between; margin: 0 0 .7rem; font-size: .95rem; }
+.c2-msg { background: var(--og-bg); border: 1px solid var(--og-line, rgba(255,255,255,.1)); border-radius: 16px; padding: .8rem .9rem; font-size: .88rem; line-height: 1.45; }
+.c2-msg p { margin: .25rem 0; color: var(--og-ink, #f4f6fb); }
+.c2-msg .c2-msg-ch { display: flex; gap: .4rem; align-items: center; color: var(--og-warn, #fbbf24); font: 600 .72rem/1 var(--og-mono, monospace); letter-spacing: .08em; text-transform: uppercase; margin-bottom: .5rem; }
+.c2-msg .c2-msg-ch .c2-ico { width: 16px; height: 16px; }
+.c2-msg .c2-msg-h { font-weight: 700; font-size: .95rem; }
+.c2-msg .c2-msg-src { color: var(--og-faint, #8b95ad); font-size: .76rem; margin-top: .5rem; }
+.c2-msg-to { display: grid; gap: .3rem; margin: .7rem 0; font-size: .82rem; }
+.c2-msg-to div { display: grid; grid-template-columns: 3.2rem 1fr; gap: .5rem; }
+.c2-msg-to dt { color: var(--og-faint, #8b95ad); font-family: var(--og-mono, monospace); font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; }
+.c2-msg-to dd { margin: 0; color: var(--og-muted, #b7c0d6); }
+.c2-send[disabled] { opacity: .75; cursor: default; }

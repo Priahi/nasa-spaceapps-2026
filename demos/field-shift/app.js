@@ -299,15 +299,64 @@
     document.querySelectorAll("#featured button").forEach((b) => b.setAttribute("aria-pressed", String((b.dataset.id || null) === state.fieldId)));
     renderField(); update();
   }
-  function update() { renderStrategies(); drawMap(); renderPareto(); refreshC2(); }
+  function update() { renderStrategies(); drawMap(); renderPareto(); refreshC2(); renderSimple(); }
+
+  /* ---------- farmer view: the same data in plain sentences for one field ---------- */
+  function renderSimple() {
+    const body = $("simpleBody"); if (!body || !state.data) return;
+    const f = curField(), opts = optionsFor(f), plan = opts.find((o) => o.id === state.planId) || opts[0];
+    $("simplePick").innerHTML = [["", "Typical field"]].concat(Object.entries(FEAT)).map(([id, t]) => `<button type="button" data-id="${id}" aria-pressed="${String((id || null) === state.fieldId)}">${esc(id ? t : t)}</button>`).join("");
+    const hist = f ? f.history.slice(-3) : [];
+    const steep = f && f.slope > TYP_SLOPE * 1.25, cover = plan.sequence.some((t) => split(t).cover);
+    body.innerHTML = `
+      <article class="fs-s-card"><h3><i>1</i>What you grew</h3>
+        ${f ? `<div class="fs-s-chips">${hist.map((h) => chip(h.crop, h.year, { small: true })).join("")}</div><p>${f.id} · ${ha(f)} ha · slope ${f.slope.toFixed(1)}°${steep ? " (steeper than most)" : ""}</p>`
+            : `<p>Pick one of the fields above, or a square on the map in the full dashboard.</p>`}</article>
+      <article class="fs-s-card"><h3><i>2</i>What the land and weather show</h3>
+        <ul><li><b>Season:</b> about 19 days longer without frost than in 1981, so longer-season varieties have room.</li>
+        <li><b>Soil water:</b> steady. No trend in four NASA records, so no case for new irrigation.</li>
+        ${f && f.bare_frac_2024 != null ? `<li><b>Bare soil:</b> ${Math.round(f.bare_frac_2024 * 100)}% of this field was bare at some point in 2024${steep ? "; on a slope that means erosion risk" : ""}.</li>` : ""}</ul></article>
+      <article class="fs-s-card hi"><h3><i>3</i>Grow next</h3>
+        <p class="fs-s-big">${chip(plan.sequence[0], BASE_YEAR)}</p>
+        <p>Then: ${esc(plan.sequence.slice(1).map((t, i) => `${BASE_YEAR + 1 + i} ${cropLabel(t)}`).join(" → "))}.</p>
+        ${f ? `<p class="fs-fine">On its own history the model expects ${esc(CROP[f.pred_2026].toLowerCase())} here in 2026 (${Math.round(f.pred_confidence * 100)}% confidence).${cover ? " Winter rye after harvest keeps the soil covered." : ""}</p>` : ""}
+        <div class="fs-s-btns"><button type="button" class="c2-btn c2-primary" data-s="approve">Approve plan</button><button type="button" class="c2-btn c2-ghost" data-s="alert">Draft message to grower</button><button type="button" class="c2-btn c2-ghost" data-s="full">See why</button></div></article>`;
+  }
+  function setMode(m) {
+    const simple = m === "simple"; $("s-simple").hidden = !simple; [...document.querySelector("main").children].forEach((el) => { if (el.id !== "s-simple") el.hidden = simple; });
+    document.querySelectorAll(".fs-mode [data-mode]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.mode === m)));
+    document.querySelectorAll(".fs-steps a").forEach((a) => a.classList.toggle("dim", simple));
+    if (!simple) window.dispatchEvent(new Event("resize"));
+  }
+  document.addEventListener("click", (ev) => {
+    const mb = ev.target.closest(".fs-mode [data-mode]"); if (mb) return setMode(mb.dataset.mode);
+    const pk = ev.target.closest("#simplePick button"); if (pk) return selectField(pk.dataset.id || null);
+    const sb = ev.target.closest("#simpleBody [data-s]"); if (!sb) return;
+    if (sb.dataset.s === "full") { setMode("full"); document.getElementById("s-plan").scrollIntoView({ behavior: "smooth" }); return; }
+    if (!state.c2) return;
+    if (sb.dataset.s === "approve") { setMode("full"); if (!state.c2.state.approved["field-shift-1"]) state.c2.approve("field-shift-1"); document.querySelector('#c2 .c2-card[data-id="field-shift-1"]').scrollIntoView({ behavior: "smooth", block: "center" }); }
+    if (sb.dataset.s === "alert") { setMode("full"); state.c2.alert("field-shift-1"); }
+  });
+  document.querySelectorAll(".fs-steps a").forEach((a) => a.addEventListener("click", () => { if (!$("s-simple").hidden) setMode("full"); }));
 
   /* ---------- step 4: act (shared C2 component, simulated tasking). Ids match the project page's #act=field-shift-N links. ---------- */
   function actionDefs() {
     const f = curField(), opts = optionsFor(f), plan = opts.find((o) => o.id === state.planId) || opts[0];
     const where = f ? `field ${f.id}` : "the typical field", c26 = split(plan.sequence[0]).crop, area = f ? ` for ${ha(f)} ha` : "";
     const cover = plan.sequence.some((t) => split(t).cover), C = state.flagCounts;
+    const last3 = f ? f.history.slice(-3).map((h) => `${h.year} ${CROP[h.crop] || h.crop}`).join(", ") : "";
+    const growerAlert = { channel: "Message to grower", to: f ? `Grower of field ${f.id}` : "Growers with typical fields", area: f ? `Field ${f.id} (${ha(f)} ha, highlighted)` : "Typical field, Story County",
+      head: `Your plan for 2026–2029: ${seqText(plan.sequence)}`,
+      lines: [].concat(last3 ? [`Last three years on this field: ${last3}.`] : [])
+        .concat(f ? [`The model expects ${CROP[f.pred_2026].toLowerCase()} on this field in 2026 (${Math.round(f.pred_confidence * 100)}% confidence).`] : [])
+        .concat(["The frost-free season is about 19 days longer than in 1981, and soil water shows no trend.", "Reply to confirm or ask your adviser to change it."]),
+      src: "USDA Cropland Data Layer 2009–2025; NASA HLS, SMAP, GRACE; Field Shift model (one seed, not a published benchmark)." };
+    const scoutAlert = { channel: "Field advisory · co-op members", to: "Growers with flagged squares", area: `Scout list (${C.low} squares on the map)`,
+      head: `Scout before planting: ${C.low} squares flagged`,
+      lines: ["22.4 km² of fields lost more than 0.1 greenness (NDVI) between Aug 2024 and Jul 2025.", `The 2026 crop forecast is unsure on ${C.low} squares. A drone pass, then a walk-through, is booked before planting.`],
+      src: "NASA HLS (Landsat + Sentinel-2, 30 m); Field Shift model." };
     return [
-      { id: "field-shift-1", cls: "Rotation plan", verb: "Approve plan", title: `Approve “${plan.name}” for ${where}`,
+      { id: "field-shift-1", cls: "Rotation plan", verb: "Approve plan", alert: growerAlert, title: `Approve “${plan.name}” for ${where}`,
         sat: "The frost-free season is about 19 days longer than in 1981 (+0.43 days a year, p = 0.006), and soil water shows no trend.",
         act: seqText(plan.sequence), out: "The next four years on this field are set, with the longer season in mind.",
         tasks: [{ asset: "plan", label: `Record 2026–2029 plan · ${where}` }].concat(c26 === "corn" ? [{ asset: "seed", label: "Longer-season corn hybrid on a test strip" }] : []).concat([{ asset: "crew", label: "Send to grower for sign-off" }]) },
@@ -319,7 +368,7 @@
         sat: "No trend in soil water: GRACE p = 0.57, GLDAS p = 0.27–0.38, SMAP p = 0.47.",
         act: "Keep a rain-fed plan and add a seasonal NASA SMAP soil-moisture check.", out: "No irrigation spending the data doesn't call for, with a check in place if that changes.",
         tasks: [{ asset: "sensor", label: "Seasonal SMAP soil-moisture check" }] },
-      { id: "field-shift-4", cls: "Scouting", verb: "Assign scouting", title: `Scout the ${C.low} squares where the forecast is unsure`,
+      { id: "field-shift-4", cls: "Scouting", verb: "Assign scouting", alert: scoutAlert, title: `Scout the ${C.low} squares where the forecast is unsure`,
         sat: `22.4 km² of fields lost more than 0.1 greenness (NDVI) between 1 Aug 2024 and 31 Jul 2025 (NASA HLS, 30 m). The forecast is unsure on ${C.low} squares.`,
         act: "Send a drone pass, then a scout on foot, before planting.", out: "Scouting time goes where the land changed or the model is unsure.",
         tasks: [{ asset: "drone", label: `Drone survey · ${C.low} squares` }, { asset: "crew", label: "Scout walk-through and notes" }] },
@@ -488,6 +537,8 @@
     map.addEventListener("click", (ev) => { const f = tileAt(ev); if (f) selectField(f.id); });
     map.addEventListener("mousemove", onHover); map.addEventListener("mouseleave", () => { state.hover = null; $("mapTip").hidden = true; drawMap(); });
     mountC2(); stepNav(); deepLink(); window.addEventListener("hashchange", deepLink);
+    renderSimple(); if (/simple/.test(location.hash)) setMode("simple");
+    window.addEventListener("hashchange", () => { if (/simple/.test(location.hash)) setMode("simple"); });
     $("loadStatus").textContent = `Loaded ${data.fields.length} field squares · ${colab.n_test.toLocaleString("en-US")} test pixels in the full-county run.`;
   }).catch((err) => { $("loadStatus").textContent = "Couldn't load the results: " + err.message; console.warn(err); });
 })();

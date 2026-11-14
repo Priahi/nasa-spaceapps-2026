@@ -48,10 +48,12 @@
             <div class="c2-btns">
               <button type="button" class="c2-btn c2-primary c2-go">${esc(a.verb || "Approve")}</button>
               <button type="button" class="c2-btn c2-ghost c2-show" aria-pressed="false">Show on map</button>
+              ${a.alert ? `<button type="button" class="c2-btn c2-ghost c2-alrt" title="Draft the alert this action would send. Simulated: nothing is sent.">${icon("notice")}Draft alert</button>` : ""}
             </div>
           </li>`).join("")}
         </ol>
         <aside class="c2-side">
+          <section class="c2-al" hidden aria-live="polite"></section>
           <section class="c2-q"><h3>Task queue</h3><p class="c2-empty">No tasks yet. Approve an action to queue its tasks.</p><ul class="c2-tasks" aria-live="polite"></ul></section>
           <section class="c2-tl"><h3>Timeline</h3><ol class="c2-log"></ol></section>
         </aside>
@@ -104,18 +106,48 @@
       });
       renderTasks();
     }
+    /* Alert drafts: a.alert = {to, area, head, lines:[...], src, channel}. SIMULATED: "Send" only writes to the timeline. */
+    function alertDraft(id, opts) {
+      const a = byId(id); if (!a || !a.alert) return; const al = a.alert, box = $(".c2-al");
+      if (st.sel !== id) select(id, { keep: true, source: (opts && opts.source) || "alert" });
+      st.alert = { id, sent: false };
+      box.innerHTML = `<h3>Alert draft <span class="c2-sim">Simulated · not sent</span></h3>
+        <div class="c2-msg" role="article" aria-label="Alert message preview">
+          <p class="c2-msg-ch">${icon("notice")}<span>${esc(al.channel || "Alert")}</span></p>
+          <p class="c2-msg-h">${esc(al.head)}</p>${(al.lines || []).map((l) => `<p>${esc(l)}</p>`).join("")}
+          ${al.src ? `<p class="c2-msg-src">Data: ${esc(al.src)}</p>` : ""}
+        </div>
+        <dl class="c2-msg-to"><div><dt>To</dt><dd>${esc(al.to)}</dd></div>${al.area ? `<div><dt>Area</dt><dd>${esc(al.area)}</dd></div>` : ""}</dl>
+        <div class="c2-btns"><button type="button" class="c2-btn c2-primary c2-send">Send alert (simulated)</button><button type="button" class="c2-btn c2-ghost c2-alx">Close</button></div>`;
+      box.hidden = false; log(`Alert drafted: ${al.head}`);
+      try { cfg.onAlert && cfg.onAlert(a, "draft"); } catch (e) { console.warn(e); } fire("alert", { app: cfg.app, action: a, status: "draft" });
+      if (!(opts && opts.quiet)) box.scrollIntoView({ behavior: reduce() ? "auto" : "smooth", block: "nearest" });
+    }
+    function alertSend() {
+      if (!st.alert || st.alert.sent) return; const a = byId(st.alert.id); st.alert.sent = true;
+      const b = $(".c2-send"); b.textContent = "Marked sent (simulated)"; b.disabled = true;
+      $(".c2-al h3 .c2-sim").textContent = "Simulated · nothing left this page";
+      log(`Alert marked sent (simulated) to ${a.alert.to}`);
+      try { cfg.onAlert && cfg.onAlert(a, "sent"); } catch (e) { console.warn(e); } fire("alert", { app: cfg.app, action: a, status: "sent" });
+    }
+    function alertClose() { const a = st.alert && byId(st.alert.id); st.alert = null; const box = $(".c2-al"); box.hidden = true; box.innerHTML = "";
+      try { a && cfg.onAlert && cfg.onAlert(a, "closed"); } catch (e) { console.warn(e); } }
     function reset() {
       st.timers.forEach(clearTimeout); st.timers = []; st.approved = {}; st.tasks = []; st.log = [];
       A.forEach((a) => { setState(a.id, "proposed", "Proposed"); card(a.id).querySelector(".c2-go").textContent = a.verb || "Approve"; });
+      if (st.alert) alertClose();
       renderTasks(); $(".c2-log").innerHTML = ""; if (st.sel) select(st.sel);
       try { cfg.onReset && cfg.onReset(); } catch (e) { console.warn(e); } fire("reset", { app: cfg.app });
     }
     root.addEventListener("click", (ev) => {
       const c = ev.target.closest(".c2-card"); if (ev.target.closest(".c2-reset")) return reset();
-      if (!c) return; if (ev.target.closest(".c2-go")) return approve(c.dataset.id); if (ev.target.closest(".c2-show")) return select(c.dataset.id, { source: "show" });
+      if (ev.target.closest(".c2-send")) return alertSend(); if (ev.target.closest(".c2-alx")) return alertClose();
+      if (!c) return; if (ev.target.closest(".c2-alrt")) return alertDraft(c.dataset.id); if (ev.target.closest(".c2-go")) return approve(c.dataset.id); if (ev.target.closest(".c2-show")) return select(c.dataset.id, { source: "show" });
     });
     renderTasks();
-    return { select, approve, reset, state: st, root };
+    const hm = /alert=([\w-]+)/.exec(location.hash);
+    if (hm && byId(hm[1]) && byId(hm[1]).alert) setTimeout(() => alertDraft(hm[1], { source: "api" }), 400);
+    return { select, approve, reset, alert: alertDraft, state: st, root };
   }
 
   /* Before -> after impact cards. items: [{user, decision, before, after, geo:{v,l}, metric:{v,l}}] */

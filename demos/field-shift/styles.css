@@ -209,3 +209,24 @@ body.fs { margin: 0; background: radial-gradient(900px 480px at 8% -10%, rgba(80
 }
 @media (max-width: 420px) { .fs-metrics { grid-template-columns: 1fr 1fr; } .fs-chip b { font-size: .8rem; } .fs-step { padding: .9rem .8rem 1rem; } .fs-wrap { width: calc(100% - 1.2rem); } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .fs-plan, .fs-steps a { transition: none; } }
+
+/* farmer view */
+.fs-mode { display: inline-flex; border: 1px solid var(--og-line); border-radius: 999px; padding: 2px; margin-left: auto; }
+.fs-mode button { background: none; border: 0; color: var(--og-muted); font: 500 .8rem var(--og-font); padding: .35rem .75rem; border-radius: 999px; cursor: pointer; }
+.fs-mode button[aria-pressed="true"] { background: var(--og-grad); color: var(--og-on-accent); }
+.fs-steps a.dim { opacity: .45; }
+.fs-simple { margin: 1rem 0 2rem; padding: 1.2rem; border: 1px solid var(--og-line); border-radius: var(--og-r); background: var(--og-bg-2); }
+.fs-simple[hidden], main > [hidden] { display: none !important; }
+.fs-simple-head h2 { margin: .2rem 0 .7rem; font-size: clamp(1.3rem, 2.4vw, 1.8rem); }
+.fs-simple-pick { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1rem; }
+.fs-simple-pick button { background: var(--og-bg); border: 1px solid var(--og-line); color: var(--og-muted); border-radius: 999px; padding: .4rem .8rem; font: .82rem var(--og-font); cursor: pointer; }
+.fs-simple-pick button[aria-pressed="true"] { border-color: var(--og-accent); color: var(--og-ink); background: color-mix(in srgb, var(--og-accent) 14%, var(--og-bg)); }
+.fs-simple-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: .9rem; }
+.fs-s-card { background: var(--og-bg); border: 1px solid var(--og-line); border-radius: var(--og-r); padding: 1rem; font-size: .95rem; line-height: 1.5; color: var(--og-muted); }
+.fs-s-card.hi { border-color: color-mix(in srgb, var(--og-accent) 55%, transparent); }
+.fs-s-card h3 { display: flex; gap: .5rem; align-items: center; margin: 0 0 .7rem; color: var(--og-ink); font-size: 1rem; }
+.fs-s-card h3 i { font-style: normal; width: 1.5rem; height: 1.5rem; display: grid; place-items: center; border-radius: 50%; background: var(--og-grad); color: var(--og-on-accent); font-size: .8rem; }
+.fs-s-card ul { margin: 0; padding-left: 1.1rem; display: grid; gap: .45rem; } .fs-s-card b { color: var(--og-ink); }
+.fs-s-chips { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: .5rem; }
+.fs-s-big { transform: scale(1.15); transform-origin: left center; margin: .2rem 0 .8rem; }
+.fs-s-btns { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .8rem; }

@@ -227,6 +227,23 @@ def _mod_json(slug):
     f = Path(__file__).parent / "modules" / slug / "app.json"
     return json.loads(f.read_text()) if f.exists() else {}
 
+# ---- alert drafts per action (SIMULATED in the dashboards: "Send" only writes to the on-page timeline) ----
+ALERTS = {
+ "hotspots": {
+  0: {"channel": "Duty-officer alert · provincial fire centres", "to": "Alberta and B.C. wildfire duty officers", "area": "Alberta + British Columbia (outlined on the map)",
+      "head": "Fire season staffing: Alberta and B.C. peak in July",
+      "lines": ["Satellite fire detections are rising about 1,503 a year in Alberta and 2,587 a year in B.C. (2003–2025).",
+                "If that trend line holds, a typical 2026 brings about 41,000 detections in Alberta and 72,000 in B.C. Single years swing far wider: 2023 brought 390,000 and 372,000.",
+                "Ask: stage initial-attack crews before July and open seasonal hiring this spring."],
+      "src": "NASA FIRMS MODIS + VIIRS, harmonized to the VIIRS scale; Sen slope trend line (not a weather forecast)."},
+  1: {"channel": "Community notice · forest communities", "to": "Residents and councils of forest communities near the flagged May cells", "area": "Top May fire cells (pins on the map)",
+      "head": "Fire season can start early: check your evacuation plan before May",
+      "lines": ["5 of Alberta's 16 unusual fire months since 2000 were in May (2011, 2016, 2019, 2023, 2025), more than any other month.",
+                "Know your evacuation route, keep a go-bag ready and sign up for your province's official alerts."],
+      "src": "NASA FIRMS, Hot Spots burn calendar (robust z > 3.5 against each month's 2000–2025 median)."},
+ },
+}
+
 def app_data(slug):
     """Everything a dashboard needs for OGC2.mount / OGC2.impact. src/modules/<slug>/app.json keys override."""
     A = APPS[slug]
@@ -235,6 +252,7 @@ def app_data(slug):
         verb, tasks = C2[slug][i] if i < len(C2[slug]) else ("Approve", [])
         acts.append({"id": f"{slug}-{i + 1}", "cls": r["cls"], "title": r["act"], "sat": r["sat"], "out": r["out"], "src": r["src"],
                      "verb": verb, "tasks": [{"asset": a, "label": l, "eta": t} for a, l, t in tasks]})
+        if i in ALERTS.get(slug, {}): acts[-1]["alert"] = ALERTS[slug][i]
     d = {"slug": slug, "name": A["name"], "role": A["role"], "who": A["who"], "page": f"/{slug}/", "actions": acts, "impact": BA[slug],
          "metrics": [{"v": m[0], "t": m[1], "neg": len(m) > 2} for m in A["metrics"]]}
     d.update(_mod_json(slug))

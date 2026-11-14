@@ -143,6 +143,37 @@
     if (a2 && K) $("blindNote").innerHTML = `<b>Radar blind spot.</b> In ${esc(a2.zones_alt.slice(0, 3).join(", "))} and ${a2.zones_alt.length - 3} more l'Horta Sud towns, radar maps only ${f2(K.blind_km2)} km² of new water. Water between buildings hides from radar, so those streets need drones and people.`;
   }
 
+  /* leading signal: NASA GPM IMERG daily rain upstream + NASA POWER cloud, with the Sentinel-1 pass dates used above */
+  function rain(R) {
+    const D = R.days || [], host = $("rainChart"); if (!host || !D.length) return;
+    const PASS = { "2024-10-26": "Before pass", "2024-10-31": "After pass", "2024-11-19": "3 weeks later" };
+    const w = 900, h = 230, m = { l: 46, r: 46, t: 18, b: 34 }, n = D.length, bw = (w - m.l - m.r) / n;
+    const mx = Math.ceil(Math.max(...D.map((d) => d.mean)) / 25) * 25, Y = (v) => h - m.b - (v / mx) * (h - m.t - m.b), YC = (v) => h - m.b - (v / 100) * (h - m.t - m.b);
+    const X = (i) => m.l + i * bw;
+    let s = "";
+    [0, mx / 2, mx].forEach((v) => { s += `<line class="g" x1="${m.l}" x2="${w - m.r}" y1="${Y(v)}" y2="${Y(v)}"/><text class="ax" x="${m.l - 6}" y="${Y(v) + 4}" text-anchor="end">${v}</text>`; });
+    s += `<text class="ax" x="${m.l - 6}" y="${m.t - 6}" text-anchor="end">mm</text><text class="ax cl" x="${w - m.r + 6}" y="${m.t - 6}">cloud %</text>`;
+    [0, 50, 100].forEach((v) => { s += `<text class="ax cl" x="${w - m.r + 6}" y="${YC(v) + 4}">${v}</text>`; });
+    D.forEach((d, i) => {
+      const big = d.mean >= 50;
+      s += `<rect class="rb${big ? " hot" : ""}" x="${(X(i) + 1.5).toFixed(1)}" y="${Y(d.mean).toFixed(1)}" width="${(bw - 3).toFixed(1)}" height="${(h - m.b - Y(d.mean)).toFixed(1)}" rx="2"><title>${d.d}: ${d.mean} mm upstream average, ${d.max} mm wettest cell, cloud ${d.cloud == null ? "n/a" : d.cloud + "%"}</title></rect>`;
+      if (PASS[d.d]) s += `<line class="pass" x1="${X(i) + bw / 2}" x2="${X(i) + bw / 2}" y1="${m.t}" y2="${h - m.b}"/><text class="pl" x="${X(i) + bw / 2 + 4}" y="${m.t + 10}">${PASS[d.d]}</text>`;
+      const dd = +d.d.slice(8); if (dd === 15 || dd === 1 || dd === 20 || dd === 29) s += `<text class="ax" x="${X(i) + bw / 2}" y="${h - 12}" text-anchor="middle">${dd} ${d.d.slice(5, 7) === "10" ? "Oct" : "Nov"}</text>`;
+    });
+    const pts = D.map((d, i) => d.cloud == null ? null : `${(X(i) + bw / 2).toFixed(1)},${YC(d.cloud).toFixed(1)}`).filter(Boolean).join(" ");
+    s += `<polyline class="cloud" points="${pts}"/>`;
+    const pk = D.reduce((a, b) => (b.mean > a.mean ? b : a), D[0]), pi = D.indexOf(pk);
+    s += `<text class="ann" x="${X(pi) - 6}" y="${Y(pk.mean) + 12}" text-anchor="end">29 Oct: ${pk.mean} mm (wettest cell ${pk.max} mm)</text>`;
+    host.innerHTML = `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid meet">${s}</svg>
+      <div class="ops-rain-leg"><span><i class="sw rb"></i>Daily rain, upstream average (mm)</span><span><i class="sw hot"></i>Day over 50 mm</span><span><i class="ln cl"></i>Cloud cover (%)</span><span><i class="ln ps"></i>Sentinel-1 radar pass</span></div>`;
+    const over = D.filter((d) => d.mean >= 50), cl = D.find((d) => d.d === "2024-10-29");
+    $("rainNotes").innerHTML = `<li><b>${pk.mean} mm</b><span>average rain upstream on ${+pk.d.slice(8)} Oct, ${pk.max} mm in the wettest 10 km cell. ${over.length === 1 ? "The only day over 50 mm in these five weeks." : ""}</span></li>
+      <li><b>${cl && cl.cloud != null ? cl.cloud + "%" : "n/a"}</b><span>cloud cover that day. Optical satellites can't see the ground; radar can.</span></li>
+      <li><b>2 days</b><span>from the rain peak (29 Oct) to the first radar map of the water (31 Oct). A rain rule like "over 50 mm upstream" would have raised the flag on day zero; the radar then shows where the water went.</span></li>`;
+    $("rainCap").textContent = "Rain: " + R.source.split("; cloud")[0] + ". Cloud: NASA POWER (CERES SYN1deg) daily cloud amount at 39.4° N, 0.65° W. IMERG days are UTC. Reanalysis and satellite rain smooth local extremes; rain gauges in the storm core recorded more.";
+  }
+  fetch("ops/rain.json").then((r) => r.json()).then(rain).catch((e) => console.warn("rain", e));
+
   setLayer("swipe"); setSplit(50);
   fetch("ops/zones.json").then((r) => r.json()).then((Z) => {
     zones = Z.zones || []; zones.forEach((z) => { byName[z.name] = z; });

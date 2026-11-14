@@ -89,7 +89,28 @@
         <div><dt>Peak month</dt><dd>${MON[peak]}</dd><small>most fires, 2000–2025</small></div>
         <div><dt>Biggest year</dt><dd>${top}</dd><small>${big(byYear[top])} fires</small></div>
         <div><dt>Unusual months</dt><dd>${flags.length}</dd><small>${flags.length ? `most often ${MON[fmMon]} (${fmMax})` : "none flagged"}</small></div>
-        <div><dt>2025</dt><dd>${big(byYear[2025])}</dd><small>fires detected</small></div></dl>`;
+        <div><dt>2025</dt><dd>${big(byYear[2025])}</dd><small>fires detected</small></div></dl>` + outlook(rows, byYear);
+  }
+
+  /* 2026 outlook: from past seasons only (Sen-slope trend line over 2003–2025 + each month's 2012–2025 median). Not a weather forecast. */
+  function outlook(rows, byYear) {
+    const ys = Object.keys(byYear).map(Number).filter((y) => y >= 2003 && y <= 2025).sort((a, b) => a - b); if (ys.length < 10) return "";
+    const sl = []; for (let i = 0; i < ys.length; i++) for (let j = i + 1; j < ys.length; j++) sl.push((byYear[ys[j]] - byYear[ys[i]]) / (ys[j] - ys[i]));
+    const med = (a) => { const b = a.slice().sort((x, y) => x - y), k = b.length >> 1; return b.length % 2 ? b[k] : (b[k - 1] + b[k]) / 2; };
+    const b = med(sl), a = med(ys.map((y) => byYear[y] - b * y)), proj = Math.max(0, a + b * 2026);
+    const last = ys.slice(-10).map((y) => byYear[y]), lo = Math.min(...last), hi = Math.max(...last);
+    const mon = Array.from({ length: 12 }, (_, m) => med(rows.filter((r) => r.month === m + 1 && r.year >= 2012).map((r) => r.harmonized || 0)));
+    const mm = Math.max(...mon, 1), pk = mon.indexOf(Math.max(...mon));
+    const fl = Array(12).fill(0); rows.forEach((r) => { if (r.unusual && r.year >= 2011) fl[r.month - 1]++; });
+    const watch = fl.map((c, i) => [c, i]).filter(([c]) => c >= 2).sort((x, y) => y[0] - x[0]).slice(0, 3);
+    return `<section class="outlook" aria-label="What to expect in 2026">
+      <h3>What to expect in 2026 <span>from past seasons, not a weather forecast</span></h3>
+      <div class="ol-row"><div><b>${big(proj)}</b><small>fires on the 2003–2025 trend line (${b >= 0 ? "+" : "−"}${big(Math.abs(b))}/yr)</small></div>
+        <div><b>${big(lo)}–${big(hi)}</b><small>range of the last 10 years</small></div></div>
+      <div class="ol-bars" role="img" aria-label="Typical fires per month, 2012–2025 median">${mon.map((v, i) => `<i class="${i === pk ? "pk" : ""}${fl[i] >= 2 ? " w" : ""}" style="--h:${Math.max(3, Math.round((v / mm) * 100))}%" title="${MON[i]}: median ${big(v)} fires (2012–2025)${fl[i] ? `, unusual ${fl[i]}× since 2011` : ""}"></i>`).join("")}</div>
+      <div class="ol-mon">${MON.map((m) => `<span>${m[0]}</span>`).join("")}</div>
+      <p class="fine">Peak: <b>${MON[pk]}</b> (median month, 2012–2025).${watch.length ? ` Watch: ${watch.map(([c, i]) => `<b>${MON[i]}</b> (unusual ${c}× since 2011)`).join(", ")}.` : ""}</p>
+    </section>`;
   }
 
   /* ---------- calendar ---------- */

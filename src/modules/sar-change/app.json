@@ -38,7 +38,19 @@
      "label": "Pull the next Sentinel-1 / OPERA pass",
      "eta": "next pass"
     }
-   ]
+   ],
+   "alert": {
+    "channel": "Flood alert · civil protection",
+    "to": "Civil-protection teams and residents of the 8 municipalities",
+    "area": "New-water footprint on 31 Oct (highlighted towns)",
+    "head": "Flood water mapped in 8 municipalities: Sueca, València, Sollana and 5 more",
+    "lines": [
+     "Radar on 31 Oct shows 77.7 km² of new water outside normal water bodies, up from 30.7 km² on 26 Oct. These 8 towns hold 75.8 km² of it.",
+     "Rain upstream on 29 Oct: 91 mm on average, 135 mm in the wettest 10 km cell.",
+     "Stay off low ground and flooded roads, and follow civil-protection instructions."
+    ],
+    "src": "NASA/JPL OPERA DSWx-S1 (Sentinel-1 radar, 30 m); NASA GPM IMERG V07 daily rain."
+   }
   },
   {
    "id": "sar-change-2",

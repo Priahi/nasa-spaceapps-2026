@@ -514,3 +514,6 @@ td.login-y, td.login-n { white-space: nowrap; }
 @media (max-width: 640px) { .fl-ben { grid-template-columns: 1fr; } }
 .hero .dash-strip { justify-content: center; }
 .sv.map .pin .halo { r: 12; }
+.sv.map { overflow: hidden; }
+.sv.map circle { opacity: 1; }
+.sv.map .pin .halo { opacity: .5; }

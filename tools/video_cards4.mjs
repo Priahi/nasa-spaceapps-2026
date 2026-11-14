@@ -18,5 +18,5 @@ await card('night', `<span class="k">Valencia, Spain · 29 October 2024</span><h
 await card('impact', `<span class="k" style="color:#3f63d6">What if · illustrative estimate</span><h1 style="font-size:96px;line-height:1.03">An alert 12 hours earlier, about 8 AM, comes before the first death.</h1><p style="font-size:42px">Published warning curves put about <b>€1.1 bn</b> of Valencia's <b>€4.8 bn</b> insured loss within reach.</p><span class="ill">Illustrative what-if, not a measured outcome · Day (1970) warning curve · CCS insured loss</span>`);
 await card('close', `<span class="k" style="color:#3f63d6">One engine, every sector</span><h1 style="font-size:112px">Signal → map → task → alert.</h1>
 <div class="row"><div><span class="lab" style="color:#1e6b34">Built</span> Flood · Fire · Farms</div><div class="f"><span class="lab">Next</span> Drought · Air quality · Infrastructure · Landslides</div></div>
-<p style="font-size:40px;margin-top:46px">nasa-spaceapps-2026.pages.dev</p><span class="ill" style="font-size:26px">Parsa Riahi · solo build</span>`);
+<p style="font-size:30px;margin-top:50px;color:#47506b">Try it live</p><p style="font:600 64px M;letter-spacing:-.01em;color:#3f63d6;margin-top:6px">spaceapps.parsariahi.com</p><span class="ill" style="font-size:26px">Parsa Riahi · solo build</span>`);
 await b.close(); console.log('cards ok');

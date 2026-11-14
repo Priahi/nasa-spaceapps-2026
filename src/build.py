@@ -555,7 +555,10 @@ def main():
     sub = DIST / "submission"; sub.mkdir(exist_ok=True)
     # What-if panel data (another worker writes submission/impact.json); dashboards hide the panel until it exists
     imp = ROOT / "submission" / "impact.json"; out_imp = DIST / "shared" / "impact.json"
-    if imp.exists(): shutil.copy(imp, out_imp)
+    if imp.exists():
+        dimp = json.loads(imp.read_text()); vw = ROOT / "src" / "impact_view.json"
+        if vw.exists(): dimp["_view"] = {k: v for k, v in json.loads(vw.read_text()).items() if not k.startswith("_")}
+        out_imp.write_text(json.dumps(dimp, ensure_ascii=False))
     elif out_imp.exists(): out_imp.unlink()
     # deck.html (slide 8 embeds the demo videos) + its assets and the per-app clips
     if (ROOT / "submission" / "deck.html").exists():

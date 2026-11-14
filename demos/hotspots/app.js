@@ -30,16 +30,23 @@
      so the data never ends up cropped when the layout settles after load. */
   const DATA_BOUNDS = L.latLngBounds([[41.6, -141.4], [82.1, -52.4]]); // all Canada fire cells (0.25°), 2003–2025
   let lastFit = null, userMoved = false;
-  function fitTo(b, opts) { lastFit = [L.latLngBounds(b), Object.assign({ padding: [12, 12] }, opts || {})]; userMoved = false; map.fitBounds(lastFit[0], Object.assign({ animate: false }, lastFit[1])); }
+  function fitTo(b, opts) { lastFit = [L.latLngBounds(b), Object.assign(opts && opts.paddingTopLeft ? {} : { padding: [12, 12] }, opts || {})]; userMoved = false; map.fitBounds(lastFit[0], Object.assign({ animate: false }, lastFit[1])); }
   ["mousedown", "wheel", "touchstart", "keydown", "dblclick"].forEach((ev) => $("map").addEventListener(ev, (e) => { if (!e.target.closest || !e.target.closest(".og-ovl, .leaflet-control")) userMoved = true; }, { passive: true }));
-  fitTo(DATA_BOUNDS); // set the first view before any tile loads, so no tile request is cancelled
+  fitTo(DATA_BOUNDS, ovlPad()); // set the first view before any tile loads, so no tile request is cancelled
   L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}", { attribution: "Tiles &copy; Esri", maxZoom: 16 }).addTo(map);
   map.createPane("labels"); map.getPane("labels").style.zIndex = 450; map.getPane("labels").style.pointerEvents = "none";
   L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}", { pane: "labels", maxZoom: 16 }).addTo(map);
   const layers = { fire: L.layerGroup(), trend: L.layerGroup(), ratio: L.layerGroup() };
   const boxLayer = L.layerGroup().addTo(map), taskLayer = L.layerGroup().addTo(map), assetLayer = L.layerGroup().addTo(map);
   if ("ResizeObserver" in window) new ResizeObserver(() => { const r = $("map").getBoundingClientRect(); if (!r.width || !r.height) return; map.invalidateSize({ pan: false }); if (lastFit && !userMoved) map.fitBounds(lastFit[0], Object.assign({ animate: false }, lastFit[1])); }).observe($("map"));
-  const fitCanada = () => fitTo(DATA_BOUNDS);
+  // Keep every detection clear of the layer tabs (top) and the legend (bottom-left) so the full view is uncropped.
+  function ovlPad() {
+    const m = $("map").getBoundingClientRect(), tabs = document.querySelector(".og-stage .og-seg"), leg = $("mapLegend");
+    const top = tabs ? Math.max(12, tabs.getBoundingClientRect().bottom - m.top + 8) : 12;
+    const bot = leg && leg.offsetHeight && m.height > 420 ? Math.min(m.height * 0.4, leg.getBoundingClientRect().height + 16) : 12;
+    return { paddingTopLeft: [12, top], paddingBottomRight: [12, bot] };
+  }
+  const fitCanada = () => fitTo(DATA_BOUNDS, ovlPad());
 
   function setBBox(bbox, country) {
     state.bbox = bbox.map(Number); window.__hotspotsBBox = state.bbox; if (country) state.country = country;
@@ -222,7 +229,7 @@
   }
   $("preset").addEventListener("change", () => usePreset($("preset").value));
   // Full Canada view (also deep link #view=canada): every Canada detection in frame, uncropped.
-  function fullCanada() { if (state.c2 && state.action) state.c2.select(null); return usePreset("canada", true).then(() => { fitCanada(); if (window.OGShell) OGShell.fit && OGShell.fit(); }); }
+  function fullCanada() { if (state.c2 && state.action) state.c2.select(null); if (state.action) showAction(null); return usePreset("canada", true).then(() => { legend(); requestAnimationFrame(fitCanada); }); }
   $("canadaBtn").addEventListener("click", fullCanada);
 
   /* ---------- decision support (simulated) ---------- */

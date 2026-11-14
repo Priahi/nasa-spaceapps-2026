@@ -6,13 +6,13 @@ R = Path(__file__).resolve().parents[1]; S = R / "submission"; V = S / "build/vi
 FONTS = R / "src/assets/fonts"; SH = S / "assets/shots"; (S / "clips").mkdir(exist_ok=True)
 clips = json.load(open(V / "clips.json"))
 # (key, seconds, caption, crop x,y,w,h in 1920x1080 frame px or None, start offset s)
-MAP_FIRE = (0, 68, 1440, 810); MAP_FIELD = (0, 108, 1440, 810)
+MAP_FIRE = (0, 57, 1200, 675); MAP_FIELD = (0, 200, 1200, 675); FLOOD = (420, 210, 1180, 664)  # in 1600x900 screencast px
 SEG = [
  ("card:night", 2.6, "", None, 0),
  ("card:elena", 2.6, "", None, 0),
- ("flood-rain", 4.2, "Rain signal: 91 mm upstream, 99% cloud. Optical satellites are blind.", None, 0.2),
- ("flood-map", 7.8, "Radar maps 77.7 km² of new water. 8 towns flagged, teams dispatched.", None, 0.3),
- ("flood-alert", 7.8, "One alert for all 8 towns. It could have gone out hours before 20:11.", None, 0.3),
+ ("img:flood-rain", 4.2, "Rain signal: 91 mm upstream, 99% cloud. Optical satellites are blind.", None, 0),
+ ("flood-map", 7.8, "Radar maps 77.7 km² of new water. 8 towns flagged, teams dispatched.", FLOOD, 0.3),
+ ("flood-alert", 7.8, "One alert for all 8 towns. It could have gone out hours before 20:11.", FLOOD, 0.3),
  ("fire", 1.7, "Fire: crews staged before July", MAP_FIRE, 1.2),
  ("field", 1.7, "Farms: rye on the steep fields", MAP_FIELD, 1.2),
  ("card:x20", 1.4, "", None, 0),
@@ -23,6 +23,10 @@ def enc(cmd, o): subprocess.run(cmd + ["-c:v", "libx264", "-preset", "medium", "
 def seg(k, d, o, crop=None, ss=0.0, speed=1.0):
     if k.startswith("card:"):
         enc(["ffmpeg", "-y", "-loop", "1", "-t", str(d), "-i", str(V / f"card-{k[5:]}.png"), "-vf", VF], o); return
+    if k.startswith("img:"):   # a capture on the navy dashboard background, slow push-in
+        n = int(d * 30)
+        enc(["ffmpeg", "-y", "-i", str(SH / f"{k[4:]}.png"), "-t", str(d), "-vf",
+             f"scale=1840:-2,pad=1920:1080:(ow-iw)/2:(oh-ih)/2:color=0x10142c,zoompan=z='1+0.06*on/{n}':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d={n}:s=1920x1080:fps=30,format=yuv420p,setsar=1"], o); return
     c = clips[k]; cf = f"crop={crop[2]}:{crop[3]}:{crop[0]}:{crop[1]}," if crop else ""
     enc(["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", f"{c['dir']}/list.ffconcat", "-ss", f"{ss:.2f}",
          "-vf", f"setpts=PTS/{speed:.3f}," + cf + VF + f",tpad=stop_mode=clone:stop_duration={d}", "-t", str(d)], o)
@@ -50,7 +54,7 @@ if __name__ == "__main__":
     import sys
     parts = []
     for i, (k, d, cap, crop, ss) in enumerate(SEG):
-        o = V / f"seg{i}.mp4"; seg(k, d, o, crop, ss, speed=max(1.0, (clips[k]["secs"] - ss) / d) if (not k.startswith("card:") and k.startswith("flood")) else 1.0); parts.append(o)
+        o = V / f"seg{i}.mp4"; seg(k, d, o, crop, ss, speed=max(1.0, (clips[k]["secs"] - ss) / d) if k in clips and k.startswith("flood") else 1.0); parts.append(o)
     total = burn(parts, [(cap, d) for k, d, cap, _, _ in SEG], OUT)
     srt, t, n = [], 0.0, 0
     for k, d, cap, _, _ in SEG:
@@ -59,7 +63,7 @@ if __name__ == "__main__":
     (S / "demo.en.srt").write_text("\n".join(srt))
     (S / "demo.en.vtt").write_text("WEBVTT\n\n" + re.sub(r"(\d\d:\d\d:\d\d),(\d\d\d)", r"\1.\2", (S / "demo.en.srt").read_text()))
     # slide-8 clips at real speed
-    APPS = {"sar-change": [("flood-rain", "Rain signal: 91 mm upstream on 29 Oct, 99% cloud"), ("flood-map", "Radar flood map: 77.7 km² of new water, 8 towns flagged, teams dispatched (simulated)"), ("flood-alert", "Alert for all 8 towns, drafted and sent (simulated)")],
+    APPS = {"sar-change": [("flood-map", "Radar flood map: 77.7 km² of new water, 8 towns flagged, teams dispatched (simulated)"), ("flood-alert", "Alert for all 8 towns, drafted and sent (simulated)")],
             "hotspots": [("fire", "Crews staged in Alberta and B.C. before the July peak (simulated)"), ("fire-notice", "Community notice before May, the watch month (simulated)")],
             "field-shift": [("field", "Winter rye on the 92 steepest squares (simulated)"), ("field-plan", "4-year plan approved, grower messaged (simulated)")]}
     posters = {"sar-change": "poster-sar", "hotspots": "poster-hotspots", "field-shift": "poster-field"}
@@ -69,7 +73,7 @@ if __name__ == "__main__":
         for k, cap in ks:
             d = round(clips[k]["secs"], 2); o = V / f"{k}-full.mp4"; seg(k, d, o); ps.append(o); items.append((cap, d))
         burn(ps, items, S / "clips" / f"{app}.mp4")
-        at = items[0][1] + items[1][1] * 0.7 if app == "sar-change" else items[0][1] * 0.85
+        at = items[0][1] * 0.8
         subprocess.run(["ffmpeg", "-y", "-ss", f"{at:.2f}", "-i", str(S / "clips" / f"{app}.mp4"), "-frames:v", "1", "-q:v", "3", str(SH / f"{posters[app]}.jpg")], check=True, capture_output=True)
     subprocess.run(["ffmpeg", "-y", "-ss", "14.0", "-i", str(OUT), "-frames:v", "1", "-q:v", "3", str(SH / "poster-demo.jpg")], check=True, capture_output=True)
     print("planned", round(total, 2), "s ->", OUT)

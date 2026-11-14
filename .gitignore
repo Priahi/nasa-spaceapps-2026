@@ -25,3 +25,4 @@ STATUS.md
 .env.*
 *.urs_cookies
 submission/STORY.md
+/build/

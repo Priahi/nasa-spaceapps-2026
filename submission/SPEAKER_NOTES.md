@@ -7,7 +7,7 @@ Times are 12-hour, local (Valencia CET, Alberta MDT). Slides and speech use roun
 - Exact: 771.8 mm; alert 8:11 PM; at least 156 of 229 dead before it.
 - Sources: AEMET event study (Turís 771.8 mm in 24 h); AEMET climate normals, València station 8416, 1981–2010: 475 mm a year; El País, 26 Oct 2025 (at least 156 of 229 died before the 8:11 PM alert).
 - Units: 771.8 mm ÷ 25.4 = 30.4 in ÷ 12 = 2.53 ft ("about 2½ feet"). 771.8 ÷ 475 = 1.62 ("1.6 times a year").
-- Image: our radar flood map, 31 Oct pass, 8 towns, teams placed (simulated).
+- Image: our radar flood map, 31 Oct pass, 8 towns, captured from the live flood app (1600 px wide desktop view). No markers yet: slide 3 shows this same frame, classified and with actions.
 
 ## 2 · Imagine
 "Imagine losing someone you love because no one knew how much rain was coming that day."
@@ -17,11 +17,12 @@ Times are 12-hour, local (Valencia CET, Alberta MDT). Slides and speech use roun
 - Exact facts: 7:36 AM red warning (Newtral; El País gives 7:35 AM); 11:45 AM first recorded death (El País); 3–8 PM 616.8 mm at Turís (AEMET); 6:55 PM Poyo ravine at 2,282 m³/s (Reuters; La Vanguardia); 8:11 PM ES-Alert, at least 156 already dead (El País). 12 h 35 min from warning to alert; 229 deaths in the Valencia region.
 - Units: 616.8 ÷ 475 = 1.30, "1.3 years of València's rain in one afternoon".
 
-## 3 · Rewind with the decision tool (four walkthrough loops + the official demo video, playable on the slide)
-"Same night, same data. Rain signal, radar map, one alert to all 8 towns, teams and passes queued."
-- 91 mm upstream (IMERG), 99% cloud (POWER). Radar 31 Oct: 77.7 km² new water outside normal water bodies (vs 30.7 km² on 26 Oct); 8 towns hold 75.8 km².
-- Left: one click-through loop of the live app, dispatch (teams and passes queued, simulated). Right: the official 30-second demo, large, with controls (press play); it shows the slider, classification, actions, tasking and the alert.
-- "Elena could have had a drafted alert for her town hours before the ~8 PM phone alert." (Slide rounds: ~90 mm, ~78 km², up from ~31, ~76 km² in 8 towns.)
+## 3 · Rewind with the decision tool (two stills of the slide-1 map + the official demo, which plays by itself)
+"Same night, same data. The same map you just saw, now classified, then turned into actions. And here's the whole flow in 30 seconds."
+- Left, ① same frame as slide 1, What changed: +47.0 km² more flood water in five days (30.7 → 77.7 km² new water, 26 → 31 Oct; 53.6 km² newly wet, 24.1 wet on both dates, 6.6 dried out). Most newly wet ground: Sueca +24.1 km², Sollana +10.6, València +6.1.
+- Left, ② same frame, actions (simulated): Evacuate and flag, evacuation alert to 8 municipalities, rescue teams to Sueca and València, pull the next Sentinel-1 / OPERA pass. The 8 towns hold 75.8 km² of the new water.
+- Right: the official 30-second demo. It starts by itself, muted, from the beginning when slide 3 opens and pauses when you move on; the Unmute button (or the controls) turns sound on. In the PPTX it also starts automatically.
+- "Elena could have had a drafted alert for her town hours before the ~8 PM phone alert." (Slide rounds: ~90 mm, ~78 km², up from ~31, ~76 km² in 8 towns.) 91 mm upstream (IMERG), 99% cloud (POWER).
 
 ## 4 · What if? (illustrative, from submission/IMPACT.md)
 - Lead with the big number: €4.8 bn insured loss (Consorcio de Compensación de Seguros), then ≈ €1.1 bn within reach of an alert 12 hours earlier. Say "illustrative estimate". The per-claim figure and the curve sit in the small "How we estimated" box.
@@ -34,26 +35,26 @@ Times are 12-hour, local (Valencia CET, Alberta MDT). Slides and speech use roun
 - Comparison: AEMET (zone warning, not an instruction), EFAS (agency notices, not binding), ES-Alert (8:11 PM, "avoid any travel"), Copernicus EMS (maps from 31 Oct). Sources IMPACT.md [F1]–[F16].
 
 ## 5 · Fire vertical (demo: /hotspots/app/#demo)
-- Slide shows three numbers only: ~1,500 more fires a year in Alberta, May as the watch month, +16 days of readiness. The arithmetic and the 2016 caveat are in the small "How we estimated" box; exact values below.
+- Slide shows three numbers: ~1,500 more fires detected a year, +16 days of readiness, and ~65,000 ha + ~$25 M spared per escaped fire stopped. One what-if line (about the size of the City of Toronto). Arithmetic in the small "How we estimated" box; exact values below.
 "Second story: a wildfire duty officer in Alberta, planning before the season."
-- Map: all of Canada, fires per year (2003–2025 average, 0.25° squares), cropped to the fire extent (B.C. to Quebec, south of 62°N). 11.6 M detections.
-- Loop: Alberta + B.C. with crews, hiring and camera tasks placed; queue moving (simulated).
-- Slide rounds: nearly 12 M detections, ~1,500 and ~2,600 more a year, ~1,100 fires, ~5,900 km².
-- Trend: Alberta +1,503 detections a year (p = 0.035); B.C. +2,587 (p = 0.045). May = 5 of Alberta's 16 unusual months.
-- What if (headline exactly): staffing on 15 April instead of 1 May = 16 more days of readiness; 1,088 × 3% ≈ 33 escapes carrying 97% of 2.2 M ha ≈ 65,000 ha each. 2023 Drayton Valley started 23 Apr (8 days).
-- 2016 caveat: Horse River started 1 May, burned 589,552 ha, moved 88,000 people, $8.9 bn; the MNP review found initial attack was immediate, so we don't claim staffing would have stopped it. Readiness across the season.
-- Units (Statistics Canada / Atlas of Canada, land and freshwater area by province): Horse River 589,552 ha = 5,896 km² vs Prince Edward Island 5,660 km² → "more than all of PEI" (1.04×). For Q&A: Alberta 2023 2.2 M ha = 22,000 km² ≈ 3.9 × PEI, or 30% of New Brunswick (72,908 km²); Canada 2023 14.6 M ha (if asked) = 146,000 km² ≈ 2.0 × New Brunswick.
+- Loop (recorded on the live app, my own click-through): Alberta selected → 2026 outlook calendar (Watch: May, unusual 7× since 2011) → Actions: Crews & hiring → Assign crews → task queue (stage initial-attack crews, open seasonal hiring, watch flagged cells; simulated) → What if?: +16 days, ~65,000 ha per escape. That is where the 16 days come from: the calendar flags May in winter, so staffing moves to 15 April.
+- Note: the in-app Crews & hiring card text says "before July" (national peak); the +16 days use Alberta's own 15 April staffing date (2024 policy).
+- "~1,500 more fires": Sen's slope of Alberta's yearly harmonized satellite fire detections, +1,503 a year, 2003–2025 (Mann-Kendall p = 0.035, tentative; trends/RESULTS.md). These are detections, compared year over year on the trend; the app's 2026 outlook line uses a different fit (+2,347/yr), so quote the Sen's slope. B.C. +2,587 (p = 0.045). May = 5 of Alberta's 16 unusual months.
+- +16 days: 15 April instead of 1 May (Alberta Wildfire's 2024 staffing date, The Weather Network 19 Jan 2024). Horse River started 1 May 2016 → 16 days; 2023 Drayton Valley started 23 Apr → 8 days.
+- Per escape (illustrative): 1,088 fires × 3% ≈ 33 escapes carrying 97% of 2.2 M ha (Stocks et al. 2002 rule on Alberta 2023) = 2.13 M ha ÷ 33 = 65,380 ha ≈ "~65,000 ha".
+- Money per escape (illustrative): Alberta spent $851 M on wildfire presuppression and response in 2023–24 (Alberta Forestry and Parks Annual Report 2023–24, incl. $793 M contingency) ÷ 2.2 M ha (2,211,900 ha, Alberta Wildfire 2023 seasonal statistics) = $385–387 per ha × 65,380 ha = $25.2–25.3 M ≈ "~$25 M". Assumes cost scales with area burned (it doesn't exactly; large fires dominate costs).
+- Toronto: 65,380 ha = 653.8 km² vs City of Toronto land area 631.10 km² (Statistics Canada, 2021 Census Profile) → 1.04×, "about the size of the City of Toronto".
+- 2016 caveat: Horse River burned 589,552 ha, moved 88,000 people, $8.9 bn; the MNP review found initial attack was immediate, so we don't claim staffing would have stopped it. How many escapes earlier crews stop is the assumption.
+- Units (Statistics Canada / Atlas of Canada): Horse River 5,896 km² vs Prince Edward Island 5,660 km² (1.04×). For Q&A: Alberta 2023 2.2 M ha = 22,000 km² ≈ 3.9 × PEI; Canada 2023 14.6 M ha = 146,000 km² ≈ 2.0 × New Brunswick.
 - Comparison: FIRMS (now), CWFIS (fire weather days), fixed staffing date. Sources IMPACT.md [W1]–[W9].
 
 ## 6 · Fields vertical (demo: /field-shift/app/#demo)
-- Slide shows three numbers only: before planting (vs ~11 months later), ~$1.2 M drought insurance, ~82% vs ~81%. The formula is in the small "How we estimated" box; exact values below.
-- Lead with the lead time: the next-season map is ready in February, before planting; the USDA CDL for a season arrives about 11 months later. Then the drought-insurance figure, about $1.2 M.
-- Accuracy, said honestly as a secondary point: ~82% vs ~81% from crop history alone is a small edge; the value is timing plus the attached climate trend.
-- Crop map: Story County, Iowa, every 30 m pixel (USDA NASS CDL in our app). Next-season crop 81.8% correct on held-out 2024–25 (crop history alone 81.4%).
-- Tasking: drone survey and scouts on 114 squares, queue moving (simulated).
-- Slide rounds: ~82% vs ~81%; (~11 bu × ~$6.90 − ~$32) ≈ $44/acre × ~26,500 acres ≈ $1.2 M.
-- What if (headline exactly): "In a 2012-type drought, rye on the 92 steepest squares is worth about $1.2 M net." (11.1 bu × $6.89 − $32.09) = $44.39/acre × 26,500 acres = $1.18 M. Drought insurance: small cost most years, about 2.4× its cost back in 2012 (SARE/CTIC survey). Iowa 2012 corn −20% (USDA NASS).
-- Lead time: USDA CDL for a season arrives about 11 months later; Prospective Plantings 31 March, state-level; our map in February, field-level. Sources IMPACT.md [A1]–[A7].
+- Slide shows three numbers: ~$1.2 M net in a drought year, 26,500 acres ≈ 10,700 ha protected, and before planting. One what-if line. Formula in the small "How we estimated" box; exact values below.
+- Loop (recorded on the live app, my own click-through): slope map → Act → "Seed winter rye on the 92 steep squares" → Show on map (the 92 squares) → Approve cover crop → task queue (winter rye seed · 92 squares, drill rye after harvest; simulated) → What if?: ~$1.2 M.
+- Money: (11.1 bu × $6.89 − $32.09) = $44.39 an acre × 26,500 acres = $1.18 M net in a 2012-type drought ("~$1.2 M"); gross +$2.03 M, cost −$0.85 M. About 2.4× seed and planting cost back (SARE/CTIC 2012–13 survey, self-reported; Iowa State 2015 costs). Usually negative in a normal year without grazing or cost-share.
+- Area: 92 steepest squares = about 107 km² of farmed 30 m pixels = 26,500 acres (our app_data.json); 26,500 × 0.4047 = 10,724 ha ≈ "10,700 ha".
+- Lead time: our next-season map in February, field-level; USDA CDL for a season ~11 months later; Prospective Plantings 31 March, state-level.
+- Accuracy (secondary, corner box): next crop 81.8% on held-out 2024–25 vs 81.4% from crop history alone, a small edge. Iowa 2012 corn −20% (USDA NASS). Frost-free season +19 days since 1981 (NASA POWER). Sources IMPACT.md [A1]–[A7].
 
 ## 7 · One system, team, close
 - Shared inputs (Sentinel-1 radar, FIRMS thermal, IMERG + POWER rain, HLS/Landsat/Sentinel-2 optical + CDL, GRACE + GLDAS) → one engine (Mann-Kendall + Sen's slope trend detection; per-signal models: U-Net water, empirical-Bayes + LightGBM + conformal fire range, LightGBM next-season crop + NSGA-II) → signal, map, alert, task → outputs per vertical.

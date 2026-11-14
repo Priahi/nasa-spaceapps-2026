@@ -20,6 +20,8 @@ const CLIPS = {
   'flood-rain': { url: '/sar-change/app/', prep: async (p) => { await p.evaluate(() => { const el = document.querySelector('.ops-rain'); el && el.scrollIntoView({ block: 'center' }); }); await p.waitForTimeout(900); }, act: async (p) => { await p.waitForTimeout(4200); } },
   'flood-map': { url: '/sar-change/app/', act: async (p) => { await p.waitForTimeout(600); await click(p, '#opsC2 .c2-card[data-id=sar-change-1] .c2-show', 1400); await click(p, '#opsC2 .c2-card[data-id=sar-change-1] .c2-go', 5600); } },
   'flood-alert': { url: '/sar-change/app/#act=sar-change-1', act: async (p) => { await p.waitForTimeout(500); await click(p, '#opsC2 .c2-card[data-id=sar-change-1] .c2-go', 1200); await click(p, '#opsC2 .c2-card[data-id=sar-change-1] .c2-alrt', 1800); await click(p, '.c2-send', 3400); } },
+  // flood full DSS (dashboards v2): zones + assets, Alert everyone -> send, then the queue running to Done beside the sticky map
+  'flood-dss': { url: '/sar-change/app/', act: async (p) => { await p.waitForTimeout(700); await click(p, '#opsC2 .c2-card[data-id=sar-change-1] .c2-show', 1100); await click(p, '#opsC2 .c2-card[data-id=sar-change-1] .c2-go', 2300); await click(p, '#opsAlertAll', 2000); await click(p, '.c2-send', 1200); await scrollTo(p, '.c2-q', 330, 900); await p.waitForTimeout(4200); } },
 };
 for (const [name, c] of Object.entries(CLIPS)) {
   if (only ? !only.includes(name) : name.startsWith('flood')) continue;

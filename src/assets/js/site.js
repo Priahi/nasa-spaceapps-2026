@@ -33,6 +33,29 @@
   const counts = document.querySelectorAll("[data-count]");
   counts.forEach((el) => { el.textContent = fmt(+el.dataset.count, el); });
 
+  // Scroll stories: sticky stage on wide screens, inline media on phones. Charts animate when their beat is active.
+  const stories = document.querySelectorAll("[data-story]");
+  const wide = window.matchMedia("(min-width: 960px)");
+  if (stories.length && "IntersectionObserver" in window) {
+    if (wide.matches) document.documentElement.classList.add("story-js");
+    stories.forEach((st) => {
+      const beats = Array.from(st.querySelectorAll(".beat")), panels = Array.from(st.querySelectorAll(".story-panel")), dots = Array.from(st.querySelectorAll(".story-dots li"));
+      const setActive = (k) => {
+        beats.forEach((b, j) => b.classList.toggle("is-active", j === k));
+        panels.forEach((p, j) => { p.classList.toggle("on", j === k); if (j === k) p.classList.add("play"); });
+        dots.forEach((d, j) => d.classList.toggle("on", j === k));
+      };
+      const io = new IntersectionObserver((ents) => ents.forEach((en) => {
+        if (!en.isIntersecting) return;
+        const k = beats.indexOf(en.target); setActive(k);
+      }), { rootMargin: wide.matches ? "-45% 0px -45% 0px" : "0px 0px -25% 0px" });
+      beats.forEach((b) => io.observe(b));
+      const io2 = new IntersectionObserver((ents) => ents.forEach((en) => { if (en.isIntersecting) { en.target.classList.add("play"); io2.unobserve(en.target); } }), { rootMargin: "0px 0px -15% 0px" });
+      st.querySelectorAll(".beat-media").forEach((m) => io2.observe(m));
+    });
+  } else document.querySelectorAll(".beat-media, .story-panel").forEach((m) => m.classList.add("play"));
+  if (reduce) document.querySelectorAll(".beat-media, .story-panel").forEach((m) => m.classList.add("play"));
+
   if (reduce || !hasGsap) return;
 
   // Pinned pipeline diagram (desktop only; the stacked list is the fallback)

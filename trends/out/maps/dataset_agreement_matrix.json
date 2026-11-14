@@ -1,0 +1,145 @@
+{
+  "method": "Mann-Kendall original test, \u03b1 = 0.05, as stored in trends/out/trends.json and earthdata/EARTHDATA.md (MCD64A1)",
+  "rows": [
+    {
+      "region": "Eastern Spain",
+      "variable": "precipitation (annual)",
+      "dataset": "NASA POWER / MERRA-2 1981\u20132025",
+      "trend": "no trend",
+      "p": 0.24439,
+      "sen_slope_per_year": 0.99198,
+      "unit": "mm/yr",
+      "period": "1981\u20132025"
+    },
+    {
+      "region": "Eastern Spain",
+      "variable": "precipitation (annual)",
+      "dataset": "GPM IMERG V07 1998\u20132024",
+      "trend": "no trend",
+      "p": 0.61685,
+      "sen_slope_per_year": 1.77968,
+      "unit": "mm/yr",
+      "period": "1998\u20132024"
+    },
+    {
+      "region": "Eastern Spain",
+      "variable": "terrestrial water storage",
+      "dataset": "GRACE/GRACE-FO mascon CRI 2003\u20132025",
+      "trend": "decreasing",
+      "p": 0.00187,
+      "sen_slope_per_year": -0.3853,
+      "unit": "cm/yr",
+      "period": "2003\u20132025"
+    },
+    {
+      "region": "Southern Ontario",
+      "variable": "precipitation (annual)",
+      "dataset": "NASA POWER / MERRA-2 1981\u20132025",
+      "trend": "decreasing",
+      "p": 0.00563,
+      "sen_slope_per_year": -3.72531,
+      "unit": "mm/yr",
+      "period": "1981\u20132025"
+    },
+    {
+      "region": "Southern Ontario",
+      "variable": "precipitation (annual)",
+      "dataset": "GPM IMERG V07 1998\u20132024",
+      "trend": "no trend",
+      "p": 0.27835,
+      "sen_slope_per_year": 2.11315,
+      "unit": "mm/yr",
+      "period": "1998\u20132024"
+    },
+    {
+      "region": "Southern Ontario",
+      "variable": "terrestrial water storage",
+      "dataset": "GRACE/GRACE-FO mascon CRI 2003\u20132025",
+      "trend": "increasing",
+      "p": 0.01445,
+      "sen_slope_per_year": 0.54685,
+      "unit": "cm/yr",
+      "period": "2003\u20132025"
+    },
+    {
+      "region": "Central Iowa",
+      "variable": "May\u2013Sep precipitation",
+      "dataset": "NASA POWER / MERRA-2 1981\u20132025",
+      "trend": "no trend",
+      "p": 0.55069,
+      "sen_slope_per_year": -0.92768,
+      "unit": "mm/yr",
+      "period": "1981\u20132025"
+    },
+    {
+      "region": "Central Iowa",
+      "variable": "May\u2013Sep precipitation",
+      "dataset": "GPM IMERG V07 annual (for comparison) 1998\u20132024",
+      "trend": "no trend",
+      "p": 0.50471,
+      "sen_slope_per_year": -3.10604,
+      "unit": "mm/yr",
+      "period": "1998\u20132024"
+    },
+    {
+      "region": "Central Iowa",
+      "variable": "soil / water storage",
+      "dataset": "GRACE/GRACE-FO mascon CRI 2003\u20132025",
+      "trend": "no trend",
+      "p": 0.56614,
+      "sen_slope_per_year": -0.12239,
+      "unit": "cm/yr",
+      "period": "2003\u20132025"
+    },
+    {
+      "region": "Central Iowa",
+      "variable": "root-zone wetness May\u2013Sep",
+      "dataset": "NASA POWER GWETROOT 1981\u20132025",
+      "trend": "no trend",
+      "p": 0.5122,
+      "sen_slope_per_year": -0.00039,
+      "unit": "fraction/yr",
+      "period": "1981\u20132025"
+    },
+    {
+      "region": "Central Iowa",
+      "variable": "soil moisture 0\u2013100 cm May\u2013Sep",
+      "dataset": "GLDAS Noah 2.1 2000\u20132025",
+      "trend": "no trend",
+      "p": 0.35458,
+      "sen_slope_per_year": -0.8052,
+      "unit": "kg/m\u00b2/yr",
+      "period": "2000\u20132025"
+    },
+    {
+      "region": "Boreal Canada (tile h11v03)",
+      "variable": "burned area Apr\u2013Oct",
+      "dataset": "MODIS MCD64A1 2003\u20132025",
+      "trend": "increasing",
+      "p": 0.0043,
+      "sen_slope_per_year": 272,
+      "unit": "km\u00b2/yr",
+      "period": "2003\u20132025"
+    },
+    {
+      "region": "Canada (national)",
+      "variable": "active-fire count",
+      "dataset": "FIRMS MODIS-only 2003\u20132025",
+      "trend": "increasing",
+      "p": 0.03461,
+      "sen_slope_per_year": 3019.4,
+      "unit": "detections/yr",
+      "period": "2003\u20132025"
+    },
+    {
+      "region": "Argentina (national)",
+      "variable": "active-fire count",
+      "dataset": "FIRMS MODIS-only 2003\u20132025",
+      "trend": "decreasing",
+      "p": 0.0006,
+      "sen_slope_per_year": -1908.61111,
+      "unit": "detections/yr",
+      "period": "2003\u20132025"
+    }
+  ]
+}

@@ -1,0 +1,513 @@
+{
+  "source": "trends/out/trends.json crops.*.map",
+  "method": "Mann-Kendall + Sen's slope on annual POWER/MERRA-2 series, \u03b1 = 0.05",
+  "grid": "0.625\u00b0 \u00d7 0.5\u00b0",
+  "maps": {
+    "frost_free_days": {
+      "n_cells": 35,
+      "n_sig_increasing": 29,
+      "n_sig_decreasing": 0,
+      "unit": "frost-free days (last spring to first fall Tmin <= 0 C)",
+      "cells": [
+        {
+          "lon": -95.0,
+          "lat": 41.0,
+          "slope": 0.2265,
+          "p": 0.1798,
+          "trend": "no trend"
+        },
+        {
+          "lon": -95.0,
+          "lat": 41.5,
+          "slope": 0.3333,
+          "p": 0.0468,
+          "trend": "increasing"
+        },
+        {
+          "lon": -95.0,
+          "lat": 42.0,
+          "slope": 0.35,
+          "p": 0.0538,
+          "trend": "no trend"
+        },
+        {
+          "lon": -95.0,
+          "lat": 42.5,
+          "slope": 0.3469,
+          "p": 0.0269,
+          "trend": "increasing"
+        },
+        {
+          "lon": -95.0,
+          "lat": 43.0,
+          "slope": 0.4625,
+          "p": 0.0082,
+          "trend": "increasing"
+        },
+        {
+          "lon": -95.0,
+          "lat": 43.5,
+          "slope": 0.448,
+          "p": 0.0115,
+          "trend": "increasing"
+        },
+        {
+          "lon": -95.0,
+          "lat": 44.0,
+          "slope": 0.473,
+          "p": 0.0065,
+          "trend": "increasing"
+        },
+        {
+          "lon": -94.375,
+          "lat": 41.0,
+          "slope": 0.25,
+          "p": 0.1291,
+          "trend": "no trend"
+        },
+        {
+          "lon": -94.375,
+          "lat": 41.5,
+          "slope": 0.3114,
+          "p": 0.078,
+          "trend": "no trend"
+        },
+        {
+          "lon": -94.375,
+          "lat": 42.0,
+          "slope": 0.4152,
+          "p": 0.0109,
+          "trend": "increasing"
+        },
+        {
+          "lon": -94.375,
+          "lat": 42.5,
+          "slope": 0.5,
+          "p": 0.0073,
+          "trend": "increasing"
+        },
+        {
+          "lon": -94.375,
+          "lat": 43.0,
+          "slope": 0.5071,
+          "p": 0.004,
+          "trend": "increasing"
+        },
+        {
+          "lon": -94.375,
+          "lat": 43.5,
+          "slope": 0.4939,
+          "p": 0.0063,
+          "trend": "increasing"
+        },
+        {
+          "lon": -94.375,
+          "lat": 44.0,
+          "slope": 0.433,
+          "p": 0.0122,
+          "trend": "increasing"
+        },
+        {
+          "lon": -93.75,
+          "lat": 41.0,
+          "slope": 0.288,
+          "p": 0.0416,
+          "trend": "increasing"
+        },
+        {
+          "lon": -93.75,
+          "lat": 41.5,
+          "slope": 0.375,
+          "p": 0.0225,
+          "trend": "increasing"
+        },
+        {
+          "lon": -93.75,
+          "lat": 42.0,
+          "slope": 0.4714,
+          "p": 0.0024,
+          "trend": "increasing"
+        },
+        {
+          "lon": -93.75,
+          "lat": 42.5,
+          "slope": 0.5695,
+          "p": 0.0017,
+          "trend": "increasing"
+        },
+        {
+          "lon": -93.75,
+          "lat": 43.0,
+          "slope": 0.5,
+          "p": 0.0065,
+          "trend": "increasing"
+        },
+        {
+          "lon": -93.75,
+          "lat": 43.5,
+          "slope": 0.5294,
+          "p": 0.0027,
+          "trend": "increasing"
+        },
+        {
+          "lon": -93.75,
+          "lat": 44.0,
+          "slope": 0.5,
+          "p": 0.0047,
+          "trend": "increasing"
+        },
+        {
+          "lon": -93.125,
+          "lat": 41.0,
+          "slope": 0.25,
+          "p": 0.0746,
+          "trend": "no trend"
+        },
+        {
+          "lon": -93.125,
+          "lat": 41.5,
+          "slope": 0.288,
+          "p": 0.0436,
+          "trend": "increasing"
+        },
+        {
+          "lon": -93.125,
+          "lat": 42.0,
+          "slope": 0.4396,
+          "p": 0.0049,
+          "trend": "increasing"
+        },
+        {
+          "lon": -93.125,
+          "lat": 42.5,
+          "slope": 0.5333,
+          "p": 0.0061,
+          "trend": "increasing"
+        },
+        {
+          "lon": -93.125,
+          "lat": 43.0,
+          "slope": 0.5,
+          "p": 0.003,
+          "trend": "increasing"
+        },
+        {
+          "lon": -93.125,
+          "lat": 43.5,
+          "slope": 0.5,
+          "p": 0.0039,
+          "trend": "increasing"
+        },
+        {
+          "lon": -93.125,
+          "lat": 44.0,
+          "slope": 0.4444,
+          "p": 0.0089,
+          "trend": "increasing"
+        },
+        {
+          "lon": -92.5,
+          "lat": 41.0,
+          "slope": 0.2247,
+          "p": 0.0477,
+          "trend": "increasing"
+        },
+        {
+          "lon": -92.5,
+          "lat": 41.5,
+          "slope": 0.2183,
+          "p": 0.0746,
+          "trend": "no trend"
+        },
+        {
+          "lon": -92.5,
+          "lat": 42.0,
+          "slope": 0.4286,
+          "p": 0.0164,
+          "trend": "increasing"
+        },
+        {
+          "lon": -92.5,
+          "lat": 42.5,
+          "slope": 0.5695,
+          "p": 0.0058,
+          "trend": "increasing"
+        },
+        {
+          "lon": -92.5,
+          "lat": 43.0,
+          "slope": 0.4839,
+          "p": 0.0056,
+          "trend": "increasing"
+        },
+        {
+          "lon": -92.5,
+          "lat": 43.5,
+          "slope": 0.5,
+          "p": 0.0028,
+          "trend": "increasing"
+        },
+        {
+          "lon": -92.5,
+          "lat": 44.0,
+          "slope": 0.4,
+          "p": 0.0112,
+          "trend": "increasing"
+        }
+      ]
+    },
+    "gdd_may_sep": {
+      "n_cells": 35,
+      "n_sig_increasing": 35,
+      "n_sig_decreasing": 0,
+      "unit": "corn GDD May-Sep (base 10 C, cap 30 C)",
+      "cells": [
+        {
+          "lon": -95.0,
+          "lat": 41.0,
+          "slope": 5.0994,
+          "p": 0.0007,
+          "trend": "increasing"
+        },
+        {
+          "lon": -95.0,
+          "lat": 41.5,
+          "slope": 5.3804,
+          "p": 0.0008,
+          "trend": "increasing"
+        },
+        {
+          "lon": -95.0,
+          "lat": 42.0,
+          "slope": 5.4345,
+          "p": 0.0009,
+          "trend": "increasing"
+        },
+        {
+          "lon": -95.0,
+          "lat": 42.5,
+          "slope": 5.7903,
+          "p": 0.0003,
+          "trend": "increasing"
+        },
+        {
+          "lon": -95.0,
+          "lat": 43.0,
+          "slope": 5.1828,
+          "p": 0.0009,
+          "trend": "increasing"
+        },
+        {
+          "lon": -95.0,
+          "lat": 43.5,
+          "slope": 4.1781,
+          "p": 0.0032,
+          "trend": "increasing"
+        },
+        {
+          "lon": -95.0,
+          "lat": 44.0,
+          "slope": 4.0213,
+          "p": 0.008,
+          "trend": "increasing"
+        },
+        {
+          "lon": -94.375,
+          "lat": 41.0,
+          "slope": 4.8417,
+          "p": 0.0009,
+          "trend": "increasing"
+        },
+        {
+          "lon": -94.375,
+          "lat": 41.5,
+          "slope": 5.1681,
+          "p": 0.0007,
+          "trend": "increasing"
+        },
+        {
+          "lon": -94.375,
+          "lat": 42.0,
+          "slope": 5.3629,
+          "p": 0.0006,
+          "trend": "increasing"
+        },
+        {
+          "lon": -94.375,
+          "lat": 42.5,
+          "slope": 5.6329,
+          "p": 0.0003,
+          "trend": "increasing"
+        },
+        {
+          "lon": -94.375,
+          "lat": 43.0,
+          "slope": 4.8477,
+          "p": 0.0007,
+          "trend": "increasing"
+        },
+        {
+          "lon": -94.375,
+          "lat": 43.5,
+          "slope": 3.6994,
+          "p": 0.0039,
+          "trend": "increasing"
+        },
+        {
+          "lon": -94.375,
+          "lat": 44.0,
+          "slope": 3.8597,
+          "p": 0.0076,
+          "trend": "increasing"
+        },
+        {
+          "lon": -93.75,
+          "lat": 41.0,
+          "slope": 5.0454,
+          "p": 0.0008,
+          "trend": "increasing"
+        },
+        {
+          "lon": -93.75,
+          "lat": 41.5,
+          "slope": 5.2463,
+          "p": 0.0004,
+          "trend": "increasing"
+        },
+        {
+          "lon": -93.75,
+          "lat": 42.0,
+          "slope": 5.5668,
+          "p": 0.0005,
+          "trend": "increasing"
+        },
+        {
+          "lon": -93.75,
+          "lat": 42.5,
+          "slope": 5.0708,
+          "p": 0.0008,
+          "trend": "increasing"
+        },
+        {
+          "lon": -93.75,
+          "lat": 43.0,
+          "slope": 3.8182,
+          "p": 0.0021,
+          "trend": "increasing"
+        },
+        {
+          "lon": -93.75,
+          "lat": 43.5,
+          "slope": 3.475,
+          "p": 0.008,
+          "trend": "increasing"
+        },
+        {
+          "lon": -93.75,
+          "lat": 44.0,
+          "slope": 3.6174,
+          "p": 0.0067,
+          "trend": "increasing"
+        },
+        {
+          "lon": -93.125,
+          "lat": 41.0,
+          "slope": 5.1726,
+          "p": 0.0004,
+          "trend": "increasing"
+        },
+        {
+          "lon": -93.125,
+          "lat": 41.5,
+          "slope": 5.0485,
+          "p": 0.0003,
+          "trend": "increasing"
+        },
+        {
+          "lon": -93.125,
+          "lat": 42.0,
+          "slope": 5.0303,
+          "p": 0.0003,
+          "trend": "increasing"
+        },
+        {
+          "lon": -93.125,
+          "lat": 42.5,
+          "slope": 4.418,
+          "p": 0.0023,
+          "trend": "increasing"
+        },
+        {
+          "lon": -93.125,
+          "lat": 43.0,
+          "slope": 3.7866,
+          "p": 0.0047,
+          "trend": "increasing"
+        },
+        {
+          "lon": -93.125,
+          "lat": 43.5,
+          "slope": 3.8016,
+          "p": 0.0076,
+          "trend": "increasing"
+        },
+        {
+          "lon": -93.125,
+          "lat": 44.0,
+          "slope": 3.5335,
+          "p": 0.0067,
+          "trend": "increasing"
+        },
+        {
+          "lon": -92.5,
+          "lat": 41.0,
+          "slope": 5.0432,
+          "p": 0.0005,
+          "trend": "increasing"
+        },
+        {
+          "lon": -92.5,
+          "lat": 41.5,
+          "slope": 5.183,
+          "p": 0.0006,
+          "trend": "increasing"
+        },
+        {
+          "lon": -92.5,
+          "lat": 42.0,
+          "slope": 5.0417,
+          "p": 0.0003,
+          "trend": "increasing"
+        },
+        {
+          "lon": -92.5,
+          "lat": 42.5,
+          "slope": 4.8367,
+          "p": 0.0015,
+          "trend": "increasing"
+        },
+        {
+          "lon": -92.5,
+          "lat": 43.0,
+          "slope": 4.0561,
+          "p": 0.0053,
+          "trend": "increasing"
+        },
+        {
+          "lon": -92.5,
+          "lat": 43.5,
+          "slope": 3.92,
+          "p": 0.0071,
+          "trend": "increasing"
+        },
+        {
+          "lon": -92.5,
+          "lat": 44.0,
+          "slope": 3.6861,
+          "p": 0.0042,
+          "trend": "increasing"
+        }
+      ]
+    }
+  }
+}

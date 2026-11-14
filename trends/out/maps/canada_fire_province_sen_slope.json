@@ -1,0 +1,338 @@
+{
+  "source": "trends/out/trends.json fire.canada, Natural Earth 1:50m admin-1 paths in fire.map",
+  "method": "Mann-Kendall original test, Sen's slope, \u03b1 = 0.05, annual 2003\u20132025",
+  "records": [
+    {
+      "province": "Alberta",
+      "series": "harmonized_count",
+      "slope_per_year": 1502.66667,
+      "p": 0.03461,
+      "significant": true,
+      "p_hamed_rao": 0.03461,
+      "sen_ci95": [
+        62.49847,
+        3717.85114
+      ],
+      "n": 23
+    },
+    {
+      "province": "British Columbia",
+      "series": "harmonized_count",
+      "slope_per_year": 2586.62451,
+      "p": 0.04473,
+      "significant": true,
+      "p_hamed_rao": 0.04473,
+      "sen_ci95": [
+        2.60675,
+        7520.74896
+      ],
+      "n": 23
+    },
+    {
+      "province": "Manitoba",
+      "series": "harmonized_count",
+      "slope_per_year": 452.625,
+      "p": 0.16965,
+      "significant": false,
+      "p_hamed_rao": 0.16965,
+      "sen_ci95": [
+        -273.91764,
+        1519.8869
+      ],
+      "n": 23
+    },
+    {
+      "province": "New Brunswick",
+      "series": "harmonized_count",
+      "slope_per_year": 8.64576,
+      "p": 0.01621,
+      "significant": true,
+      "p_hamed_rao": 0.00121,
+      "sen_ci95": [
+        1.76182,
+        16.40162
+      ],
+      "n": 23
+    },
+    {
+      "province": "Newfoundland and Labrador",
+      "series": "harmonized_count",
+      "slope_per_year": 1.14294,
+      "p": 0.7917,
+      "significant": false,
+      "p_hamed_rao": 0.7917,
+      "sen_ci95": [
+        -38.15869,
+        34.83998
+      ],
+      "n": 23
+    },
+    {
+      "province": "Nova Scotia",
+      "series": "harmonized_count",
+      "slope_per_year": 5.30624,
+      "p": 0.0004,
+      "significant": true,
+      "p_hamed_rao": 0.0,
+      "sen_ci95": [
+        2.44275,
+        10.42459
+      ],
+      "n": 23
+    },
+    {
+      "province": "Northwest Territories",
+      "series": "harmonized_count",
+      "slope_per_year": 2724.57861,
+      "p": 0.07251,
+      "significant": false,
+      "p_hamed_rao": 0.11342,
+      "sen_ci95": [
+        -115.09136,
+        8005.55432
+      ],
+      "n": 23
+    },
+    {
+      "province": "Nunavut",
+      "series": "harmonized_count",
+      "slope_per_year": 1.66667,
+      "p": 0.03687,
+      "significant": true,
+      "p_hamed_rao": 0.00231,
+      "sen_ci95": [
+        0.11004,
+        5.97892
+      ],
+      "n": 23
+    },
+    {
+      "province": "Ontario",
+      "series": "harmonized_count",
+      "slope_per_year": 347.54545,
+      "p": 0.11305,
+      "significant": false,
+      "p_hamed_rao": 0.01762,
+      "sen_ci95": [
+        -63.4,
+        1533.95062
+      ],
+      "n": 23
+    },
+    {
+      "province": "Prince Edward Island",
+      "series": "harmonized_count",
+      "slope_per_year": null,
+      "p": null,
+      "significant": false,
+      "p_hamed_rao": null,
+      "sen_ci95": null,
+      "n": null
+    },
+    {
+      "province": "Qu\u00e9bec",
+      "series": "harmonized_count",
+      "slope_per_year": -37.4867,
+      "p": 0.67261,
+      "significant": false,
+      "p_hamed_rao": 0.67261,
+      "sen_ci95": [
+        -329.27701,
+        139.8005
+      ],
+      "n": 23
+    },
+    {
+      "province": "Saskatchewan",
+      "series": "harmonized_count",
+      "slope_per_year": 2381.95918,
+      "p": 0.10154,
+      "significant": false,
+      "p_hamed_rao": 0.10154,
+      "sen_ci95": [
+        -221.78872,
+        6882.31152
+      ],
+      "n": 23
+    },
+    {
+      "province": "Yukon",
+      "series": "harmonized_count",
+      "slope_per_year": 129.98848,
+      "p": 0.63451,
+      "significant": false,
+      "p_hamed_rao": 0.63451,
+      "sen_ci95": [
+        -551.16094,
+        876.33333
+      ],
+      "n": 23
+    },
+    {
+      "province": "Alberta",
+      "series": "modis_count",
+      "slope_per_year": 200.33333,
+      "p": 0.12557,
+      "significant": false,
+      "p_hamed_rao": 0.12557,
+      "sen_ci95": [
+        -65.84615,
+        812.0
+      ],
+      "n": 23
+    },
+    {
+      "province": "British Columbia",
+      "series": "modis_count",
+      "slope_per_year": 362.28571,
+      "p": 0.13914,
+      "significant": false,
+      "p_hamed_rao": 0.13914,
+      "sen_ci95": [
+        -95.0,
+        1716.66667
+      ],
+      "n": 23
+    },
+    {
+      "province": "Manitoba",
+      "series": "modis_count",
+      "slope_per_year": 0.75,
+      "p": 1.0,
+      "significant": false,
+      "p_hamed_rao": 1.0,
+      "sen_ci95": [
+        -152.85714,
+        167.14286
+      ],
+      "n": 23
+    },
+    {
+      "province": "New Brunswick",
+      "series": "modis_count",
+      "slope_per_year": 0.22222,
+      "p": 0.36809,
+      "significant": false,
+      "p_hamed_rao": 0.36809,
+      "sen_ci95": [
+        -0.6875,
+        2.0
+      ],
+      "n": 23
+    },
+    {
+      "province": "Newfoundland and Labrador",
+      "series": "modis_count",
+      "slope_per_year": 0.17647,
+      "p": 0.91587,
+      "significant": false,
+      "p_hamed_rao": 0.89347,
+      "sen_ci95": [
+        -9.13333,
+        9.4
+      ],
+      "n": 23
+    },
+    {
+      "province": "Nova Scotia",
+      "series": "modis_count",
+      "slope_per_year": 0.3125,
+      "p": 0.83205,
+      "significant": false,
+      "p_hamed_rao": 0.83205,
+      "sen_ci95": [
+        -0.66667,
+        1.5
+      ],
+      "n": 23
+    },
+    {
+      "province": "Northwest Territories",
+      "series": "modis_count",
+      "slope_per_year": 445.75,
+      "p": 0.07251,
+      "significant": false,
+      "p_hamed_rao": 0.01605,
+      "sen_ci95": [
+        -23.2,
+        1126.33333
+      ],
+      "n": 23
+    },
+    {
+      "province": "Nunavut",
+      "series": "modis_count",
+      "slope_per_year": 0.2,
+      "p": 0.47451,
+      "significant": false,
+      "p_hamed_rao": 0.47451,
+      "sen_ci95": [
+        -0.42857,
+        1.2
+      ],
+      "n": 23
+    },
+    {
+      "province": "Ontario",
+      "series": "modis_count",
+      "slope_per_year": 26.45455,
+      "p": 0.63451,
+      "significant": false,
+      "p_hamed_rao": 0.48352,
+      "sen_ci95": [
+        -39.69231,
+        188.28571
+      ],
+      "n": 23
+    },
+    {
+      "province": "Prince Edward Island",
+      "series": "modis_count",
+      "slope_per_year": null,
+      "p": null,
+      "significant": false,
+      "p_hamed_rao": null,
+      "sen_ci95": null,
+      "n": null
+    },
+    {
+      "province": "Qu\u00e9bec",
+      "series": "modis_count",
+      "slope_per_year": -20.0,
+      "p": 0.34172,
+      "significant": false,
+      "p_hamed_rao": 0.34172,
+      "sen_ci95": [
+        -72.4,
+        17.6
+      ],
+      "n": 23
+    },
+    {
+      "province": "Saskatchewan",
+      "series": "modis_count",
+      "slope_per_year": 297.4,
+      "p": 0.29078,
+      "significant": false,
+      "p_hamed_rao": 0.29078,
+      "sen_ci95": [
+        -101.25,
+        1058.75
+      ],
+      "n": 23
+    },
+    {
+      "province": "Yukon",
+      "series": "modis_count",
+      "slope_per_year": 32.0,
+      "p": 0.49229,
+      "significant": false,
+      "p_hamed_rao": 0.49229,
+      "sen_ci95": [
+        -89.875,
+        264.85714
+      ],
+      "n": 23
+    }
+  ]
+}

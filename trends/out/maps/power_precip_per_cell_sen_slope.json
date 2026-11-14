@@ -1,0 +1,1015 @@
+{
+  "source": "trends/out/trends.json water.*.map_*",
+  "method": "Mann-Kendall + Sen's slope on annual POWER/MERRA-2 series, \u03b1 = 0.05",
+  "grid": "0.625\u00b0 \u00d7 0.5\u00b0",
+  "maps": {
+    "valencia_map_total": {
+      "n_cells": 35,
+      "n_sig_increasing": 8,
+      "n_sig_decreasing": 0,
+      "cells": [
+        {
+          "lon": -1.875,
+          "lat": 38.0,
+          "slope": 2.0464,
+          "p": 0.0372,
+          "trend": "increasing"
+        },
+        {
+          "lon": -1.875,
+          "lat": 38.5,
+          "slope": 2.1468,
+          "p": 0.0291,
+          "trend": "increasing"
+        },
+        {
+          "lon": -1.875,
+          "lat": 39.0,
+          "slope": 1.8771,
+          "p": 0.0516,
+          "trend": "no trend"
+        },
+        {
+          "lon": -1.875,
+          "lat": 39.5,
+          "slope": 1.8353,
+          "p": 0.0834,
+          "trend": "no trend"
+        },
+        {
+          "lon": -1.875,
+          "lat": 40.0,
+          "slope": 1.5324,
+          "p": 0.1396,
+          "trend": "no trend"
+        },
+        {
+          "lon": -1.875,
+          "lat": 40.5,
+          "slope": 1.0569,
+          "p": 0.3328,
+          "trend": "no trend"
+        },
+        {
+          "lon": -1.875,
+          "lat": 41.0,
+          "slope": 0.4134,
+          "p": 0.7174,
+          "trend": "no trend"
+        },
+        {
+          "lon": -1.25,
+          "lat": 38.0,
+          "slope": 2.3935,
+          "p": 0.0306,
+          "trend": "increasing"
+        },
+        {
+          "lon": -1.25,
+          "lat": 38.5,
+          "slope": 2.0535,
+          "p": 0.059,
+          "trend": "no trend"
+        },
+        {
+          "lon": -1.25,
+          "lat": 39.0,
+          "slope": 2.0344,
+          "p": 0.054,
+          "trend": "no trend"
+        },
+        {
+          "lon": -1.25,
+          "lat": 39.5,
+          "slope": 1.8361,
+          "p": 0.1153,
+          "trend": "no trend"
+        },
+        {
+          "lon": -1.25,
+          "lat": 40.0,
+          "slope": 0.9543,
+          "p": 0.2606,
+          "trend": "no trend"
+        },
+        {
+          "lon": -1.25,
+          "lat": 40.5,
+          "slope": 0.5708,
+          "p": 0.674,
+          "trend": "no trend"
+        },
+        {
+          "lon": -1.25,
+          "lat": 41.0,
+          "slope": 0.1027,
+          "p": 0.9143,
+          "trend": "no trend"
+        },
+        {
+          "lon": -0.625,
+          "lat": 38.0,
+          "slope": 2.23,
+          "p": 0.0409,
+          "trend": "increasing"
+        },
+        {
+          "lon": -0.625,
+          "lat": 38.5,
+          "slope": 2.8136,
+          "p": 0.0306,
+          "trend": "increasing"
+        },
+        {
+          "lon": -0.625,
+          "lat": 39.0,
+          "slope": 3.1458,
+          "p": 0.0215,
+          "trend": "increasing"
+        },
+        {
+          "lon": -0.625,
+          "lat": 39.5,
+          "slope": 2.7615,
+          "p": 0.0372,
+          "trend": "increasing"
+        },
+        {
+          "lon": -0.625,
+          "lat": 40.0,
+          "slope": 1.9762,
+          "p": 0.0766,
+          "trend": "no trend"
+        },
+        {
+          "lon": -0.625,
+          "lat": 40.5,
+          "slope": 0.9321,
+          "p": 0.4454,
+          "trend": "no trend"
+        },
+        {
+          "lon": -0.625,
+          "lat": 41.0,
+          "slope": 0.5168,
+          "p": 0.6457,
+          "trend": "no trend"
+        },
+        {
+          "lon": -0.0,
+          "lat": 38.0,
+          "slope": 0.0092,
+          "p": 0.9766,
+          "trend": "no trend"
+        },
+        {
+          "lon": -0.0,
+          "lat": 38.5,
+          "slope": 1.5964,
+          "p": 0.2,
+          "trend": "no trend"
+        },
+        {
+          "lon": -0.0,
+          "lat": 39.0,
+          "slope": 2.6873,
+          "p": 0.054,
+          "trend": "no trend"
+        },
+        {
+          "lon": -0.0,
+          "lat": 39.5,
+          "slope": 2.9481,
+          "p": 0.0703,
+          "trend": "no trend"
+        },
+        {
+          "lon": -0.0,
+          "lat": 40.0,
+          "slope": 2.5714,
+          "p": 0.0493,
+          "trend": "increasing"
+        },
+        {
+          "lon": -0.0,
+          "lat": 40.5,
+          "slope": 1.2419,
+          "p": 0.3137,
+          "trend": "no trend"
+        },
+        {
+          "lon": -0.0,
+          "lat": 41.0,
+          "slope": 0.6318,
+          "p": 0.5906,
+          "trend": "no trend"
+        },
+        {
+          "lon": 0.625,
+          "lat": 38.0,
+          "slope": -1.5627,
+          "p": 0.1023,
+          "trend": "no trend"
+        },
+        {
+          "lon": 0.625,
+          "lat": 38.5,
+          "slope": -0.1259,
+          "p": 0.9766,
+          "trend": "no trend"
+        },
+        {
+          "lon": 0.625,
+          "lat": 39.0,
+          "slope": -0.658,
+          "p": 0.5059,
+          "trend": "no trend"
+        },
+        {
+          "lon": 0.625,
+          "lat": 39.5,
+          "slope": -2.4439,
+          "p": 0.054,
+          "trend": "no trend"
+        },
+        {
+          "lon": 0.625,
+          "lat": 40.0,
+          "slope": -1.9401,
+          "p": 0.0834,
+          "trend": "no trend"
+        },
+        {
+          "lon": 0.625,
+          "lat": 40.5,
+          "slope": -1.2652,
+          "p": 0.4057,
+          "trend": "no trend"
+        },
+        {
+          "lon": 0.625,
+          "lat": 41.0,
+          "slope": 0.3145,
+          "p": 0.822,
+          "trend": "no trend"
+        }
+      ]
+    },
+    "valencia_map_rx1day": {
+      "n_cells": 35,
+      "n_sig_increasing": 0,
+      "n_sig_decreasing": 1,
+      "cells": [
+        {
+          "lon": -1.875,
+          "lat": 38.0,
+          "slope": 0.1831,
+          "p": 0.2776,
+          "trend": "no trend"
+        },
+        {
+          "lon": -1.875,
+          "lat": 38.5,
+          "slope": 0.055,
+          "p": 0.7468,
+          "trend": "no trend"
+        },
+        {
+          "lon": -1.875,
+          "lat": 39.0,
+          "slope": 0.1971,
+          "p": 0.2,
+          "trend": "no trend"
+        },
+        {
+          "lon": -1.875,
+          "lat": 39.5,
+          "slope": 0.0331,
+          "p": 0.7841,
+          "trend": "no trend"
+        },
+        {
+          "lon": -1.875,
+          "lat": 40.0,
+          "slope": 0.0841,
+          "p": 0.3328,
+          "trend": "no trend"
+        },
+        {
+          "lon": -1.875,
+          "lat": 40.5,
+          "slope": 0.11,
+          "p": 0.1477,
+          "trend": "no trend"
+        },
+        {
+          "lon": -1.875,
+          "lat": 41.0,
+          "slope": 0.0678,
+          "p": 0.4631,
+          "trend": "no trend"
+        },
+        {
+          "lon": -1.25,
+          "lat": 38.0,
+          "slope": 0.1578,
+          "p": 0.3137,
+          "trend": "no trend"
+        },
+        {
+          "lon": -1.25,
+          "lat": 38.5,
+          "slope": 0.2016,
+          "p": 0.1153,
+          "trend": "no trend"
+        },
+        {
+          "lon": -1.25,
+          "lat": 39.0,
+          "slope": 0.1447,
+          "p": 0.2819,
+          "trend": "no trend"
+        },
+        {
+          "lon": -1.25,
+          "lat": 39.5,
+          "slope": 0.0679,
+          "p": 0.5838,
+          "trend": "no trend"
+        },
+        {
+          "lon": -1.25,
+          "lat": 40.0,
+          "slope": 0.0639,
+          "p": 0.4812,
+          "trend": "no trend"
+        },
+        {
+          "lon": -1.25,
+          "lat": 40.5,
+          "slope": 0.0023,
+          "p": 1.0,
+          "trend": "no trend"
+        },
+        {
+          "lon": -1.25,
+          "lat": 41.0,
+          "slope": 0.006,
+          "p": 0.9844,
+          "trend": "no trend"
+        },
+        {
+          "lon": -0.625,
+          "lat": 38.0,
+          "slope": 0.2624,
+          "p": 0.0983,
+          "trend": "no trend"
+        },
+        {
+          "lon": -0.625,
+          "lat": 38.5,
+          "slope": 0.1875,
+          "p": 0.2819,
+          "trend": "no trend"
+        },
+        {
+          "lon": -0.625,
+          "lat": 39.0,
+          "slope": 0.1626,
+          "p": 0.2141,
+          "trend": "no trend"
+        },
+        {
+          "lon": -0.625,
+          "lat": 39.5,
+          "slope": 0.1465,
+          "p": 0.2483,
+          "trend": "no trend"
+        },
+        {
+          "lon": -0.625,
+          "lat": 40.0,
+          "slope": 0.1006,
+          "p": 0.4168,
+          "trend": "no trend"
+        },
+        {
+          "lon": -0.625,
+          "lat": 40.5,
+          "slope": 0.0864,
+          "p": 0.4812,
+          "trend": "no trend"
+        },
+        {
+          "lon": -0.625,
+          "lat": 41.0,
+          "slope": 0.08,
+          "p": 0.3839,
+          "trend": "no trend"
+        },
+        {
+          "lon": -0.0,
+          "lat": 38.0,
+          "slope": 0.1717,
+          "p": 0.2105,
+          "trend": "no trend"
+        },
+        {
+          "lon": -0.0,
+          "lat": 38.5,
+          "slope": 0.0906,
+          "p": 0.4997,
+          "trend": "no trend"
+        },
+        {
+          "lon": -0.0,
+          "lat": 39.0,
+          "slope": 0.103,
+          "p": 0.4338,
+          "trend": "no trend"
+        },
+        {
+          "lon": -0.0,
+          "lat": 39.5,
+          "slope": 0.2222,
+          "p": 0.1619,
+          "trend": "no trend"
+        },
+        {
+          "lon": -0.0,
+          "lat": 40.0,
+          "slope": 0.2935,
+          "p": 0.054,
+          "trend": "no trend"
+        },
+        {
+          "lon": -0.0,
+          "lat": 40.5,
+          "slope": 0.1358,
+          "p": 0.4631,
+          "trend": "no trend"
+        },
+        {
+          "lon": -0.0,
+          "lat": 41.0,
+          "slope": 0.0444,
+          "p": 0.7692,
+          "trend": "no trend"
+        },
+        {
+          "lon": 0.625,
+          "lat": 38.0,
+          "slope": 0.0354,
+          "p": 0.7247,
+          "trend": "no trend"
+        },
+        {
+          "lon": 0.625,
+          "lat": 38.5,
+          "slope": -0.0871,
+          "p": 0.3527,
+          "trend": "no trend"
+        },
+        {
+          "lon": 0.625,
+          "lat": 39.0,
+          "slope": -0.1367,
+          "p": 0.1678,
+          "trend": "no trend"
+        },
+        {
+          "lon": 0.625,
+          "lat": 39.5,
+          "slope": -0.2616,
+          "p": 0.0449,
+          "trend": "decreasing"
+        },
+        {
+          "lon": 0.625,
+          "lat": 40.0,
+          "slope": -0.0952,
+          "p": 0.4752,
+          "trend": "no trend"
+        },
+        {
+          "lon": 0.625,
+          "lat": 40.5,
+          "slope": 0.0219,
+          "p": 0.8372,
+          "trend": "no trend"
+        },
+        {
+          "lon": 0.625,
+          "lat": 41.0,
+          "slope": -0.035,
+          "p": 0.9143,
+          "trend": "no trend"
+        }
+      ]
+    },
+    "ontario_map_total": {
+      "n_cells": 35,
+      "n_sig_increasing": 2,
+      "n_sig_decreasing": 15,
+      "cells": [
+        {
+          "lon": -80.625,
+          "lat": 43.0,
+          "slope": -7.1696,
+          "p": 0.0002,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -80.625,
+          "lat": 43.5,
+          "slope": -0.1859,
+          "p": 0.9143,
+          "trend": "no trend"
+        },
+        {
+          "lon": -80.625,
+          "lat": 44.0,
+          "slope": 4.3201,
+          "p": 0.0204,
+          "trend": "increasing"
+        },
+        {
+          "lon": -80.625,
+          "lat": 44.5,
+          "slope": 0.786,
+          "p": 0.7917,
+          "trend": "no trend"
+        },
+        {
+          "lon": -80.625,
+          "lat": 45.0,
+          "slope": -3.4221,
+          "p": 0.2,
+          "trend": "no trend"
+        },
+        {
+          "lon": -80.625,
+          "lat": 45.5,
+          "slope": -2.5407,
+          "p": 0.3328,
+          "trend": "no trend"
+        },
+        {
+          "lon": -80.625,
+          "lat": 46.0,
+          "slope": -0.0186,
+          "p": 1.0,
+          "trend": "no trend"
+        },
+        {
+          "lon": -80.0,
+          "lat": 43.0,
+          "slope": -2.1359,
+          "p": 0.2863,
+          "trend": "no trend"
+        },
+        {
+          "lon": -80.0,
+          "lat": 43.5,
+          "slope": 0.8125,
+          "p": 0.6041,
+          "trend": "no trend"
+        },
+        {
+          "lon": -80.0,
+          "lat": 44.0,
+          "slope": 4.0116,
+          "p": 0.0238,
+          "trend": "increasing"
+        },
+        {
+          "lon": -80.0,
+          "lat": 44.5,
+          "slope": -0.8163,
+          "p": 0.6884,
+          "trend": "no trend"
+        },
+        {
+          "lon": -80.0,
+          "lat": 45.0,
+          "slope": -5.6475,
+          "p": 0.0238,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -80.0,
+          "lat": 45.5,
+          "slope": -7.3639,
+          "p": 0.0,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -80.0,
+          "lat": 46.0,
+          "slope": -0.5798,
+          "p": 0.7028,
+          "trend": "no trend"
+        },
+        {
+          "lon": -79.375,
+          "lat": 43.0,
+          "slope": 0.017,
+          "p": 1.0,
+          "trend": "no trend"
+        },
+        {
+          "lon": -79.375,
+          "lat": 43.5,
+          "slope": 1.6272,
+          "p": 0.269,
+          "trend": "no trend"
+        },
+        {
+          "lon": -79.375,
+          "lat": 44.0,
+          "slope": 1.0823,
+          "p": 0.4057,
+          "trend": "no trend"
+        },
+        {
+          "lon": -79.375,
+          "lat": 44.5,
+          "slope": -6.2062,
+          "p": 0.0028,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -79.375,
+          "lat": 45.0,
+          "slope": -14.1991,
+          "p": 0.0,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -79.375,
+          "lat": 45.5,
+          "slope": -13.106,
+          "p": 0.0,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -79.375,
+          "lat": 46.0,
+          "slope": -7.5843,
+          "p": 0.0001,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -78.75,
+          "lat": 43.0,
+          "slope": 0.8055,
+          "p": 0.5377,
+          "trend": "no trend"
+        },
+        {
+          "lon": -78.75,
+          "lat": 43.5,
+          "slope": 1.1825,
+          "p": 0.3231,
+          "trend": "no trend"
+        },
+        {
+          "lon": -78.75,
+          "lat": 44.0,
+          "slope": -0.0435,
+          "p": 0.9922,
+          "trend": "no trend"
+        },
+        {
+          "lon": -78.75,
+          "lat": 44.5,
+          "slope": -5.5139,
+          "p": 0.0032,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -78.75,
+          "lat": 45.0,
+          "slope": -13.5876,
+          "p": 0.0,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -78.75,
+          "lat": 45.5,
+          "slope": -13.4506,
+          "p": 0.0,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -78.75,
+          "lat": 46.0,
+          "slope": -10.189,
+          "p": 0.0,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -78.125,
+          "lat": 43.0,
+          "slope": 1.2003,
+          "p": 0.2606,
+          "trend": "no trend"
+        },
+        {
+          "lon": -78.125,
+          "lat": 43.5,
+          "slope": 1.0333,
+          "p": 0.4057,
+          "trend": "no trend"
+        },
+        {
+          "lon": -78.125,
+          "lat": 44.0,
+          "slope": 1.1353,
+          "p": 0.3947,
+          "trend": "no trend"
+        },
+        {
+          "lon": -78.125,
+          "lat": 44.5,
+          "slope": -4.6959,
+          "p": 0.0034,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -78.125,
+          "lat": 45.0,
+          "slope": -10.3369,
+          "p": 0.0,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -78.125,
+          "lat": 45.5,
+          "slope": -10.4667,
+          "p": 0.0,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -78.125,
+          "lat": 46.0,
+          "slope": -7.4577,
+          "p": 0.0,
+          "trend": "decreasing"
+        }
+      ]
+    },
+    "ontario_map_rx1day": {
+      "n_cells": 35,
+      "n_sig_increasing": 0,
+      "n_sig_decreasing": 23,
+      "cells": [
+        {
+          "lon": -80.625,
+          "lat": 43.0,
+          "slope": -0.4889,
+          "p": 0.0,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -80.625,
+          "lat": 43.5,
+          "slope": -0.0344,
+          "p": 0.7617,
+          "trend": "no trend"
+        },
+        {
+          "lon": -80.625,
+          "lat": 44.0,
+          "slope": 0.2067,
+          "p": 0.0504,
+          "trend": "no trend"
+        },
+        {
+          "lon": -80.625,
+          "lat": 44.5,
+          "slope": -0.0173,
+          "p": 0.8526,
+          "trend": "no trend"
+        },
+        {
+          "lon": -80.625,
+          "lat": 45.0,
+          "slope": -0.2227,
+          "p": 0.009,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -80.625,
+          "lat": 45.5,
+          "slope": -0.2712,
+          "p": 0.0009,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -80.625,
+          "lat": 46.0,
+          "slope": -0.3017,
+          "p": 0.0001,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -80.0,
+          "lat": 43.0,
+          "slope": -0.3995,
+          "p": 0.0,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -80.0,
+          "lat": 43.5,
+          "slope": -0.0542,
+          "p": 0.5638,
+          "trend": "no trend"
+        },
+        {
+          "lon": -80.0,
+          "lat": 44.0,
+          "slope": 0.0404,
+          "p": 0.5771,
+          "trend": "no trend"
+        },
+        {
+          "lon": -80.0,
+          "lat": 44.5,
+          "slope": -0.1169,
+          "p": 0.1246,
+          "trend": "no trend"
+        },
+        {
+          "lon": -80.0,
+          "lat": 45.0,
+          "slope": -0.3086,
+          "p": 0.0004,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -80.0,
+          "lat": 45.5,
+          "slope": -0.3961,
+          "p": 0.0,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -80.0,
+          "lat": 46.0,
+          "slope": -0.3249,
+          "p": 0.0,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -79.375,
+          "lat": 43.0,
+          "slope": -0.2187,
+          "p": 0.0025,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -79.375,
+          "lat": 43.5,
+          "slope": -0.1832,
+          "p": 0.0133,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -79.375,
+          "lat": 44.0,
+          "slope": -0.1331,
+          "p": 0.0734,
+          "trend": "no trend"
+        },
+        {
+          "lon": -79.375,
+          "lat": 44.5,
+          "slope": -0.3419,
+          "p": 0.0002,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -79.375,
+          "lat": 45.0,
+          "slope": -0.5849,
+          "p": 0.0,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -79.375,
+          "lat": 45.5,
+          "slope": -0.5574,
+          "p": 0.0,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -79.375,
+          "lat": 46.0,
+          "slope": -0.4475,
+          "p": 0.0003,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -78.75,
+          "lat": 43.0,
+          "slope": -0.0099,
+          "p": 0.9454,
+          "trend": "no trend"
+        },
+        {
+          "lon": -78.75,
+          "lat": 43.5,
+          "slope": -0.1471,
+          "p": 0.059,
+          "trend": "no trend"
+        },
+        {
+          "lon": -78.75,
+          "lat": 44.0,
+          "slope": -0.1802,
+          "p": 0.0227,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -78.75,
+          "lat": 44.5,
+          "slope": -0.2846,
+          "p": 0.0006,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -78.75,
+          "lat": 45.0,
+          "slope": -0.5593,
+          "p": 0.0,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -78.75,
+          "lat": 45.5,
+          "slope": -0.4319,
+          "p": 0.0,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -78.75,
+          "lat": 46.0,
+          "slope": -0.3635,
+          "p": 0.0017,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -78.125,
+          "lat": 43.0,
+          "slope": 0.0681,
+          "p": 0.4168,
+          "trend": "no trend"
+        },
+        {
+          "lon": -78.125,
+          "lat": 43.5,
+          "slope": -0.1695,
+          "p": 0.0226,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -78.125,
+          "lat": 44.0,
+          "slope": -0.0694,
+          "p": 0.3328,
+          "trend": "no trend"
+        },
+        {
+          "lon": -78.125,
+          "lat": 44.5,
+          "slope": -0.2266,
+          "p": 0.0116,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -78.125,
+          "lat": 45.0,
+          "slope": -0.3422,
+          "p": 0.0001,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -78.125,
+          "lat": 45.5,
+          "slope": -0.2402,
+          "p": 0.0085,
+          "trend": "decreasing"
+        },
+        {
+          "lon": -78.125,
+          "lat": 46.0,
+          "slope": -0.0947,
+          "p": 0.2863,
+          "trend": "no trend"
+        }
+      ]
+    }
+  }
+}

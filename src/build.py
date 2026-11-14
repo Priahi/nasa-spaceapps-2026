@@ -5,6 +5,7 @@
 Usage: python3 src/build.py [--demos /path/to/nasa-spaceapps/deploy]"""
 import html, json, re, shutil, sys
 from pathlib import Path
+from story import STORIES, trend_story, chain, usecases_home, usecases_module, maps_block
 from content import SITE, PROJECTS, CRITERIA, TRENDS, GLOSSARY, STAKES, SYSTEM_PROBLEM, MODULES, UPGRADES
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -13,6 +14,7 @@ DEMOS = Path(sys.argv[sys.argv.index("--demos") + 1]) if "--demos" in sys.argv e
 SITE_URL = "https://nasa-spaceapps-2026.pages.dev"
 import os
 REPO_URL = "https://github.com/Priahi/nasa-spaceapps-2026"
+SLIDES = []
 SHOW_REPO = os.environ.get("SHOW_REPO", "1") == "1"  # repo is public since 14 Nov 2026
 DEMO_DIR = {"hotspots": "hotspots", "sar-change": "sar-change", "field-shift": "field-shift"}
 THEME = {"hotspots": "hotspots.css", "sar-change": "sar.css", "field-shift": "field.css"}
@@ -81,7 +83,7 @@ def head(title, desc, path, img="og.png"):
 """
 
 def nav(active):
-    items = [("/#why", "Why"), ("/#what", "What"), ("/#how", "How")] + [(f"/{p['slug']}/", p["name"].split(":")[0]) for p in PROJECTS]
+    items = [("/#why", "Why"), ("/#what", "What"), ("/#how", "How")] + [(f"/{p['slug']}/", p["name"].split(":")[0]) for p in PROJECTS] + [("/slides/", "Slides")]
     li = "".join(f'<li><a href="{h}"{" aria-current=\"page\"" if h==active else ""}>{e(t)}</a></li>' for h, t in items)
     mi = "".join(f'<a href="{h}">{e(t)}</a>' for h, t in items)
     return f"""<header class="nav"><a class="brand" href="/"><span class="brand-dot" aria-hidden="true"></span>Orbit to Ground</a>
@@ -136,7 +138,7 @@ def landing():
 <div class="mod-body"><span class="num">Module {p['n']} · {e(M['role'])}</span><h3>{e(p['name'])}</h3>
 <p class="stmt"><b style="color:var(--ink);font-weight:500">The problem.</b> {e(M['statement'])}</p><ul>{li}</ul>
 <div class="kpi">{kpi(p)}</div>
-<div class="actions" style="margin-top:1.1rem"><a class="btn" href="/{p['slug']}/">Open the module</a><a class="btn ghost" href="/{p['slug']}/app/">Live tool &nearr;</a></div></div></article>"""
+<div class="actions" style="margin-top:1.1rem"><a class="btn launch" href="/{p['slug']}/app/">Launch dashboard</a><a class="btn ghost" href="/{p['slug']}/">Open the module</a></div></div></article>"""
     cases = ""
     for p in PROJECTS:
         t = TRENDS[p["slug"]]; c = t["case"]; ok, sigt = c["sig"]
@@ -161,7 +163,8 @@ def landing():
 <p class="chip"><i></i>NASA Space Apps 2026 · {e(SITE['challenge'])}</p>
 <h1>Orbit to <span class="grad">Ground</span></h1>
 <p class="lede">{e(SITE['tagline'])} Three working modules turn NASA satellite data into decisions: detect, confirm, adapt. Each one answers what is changing, where, how much, and whether it's significant.</p>
-<div class="actions"><a class="btn" href="#what">See the system &darr;</a><a class="btn ghost" href="#demo-video">&#9654; Demo video</a><a class="btn ghost" href="/submission/deck.pdf">Slides (PDF)</a></div>
+<div class="actions"><a class="btn" href="#what">See the system &darr;</a><a class="btn ghost" href="#demo-video">&#9654; Demo video</a><a class="btn ghost" href="/slides/">Slides</a></div>
+<div class="dash-strip"><span class="mono">Launch a dashboard</span><a class="btn launch" href="/hotspots/app/">Hot Spots</a><a class="btn launch" href="/sar-change/app/">SAR Change</a><a class="btn launch" href="/field-shift/app/">Field Shift</a></div>
 <ul class="proof">
 <li><a href="/hotspots/"><span class="src">01 · Detect</span><strong class="grad" data-count="11616131" data-dec="0">11,616,131</strong><span class="t">NASA FIRMS fire detections behind the model, Canada and Argentina, 2000–2025</span></a></li>
 <li><a href="/sar-change/"><span class="src">02 · Confirm</span><strong class="grad" data-count="3.0" data-dec="1" data-suffix="×">3.0×</strong><span class="t">the water overlap of the standard Otsu threshold, through cloud and night</span></a></li>
@@ -174,6 +177,7 @@ def landing():
 <figcaption><span class="mono">Demo · under 30 s</span> The three modules and the trend layer in one pass. <a href="/submission/demo.mp4">Download MP4</a> · <a href="/submission/demo.en.srt">Captions</a> · <a href="/submission/deck.pdf">Slides (PDF)</a></figcaption></figure>
 </div></section>
 
+""" + slides_strip(SLIDES) + f"""
 <section class="section" id="why"><div class="wrap">
 <div class="part-mark" data-fx="rise"><b>Why</b><span>01 · The problem</span></div>
 <div class="split-head" data-fx="rise"><div><h2>Change is fast. The evidence is split.</h2></div><p>Three recent events, each seen from orbit, each with a decision that came too late or without the full record.</p></div>
@@ -197,6 +201,7 @@ def landing():
 <div class="split-head" data-fx="rise"><div><p class="eyebrow">What · the modules</p><h2>Each module is a full, working tool.</h2></div><p>Open any module for its live demo, results, figures and data. Every tool runs in your browser from precomputed NASA data.</p></div>
 <div class="mod-list">{mods}</div></div></section>
 
+""" + chain() + usecases_home() + trend_story() + f"""
 <section class="section trend-sec" id="trends"><div class="wrap">
 <div class="split-head" data-fx="rise"><div><p class="eyebrow">What · the connective tissue</p><h2>Four questions in every module.</h2></div><p>The <a href="{SITE['challenge_url']}" style="color:var(--accent)">Trend Detective</a> layer: pick a variable, get the NASA record, plot it and test whether the change is real.</p></div>
 <div class="case-grid" data-fx="stagger">{cases}</div>
@@ -286,7 +291,7 @@ def project(i, p):
 <p class="chip"><i></i>Module {p['n']} · {e(M['role'])} · {e(SITE['challenge'])}</p>
 <h1>{e(p['name'])}</h1>
 <p class="lede">{e(p['tagline'])}</p>
-<div class="actions"><a class="btn" href="#demo">Try the live tool &darr;</a><a class="btn ghost" href="#trend">See the trend</a><a class="btn ghost" href="/{p['slug']}/app/">Open full screen</a></div>
+<div class="actions"><a class="btn launch" href="/{p['slug']}/app/">Launch dashboard</a><a class="btn ghost" href="#demo">Try it on this page &darr;</a><a class="btn ghost" href="#story">The data story</a><a class="btn ghost" href="#trend">The trend</a></div>
 </div></section>
 
 <section class="block" id="demo" style="padding-top:1rem"><div class="wrap">
@@ -302,7 +307,7 @@ def project(i, p):
 </div></section>
 
 <div class="topo-rule" aria-hidden="true"></div>
-
+""" + STORIES[p["slug"]]() + usecases_module(p["slug"]) + f"""
 <section class="section" style="padding-bottom:2rem"><div class="wrap">
 <div class="part-mark" data-fx="rise"><b>What</b><span>{e(M['verb'])}</span></div>
 <div class="split-head" data-fx="rise"><div><h2>What the module delivers.</h2></div><ul class="findings" style="margin:0">{deliv}</ul></div>
@@ -317,6 +322,7 @@ def project(i, p):
 <div class="tw" data-trend="{T['widget']}" data-fx="rise"><noscript><p class="map-cap">The interactive trend chart needs JavaScript. The findings are listed below.</p></noscript></div>
 <ul class="findings" data-fx="rise">{finds}</ul>
 <p class="demo-note">Mann-Kendall (α = 0.05) and Sen's slope with 95% CI, one value per year. Hover or tap the chart for yearly values.</p>
+{maps_block(p["slug"])}
 </div></section>
 
 <div class="topo-rule" aria-hidden="true"></div>
@@ -338,6 +344,52 @@ def project(i, p):
 <a class="spot" href="/{prev_p['slug']}/"><div class="spot-body"><small>&larr; Module {prev_p['n']}</small><b>{e(prev_p['name'])}</b></div></a>
 <a class="spot" href="/{next_p['slug']}/" style="text-align:right"><div class="spot-body"><small>Module {next_p['n']} &rarr;</small><b>{e(next_p['name'])}</b></div></a>
 </div></section>
+</main>
+""" + FOOT
+
+# ---------- slides ----------
+def slide_list():
+    """Newest deck files at build time: slide PNGs from submission/build, titles from submission/deck.html."""
+    import re as _re
+    bd = ROOT / "submission" / "build"; files = sorted(bd.glob("slide-*.png"), key=lambda f: int(_re.findall(r"\d+", f.stem)[0]))
+    titles = []
+    dh = ROOT / "submission" / "deck.html"
+    if dh.exists():
+        for sec in _re.split(r"<section", dh.read_text())[1:]:
+            h = _re.search(r"<h[12][^>]*>(.*?)</h[12]>", sec, _re.S)
+            titles.append(_re.sub(r"<[^>]+>", "", h.group(1)).strip() if h else "")
+    out = []
+    for i, f in enumerate(files):
+        out.append((i + 1, f, titles[i] if i < len(titles) and titles[i] else f"Slide {i + 1}"))
+    return out
+
+def copy_slides():
+    sl = slide_list(); d = DIST / "slides" / "img"; d.mkdir(parents=True, exist_ok=True)
+    for n, f, t in sl:
+        try:
+            from PIL import Image
+            im = Image.open(f).convert("RGB"); im.save(d / f"slide-{n}.webp", quality=86)
+            im.thumbnail((640, 360)); im.save(d / f"slide-{n}-thumb.webp", quality=80)
+        except Exception:
+            shutil.copy(f, d / f"slide-{n}.webp")
+    return sl
+
+def slides_strip(sl):
+    if not sl: return ""
+    cards = "".join(f'<a class="slide-thumb" href="/slides/#slide-{n}"><img src="/slides/img/slide-{n}-thumb.webp" alt="Slide {n}: {e(t)}" loading="lazy" width="640" height="360" /><span class="mono">{n:02d}</span><b>{e(t)}</b></a>' for n, f, t in sl)
+    return f"""<section class="section" id="slides" style="padding-top:2rem"><div class="wrap">
+<div class="split-head" data-fx="rise"><div><p class="eyebrow">The deck</p><h2>{len(sl)} slides, same story.</h2></div><p>Read the slides right here, or download the PDF. <span class="actions" style="display:inline-flex;margin:.6rem 0 0"><a class="btn" href="/slides/">View the slides</a><a class="btn ghost" href="/submission/deck.pdf">Download PDF</a></span></p></div>
+<div class="slide-strip" data-fx="rise">{cards}</div></div></section>"""
+
+def slides_page(sl):
+    slides = "".join(f'<figure class="slide" id="slide-{n}"><img src="/slides/img/slide-{n}.webp" alt="Slide {n}: {e(t)}" {"loading=\"lazy\" " if n > 1 else ""}width="1920" height="1080" /><figcaption><span class="mono">{n:02d} / {len(sl):02d}</span>{e(t)}</figcaption></figure>' for n, f, t in sl)
+    dots = "".join(f'<a href="#slide-{n}" aria-label="Slide {n}">{n}</a>' for n, f, t in sl)
+    return head("Slides · Orbit to Ground", "The Orbit to Ground deck: " + SITE["desc"], "/slides/") + nav("/slides/") + f"""<main id="content">
+<section class="hero short"><div class="topo-hero" aria-hidden="true"></div><div class="wrap hero-copy">
+<p class="chip"><i></i>NASA Space Apps 2026 · {e(SITE['challenge'])}</p><h1>The slides</h1>
+<p class="lede">{len(sl)} slides: the problem, the system, and one trend question per module, answered with NASA data.</p>
+<div class="actions"><a class="btn" href="/submission/deck.pdf">Download PDF</a><a class="btn ghost" href="/#demo-video">&#9654; Demo video</a><a class="btn ghost" href="/">Back to the site</a></div></div></section>
+<section class="block" style="padding-top:0"><div class="wrap slides-wrap"><nav class="slide-dots mono" aria-label="Jump to slide">{dots}</nav><div class="slides">{slides}</div></div></section>
 </main>
 """ + FOOT
 
@@ -378,6 +430,14 @@ def main():
     DIST.mkdir(parents=True)
     shutil.copytree(SRC / "assets", DIST / "assets")
     print("earthdata:", merge_earthdata())
+    for f in (ROOT / "trends/out/maps").glob("*.png") if (ROOT / "trends/out/maps").exists() else []:
+        try:
+            from PIL import Image
+            Image.open(f).convert("RGB").save(DIST / "assets/img" / ("map-" + f.stem.replace("_", "-") + ".webp"), quality=88)
+        except Exception as ex: print("map convert failed", f, ex)
+    global SLIDES
+    SLIDES = copy_slides()
+    (DIST / "slides").mkdir(exist_ok=True); (DIST / "slides" / "index.html").write_text(slides_page(SLIDES))
     (DIST / "index.html").write_text(landing())
     for i, p in enumerate(PROJECTS):
         copy_demo(p["slug"])
@@ -393,7 +453,7 @@ def main():
         import re as _re
         (sub / "demo.en.vtt").write_text("WEBVTT\n\n" + _re.sub(r"(\d\d:\d\d:\d\d),(\d\d\d)", r"\1.\2", (sub / "demo.en.srt").read_text()))
     (DIST / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {SITE_URL}/sitemap.xml\n")
-    urls = ["/"] + [f"/{p['slug']}/" for p in PROJECTS] + [f"/{p['slug']}/app/" for p in PROJECTS]
+    urls = ["/", "/slides/"] + [f"/{p['slug']}/" for p in PROJECTS] + [f"/{p['slug']}/app/" for p in PROJECTS]
     (DIST / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + "".join(f"<url><loc>{SITE_URL}{u}</loc></url>" for u in urls) + "</urlset>\n")
     (DIST / "_headers").write_text("/assets/*\n  Cache-Control: public, max-age=3600\n/submission/*.srt\n  Content-Type: text/plain; charset=utf-8\n/submission/*.vtt\n  Content-Type: text/vtt; charset=utf-8\n/submission/*\n  Cache-Control: public, max-age=600\n/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n")
     n = sum(1 for _ in DIST.rglob("*") if _.is_file())

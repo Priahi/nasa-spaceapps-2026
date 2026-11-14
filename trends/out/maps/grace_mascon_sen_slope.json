@@ -1,0 +1,3108 @@
+{
+  "method": "Same as trends/analyze_earthdata.py grace(): land mascons only, monthly climatology removed, annual mean of years with \u2265 6 months, 2003\u20132025, 2017\u20132018 dropped (GRACE\u2192GRACE-FO gap). Mann-Kendall original test + Sen's slope, \u03b1 = 0.05. Colour is the Sen slope of each ~3\u00b0 mascon, painted on the 0.5\u00b0 CRI grid. Adjacent cells that share a mascon_ID are not independent.",
+  "dataset": "JPL GRACE and GRACE-FO MASCON RL06.3Mv04 CRI (TELLUS_GRAC-GRFO_MASCON_CRI_GRID_RL06.3_V4)",
+  "regions": {
+    "canada": {
+      "bbox": [
+        -141.0,
+        -52.0,
+        41.0,
+        70.0
+      ],
+      "n_mascons_tested": 141,
+      "n_significant": 101,
+      "n_increasing": 42,
+      "n_decreasing": 59,
+      "mascons": [
+        {
+          "mascon_id": 764,
+          "trend": "no trend",
+          "p": 0.38119,
+          "p_hamed_rao": 0.29895,
+          "sen_slope_per_year": -0.17909,
+          "sen_ci95": [
+            -0.47629,
+            0.16795
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 765,
+          "trend": "no trend",
+          "p": 0.52599,
+          "p_hamed_rao": NaN,
+          "sen_slope_per_year": 0.11198,
+          "sen_ci95": [
+            -0.19311,
+            0.27943
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 766,
+          "trend": "no trend",
+          "p": 0.15582,
+          "p_hamed_rao": 0.10956,
+          "sen_slope_per_year": -0.24079,
+          "sen_ci95": [
+            -0.61369,
+            0.06566
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 767,
+          "trend": "decreasing",
+          "p": 0.00229,
+          "p_hamed_rao": 0.00229,
+          "sen_slope_per_year": -0.50594,
+          "sen_ci95": [
+            -0.77369,
+            -0.20616
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 768,
+          "trend": "no trend",
+          "p": 0.87999,
+          "p_hamed_rao": 0.87999,
+          "sen_slope_per_year": 0.03191,
+          "sen_ci95": [
+            -0.17206,
+            0.1966
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 769,
+          "trend": "increasing",
+          "p": 0.00498,
+          "p_hamed_rao": 0.02044,
+          "sen_slope_per_year": 0.65365,
+          "sen_ci95": [
+            0.2647,
+            1.02332
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 770,
+          "trend": "increasing",
+          "p": 0.0275,
+          "p_hamed_rao": 0.04219,
+          "sen_slope_per_year": 0.64997,
+          "sen_ci95": [
+            0.17163,
+            1.39839
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 771,
+          "trend": "no trend",
+          "p": 0.34922,
+          "p_hamed_rao": 0.34362,
+          "sen_slope_per_year": -0.23863,
+          "sen_ci95": [
+            -0.73015,
+            0.49306
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 772,
+          "trend": "no trend",
+          "p": 0.73976,
+          "p_hamed_rao": 0.74354,
+          "sen_slope_per_year": 0.03884,
+          "sen_ci95": [
+            -0.34573,
+            0.65949
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 773,
+          "trend": "increasing",
+          "p": 0.00861,
+          "p_hamed_rao": 0.04131,
+          "sen_slope_per_year": 0.69078,
+          "sen_ci95": [
+            0.20225,
+            1.45101
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 774,
+          "trend": "increasing",
+          "p": 0.00861,
+          "p_hamed_rao": 0.05159,
+          "sen_slope_per_year": 0.632,
+          "sen_ci95": [
+            0.25048,
+            1.11959
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 775,
+          "trend": "no trend",
+          "p": 0.73976,
+          "p_hamed_rao": 0.73976,
+          "sen_slope_per_year": 0.0638,
+          "sen_ci95": [
+            -0.20186,
+            0.36556
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 776,
+          "trend": "increasing",
+          "p": 0.01027,
+          "p_hamed_rao": 0.01027,
+          "sen_slope_per_year": 0.32486,
+          "sen_ci95": [
+            0.12243,
+            0.49151
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 777,
+          "trend": "increasing",
+          "p": 0.0002,
+          "p_hamed_rao": 0.0002,
+          "sen_slope_per_year": 0.50667,
+          "sen_ci95": [
+            0.30977,
+            0.67166
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 677,
+          "trend": "no trend",
+          "p": 0.12355,
+          "p_hamed_rao": 0.12355,
+          "sen_slope_per_year": -0.1731,
+          "sen_ci95": [
+            -0.46683,
+            0.08982
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 678,
+          "trend": "increasing",
+          "p": 0.00229,
+          "p_hamed_rao": 0.00229,
+          "sen_slope_per_year": 0.43058,
+          "sen_ci95": [
+            0.18687,
+            0.65439
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 679,
+          "trend": "increasing",
+          "p": 0.04305,
+          "p_hamed_rao": 0.04305,
+          "sen_slope_per_year": 0.29763,
+          "sen_ci95": [
+            0.01461,
+            0.56918
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 680,
+          "trend": "no trend",
+          "p": 0.26387,
+          "p_hamed_rao": 0.26387,
+          "sen_slope_per_year": -0.19579,
+          "sen_ci95": [
+            -0.43912,
+            0.17142
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 681,
+          "trend": "no trend",
+          "p": 0.21569,
+          "p_hamed_rao": 0.38366,
+          "sen_slope_per_year": 0.44983,
+          "sen_ci95": [
+            -0.28612,
+            0.89462
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 682,
+          "trend": "increasing",
+          "p": 0.00152,
+          "p_hamed_rao": 0.02535,
+          "sen_slope_per_year": 0.95737,
+          "sen_ci95": [
+            0.34389,
+            1.47771
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 683,
+          "trend": "no trend",
+          "p": 0.34922,
+          "p_hamed_rao": 0.34922,
+          "sen_slope_per_year": -0.13119,
+          "sen_ci95": [
+            -0.392,
+            0.31958
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 684,
+          "trend": "no trend",
+          "p": 0.08521,
+          "p_hamed_rao": 0.01459,
+          "sen_slope_per_year": 0.15099,
+          "sen_ci95": [
+            -0.04077,
+            0.46987
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 685,
+          "trend": "increasing",
+          "p": 0.0372,
+          "p_hamed_rao": 0.10395,
+          "sen_slope_per_year": 0.79046,
+          "sen_ci95": [
+            0.19799,
+            1.77448
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 686,
+          "trend": "increasing",
+          "p": 0.01027,
+          "p_hamed_rao": 0.04132,
+          "sen_slope_per_year": 1.58663,
+          "sen_ci95": [
+            0.56424,
+            2.64408
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 687,
+          "trend": "increasing",
+          "p": 0.01705,
+          "p_hamed_rao": 0.0784,
+          "sen_slope_per_year": 0.62879,
+          "sen_ci95": [
+            0.15626,
+            1.05641
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 688,
+          "trend": "no trend",
+          "p": 0.97591,
+          "p_hamed_rao": 0.97591,
+          "sen_slope_per_year": -0.00174,
+          "sen_ci95": [
+            -0.17828,
+            0.1543
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 689,
+          "trend": "increasing",
+          "p": 0.00123,
+          "p_hamed_rao": 0.00123,
+          "sen_slope_per_year": 0.34782,
+          "sen_ci95": [
+            0.16631,
+            0.57588
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 690,
+          "trend": "increasing",
+          "p": 1e-05,
+          "p_hamed_rao": 1e-05,
+          "sen_slope_per_year": 0.92636,
+          "sen_ci95": [
+            0.65947,
+            1.1468
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 691,
+          "trend": "increasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": 1.00603,
+          "sen_ci95": [
+            0.81811,
+            1.28592
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 594,
+          "trend": "decreasing",
+          "p": 0.001,
+          "p_hamed_rao": 0.01308,
+          "sen_slope_per_year": -1.33102,
+          "sen_ci95": [
+            -1.97745,
+            -0.78187
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 595,
+          "trend": "decreasing",
+          "p": 0.0008,
+          "p_hamed_rao": 0.0008,
+          "sen_slope_per_year": -0.80963,
+          "sen_ci95": [
+            -1.18055,
+            -0.44687
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 596,
+          "trend": "no trend",
+          "p": 0.06547,
+          "p_hamed_rao": 0.19566,
+          "sen_slope_per_year": 0.32988,
+          "sen_ci95": [
+            -0.03982,
+            0.65231
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 597,
+          "trend": "increasing",
+          "p": 0.0275,
+          "p_hamed_rao": 0.14771,
+          "sen_slope_per_year": 0.45108,
+          "sen_ci95": [
+            0.04618,
+            0.82477
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 598,
+          "trend": "no trend",
+          "p": 0.15582,
+          "p_hamed_rao": 0.25226,
+          "sen_slope_per_year": 0.25565,
+          "sen_ci95": [
+            -0.36717,
+            0.70024
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 599,
+          "trend": "no trend",
+          "p": 0.65058,
+          "p_hamed_rao": 0.72421,
+          "sen_slope_per_year": -0.08409,
+          "sen_ci95": [
+            -0.75741,
+            0.48233
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 600,
+          "trend": "decreasing",
+          "p": 0.00498,
+          "p_hamed_rao": 0.00498,
+          "sen_slope_per_year": -0.55256,
+          "sen_ci95": [
+            -1.02922,
+            -0.2566
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 601,
+          "trend": "no trend",
+          "p": 0.13897,
+          "p_hamed_rao": 0.13897,
+          "sen_slope_per_year": -0.24386,
+          "sen_ci95": [
+            -0.46711,
+            0.08214
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 602,
+          "trend": "no trend",
+          "p": 0.92782,
+          "p_hamed_rao": 0.94369,
+          "sen_slope_per_year": 0.04887,
+          "sen_ci95": [
+            -0.87206,
+            0.80243
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 603,
+          "trend": "no trend",
+          "p": 0.05712,
+          "p_hamed_rao": 0.1403,
+          "sen_slope_per_year": 0.58407,
+          "sen_ci95": [
+            -0.00299,
+            1.16006
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 604,
+          "trend": "increasing",
+          "p": 0.0002,
+          "p_hamed_rao": 0.0002,
+          "sen_slope_per_year": 0.28907,
+          "sen_ci95": [
+            0.12576,
+            0.47834
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 605,
+          "trend": "increasing",
+          "p": 0.00279,
+          "p_hamed_rao": 0.00279,
+          "sen_slope_per_year": 0.33611,
+          "sen_ci95": [
+            0.11946,
+            0.48203
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 606,
+          "trend": "increasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": 1.14573,
+          "sen_ci95": [
+            0.93137,
+            1.36069
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 607,
+          "trend": "increasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": 0.89807,
+          "sen_ci95": [
+            0.77281,
+            1.0728
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 608,
+          "trend": "increasing",
+          "p": 1e-05,
+          "p_hamed_rao": 0.00077,
+          "sen_slope_per_year": 0.2562,
+          "sen_ci95": [
+            0.18929,
+            0.33732
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 610,
+          "trend": "no trend",
+          "p": 0.26387,
+          "p_hamed_rao": 0.26387,
+          "sen_slope_per_year": 0.03567,
+          "sen_ci95": [
+            -0.02217,
+            0.09068
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 609,
+          "trend": "increasing",
+          "p": 6e-05,
+          "p_hamed_rao": 1e-05,
+          "sen_slope_per_year": 0.48706,
+          "sen_ci95": [
+            0.35712,
+            0.63011
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 515,
+          "trend": "decreasing",
+          "p": 0.00152,
+          "p_hamed_rao": 0.0296,
+          "sen_slope_per_year": -1.57854,
+          "sen_ci95": [
+            -2.63819,
+            -0.67466
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 516,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.00023,
+          "sen_slope_per_year": -2.8315,
+          "sen_ci95": [
+            -3.6271,
+            -1.99839
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 517,
+          "trend": "decreasing",
+          "p": 1e-05,
+          "p_hamed_rao": 0.00058,
+          "sen_slope_per_year": -1.60847,
+          "sen_ci95": [
+            -2.30119,
+            -1.16884
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 518,
+          "trend": "no trend",
+          "p": 0.60771,
+          "p_hamed_rao": 0.6958,
+          "sen_slope_per_year": -0.08223,
+          "sen_ci95": [
+            -0.40766,
+            0.29055
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 519,
+          "trend": "no trend",
+          "p": 0.41489,
+          "p_hamed_rao": 0.53755,
+          "sen_slope_per_year": -0.18093,
+          "sen_ci95": [
+            -0.71165,
+            0.43531
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 520,
+          "trend": "no trend",
+          "p": 0.21569,
+          "p_hamed_rao": 0.32523,
+          "sen_slope_per_year": -0.43562,
+          "sen_ci95": [
+            -1.05851,
+            0.43053
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 521,
+          "trend": "no trend",
+          "p": 0.31901,
+          "p_hamed_rao": 0.18489,
+          "sen_slope_per_year": -0.40724,
+          "sen_ci95": [
+            -0.90188,
+            0.50201
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 522,
+          "trend": "decreasing",
+          "p": 0.001,
+          "p_hamed_rao": 0.001,
+          "sen_slope_per_year": -0.48077,
+          "sen_ci95": [
+            -0.68029,
+            -0.20345
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 523,
+          "trend": "decreasing",
+          "p": 0.00016,
+          "p_hamed_rao": 0.00016,
+          "sen_slope_per_year": -0.48503,
+          "sen_ci95": [
+            -0.59916,
+            -0.26558
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 524,
+          "trend": "no trend",
+          "p": 0.08521,
+          "p_hamed_rao": 0.08521,
+          "sen_slope_per_year": 0.21088,
+          "sen_ci95": [
+            -0.02667,
+            0.43376
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 525,
+          "trend": "increasing",
+          "p": 0.0001,
+          "p_hamed_rao": 0.0001,
+          "sen_slope_per_year": 0.58617,
+          "sen_ci95": [
+            0.43169,
+            0.86189
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 526,
+          "trend": "decreasing",
+          "p": 0.001,
+          "p_hamed_rao": 0.001,
+          "sen_slope_per_year": -0.39263,
+          "sen_ci95": [
+            -0.60299,
+            -0.17491
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 527,
+          "trend": "increasing",
+          "p": 0.00026,
+          "p_hamed_rao": 0.00064,
+          "sen_slope_per_year": 0.77276,
+          "sen_ci95": [
+            0.39617,
+            1.08709
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 528,
+          "trend": "no trend",
+          "p": 0.69464,
+          "p_hamed_rao": 0.71311,
+          "sen_slope_per_year": -0.1535,
+          "sen_ci95": [
+            -0.39818,
+            0.26395
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 529,
+          "trend": "increasing",
+          "p": 0.00123,
+          "p_hamed_rao": 0.01175,
+          "sen_slope_per_year": 0.709,
+          "sen_ci95": [
+            0.42393,
+            1.13327
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 530,
+          "trend": "decreasing",
+          "p": 0.0034,
+          "p_hamed_rao": 0.0169,
+          "sen_slope_per_year": -0.37471,
+          "sen_ci95": [
+            -0.53595,
+            -0.1593
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 441,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.00065,
+          "sen_slope_per_year": -4.8412,
+          "sen_ci95": [
+            -5.99061,
+            -3.86514
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 442,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.00034,
+          "sen_slope_per_year": -4.17506,
+          "sen_ci95": [
+            -5.00496,
+            -3.06087
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 443,
+          "trend": "decreasing",
+          "p": 0.0122,
+          "p_hamed_rao": 0.0122,
+          "sen_slope_per_year": -0.51243,
+          "sen_ci95": [
+            -0.86313,
+            -0.089
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 444,
+          "trend": "no trend",
+          "p": 0.83259,
+          "p_hamed_rao": 0.83259,
+          "sen_slope_per_year": 0.03672,
+          "sen_ci95": [
+            -0.20922,
+            0.32121
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 445,
+          "trend": "decreasing",
+          "p": 0.00013,
+          "p_hamed_rao": 0.00321,
+          "sen_slope_per_year": -0.88623,
+          "sen_ci95": [
+            -1.28068,
+            -0.52242
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 446,
+          "trend": "no trend",
+          "p": 0.34922,
+          "p_hamed_rao": 0.49478,
+          "sen_slope_per_year": -0.19243,
+          "sen_ci95": [
+            -0.8623,
+            0.20948
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 447,
+          "trend": "no trend",
+          "p": 0.29056,
+          "p_hamed_rao": 0.29056,
+          "sen_slope_per_year": 0.30234,
+          "sen_ci95": [
+            -0.21777,
+            0.76361
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 448,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": -1.41034,
+          "sen_ci95": [
+            -1.63178,
+            -1.11753
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 449,
+          "trend": "increasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.00025,
+          "sen_slope_per_year": 1.0274,
+          "sen_ci95": [
+            0.83206,
+            1.19616
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 450,
+          "trend": "increasing",
+          "p": 0.00016,
+          "p_hamed_rao": 0.00016,
+          "sen_slope_per_year": 0.39118,
+          "sen_ci95": [
+            0.20373,
+            0.61389
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 451,
+          "trend": "no trend",
+          "p": 0.15582,
+          "p_hamed_rao": 0.29417,
+          "sen_slope_per_year": 0.12455,
+          "sen_ci95": [
+            -0.03316,
+            0.27981
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 452,
+          "trend": "no trend",
+          "p": 0.4503,
+          "p_hamed_rao": 0.58969,
+          "sen_slope_per_year": 0.11506,
+          "sen_ci95": [
+            -0.2108,
+            0.3664
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 453,
+          "trend": "increasing",
+          "p": 0.01027,
+          "p_hamed_rao": 0.00088,
+          "sen_slope_per_year": 0.33643,
+          "sen_ci95": [
+            0.04224,
+            0.78519
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 454,
+          "trend": "increasing",
+          "p": 0.001,
+          "p_hamed_rao": 0.00259,
+          "sen_slope_per_year": 0.50916,
+          "sen_ci95": [
+            0.28254,
+            1.00357
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 455,
+          "trend": "decreasing",
+          "p": 0.0008,
+          "p_hamed_rao": 0.0049,
+          "sen_slope_per_year": -0.58802,
+          "sen_ci95": [
+            -0.75534,
+            -0.28718
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 456,
+          "trend": "decreasing",
+          "p": 0.00064,
+          "p_hamed_rao": 0.00462,
+          "sen_slope_per_year": -0.59685,
+          "sen_ci95": [
+            -0.7745,
+            -0.3019
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 372,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.00029,
+          "sen_slope_per_year": -10.5134,
+          "sen_ci95": [
+            -12.87252,
+            -7.8421
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 373,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 4e-05,
+          "sen_slope_per_year": -8.01633,
+          "sen_ci95": [
+            -9.87739,
+            -6.56591
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 374,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": -1.35402,
+          "sen_ci95": [
+            -1.57909,
+            -1.07602
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 375,
+          "trend": "decreasing",
+          "p": 0.0034,
+          "p_hamed_rao": 0.0034,
+          "sen_slope_per_year": -0.43831,
+          "sen_ci95": [
+            -0.66998,
+            -0.21609
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 376,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": -1.48538,
+          "sen_ci95": [
+            -1.78157,
+            -1.12006
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 377,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": -1.76762,
+          "sen_ci95": [
+            -2.20646,
+            -1.28583
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 378,
+          "trend": "decreasing",
+          "p": 0.00412,
+          "p_hamed_rao": 0.03034,
+          "sen_slope_per_year": -0.69373,
+          "sen_ci95": [
+            -0.96227,
+            -0.26182
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 379,
+          "trend": "no trend",
+          "p": 0.52599,
+          "p_hamed_rao": 0.52599,
+          "sen_slope_per_year": -0.07938,
+          "sen_ci95": [
+            -0.33985,
+            0.12324
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 380,
+          "trend": "increasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": 0.71238,
+          "sen_ci95": [
+            0.53484,
+            0.88214
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 381,
+          "trend": "increasing",
+          "p": 0.00016,
+          "p_hamed_rao": 0.00405,
+          "sen_slope_per_year": 0.92239,
+          "sen_ci95": [
+            0.51283,
+            1.41446
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 383,
+          "trend": "decreasing",
+          "p": 0.006,
+          "p_hamed_rao": 0.00035,
+          "sen_slope_per_year": -0.26447,
+          "sen_ci95": [
+            -0.37316,
+            -0.09262
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 384,
+          "trend": "decreasing",
+          "p": 0.0002,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": -0.3952,
+          "sen_ci95": [
+            -0.58995,
+            -0.21114
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 385,
+          "trend": "no trend",
+          "p": 0.34922,
+          "p_hamed_rao": 0.17787,
+          "sen_slope_per_year": -0.12204,
+          "sen_ci95": [
+            -0.31356,
+            0.06759
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 386,
+          "trend": "increasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": 0.27699,
+          "sen_ci95": [
+            0.228,
+            0.32667
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 309,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.00029,
+          "sen_slope_per_year": -22.07571,
+          "sen_ci95": [
+            -25.0221,
+            -17.26061
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 310,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 1e-05,
+          "sen_slope_per_year": -2.43654,
+          "sen_ci95": [
+            -2.88462,
+            -1.82854
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 311,
+          "trend": "no trend",
+          "p": 0.65058,
+          "p_hamed_rao": 0.73465,
+          "sen_slope_per_year": -0.10219,
+          "sen_ci95": [
+            -0.42391,
+            0.21157
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 312,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.00013,
+          "sen_slope_per_year": -1.24828,
+          "sen_ci95": [
+            -1.49014,
+            -0.9351
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 313,
+          "trend": "decreasing",
+          "p": 0.04305,
+          "p_hamed_rao": 0.0033,
+          "sen_slope_per_year": -0.63924,
+          "sen_ci95": [
+            -0.88789,
+            -0.10664
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 314,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": -2.06866,
+          "sen_ci95": [
+            -2.3377,
+            -1.68931
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 315,
+          "trend": "no trend",
+          "p": 0.12355,
+          "p_hamed_rao": 0.12355,
+          "sen_slope_per_year": 0.23558,
+          "sen_ci95": [
+            -0.03551,
+            0.44397
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 316,
+          "trend": "no trend",
+          "p": 1.0,
+          "p_hamed_rao": 1.0,
+          "sen_slope_per_year": -0.00463,
+          "sen_ci95": [
+            -0.26532,
+            0.24149
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 319,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": -1.56024,
+          "sen_ci95": [
+            -1.71774,
+            -1.35256
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 320,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": -2.48412,
+          "sen_ci95": [
+            -2.60929,
+            -2.29399
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 321,
+          "trend": "no trend",
+          "p": 0.52599,
+          "p_hamed_rao": 0.42646,
+          "sen_slope_per_year": -0.08912,
+          "sen_ci95": [
+            -0.28489,
+            0.10201
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 308,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 3e-05,
+          "sen_slope_per_year": -33.91834,
+          "sen_ci95": [
+            -37.73415,
+            -31.21636
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 251,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": -5.06621,
+          "sen_ci95": [
+            -5.61928,
+            -4.73535
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 252,
+          "trend": "increasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.00018,
+          "sen_slope_per_year": 0.41711,
+          "sen_ci95": [
+            0.33755,
+            0.5439
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 253,
+          "trend": "increasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": 1.31337,
+          "sen_ci95": [
+            1.11877,
+            1.54208
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 254,
+          "trend": "decreasing",
+          "p": 0.00041,
+          "p_hamed_rao": 0.00413,
+          "sen_slope_per_year": -0.51004,
+          "sen_ci95": [
+            -0.73157,
+            -0.19292
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 255,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.00033,
+          "sen_slope_per_year": -1.50844,
+          "sen_ci95": [
+            -1.95739,
+            -0.94962
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 256,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": -1.22507,
+          "sen_ci95": [
+            -1.4834,
+            -0.82459
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 257,
+          "trend": "decreasing",
+          "p": 0.0372,
+          "p_hamed_rao": 0.0372,
+          "sen_slope_per_year": -0.28163,
+          "sen_ci95": [
+            -0.55891,
+            -0.03411
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 258,
+          "trend": "decreasing",
+          "p": 0.00152,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": -0.34702,
+          "sen_ci95": [
+            -0.55812,
+            -0.17992
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 261,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": -1.37157,
+          "sen_ci95": [
+            -1.60446,
+            -1.11201
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 262,
+          "trend": "increasing",
+          "p": 0.0275,
+          "p_hamed_rao": 0.0275,
+          "sen_slope_per_year": 0.19288,
+          "sen_ci95": [
+            0.02646,
+            0.35533
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 259,
+          "trend": "no trend",
+          "p": 0.97591,
+          "p_hamed_rao": 0.97591,
+          "sen_slope_per_year": 0.00957,
+          "sen_ci95": [
+            -0.06787,
+            0.09049
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 263,
+          "trend": "increasing",
+          "p": 2e-05,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": 3.29027,
+          "sen_ci95": [
+            2.15847,
+            4.27114
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 260,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": -0.38315,
+          "sen_ci95": [
+            -0.47888,
+            -0.29724
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 200,
+          "trend": "increasing",
+          "p": 0.0,
+          "p_hamed_rao": 4e-05,
+          "sen_slope_per_year": 0.61293,
+          "sen_ci95": [
+            0.52612,
+            0.74488
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 201,
+          "trend": "increasing",
+          "p": 0.00123,
+          "p_hamed_rao": 0.00033,
+          "sen_slope_per_year": 0.28331,
+          "sen_ci95": [
+            0.14317,
+            0.43439
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 202,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": -1.2114,
+          "sen_ci95": [
+            -1.35429,
+            -1.05181
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 203,
+          "trend": "decreasing",
+          "p": 0.00152,
+          "p_hamed_rao": 0.01866,
+          "sen_slope_per_year": -0.30425,
+          "sen_ci95": [
+            -0.4872,
+            -0.11875
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 204,
+          "trend": "increasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": 1.27264,
+          "sen_ci95": [
+            1.105,
+            1.49515
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 205,
+          "trend": "decreasing",
+          "p": 4e-05,
+          "p_hamed_rao": 4e-05,
+          "sen_slope_per_year": -0.6544,
+          "sen_ci95": [
+            -0.854,
+            -0.48377
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 206,
+          "trend": "no trend",
+          "p": 0.34922,
+          "p_hamed_rao": 0.34922,
+          "sen_slope_per_year": -0.11336,
+          "sen_ci95": [
+            -0.28604,
+            0.11699
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 207,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": -0.71238,
+          "sen_ci95": [
+            -0.88007,
+            -0.64548
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 208,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": -1.67006,
+          "sen_ci95": [
+            -1.92337,
+            -1.38245
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 209,
+          "trend": "no trend",
+          "p": 0.87999,
+          "p_hamed_rao": 0.91657,
+          "sen_slope_per_year": -0.04154,
+          "sen_ci95": [
+            -0.48805,
+            0.34006
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 210,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 2e-05,
+          "sen_slope_per_year": -19.04064,
+          "sen_ci95": [
+            -21.03759,
+            -17.22976
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 212,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.00088,
+          "sen_slope_per_year": -9.62597,
+          "sen_ci95": [
+            -12.33885,
+            -6.99128
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 211,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 1e-05,
+          "sen_slope_per_year": -10.19347,
+          "sen_ci95": [
+            -10.76624,
+            -9.54492
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 154,
+          "trend": "decreasing",
+          "p": 0.00064,
+          "p_hamed_rao": 0.00064,
+          "sen_slope_per_year": -0.20913,
+          "sen_ci95": [
+            -0.25345,
+            -0.11671
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 155,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": -1.0398,
+          "sen_ci95": [
+            -1.29775,
+            -0.8411
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 156,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": -0.68412,
+          "sen_ci95": [
+            -0.73961,
+            -0.60254
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 157,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": -0.48392,
+          "sen_ci95": [
+            -0.57768,
+            -0.34978
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 158,
+          "trend": "increasing",
+          "p": 0.02353,
+          "p_hamed_rao": 0.10905,
+          "sen_slope_per_year": 0.24957,
+          "sen_ci95": [
+            0.0488,
+            0.39505
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 159,
+          "trend": "increasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.00109,
+          "sen_slope_per_year": 2.37727,
+          "sen_ci95": [
+            1.57377,
+            3.0874
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 160,
+          "trend": "increasing",
+          "p": 0.00498,
+          "p_hamed_rao": 0.07096,
+          "sen_slope_per_year": 0.50304,
+          "sen_ci95": [
+            0.16934,
+            0.83115
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 161,
+          "trend": "decreasing",
+          "p": 3e-05,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": -0.76702,
+          "sen_ci95": [
+            -1.02714,
+            -0.48408
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 162,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 1e-05,
+          "sen_slope_per_year": -11.27937,
+          "sen_ci95": [
+            -11.90737,
+            -10.35879
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 163,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": -22.02389,
+          "sen_ci95": [
+            -24.0556,
+            -19.56928
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 164,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 1e-05,
+          "sen_slope_per_year": -12.15919,
+          "sen_ci95": [
+            -12.60501,
+            -11.61469
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        }
+      ]
+    },
+    "spain": {
+      "bbox": [
+        -10.0,
+        4.0,
+        35.5,
+        44.0
+      ],
+      "n_mascons_tested": 15,
+      "n_significant": 9,
+      "n_increasing": 1,
+      "n_decreasing": 8,
+      "mascons": [
+        {
+          "mascon_id": 888,
+          "trend": "decreasing",
+          "p": 2e-05,
+          "p_hamed_rao": 0.00477,
+          "sen_slope_per_year": -1.06312,
+          "sen_ci95": [
+            -1.48544,
+            -0.7184
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 889,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.00042,
+          "sen_slope_per_year": -1.52225,
+          "sen_ci95": [
+            -1.84065,
+            -1.13362
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 983,
+          "trend": "decreasing",
+          "p": 0.006,
+          "p_hamed_rao": 0.08472,
+          "sen_slope_per_year": -0.93329,
+          "sen_ci95": [
+            -2.14073,
+            -0.41385
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 984,
+          "trend": "decreasing",
+          "p": 0.00152,
+          "p_hamed_rao": 0.0502,
+          "sen_slope_per_year": -0.8262,
+          "sen_ci95": [
+            -1.51108,
+            -0.44243
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 982,
+          "trend": "no trend",
+          "p": 0.23892,
+          "p_hamed_rao": 0.23892,
+          "sen_slope_per_year": -0.24517,
+          "sen_ci95": [
+            -0.6401,
+            0.11436
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 885,
+          "trend": "no trend",
+          "p": 0.15582,
+          "p_hamed_rao": 0.15582,
+          "sen_slope_per_year": 0.17093,
+          "sen_ci95": [
+            -0.04545,
+            0.34696
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 886,
+          "trend": "no trend",
+          "p": 0.08521,
+          "p_hamed_rao": 0.0279,
+          "sen_slope_per_year": -0.38847,
+          "sen_ci95": [
+            -0.83007,
+            0.01358
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 887,
+          "trend": "decreasing",
+          "p": 0.00152,
+          "p_hamed_rao": 0.00152,
+          "sen_slope_per_year": -0.42684,
+          "sen_ci95": [
+            -0.71616,
+            -0.16811
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 795,
+          "trend": "increasing",
+          "p": 6e-05,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": 0.09111,
+          "sen_ci95": [
+            0.05535,
+            0.12268
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 706,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": -0.66003,
+          "sen_ci95": [
+            -0.84962,
+            -0.46193
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 792,
+          "trend": "no trend",
+          "p": 0.23892,
+          "p_hamed_rao": 0.13969,
+          "sen_slope_per_year": 0.14816,
+          "sen_ci95": [
+            -0.13387,
+            0.39968
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 793,
+          "trend": "no trend",
+          "p": 0.65058,
+          "p_hamed_rao": 0.65058,
+          "sen_slope_per_year": 0.06324,
+          "sen_ci95": [
+            -0.25785,
+            0.36873
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 794,
+          "trend": "no trend",
+          "p": 0.48735,
+          "p_hamed_rao": 0.48735,
+          "sen_slope_per_year": -0.08317,
+          "sen_ci95": [
+            -0.37752,
+            0.17748
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 622,
+          "trend": "decreasing",
+          "p": 0.00412,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": -0.32004,
+          "sen_ci95": [
+            -0.61627,
+            -0.15283
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 705,
+          "trend": "decreasing",
+          "p": 0.0008,
+          "p_hamed_rao": 0.0008,
+          "sen_slope_per_year": -0.16774,
+          "sen_ci95": [
+            -0.2781,
+            -0.11158
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        }
+      ]
+    },
+    "midwest": {
+      "bbox": [
+        -104.0,
+        -80.0,
+        36.0,
+        49.5
+      ],
+      "n_mascons_tested": 35,
+      "n_significant": 15,
+      "n_increasing": 10,
+      "n_decreasing": 5,
+      "mascons": [
+        {
+          "mascon_id": 957,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 5e-05,
+          "sen_slope_per_year": -1.97505,
+          "sen_ci95": [
+            -2.31219,
+            -1.67903
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 958,
+          "trend": "decreasing",
+          "p": 0.00412,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": -0.75522,
+          "sen_ci95": [
+            -1.11518,
+            -0.29941
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 959,
+          "trend": "increasing",
+          "p": 0.02353,
+          "p_hamed_rao": 0.00959,
+          "sen_slope_per_year": 0.5954,
+          "sen_ci95": [
+            0.05205,
+            1.07039
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 960,
+          "trend": "no trend",
+          "p": 0.48735,
+          "p_hamed_rao": 0.22937,
+          "sen_slope_per_year": 0.11807,
+          "sen_ci95": [
+            -0.20639,
+            0.3994
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 961,
+          "trend": "decreasing",
+          "p": 0.02006,
+          "p_hamed_rao": 0.02006,
+          "sen_slope_per_year": -0.31325,
+          "sen_ci95": [
+            -0.56738,
+            -0.05401
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 962,
+          "trend": "no trend",
+          "p": 0.17419,
+          "p_hamed_rao": 0.30803,
+          "sen_slope_per_year": 0.19437,
+          "sen_ci95": [
+            -0.0875,
+            0.55714
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 963,
+          "trend": "no trend",
+          "p": 0.23892,
+          "p_hamed_rao": 0.39695,
+          "sen_slope_per_year": 0.19131,
+          "sen_ci95": [
+            -0.09995,
+            0.50359
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 861,
+          "trend": "decreasing",
+          "p": 0.0,
+          "p_hamed_rao": 0.0,
+          "sen_slope_per_year": -0.9607,
+          "sen_ci95": [
+            -1.16037,
+            -0.73628
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 862,
+          "trend": "no trend",
+          "p": 0.06547,
+          "p_hamed_rao": 0.00958,
+          "sen_slope_per_year": -0.44268,
+          "sen_ci95": [
+            -0.86075,
+            0.00719
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 863,
+          "trend": "no trend",
+          "p": 0.29056,
+          "p_hamed_rao": 0.27203,
+          "sen_slope_per_year": 0.22226,
+          "sen_ci95": [
+            -0.28837,
+            0.85218
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 864,
+          "trend": "no trend",
+          "p": 0.56614,
+          "p_hamed_rao": 0.5485,
+          "sen_slope_per_year": 0.1418,
+          "sen_ci95": [
+            -0.31227,
+            0.5392
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 865,
+          "trend": "no trend",
+          "p": 0.23892,
+          "p_hamed_rao": 0.23892,
+          "sen_slope_per_year": -0.10525,
+          "sen_ci95": [
+            -0.34889,
+            0.08267
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 866,
+          "trend": "no trend",
+          "p": 0.07481,
+          "p_hamed_rao": 0.07481,
+          "sen_slope_per_year": -0.2167,
+          "sen_ci95": [
+            -0.4172,
+            0.02067
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 867,
+          "trend": "no trend",
+          "p": 0.83259,
+          "p_hamed_rao": 0.87274,
+          "sen_slope_per_year": -0.01699,
+          "sen_ci95": [
+            -0.17694,
+            0.21524
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 769,
+          "trend": "increasing",
+          "p": 0.00498,
+          "p_hamed_rao": 0.02044,
+          "sen_slope_per_year": 0.65365,
+          "sen_ci95": [
+            0.2647,
+            1.02332
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 770,
+          "trend": "increasing",
+          "p": 0.0275,
+          "p_hamed_rao": 0.04219,
+          "sen_slope_per_year": 0.64997,
+          "sen_ci95": [
+            0.17163,
+            1.39839
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 771,
+          "trend": "no trend",
+          "p": 0.34922,
+          "p_hamed_rao": 0.34362,
+          "sen_slope_per_year": -0.23863,
+          "sen_ci95": [
+            -0.73015,
+            0.49306
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 772,
+          "trend": "no trend",
+          "p": 0.73976,
+          "p_hamed_rao": 0.74354,
+          "sen_slope_per_year": 0.03884,
+          "sen_ci95": [
+            -0.34573,
+            0.65949
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 773,
+          "trend": "increasing",
+          "p": 0.00861,
+          "p_hamed_rao": 0.04131,
+          "sen_slope_per_year": 0.69078,
+          "sen_ci95": [
+            0.20225,
+            1.45101
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 774,
+          "trend": "increasing",
+          "p": 0.00861,
+          "p_hamed_rao": 0.05159,
+          "sen_slope_per_year": 0.632,
+          "sen_ci95": [
+            0.25048,
+            1.11959
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 775,
+          "trend": "no trend",
+          "p": 0.73976,
+          "p_hamed_rao": 0.73976,
+          "sen_slope_per_year": 0.0638,
+          "sen_ci95": [
+            -0.20186,
+            0.36556
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 681,
+          "trend": "no trend",
+          "p": 0.21569,
+          "p_hamed_rao": 0.38366,
+          "sen_slope_per_year": 0.44983,
+          "sen_ci95": [
+            -0.28612,
+            0.89462
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 682,
+          "trend": "increasing",
+          "p": 0.00152,
+          "p_hamed_rao": 0.02535,
+          "sen_slope_per_year": 0.95737,
+          "sen_ci95": [
+            0.34389,
+            1.47771
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 683,
+          "trend": "no trend",
+          "p": 0.34922,
+          "p_hamed_rao": 0.34922,
+          "sen_slope_per_year": -0.13119,
+          "sen_ci95": [
+            -0.392,
+            0.31958
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 684,
+          "trend": "no trend",
+          "p": 0.08521,
+          "p_hamed_rao": 0.01459,
+          "sen_slope_per_year": 0.15099,
+          "sen_ci95": [
+            -0.04077,
+            0.46987
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 685,
+          "trend": "increasing",
+          "p": 0.0372,
+          "p_hamed_rao": 0.10395,
+          "sen_slope_per_year": 0.79046,
+          "sen_ci95": [
+            0.19799,
+            1.77448
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 686,
+          "trend": "increasing",
+          "p": 0.01027,
+          "p_hamed_rao": 0.04132,
+          "sen_slope_per_year": 1.58663,
+          "sen_ci95": [
+            0.56424,
+            2.64408
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 687,
+          "trend": "increasing",
+          "p": 0.01705,
+          "p_hamed_rao": 0.0784,
+          "sen_slope_per_year": 0.62879,
+          "sen_ci95": [
+            0.15626,
+            1.05641
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 598,
+          "trend": "no trend",
+          "p": 0.15582,
+          "p_hamed_rao": 0.25226,
+          "sen_slope_per_year": 0.25565,
+          "sen_ci95": [
+            -0.36717,
+            0.70024
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 599,
+          "trend": "no trend",
+          "p": 0.65058,
+          "p_hamed_rao": 0.72421,
+          "sen_slope_per_year": -0.08409,
+          "sen_ci95": [
+            -0.75741,
+            0.48233
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 600,
+          "trend": "decreasing",
+          "p": 0.00498,
+          "p_hamed_rao": 0.00498,
+          "sen_slope_per_year": -0.55256,
+          "sen_ci95": [
+            -1.02922,
+            -0.2566
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 601,
+          "trend": "no trend",
+          "p": 0.13897,
+          "p_hamed_rao": 0.13897,
+          "sen_slope_per_year": -0.24386,
+          "sen_ci95": [
+            -0.46711,
+            0.08214
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 602,
+          "trend": "no trend",
+          "p": 0.92782,
+          "p_hamed_rao": 0.94369,
+          "sen_slope_per_year": 0.04887,
+          "sen_ci95": [
+            -0.87206,
+            0.80243
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 603,
+          "trend": "no trend",
+          "p": 0.05712,
+          "p_hamed_rao": 0.1403,
+          "sen_slope_per_year": 0.58407,
+          "sen_ci95": [
+            -0.00299,
+            1.16006
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        },
+        {
+          "mascon_id": 604,
+          "trend": "increasing",
+          "p": 0.0002,
+          "p_hamed_rao": 0.0002,
+          "sen_slope_per_year": 0.28907,
+          "sen_ci95": [
+            0.12576,
+            0.47834
+          ],
+          "n": 21,
+          "years": [
+            2003,
+            2025
+          ]
+        }
+      ]
+    }
+  },
+  "colour_scale": {
+    "display_clip_cm_per_year": 2.0,
+    "reason": "A few high-latitude glacier/ice mascons have Sen slopes of several tens of cm/year (mascon 308, about 61.75\u00b0N 137.75\u00b0W, \u221233.92 cm/yr). Clipping the colour scale at \u00b12 cm/yr makes the regional groundwater/soil-water signals in Spain, the Midwest and southern Canada visible. Unclipped slopes remain in this JSON."
+  }
+}

@@ -23,12 +23,17 @@
   function setStatus(msg, err) { const el = $("status"); el.textContent = msg; el.className = "status" + (err ? " err" : ""); }
 
   /* ---------- map ---------- */
-  const map = L.map("map", { worldCopyJump: true, preferCanvas: true, zoomSnap: 0.25 }).setView([58, -96], 3);
+  if (window.OGShell) OGShell.fit(); // size the workspace before the map takes its first view
+  const map = L.map("map", { worldCopyJump: true, preferCanvas: true, zoomSnap: 0.25, zoomControl: false });
+  L.control.zoom({ position: "bottomright" }).addTo(map);
+  map.fitBounds([[42, -141], [70, -52]]); // set the first view before any tile loads, so no tile request is cancelled
   L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}", { attribution: "Tiles &copy; Esri", maxZoom: 16 }).addTo(map);
+  map.createPane("labels"); map.getPane("labels").style.zIndex = 450; map.getPane("labels").style.pointerEvents = "none";
+  L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}", { pane: "labels", maxZoom: 16 }).addTo(map);
   const layers = { fire: L.layerGroup(), trend: L.layerGroup(), ratio: L.layerGroup() };
-  const boxLayer = L.layerGroup().addTo(map), taskLayer = L.layerGroup().addTo(map);
+  const boxLayer = L.layerGroup().addTo(map), taskLayer = L.layerGroup().addTo(map), assetLayer = L.layerGroup().addTo(map);
   if ("ResizeObserver" in window) new ResizeObserver(() => map.invalidateSize()).observe($("map"));
-  const fitCanada = () => map.fitBounds([[42, -141], [70, -52]]);
+  const fitCanada = () => { const b = L.latLngBounds([[42, -141], [70, -52]]); if (!map.getBounds().equals(b, 0.5)) map.fitBounds(b); };
 
   function setBBox(bbox, country) {
     state.bbox = bbox.map(Number); window.__hotspotsBBox = state.bbox; if (country) state.country = country;
@@ -69,6 +74,7 @@
     if (state.layer === "fire") box.innerHTML = `<b>Fires per year, 2003–2025 average</b><i class="bar" style="background:${grad(FIRE)}"></i><span class="ticks"><span>1</span><span>10</span><span>100</span><span>${big(state.fireMax)}</span></span><small>One square = one 0.25° cell (≈ 28 km). VIIRS-equivalent detections.</small>`;
     else if (state.layer === "trend") box.innerHTML = `<b>Trend in fires per year, 2003–2025</b><i class="bar" style="background:${grad(FIRE.slice(2))}"></i><span class="ticks"><span>rising</span><span>rising fastest</span></span><small><i class="sw" style="background:#2a3150"></i> no significant trend · Mann-Kendall, α 0.05. Hover a province.</small>`;
     else box.innerHTML = `<b>VIIRS vs MODIS, 2012–2025</b><i class="bar" style="background:${grad(RATIO)}"></i><span class="ticks"><span>MODIS sees more</span><span>VIIRS sees more</span></span><small>Why harmonizing matters: the newer sensor sees more small fires.</small>`;
+    if (state.action && state.action.noteTxt) box.insertAdjacentHTML("beforeend", `<small class="hs-tnote"><b>${esc(state.action.cls || "")}:</b> ${esc(state.action.noteTxt)} Tasking is simulated.</small>`);
   }
   function setLayer(k) {
     state.layer = k; Object.entries(layers).forEach(([n, l]) => (n === k ? l.addTo(map) : l.remove()));
@@ -85,11 +91,12 @@
     const yrs = Object.keys(byYear).map(Number), top = yrs.reduce((a, b) => (byYear[b] > byYear[a] ? b : a), yrs[0]);
     const peak = byMon.indexOf(Math.max(...byMon)), flags = rows.filter((r) => r.unusual), fm = Array(12).fill(0); flags.forEach((r) => fm[r.month - 1]++);
     const fmMax = Math.max(...fm), fmMon = fm.indexOf(fmMax);
-    $("kpis").innerHTML = `<h2>${esc(presetLabel())}</h2><dl class="kpi-grid">
-        <div><dt>Peak month</dt><dd>${MON[peak]}</dd><small>most fires, 2000–2025</small></div>
-        <div><dt>Biggest year</dt><dd>${top}</dd><small>${big(byYear[top])} fires</small></div>
-        <div><dt>Unusual months</dt><dd>${flags.length}</dd><small>${flags.length ? `most often ${MON[fmMon]} (${fmMax})` : "none flagged"}</small></div>
-        <div><dt>2025</dt><dd>${big(byYear[2025])}</dd><small>fires detected</small></div></dl>` + outlook(rows, byYear);
+    $("kpis").innerHTML = `<p class="og-h hs-reg">${esc(presetLabel())} · 2000–2025</p><ul class="og-kpis hs-kpis">
+        <li><small>Peak month</small><b>${MON[peak]}</b><span>most fires</span></li>
+        <li><small>Biggest year</small><b>${top}</b><span>${big(byYear[top])} fires</span></li>
+        <li><small>Unusual</small><b>${flags.length}</b><span>${flags.length ? `months, most ${MON[fmMon]}` : "none flagged"}</span></li>
+        <li><small>2025</small><b>${big(byYear[2025])}</b><span>fires</span></li></ul>`;
+    $("outlookHost").innerHTML = outlook(rows, byYear);
   }
 
   /* 2026 outlook: from past seasons only (Sen-slope trend line over 2003–2025 + each month's 2012–2025 median). Not a weather forecast. */
@@ -103,7 +110,7 @@
     const mm = Math.max(...mon, 1), pk = mon.indexOf(Math.max(...mon));
     const fl = Array(12).fill(0); rows.forEach((r) => { if (r.unusual && r.year >= 2011) fl[r.month - 1]++; });
     const watch = fl.map((c, i) => [c, i]).filter(([c]) => c >= 2).sort((x, y) => y[0] - x[0]).slice(0, 3);
-    return `<section class="outlook" aria-label="What to expect in 2026">
+    return `<section class="outlook og-card" aria-label="What to expect in 2026">
       <h3>What to expect in 2026 <span>from past seasons, not a weather forecast</span></h3>
       <div class="ol-row"><div><b>${big(proj)}</b><small>fires on the 2003–2025 trend line (${b >= 0 ? "+" : "−"}${big(Math.abs(b))}/yr)</small></div>
         <div><b>${big(lo)}–${big(hi)}</b><small>range of the last 10 years</small></div></div>
@@ -118,24 +125,27 @@
     state.cal = data;
     const host = $("calHost"), byYM = new Map(); let maxLog = 0;
     (data.calendar || []).forEach((r) => { byYM.set(`${r.year}-${r.month}`, r); maxLog = Math.max(maxLog, Math.log10((r.harmonized || 0) + 1)); });
-    let html = `<table class="cal" id="calTable"><caption class="sr">Fires per month, 2000–2025</caption><thead><tr><th scope="col"></th>${MON.map((m, i) => `<th scope="col" data-m="${i + 1}">${m}</th>`).join("")}</tr></thead><tbody>`;
-    for (let y = 2000; y <= 2025; y++) {
-      html += `<tr class="${y === 2012 ? "split" : ""}${y < 2012 ? " bc" : ""}"><th scope="row" class="year">${y}</th>`;
-      for (let m = 1; m <= 12; m++) {
+    // months down, years across: a short, wide strip that fits under the map
+    const YRS = []; for (let y = 2000; y <= 2025; y++) YRS.push(y);
+    let html = `<table class="cal" id="calTable"><caption class="sr">Fires per month, 2000–2025</caption><thead><tr><th scope="col"></th>${YRS.map((y) => `<th scope="col" class="yr${y === 2012 ? " split" : ""}">${y % 5 === 0 || y === 2012 || y === 2025 ? `'${String(y).slice(2)}` : ""}</th>`).join("")}</tr></thead><tbody>`;
+    for (let m = 1; m <= 12; m++) {
+      html += `<tr><th scope="row" class="mon" data-m="${m}">${MON[m - 1]}</th>`;
+      YRS.forEach((y) => {
         const r = byYM.get(`${y}-${m}`) || { harmonized: 0 }, t = maxLog > 0 ? Math.log10((r.harmonized || 0) + 1) / maxLog : 0;
-        html += `<td class="${r.unusual ? "unusual" : ""}" data-year="${y}" data-month="${m}" style="background:${(r.harmonized || 0) < 0.5 ? "#151a33" : fireCol(t)}"></td>`;
-      }
+        html += `<td class="${r.unusual ? "unusual" : ""}${y === 2012 ? " split" : ""}${y < 2012 ? " bc" : ""}" data-year="${y}" data-month="${m}" style="background:${(r.harmonized || 0) < 0.5 ? "#151a33" : fireCol(t)}"></td>`;
+      });
       html += "</tr>";
     }
     host.innerHTML = html + "</tbody></table>";
     const mx = Math.pow(10, maxLog), tk = [1, 10, 100, 1000, 10000, 100000].filter((v) => v <= mx * 1.01);
     $("calLegend").innerHTML = `<div class="cl-bar"><i style="background:linear-gradient(90deg,#151a33 0%, ${FIRE.map((s, i) => `rgb(${s}) ${8 + (i / (FIRE.length - 1)) * 92}%`).join(",")})"></i>
-      <span class="ticks"><span>0</span>${tk.map((v) => `<span>${big(v)}</span>`).join("")}</span><small>fires per month (log scale)</small></div>
-      <ul class="cl-keys"><li><i class="k-unusual"></i>unusual month</li><li><i class="k-bc"></i>2000–2011: modelled from MODIS</li><li><i class="k-split"></i>2012: VIIRS starts</li></ul>`;
+      <span class="ticks"><span>0</span>${tk.map((v) => `<span>${big(v)}</span>`).join("")}</span><small>fires / month (log)</small></div>
+      <ul class="cl-keys"><li><i class="k-unusual"></i>unusual</li><li><i class="k-bc"></i>2000–11 modelled from MODIS</li><li><i class="k-split"></i>VIIRS from 2012</li></ul>`;
     const flags = (data.calendar || []).filter((r) => r.unusual).sort((a, b) => (b.robust_z || 0) - (a.robust_z || 0));
     $("flagNote").textContent = flags.length ? `${flags.length} months stand out against that month's 2000–2025 median (robust z > 3.5). Click one.` : "No month stands out in this area.";
     $("flagList").innerHTML = flags.slice(0, 16).map((r) => `<li><button type="button" data-y="${r.year}" data-m="${r.month}"><b>${MON[r.month - 1]} ${r.year}</b><span>${big(r.harmonized)} fires · z ${fmt(r.robust_z, 1)}</span></button></li>`).join("");
     $("flagList").querySelectorAll("button").forEach((b) => b.addEventListener("click", () => pulseCell(+b.dataset.y, +b.dataset.m)));
+    const tb = document.querySelector('.og-tabs [data-pane="flags"]'); if (tb) tb.innerHTML = `Unusual<i>${flags.length}</i>`;
     const tip = $("tooltip");
     host.querySelectorAll("td[data-year]").forEach((td) => {
       td.addEventListener("mouseenter", (ev) => {
@@ -214,45 +224,83 @@
   const pin = (k, cls) => L.divIcon({ className: "hs-pin " + (cls || ""), html: `<span>${window.OGC2 ? OGC2.icon(k) : ""}</span>`, iconSize: [30, 30], iconAnchor: [15, 15] });
   const PLAN = {
     "hotspots-1": { months: [7], view: "trend", provinces: ["Alberta", "British Columbia"], asset: "crew", pick: (c) => (c[5] === "Alberta" || c[5] === "British Columbia" ? c[4] : -1), n: 6,
-      note: "Alberta and B.C.: rising (tentative). Crews staged at the cells with the most July fires." },
-    "hotspots-2": { months: [5], view: "fire", asset: "notice", pick: (c) => c[3], n: 8, ring: true, note: "Cells with the most May fires: where early-season notice goes first." },
-    "hotspots-3": { months: [], view: "fire", tile: true, asset: "drone", note: "MODIS MCD64A1 tile h11v03 (NE B.C., Alberta, Sask.): burned area +272 km²/yr (p = 0.004)." },
-    "hotspots-4": { months: [], view: "trend", asset: "plan", note: "Province trends, 2003–2025. Coloured = significant rise; grey = no significant trend." },
+      unit: "July hot-spot cells", note: "Alberta and B.C.: rising (tentative). Crews staged at the cells with the most July fires." },
+    "hotspots-2": { months: [5], view: "fire", asset: "notice", pick: (c) => c[3], n: 8, ring: true, unit: "May hot-spot cells", note: "Cells with the most May fires: where early-season notice goes first." },
+    "hotspots-3": { months: [], view: "fire", tile: true, asset: "drone", unit: "MODIS burned-area tile", note: "MODIS MCD64A1 tile h11v03 (NE B.C., Alberta, Sask.): burned area +272 km²/yr (p = 0.004)." },
+    "hotspots-4": { months: [], view: "trend", rising: true, asset: "plan", unit: "provinces with a significant rise", note: "Province trends, 2003–2025. Coloured = significant rise; grey = no significant trend." },
   };
+  // Simulated tasking on the map: each queued task gets a marker at a target, and moves Proposed -> Queued -> Tasked -> In progress -> Done.
+  const taskSt = {}; let zoneLayers = [], targets = [];
+  const ZS = { pending: { color: "#fbbf24", fillColor: "#f97316", fillOpacity: 0.12 }, tasked: { color: "#9ec1ff", fillColor: "#9ec1ff", fillOpacity: 0.16 }, done: { color: "#6ee7b7", fillColor: "#6ee7b7", fillOpacity: 0.16 } };
+  function drawAssets() {
+    assetLayer.clearLayers(); const a = state.action; if (!a || !a.tasks || !targets.length) return;
+    a.tasks.forEach((t, k) => {
+      const st = taskSt[a.id + "|" + t.label] || "Proposed", ll = targets[k % targets.length];
+      const html = `<div class="og-asset" data-s="${esc(st)}" style="margin-top:${(Math.floor(k / targets.length) * 26) - 22}px">${window.OGC2 ? OGC2.icon(t.asset) : ""}<span class="lb">${esc(t.label)}</span><em>${esc(st)}</em></div>`;
+      L.marker(ll, { icon: L.divIcon({ className: "og-pin", html, iconSize: [0, 0] }), keyboard: false, interactive: false, zIndexOffset: 500 }).addTo(assetLayer);
+    });
+  }
+  function zoneState() {
+    const a = state.action; if (!a) return; const ts = (a.tasks || []).map((t) => taskSt[a.id + "|" + t.label]).filter(Boolean);
+    const cls = !ts.length ? "pending" : ts.every((x) => x === "Done") ? "done" : "tasked";
+    zoneLayers.forEach((l) => l.setStyle && l.setStyle(ZS[cls])); taskState(cls === "pending" ? "pending" : cls);
+    selbar();
+  }
+  function selbar() {
+    const box = $("mapSelbar"), a = state.action; if (!a) { box.hidden = true; return; }
+    const on = state.c2 && state.c2.state.approved[a.id];
+    box.hidden = false;
+    box.innerHTML = `<span class="k">${esc(a.cls || "")}</span><span><b>${a.nTargets || 0}</b> ${esc(a.unit || "targets")}</span><button type="button" class="${on ? "done" : ""}">${on ? "Approved · Undo" : esc(a.verb || "Approve")}</button>`;
+    box.querySelector("button").onclick = () => state.c2 && state.c2.approve(a.id);
+  }
   async function showAction(a) {
-    taskLayer.clearLayers(); state.action = null; $("mapTask").hidden = true;
-    if (!a) { highlightMonths(); return; }
-    const P = PLAN[a.id] || {}; state.action = Object.assign({ id: a.id }, P); highlightMonths();
+    taskLayer.clearLayers(); assetLayer.clearLayers(); zoneLayers = []; targets = []; state.action = null; $("mapTask").hidden = true;
+    if (!a) { highlightMonths(); selbar(); return; }
+    const P = PLAN[a.id] || {}; state.action = Object.assign({ id: a.id, cls: a.cls, verb: a.verb, tasks: a.tasks }, P); highlightMonths();
     if (state.country !== "Canada") await usePreset("canada", false);
     if (P.view && P.view !== state.layer) setLayer(P.view);
     const d = await fireCells("Canada"), marks = [];
-    if (P.provinces) { if (!state.provs) state.provs = await getJSON("data/provinces_canada.json");
-      L.geoJSON({ type: "FeatureCollection", features: state.provs.features.filter((f) => P.provinces.includes(f.properties.name)) }, { style: { color: "#fbbf24", weight: 2.5, fill: false }, interactive: false }).addTo(taskLayer); }
-    if (P.tile) { const poly = L.polygon(tileH11V03, { color: "#fbbf24", weight: 2.5, dashArray: "6 4", fillColor: "#f97316", fillOpacity: 0.12, interactive: false }).addTo(taskLayer); marks.push(poly.getBounds().getCenter()); }
+    if (P.provinces || P.rising) { if (!state.provs) state.provs = await getJSON("data/provinces_canada.json");
+      const fs = state.provs.features.filter((f) => P.provinces ? P.provinces.includes(f.properties.name) : f.properties.h_p != null && f.properties.h_p < 0.05 && f.properties.h_slope > 0);
+      const g = L.geoJSON({ type: "FeatureCollection", features: fs }, { style: Object.assign({ weight: 2.5, dashArray: "6 4" }, ZS.pending), interactive: false }).addTo(taskLayer);
+      g.eachLayer((l) => zoneLayers.push(l));
+      if (P.rising) g.eachLayer((l) => marks.push(l.getBounds().getCenter()));
+      state.action.nTargets = fs.length; }
+    if (P.tile) { const poly = L.polygon(tileH11V03, Object.assign({ weight: 2.5, dashArray: "6 4", interactive: false }, ZS.pending)).addTo(taskLayer); zoneLayers.push(poly); marks.push(poly.getBounds().getCenter()); state.action.nTargets = 1; }
     if (P.pick) {
       const top = d.cells.map((c) => [P.pick(c), c]).filter((x) => x[0] > 0).sort((x, y) => y[0] - x[0]), chosen = [];
       for (const [, c] of top) { if (chosen.every((o) => Math.hypot(o[0] - c[0], (o[1] - c[1]) * 0.5) > 1.6)) chosen.push(c); if (chosen.length >= (P.n || 6)) break; }
-      chosen.forEach((c) => { if (P.ring) L.circle([c[0], c[1]], { radius: 60000, color: "#fbbf24", weight: 1.5, fillOpacity: 0.06, interactive: false }).addTo(taskLayer); marks.push(L.latLng(c[0], c[1])); });
+      chosen.forEach((c) => { const r = L.circle([c[0], c[1]], Object.assign({ radius: 60000, weight: 1.5, interactive: false }, ZS.pending)).addTo(taskLayer); zoneLayers.push(r); marks.push(L.latLng(c[0], c[1])); });
+      state.action.nTargets = chosen.length;
     }
     marks.forEach((ll) => L.marker(ll, { icon: pin(P.asset, "pending"), keyboard: false, interactive: false }).addTo(taskLayer));
+    targets = marks.slice(0, Math.max(1, Math.min(marks.length, (a.tasks || []).length)));
     if (P.provinces) map.fitBounds([[48, -140], [61, -109]]);
-    else if (P.tile) map.fitBounds(L.polygon(tileH11V03).getBounds(), { padding: [20, 20] });
+    else if (P.tile) map.fitBounds(L.polygon(tileH11V03).getBounds(), { padding: [40, 40] });
     else if (P.view === "trend") fitCanada();
     else if (marks.length) map.fitBounds(L.latLngBounds(marks).pad(0.3), { maxZoom: 6 });
-    $("mapTask").hidden = false; $("mapTask").innerHTML = `<b>${esc(a.cls)}</b><span>${esc(P.note || "")}</span>`;
+    state.action.noteTxt = P.note || ""; legend();
+    drawAssets(); zoneState();
   }
   function taskState(cls) { document.querySelectorAll(".hs-pin").forEach((p) => { p.classList.remove("pending", "tasked", "done"); p.classList.add(cls); }); }
-  const toMap = () => $("mapSec").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+  const desk = () => window.innerWidth >= 1024;
+  const toMap = () => { if (!desk()) $("mapSec").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" }); };
 
   function mountC2() {
     const A = window.OG_APP; if (!window.OGC2 || !A) return;
-    const c2 = OGC2.mount("#c2", { app: "hotspots", title: "Recommended actions", kicker: "Decide & task", user: "Provincial fire managers and community planners", actions: A.actions,
-      onSelect: (a, o) => { showAction(a); if (a && o && o.source === "show") toMap(); },
-      onApprove: (a, on) => { if (state.action && state.action.id === a.id) taskState(on ? "tasked" : "pending"); },
-      onTask: (a, t, s) => { if (s === "Done" && state.action && state.action.id === a.id) taskState("done"); },
-      onReset: () => showAction(null) });
+    $("actN").textContent = A.actions.length;
+    const c2 = OGC2.mount("#c2", { app: "hotspots", dock: true, title: "Recommended actions", kicker: "Decide & task", user: "Provincial fire managers and community planners", actions: A.actions,
+      onSelect: (a, o) => { showAction(a); if (a && o && (o.source === "show" || o.source === "api")) toMap(); },
+      onApprove: (a, on) => { (a.tasks || []).forEach((t) => { const k = a.id + "|" + t.label; if (on) taskSt[k] = "Queued"; else delete taskSt[k]; }); if (state.action && state.action.id === a.id) { drawAssets(); zoneState(); } },
+      onTask: (a, t, s) => { taskSt[a.id + "|" + t.label] = s; if (state.action && state.action.id === a.id) { drawAssets(); zoneState(); } },
+      onReset: () => { Object.keys(taskSt).forEach((k) => delete taskSt[k]); showAction(null); } });
+    state.c2 = c2;
     OGC2.impact("#impactHost", A.impact, { title: "Impact: before → with this tool", note: "Qualitative on purpose: we haven't measured lives, hectares or costs. The numbers are the satellite results and model tests behind each decision." });
+    // Deep links: #act=<id> selects an action; #alert=<id> opens its simulated alert (c2.js);
+    // #demo or #demo=<id> is the capture state: select, approve (tasks run to Done in ~5 s) and open the alert draft.
     const m = /act=([\w-]+)/.exec(location.hash); if (m && c2) setTimeout(() => { c2.select(m[1]); toMap(); }, 700);
+    const dm = /demo(?:=([\w-]+))?/.exec(location.hash);
+    if (dm && c2) { const id = dm[1] || "hotspots-1"; setTimeout(() => { c2.select(id); setTimeout(() => { c2.approve(id); if ((A.actions.find((x) => x.id === id) || {}).alert) c2.alert(id, { quiet: true }); if (window.OGShell) OGShell.scrollDock(document.querySelector(`#c2 .c2-card[data-id="${id}"]`)); }, 900); }, 700); }
   }
 
   async function boot() {

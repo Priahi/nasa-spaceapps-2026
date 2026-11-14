@@ -38,7 +38,7 @@
     drawLabels();
   }
   function setSplit(p) { split = Math.max(0, Math.min(100, p)); map.style.setProperty("--split", split + "%"); map.classList.toggle("split-l", split < 12); map.classList.toggle("split-r", split > 88); $("opsHandle").setAttribute("aria-valuenow", String(Math.round(split))); }
-  document.querySelectorAll(".ops-toolbar [data-layer]").forEach((b) => b.addEventListener("click", () => setLayer(b.dataset.layer)));
+  document.querySelectorAll(".ops-toolbar [data-layer]").forEach((b) => b.addEventListener("click", () => { setLayer(b.dataset.layer); if (b.dataset.layer === "delta" && window.OGShell) OGShell.show("change"); }));
   $("opsTowns").addEventListener("change", (e) => map.classList.toggle("no-towns", !e.target.checked));
   let drag = false;
   const mv = (x) => { const r = map.getBoundingClientRect(); setSplit(((x - r.left) / r.width) * 100); };
@@ -100,7 +100,7 @@
     const sum = zs.reduce((s, z) => s + kOf(z), 0);
     const unit = layer === "delta" ? "km² newly wet" : layer === "still" ? "km² still wet" : "km² new water";
     box.hidden = false;
-    box.innerHTML = `<p class="k">${esc(sel.cls)} · ${esc(sel.user || "")}</p><p class="n"><b>${zs.length}</b> towns · <b>${f1(sum)}</b> ${unit}${(sel.zones_alt || []).length ? ` · <b>${sel.zones_alt.length}</b> blind-spot towns` : ""}</p>
+    box.innerHTML = `<span class="k">${esc(sel.cls)}</span><span><b>${zs.length}</b> towns · <b>${f1(sum)}</b> ${unit}${(sel.zones_alt || []).length ? ` · <b>${sel.zones_alt.length}</b> blind-spot` : ""}</span>
       <button type="button" class="ops-go${approved[sel.id] ? " done" : ""}">${approved[sel.id] ? "Approved · Undo" : esc(sel.verb || "Approve")}</button>`;
     box.querySelector(".ops-go").addEventListener("click", () => c2 && c2.approve(sel.id));
   }
@@ -122,9 +122,9 @@
   function mountC2() {
     if (!window.OGC2 || !ACTS.length) { $("opsC2").innerHTML = '<p class="ops-note">Decision support failed to load.</p>'; return; }
     c2 = OGC2.mount("#opsC2", {
-      app: "sar-change", kicker: "Decision support · Valencia flood", title: "Recommended actions", user: "Civil-protection duty officer and partner teams",
+      app: "sar-change", dock: true, kicker: "Decision support · Valencia flood", title: "Recommended actions", user: "Civil-protection duty officer and partner teams",
       actions: ACTS,
-      onSelect(a) { select(a); if (a && window.innerWidth < 1100) bringMap(); },
+      onSelect(a) { select(a); if (a && window.innerWidth < 1024) bringMap(); },
       onApprove(a, ok) { if (ok) approved[a.id] = true; else { delete approved[a.id]; Object.keys(taskState).forEach((k) => { if (k.startsWith(a.id + "|")) delete taskState[k]; }); } if (sel && sel.id === a.id) paint(); },
       onTask(a, t, status) { taskState[a.id + "|" + t.label] = status; if (sel && sel.id === a.id) drawAssets(); },
       onReset() { Object.keys(approved).forEach((k) => delete approved[k]); Object.keys(taskState).forEach((k) => delete taskState[k]); select(null); },
@@ -133,7 +133,11 @@
       OGC2.impact("#opsImpact", APP.impact, { title: "Impact: who decides what, before → after", note: "Outcomes are qualitative: we haven't measured lives, damage or cost. The numbers are the real inputs: OPERA water areas and our model's test scores (one seed, not a published benchmark)." });
       document.querySelectorAll("#opsImpact .c2-imp").forEach((el, i) => { const it = APP.impact[i]; if (it && it.img) el.insertAdjacentHTML("afterbegin", `<img class="ops-imp-img" src="/assets/img/${esc(it.img)}" alt="" loading="lazy" width="1152" height="864">`); });
     }
-    const m = /act=([\w-]+)/.exec(location.hash); if (m && ACTS.some((a) => a.id === m[1])) { c2.select(m[1]); setTimeout(() => $("opsC2").querySelector(`[data-id="${m[1]}"]`)?.scrollIntoView({ block: "center" }), 300); }
+    const m = /act=([\w-]+)/.exec(location.hash); if (m && ACTS.some((a) => a.id === m[1])) { c2.select(m[1]); setTimeout(() => window.OGShell && OGShell.scrollDock($("opsC2").querySelector(`[data-id="${m[1]}"]`)), 300); }
+    // #demo or #demo=<id>: capture state for the video and slides (select, approve: tasks run to Done in ~5 s, open the alert draft)
+    const dm = /demo(?:=([\w-]+))?/.exec(location.hash);
+    if (dm) { const id = dm[1] && ACTS.some((a) => a.id === dm[1]) ? dm[1] : "sar-change-1"; c2.select(id);
+      setTimeout(() => { c2.approve(id); if ((ACTS.find((a) => a.id === id) || {}).alert) c2.alert(id, { quiet: true }); if (window.OGShell) OGShell.scrollDock($("opsC2").querySelector(`[data-id="${id}"]`)); }, 900); }
   }
 
   function rank() {

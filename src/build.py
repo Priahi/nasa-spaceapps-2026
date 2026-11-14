@@ -40,7 +40,7 @@ def copy_demo(slug):
     idx = out / "index.html"; h = idx.read_text()
     h = re.sub(r'\s*<meta name="robots"[^>]*>', "", h)
     h = re.sub(r'(href|src)="/(?!/)', r'\1="', h)  # root-absolute assets -> relative (demo now lives under /<slug>/app/)
-    h = h.replace("</head>", '  <link rel="stylesheet" href="suite-common.css" />\n  <link rel="stylesheet" href="suite-theme.css" />\n  <link rel="stylesheet" href="/shared/tokens.css" />\n  <link rel="stylesheet" href="/shared/c2.css" />\n  <script src="og-data.js"></script>\n  <script src="/shared/c2.js"></script>\n</head>', 1)
+    h = h.replace("</head>", '  <link rel="stylesheet" href="suite-common.css" />\n  <link rel="stylesheet" href="suite-theme.css" />\n  <link rel="stylesheet" href="/shared/tokens.css" />\n  <link rel="stylesheet" href="/shared/c2.css" />\n  <link rel="stylesheet" href="/shared/shell.css" />\n  <script src="og-data.js"></script>\n  <script src="/shared/shell.js"></script>\n  <script src="/shared/c2.js"></script>\n</head>', 1)
     h = re.sub(r"(<body[^>]*>)", lambda m: m.group(1) + suite_bar(slug), h, count=1)
     # public-build wording (was written for the private preview)
     h = h.replace("NASA Space Apps 2026 · unlisted demo · not submitted", "NASA Space Apps 2026")
@@ -513,6 +513,12 @@ def main():
         '<main id="content"><section class="hero short"><div class="wrap hero-copy"><h1>Page not found</h1><p class="lede">That page doesn\'t exist.</p><div class="actions"><a class="btn" href="/">Back to the projects</a></div></div></section></main>' + FOOT)
     shutil.copy(SRC / "assets/img/favicon.ico", DIST / "favicon.ico")
     sub = DIST / "submission"; sub.mkdir(exist_ok=True)
+    # deck.html (slide 8 embeds the demo videos) + its assets and the per-app clips
+    if (ROOT / "submission" / "deck.html").exists():
+        shutil.copy(ROOT / "submission" / "deck.html", sub / "deck.html")
+        for d in ("assets",):
+            if (ROOT / "submission" / d).exists(): shutil.copytree(ROOT / "submission" / d, sub / d, dirs_exist_ok=True)
+        if (ROOT / "submission" / "clips").exists(): shutil.copytree(ROOT / "submission" / "clips", sub / "clips", dirs_exist_ok=True)
     for fn in ("demo.mp4", "demo.en.srt", "deck.pdf"):
         if (ROOT / "submission" / fn).exists(): shutil.copy(ROOT / "submission" / fn, sub / fn)
         else: print("WARNING: missing submission/" + fn)

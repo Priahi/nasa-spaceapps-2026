@@ -5,75 +5,70 @@
   <meta name="robots" content="noindex, nofollow" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Hot Spots · fire activity and burn calendar — NASA Space Apps demo</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="../../shared/vendor/leaflet/leaflet.css" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%23f97316'/%3E%3C/svg%3E" />
   <link rel="stylesheet" href="/style.css" />
   <link rel="stylesheet" href="/briefing.css" />
 </head>
-<body>
-  <header class="top">
-    <div class="top-t">
-      <p class="kick">Detect · Hot Spots</p>
-      <h1>Where is fire growing, and when does it peak?</h1>
-      <p class="sub">NASA FIRMS MODIS (2000–2025) put on the VIIRS scale, so every year compares fairly. One seed, not a published benchmark.</p>
-    </div>
-    <div class="controls">
-      <label class="ctl">Region <select id="preset"></select></label>
-      <button type="button" id="drawBtn" class="btn">Draw a box</button>
-      <button type="button" id="csvBtn" class="btn">Download CSV</button>
-      <button type="button" class="btn bf-inline" data-briefing-open="1">Briefing</button>
+<body class="og-app hs-app">
+  <header class="og-bar">
+    <div class="og-ttl"><p class="og-k">Detect · Hot Spots</p>
+      <h1>Where is fire growing, and when does it peak?<span>NASA FIRMS 2000–2025 on one scale (MODIS put on the VIIRS scale)</span></h1></div>
+    <div class="og-ctl">
+      <label class="sr" for="preset">Region</label><select id="preset" aria-label="Region"></select>
+      <button type="button" id="drawBtn" class="og-b">Draw a box</button>
+      <button type="button" id="csvBtn" class="og-b">CSV</button>
+      <button type="button" class="og-b pri" data-briefing-open="1">Briefing</button>
     </div>
   </header>
 
-  <nav class="steps" aria-label="Dashboard steps">
-    <a href="#mapSec"><b>1</b>See the map</a><a href="#calendar"><b>2</b>What changed</a><a href="#decide"><b>3</b>Decide &amp; task</a><a href="#impact"><b>4</b>Impact</a>
-  </nav>
-
-  <main class="hs">
-    <section class="hs-row" id="mapSec" aria-label="Map">
-      <div class="map-card">
-        <div class="map-head">
-          <div class="seg" role="group" aria-label="Map layer">
+  <div class="og-work">
+    <section class="og-stage" id="mapSec" aria-label="Fire map and burn calendar">
+      <div class="og-mapbox">
+        <div id="map" class="og-map" role="application" aria-label="Fire map"></div>
+        <div class="og-ovl tl">
+          <div class="og-seg" role="group" aria-label="Map layer">
             <button type="button" data-layer="fire" aria-pressed="true">Fire activity</button>
             <button type="button" data-layer="trend" aria-pressed="false">Province trend</button>
             <button type="button" data-layer="ratio" aria-pressed="false">Sensor gap</button>
           </div>
-          <span class="aoi" id="aoiLabel"></span>
+          <div class="og-selbar" id="mapSelbar" hidden></div>
         </div>
-        <div class="map-wrap">
-          <div id="map" role="application" aria-label="Fire map"></div>
-          <div class="map-legend" id="mapLegend" aria-live="polite"></div>
-          <div class="map-task" id="mapTask" hidden></div>
-        </div>
+        <div class="og-ovl bl"><div class="og-panel map-legend" id="mapLegend" aria-live="polite"></div></div>
+        <div class="og-ovl tr"><div class="og-panel map-task" id="mapTask" hidden></div></div>
       </div>
-      <aside class="hs-side">
-        <article class="card kpis" id="kpis" aria-live="polite"><p class="fine">Loading…</p></article>
-        <p class="status" id="status">Loading…</p>
-        <details class="card more"><summary>Why the two sensors disagree</summary><div id="reasons">Select a region to load.</div></details>
-      </aside>
-    </section>
-
-    <section class="hs-cal" id="calendar" aria-label="Burn calendar">
-      <div class="sec-head">
-        <div><p class="kick">What changed</p><h2>Burn calendar: every month since 2000</h2>
-          <p class="fine">Each square is one month in the selected area. Colour = fires detected that month (VIIRS-equivalent count). <b>Outlined</b> = unusual month (far above that month's 2000–2025 median).</p></div>
-        <div class="cal-legend" id="calLegend"></div>
-      </div>
-      <div class="cal-grid">
+      <div class="og-strip hs-cal" id="calendar" aria-label="Burn calendar">
+        <div class="cal-top"><p class="og-h">Burn calendar · every month since 2000 <span class="aoi" id="aoiLabel"></span></p><div class="cal-legend" id="calLegend"></div></div>
         <div id="calWrap"><div id="calHost"></div></div>
-        <aside class="flags card"><h3>Unusual months</h3><p class="fine" id="flagNote"></p><ul id="flagList"></ul></aside>
+        <div id="tooltip" class="tooltip" hidden></div>
       </div>
-      <div id="tooltip" class="tooltip" hidden></div>
     </section>
 
-    <section class="hs-sec" id="decide" aria-label="Decision support"><div id="c2"></div></section>
-    <section class="hs-sec" id="impact" aria-label="Impact"><div id="impactHost"></div></section>
+    <aside class="og-dock" aria-label="Decision support">
+      <div class="og-dock-head">
+        <div id="kpis" aria-live="polite"><p class="og-fine">Loading…</p></div>
+        <div class="og-tabs" role="tablist" aria-label="Panels">
+          <button type="button" role="tab" data-pane="act" aria-selected="true">Actions<i id="actN">4</i></button>
+          <button type="button" role="tab" data-pane="outlook" aria-selected="false">2026 outlook</button>
+          <button type="button" role="tab" data-pane="flags" aria-selected="false">Unusual months</button>
+          <button type="button" role="tab" data-pane="impact" aria-selected="false">Impact</button>
+        </div>
+      </div>
+      <div class="og-dock-body">
+        <section class="og-pane" id="pane-act" aria-label="Recommended actions"><div id="c2"></div></section>
+        <section class="og-pane" id="pane-outlook" hidden aria-label="2026 outlook"><div id="outlookHost"></div>
+          <details class="og-card more"><summary>Why the two sensors disagree</summary><div id="reasons">Select a region to load.</div></details>
+          <p class="status og-fine" id="status">Loading…</p></section>
+        <section class="og-pane flags" id="pane-flags" hidden aria-label="Unusual months"><p class="og-fine" id="flagNote"></p><ul id="flagList"></ul></section>
+        <section class="og-pane" id="pane-impact" hidden aria-label="Impact"><div id="impactHost"></div></section>
+      </div>
+    </aside>
+  </div>
 
-    <section class="hs-sec">
-      <details class="card more"><summary>Model test, held out 2022–2025</summary>
-        <p class="fine">Validation year 2021. Residual LightGBM on top of an empirical-Bayes cell-ratio baseline. One seed.</p>
-        <div id="metrics" class="table-wrap">Loading…</div></details>
-    </section>
+  <main class="og-below">
+    <details class="more"><summary>Model test, held out 2022–2025</summary>
+      <p class="og-fine">Validation year 2021. Residual LightGBM on top of an empirical-Bayes cell-ratio baseline. One seed.</p>
+      <div id="metrics" class="table-wrap">Loading…</div></details>
   </main>
 
   <footer>
@@ -81,7 +76,7 @@
     <p>This tool and model code: Apache-2.0. Unlisted demo build (static, precomputed from the local model run). Intervals are Mondrian conformalized quantile regression (90% target), summed over cells in the AOI, and are not a formal regional confidence interval.</p>
   </footer>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="../../shared/vendor/leaflet/leaflet.js"></script>
   <script src="/static_api.js"></script>
   <script src="/app.js"></script>
   <script src="/briefing.js"></script>

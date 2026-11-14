@@ -1,0 +1,89 @@
+/* Orbit to Ground dashboard shell: map-dominant workspace + side dock with tabs. Shared by the three dashboards (needs tokens.css). */
+.og-app { --og-top: 104px; --dock-w: 400px; }
+.og-bar { display: flex; align-items: center; justify-content: space-between; gap: .5rem 1rem; flex-wrap: wrap; padding: .55rem clamp(.75rem, 2vw, 1.25rem); background: var(--og-bg-2); border-bottom: 1px solid var(--og-line); }
+.og-bar .og-ttl { display: grid; gap: .1rem; min-width: 0; }
+.og-bar .og-k { margin: 0; font: 600 .62rem/1.1 var(--og-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--og-accent); }
+.og-bar h1 { margin: 0; font: 650 clamp(1.02rem, 1.6vw, 1.28rem)/1.2 var(--og-font); letter-spacing: -.01em; color: var(--og-ink); text-transform: none; }
+.og-bar h1 span { font-weight: 400; font-size: .82rem; color: var(--og-muted); margin-left: .5rem; letter-spacing: 0; }
+.og-ctl { display: flex; align-items: center; gap: .4rem; flex-wrap: wrap; }
+.og-ctl select, .og-ctl .og-b { font: 500 .84rem/1 var(--og-font); min-height: 36px; border-radius: 9px; border: 1px solid var(--og-line-strong); background: var(--og-card); color: var(--og-ink); padding: .45rem .7rem; cursor: pointer; }
+.og-ctl .og-b:hover, .og-ctl .og-b.active { border-color: var(--og-accent); color: var(--og-accent); }
+.og-ctl .og-b.pri { background: var(--og-grad); color: var(--og-on-accent); border: 0; font-weight: 600; }
+.og-chips { display: flex; gap: .35rem; flex-wrap: wrap; list-style: none; margin: 0; padding: 0; }
+.og-chips li { display: inline-flex; align-items: baseline; gap: .35rem; background: var(--og-card); border: 1px solid var(--og-line); border-radius: 9px; padding: .35rem .55rem; font-size: .74rem; color: var(--og-muted); white-space: nowrap; }
+.og-chips b { color: var(--og-ink); font-size: .9rem; font-weight: 650; }
+.og-work { display: grid; grid-template-columns: minmax(0, 1fr) var(--dock-w); height: calc(100dvh - var(--og-top)); min-height: 540px; border-bottom: 1px solid var(--og-line); }
+html.in-frame .og-work { min-height: 460px; }
+.og-stage { position: relative; display: flex; flex-direction: column; min-width: 0; min-height: 0; background: #0b0e20; }
+.og-mapbox { position: relative; flex: 1 1 auto; min-height: 0; }
+.og-mapbox > .og-map { position: absolute; inset: 0; }
+.og-ovl { position: absolute; z-index: 600; pointer-events: none; } .og-ovl > * { pointer-events: auto; }
+.og-ovl.tl { top: 10px; left: 10px; right: 10px; display: flex; gap: .4rem; flex-wrap: wrap; align-items: flex-start; }
+.og-ovl.bl { left: 10px; bottom: 10px; max-width: min(320px, calc(100% - 20px)); }
+.og-ovl.tr { top: 54px; right: 10px; max-width: min(300px, 48%); }
+.og-seg { display: inline-flex; gap: 2px; padding: 3px; border-radius: 11px; background: rgba(7,9,26,.88); border: 1px solid var(--og-line-strong); backdrop-filter: blur(6px); flex-wrap: wrap; }
+.og-seg button { font: 600 .78rem/1 var(--og-font); min-height: 32px; padding: .4rem .65rem; border: 0; border-radius: 8px; background: transparent; color: var(--og-muted); cursor: pointer; white-space: nowrap; }
+.og-seg button[aria-pressed="true"], .og-seg button[aria-checked="true"] { background: var(--og-grad); color: var(--og-on-accent); }
+.og-seg button:focus-visible, .og-tabs button:focus-visible { outline: 2px solid var(--og-accent); outline-offset: 2px; }
+.og-panel { background: rgba(7,9,26,.88); border: 1px solid var(--og-line-strong); border-radius: 10px; padding: .5rem .65rem; font-size: .74rem; color: var(--og-muted); backdrop-filter: blur(6px); display: grid; gap: .3rem; }
+.og-panel b { color: var(--og-ink); font-weight: 600; font-size: .78rem; }
+.og-strip { flex: none; border-top: 1px solid var(--og-line); background: var(--og-bg-2); }
+.og-dock { display: flex; flex-direction: column; min-height: 0; background: var(--og-bg); border-left: 1px solid var(--og-line); }
+.og-dock-head { flex: none; padding: .6rem .75rem .4rem; border-bottom: 1px solid var(--og-line); display: grid; gap: .5rem; }
+.og-tabs { display: flex; gap: 2px; padding: 3px; border-radius: 11px; background: var(--og-bg-2); border: 1px solid var(--og-line); overflow-x: auto; scrollbar-width: none; }
+.og-tabs::-webkit-scrollbar { display: none; }
+.og-tabs button { flex: 1 0 auto; font: 600 .78rem/1 var(--og-font); min-height: 32px; padding: .4rem .6rem; border: 0; border-radius: 8px; background: transparent; color: var(--og-muted); cursor: pointer; white-space: nowrap; }
+.og-tabs button[aria-selected="true"] { background: var(--og-grad); color: var(--og-on-accent); }
+.og-tabs button i { font-style: normal; display: inline-grid; place-items: center; min-width: 1.05rem; height: 1.05rem; border-radius: 9px; margin-left: .3rem; background: rgba(158,193,255,.18); font: 600 .62rem/1 var(--og-mono); }
+.og-tabs button[aria-selected="true"] i { background: rgba(7,16,24,.18); }
+.og-dock-body { flex: 1 1 auto; overflow-y: auto; overscroll-behavior: contain; padding: .7rem .75rem 1rem; scrollbar-width: thin; }
+.og-pane[hidden], .og-selbar[hidden], .og-panel[hidden], .og-ovl [hidden] { display: none !important; }
+.og-pane > * + * { margin-top: .6rem; }
+.og-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: .35rem; margin: 0; padding: 0; list-style: none; }
+.og-kpis li { background: var(--og-card); border: 1px solid var(--og-line); border-radius: 9px; padding: .4rem .45rem; display: grid; gap: .1rem; min-width: 0; }
+.og-kpis small { font: 600 .56rem/1.15 var(--og-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--og-faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.og-kpis b { font: 650 1.02rem/1.1 var(--og-font); color: var(--og-ink); } .og-kpis span { font-size: .64rem; color: var(--og-faint); line-height: 1.2; }
+.og-card { background: var(--og-bg-2); border: 1px solid var(--og-line); border-radius: 12px; padding: .7rem .8rem; }
+.og-card h3 { margin: 0 0 .4rem; font: 600 .86rem/1.25 var(--og-font); color: var(--og-ink); text-transform: none; letter-spacing: 0; }
+.og-h { margin: 0 0 .35rem; font: 600 .62rem/1.2 var(--og-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--og-faint); }
+.og-fine { font-size: .74rem; line-height: 1.4; color: var(--og-faint); margin: .25rem 0 0; }
+.og-below { max-width: 1400px; margin: 0 auto; padding: 1rem clamp(.75rem, 2.5vw, 1.5rem) 1.5rem; display: grid; gap: 1rem; }
+.og-below > details { background: var(--og-bg-2); border: 1px solid var(--og-line); border-radius: 12px; padding: .2rem .9rem; }
+.og-below > details > summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; justify-content: space-between; font-weight: 600; color: var(--og-ink); list-style: none; }
+.og-below > details > summary::-webkit-details-marker { display: none; }
+.og-below > details > summary::after { content: "+"; color: var(--og-accent); font-size: 1.1rem; } .og-below > details[open] > summary::after { content: "–"; }
+.og-below > details[open] { padding-bottom: .9rem; }
+/* simulated asset markers (Leaflet divIcons) */
+.og-asset { display: inline-flex; align-items: center; gap: .3rem; background: rgba(7,9,26,.92); border: 1.5px solid #fbbf24; border-radius: 999px; padding: 3px 8px 3px 4px; white-space: nowrap; box-shadow: 0 4px 14px rgba(0,0,0,.45); font: 600 10.5px/1 var(--og-font); color: var(--og-ink); transform: translate(-50%, -50%); width: max-content; }
+.og-asset .c2-ico { width: 16px; height: 16px; color: #fbbf24; }
+.og-asset em { font: 600 9px/1 var(--og-mono); font-style: normal; text-transform: uppercase; letter-spacing: .05em; color: #fbbf24; }
+.og-asset[data-s="Tasked"], .og-asset[data-s="In progress"] { border-color: #9ec1ff; box-shadow: 0 0 0 4px rgba(158,193,255,.18); } .og-asset[data-s="Tasked"] em, .og-asset[data-s="Tasked"] .c2-ico, .og-asset[data-s="In progress"] em, .og-asset[data-s="In progress"] .c2-ico { color: #9ec1ff; }
+.og-asset[data-s="In progress"] .c2-ico { animation: ogPulse 1s ease-in-out infinite; }
+.og-asset[data-s="Done"] { border-color: #6ee7b7; } .og-asset[data-s="Done"] em, .og-asset[data-s="Done"] .c2-ico { color: #6ee7b7; }
+.og-asset[data-s="Proposed"] { border-style: dashed; border-color: rgba(212,196,255,.8); } .og-asset[data-s="Proposed"] em, .og-asset[data-s="Proposed"] .c2-ico { color: #d4c4ff; }
+.og-asset .lb { max-width: 150px; overflow: hidden; text-overflow: ellipsis; }
+.leaflet-div-icon.og-pin { background: transparent; border: 0; }
+@keyframes ogPulse { 50% { opacity: .35; } }
+.og-selbar { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; background: rgba(7,9,26,.92); border: 1px solid #d4c4ff; border-radius: 10px; padding: .35rem .4rem .35rem .65rem; font-size: .76rem; color: var(--og-muted); backdrop-filter: blur(6px); max-width: 100%; }
+.og-selbar b { color: var(--og-ink); } .og-selbar .k { font: 600 .6rem/1 var(--og-mono); letter-spacing: .08em; text-transform: uppercase; color: #d4c4ff; }
+.og-selbar button { font: 600 .74rem/1 var(--og-font); min-height: 28px; padding: .3rem .6rem; border-radius: 7px; border: 0; background: var(--og-grad); color: var(--og-on-accent); cursor: pointer; }
+.og-selbar button.done { background: transparent; color: #6ee7b7; border: 1px solid #6ee7b7; }
+@media (max-width: 1023px) {
+  .og-work { grid-template-columns: 1fr; height: auto; min-height: 0; }
+  html.in-frame .og-work { height: auto; }
+  .og-stage { height: auto; min-height: 0; }
+  .og-mapbox { flex: none; height: min(66svh, 640px); min-height: 340px; }
+  .og-dock { border-left: 0; border-top: 1px solid var(--og-line); }
+  .og-dock-head { position: sticky; top: 0; z-index: 700; background: var(--og-bg); }
+  .og-dock-body { overflow: visible; }
+}
+@media (max-width: 560px) {
+  .og-bar { padding: .5rem .7rem; } .og-bar h1 span { display: block; margin: .1rem 0 0; }
+  .og-ctl { width: 100%; } .og-ctl select { flex: 1 1 100%; } .og-ctl .og-b { flex: 1 1 auto; }
+  .og-mapbox { height: 60svh; min-height: 320px; }
+  .og-ovl.tr { top: auto; bottom: 10px; right: 10px; max-width: calc(100% - 20px); }
+  .og-ovl.bl { max-width: 66%; }
+  .og-kpis { grid-template-columns: repeat(2, 1fr); }
+  .og-asset .lb { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .og-asset .c2-ico { animation: none !important; } }

@@ -26,7 +26,7 @@
     if (!root) return null;
     const A = cfg.actions || [];
     const st = { sel: null, approved: {}, tasks: [], log: [], timers: [] };
-    root.classList.add("c2");
+    root.classList.add("c2"); if (cfg.dock) root.classList.add("c2-dock");
     root.innerHTML = `
       <div class="c2-head">
         <div><p class="c2-kick">${esc(cfg.kicker || "Decision support")}</p><h2 class="c2-title">${esc(cfg.title || "Recommended actions")}</h2>
@@ -37,7 +37,7 @@
       <div class="c2-grid">
         <ol class="c2-list" aria-label="Recommended actions">${A.map((a, i) => `
           <li class="c2-card" data-id="${esc(a.id)}" tabindex="-1">
-            <div class="c2-card-top"><span class="c2-cls">${esc(a.cls || "Action")}</span><span class="c2-state" data-s="proposed">Proposed</span></div>
+            <div class="c2-card-top"><span class="c2-cls">${esc(a.cls || "Action")}</span><span class="c2-state" data-s="proposed">Proposed</span>${cfg.dock ? `<button type="button" class="c2-more" aria-expanded="false" aria-label="Show details">Details</button>` : ""}</div>
             <h3 class="c2-act">${esc(a.title || a.act)}</h3>
             <dl class="c2-flow">
               <div><dt>Satellite shows</dt><dd>${esc(a.sat)}</dd></div>
@@ -76,6 +76,7 @@
       st.sel = same ? null : id;
       $$(".c2-card").forEach((c) => { const on = c.dataset.id === st.sel; c.classList.toggle("sel", on); c.querySelector(".c2-show").setAttribute("aria-pressed", String(on)); c.querySelector(".c2-show").textContent = on ? "Showing on map" : "Show on map"; });
       const a = st.sel ? byId(st.sel) : null;
+      if (a && cfg.dock && window.OGShell) { try { OGShell.reveal(root); } catch (e) { /* no shell */ } }
       try { cfg.onSelect && cfg.onSelect(a, { source: (opts && opts.source) || "api" }); } catch (e) { console.warn("c2 onSelect", e); }
       fire("select", { app: cfg.app, action: a });
       return a;
@@ -119,6 +120,8 @@
         </div>
         <dl class="c2-msg-to"><div><dt>To</dt><dd>${esc(al.to)}</dd></div>${al.area ? `<div><dt>Area</dt><dd>${esc(al.area)}</dd></div>` : ""}</dl>
         <div class="c2-btns"><button type="button" class="c2-btn c2-primary c2-send">Send alert (simulated)</button><button type="button" class="c2-btn c2-ghost c2-alx">Close</button></div>`;
+      if (cfg.dock && card(id)) card(id).appendChild(box);
+      if (cfg.dock && window.OGShell) { try { OGShell.reveal(root); } catch (e) { /* no shell */ } }
       box.hidden = false; log(`Alert drafted: ${al.head}`);
       try { cfg.onAlert && cfg.onAlert(a, "draft"); } catch (e) { console.warn(e); } fire("alert", { app: cfg.app, action: a, status: "draft" });
       if (!(opts && opts.quiet)) box.scrollIntoView({ behavior: reduce() ? "auto" : "smooth", block: "nearest" });
@@ -142,7 +145,8 @@
     root.addEventListener("click", (ev) => {
       const c = ev.target.closest(".c2-card"); if (ev.target.closest(".c2-reset")) return reset();
       if (ev.target.closest(".c2-send")) return alertSend(); if (ev.target.closest(".c2-alx")) return alertClose();
-      if (!c) return; if (ev.target.closest(".c2-alrt")) return alertDraft(c.dataset.id); if (ev.target.closest(".c2-go")) return approve(c.dataset.id); if (ev.target.closest(".c2-show")) return select(c.dataset.id, { source: "show" });
+      if (!c) return; if (ev.target.closest(".c2-more")) { const m = c.querySelector(".c2-more"), o = !c.classList.contains("open"); c.classList.toggle("open", o); m.setAttribute("aria-expanded", String(o)); m.textContent = o ? "Less" : "Details"; return; }
+      if (ev.target.closest(".c2-al")) return; if (ev.target.closest(".c2-alrt")) return alertDraft(c.dataset.id); if (ev.target.closest(".c2-go")) return approve(c.dataset.id); if (ev.target.closest(".c2-show")) return select(c.dataset.id, { source: "show" });
     });
     renderTasks();
     const hm = /alert=([\w-]+)/.exec(location.hash);

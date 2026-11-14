@@ -6,7 +6,10 @@ nav.tabs { gap: 6px; padding-bottom: 10px; overflow-x: auto; flex-wrap: nowrap; 
 nav.tabs::-webkit-scrollbar { display: none; }
 nav.tabs button { border: 1px solid var(--og-line, rgba(190,205,255,.14)) !important; border-radius: 999px; padding: 8px 14px !important; white-space: nowrap; min-height: 38px; }
 nav.tabs button[aria-selected="true"] { background: var(--og-grad, linear-gradient(120deg,#9ec1ff,#d4c4ff)); color: var(--og-on-accent, #071018) !important; border-color: transparent !important; font-weight: 600; }
-main { max-width: 1320px; }
+main { max-width: none; padding: 0; }
+#panel-ops > .ops-rain, section.panel:not(#panel-ops) { max-width: 1320px; margin-inline: auto; }
+section.panel:not(#panel-ops) { padding: 20px; }
+#panel-ops > .ops-rain { margin: 16px auto 24px; width: calc(100% - 32px); }
 #panel-ops { --gap: 16px; }
 
 /* KPI strip */
@@ -127,15 +130,12 @@ main { max-width: 1320px; }
   .ops-kpis { grid-template-columns: 1fr auto 1fr auto 1fr; } .ops-kpis li:last-child { grid-column: 1 / -1; }
 }
 @media (max-width: 720px) {
-  main { padding: 12px; }
+  section.panel:not(#panel-ops) { padding: 12px; }
   .ops-kpis { grid-template-columns: 1fr 1fr; gap: 8px; } .ops-kpis li.arrow { display: none; } .ops-kpis li:last-child { grid-column: auto; }
   .ops-delta-grid { grid-template-columns: 1fr; }
   .ops-c2col .c2-side { grid-template-columns: 1fr; }
   .ops-legend { font-size: 11px; padding: 6px 8px; gap: 2px; }
   .ops-side-lab { padding: 5px 7px; } .ops-side-lab span { font-size: 11px; } .ops-side-lab em { font-size: 11.5px; }
-  .ops-sel { left: 10px; right: 10px; max-width: none; top: auto; bottom: 10px; grid-template-columns: 1fr auto; align-items: center; }
-  .ops-sel[hidden] { display: none; }
-.ops-sel .k { grid-column: 1 / -1; }
   .ops-map .ops-legend { display: none; } .ops-legend.static.mob { display: flex; margin-top: 8px; }
   .ops-side-lab small { display: none; } .ops-side-lab b { font-size: 10px; }
   .ops-toolbar button { padding: 8px 10px; font-size: 12px; min-height: 36px; }
@@ -173,3 +173,47 @@ main { max-width: 1320px; }
 .ops-rain-notes li { display: grid; gap: .1rem; padding: .55rem .7rem; border: 1px solid var(--og-line); border-radius: var(--og-r-sm); background: var(--og-bg); }
 .ops-rain-notes b { font-size: 1.15rem; color: var(--og-water-new); } .ops-rain-notes span { font-size: .82rem; color: var(--og-muted); line-height: 1.4; }
 @media (max-width: 900px) { .ops-rain-body { grid-template-columns: 1fr; } }
+
+/* app shell: map-dominant workspace with a side dock (shared /shared/shell.css) */
+.sar-app .ops-stage { background: #0b0e20; }
+.sar-app .ops-bar { flex: none; display: flex; align-items: center; gap: 6px 10px; flex-wrap: wrap; padding: 8px 10px; border-bottom: 1px solid var(--og-line); background: var(--og-bg-2); }
+.sar-app .ops-bar .ops-toolbar { margin: 0; } .sar-app .ops-bar .ops-toolbar button { min-height: 32px; padding: 6px 11px; border: 0; border-radius: 8px; font-size: 12.5px; }
+.sar-app .ops-bar .ops-tog { margin-left: 0; }
+.sar-app .ops-bar .og-selbar { margin-left: auto; }
+.sar-app .og-selbar.ops-sel { position: static; display: flex; max-width: none; backdrop-filter: none; }
+.sar-app .og-selbar.ops-sel[hidden] { display: none; }
+.sar-app .og-selbar .ops-go { min-height: 28px; padding: 5px 10px; border-radius: 7px; font-size: 12px; }
+.sar-app .ops-mapbox { container-type: size; display: grid; place-items: center; padding: 8px; }
+.sar-app .ops-mapbox .ops-map { width: min(100cqw, 100cqh * 1150 / 1068); height: auto; max-height: 100cqh; aspect-ratio: 1150 / 1068; }
+.sar-app .ops-stage .ops-cap { flex: none; margin: 0; padding: 6px 12px 8px; border-top: 1px solid var(--og-line); background: var(--og-bg-2); font-size: 11px; }
+.sar-app .ops-asset { padding: 3px 7px 3px 4px; max-width: 170px; } .sar-app .ops-asset span { font-size: 10.5px; max-width: 128px; } .sar-app .ops-asset .c2-ico { width: 16px; height: 16px; }
+.sar-app .ops-legend { font-size: 11.5px; padding: 6px 9px; }
+.sar-app .og-dock .ops-kpis { grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 0; }
+.sar-app .og-dock .ops-kpis li { padding: 6px 7px; border-radius: 9px; }
+.sar-app .og-dock .ops-kpis small { font-size: 9px; letter-spacing: .04em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sar-app .og-dock .ops-kpis b { font-size: 18px; } .sar-app .og-dock .ops-kpis span { font-size: 10px; line-height: 1.2; }
+.sar-app .ops-delta { margin: 0; background: none; border: 0; padding: 0; }
+.sar-app .ops-wch { margin: 0 0 10px; font-size: 18px; font-weight: 500; } .sar-app .ops-wch b { color: var(--og-water-new, #38bdf8); }
+.sar-app .ops-split { margin: 0 0 8px; } .sar-app .ops-split b { font-size: 19px; } .sar-app .ops-split li { padding: 8px; }
+.sar-app .ops-delta .ops-legend.static { margin: 0 0 10px; font-size: 11.5px; }
+.sar-app .ops-rank li { grid-template-columns: 100px 1fr 44px; font-size: 12.5px; }
+.sar-app .ops-note { font-size: 12.5px; }
+.sar-app .ops-imp-img { width: 100%; height: auto; border-radius: 10px; }
+.sar-app .og-dock .c2-imp-grid { grid-template-columns: 1fr; }
+@media (max-width: 1023px) {
+  .sar-app .ops-mapbox { container-type: normal; height: auto; padding: 0; display: block; }
+  .sar-app .ops-mapbox .ops-map { width: 100%; max-height: none; border-radius: 0; }
+}
+@media (max-width: 720px) { .sar-app .ops-bar .og-selbar { margin-left: 0; width: 100%; } .sar-app .ops-asset span { display: none; } .sar-app .ops-asset { grid-template-columns: auto; padding: 4px; } .sar-app .ops-asset em { display: none; } }
+.sar-app .ops-pick[hidden] { display: none !important; }
+/* compact header on wide screens: title and section tabs on one row */
+@media (min-width: 1024px) {
+  .sar-app header.app-header .header-inner { display: flex; align-items: center; gap: 6px 18px; flex-wrap: wrap; max-width: none; padding: 8px 16px; }
+  .sar-app .ops-top { display: contents; }
+  .sar-app .ops-top .kicker { display: none; }
+  .sar-app .ops-h1 { order: 1; margin: 0; font-size: 20px; flex: 0 1 auto; }
+  .sar-app .ops-h1 span { font-size: 12.5px; }
+  .sar-app nav.tabs { order: 2; padding: 0; margin-left: auto; }
+  .sar-app nav.tabs button { min-height: 32px; padding: 6px 12px !important; font-size: 13px; }
+  .sar-app .ops-top .bf-inline { order: 3; }
+}

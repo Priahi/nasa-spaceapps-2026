@@ -191,7 +191,7 @@
         ${o.id === "current_corn_soy" ? `<p class="fs-fine">The baseline: other plans are compared with this one.</p>` : `<ul class="fs-delta" aria-label="Compared with today's corn–soybean">${deltas(o, base)}</ul>`}
         <details class="fs-why"><summary>Why, and the risks</summary><p>${esc(o.why)}</p><p><b>Benefits.</b> ${esc(o.benefits)}</p><p><b>Risks.</b> ${esc(o.risks)} ${esc(o.gaps)}</p></details>
         <div class="fs-plan-btns"><button type="button" class="fs-btn${sel ? " on" : ""}" data-pick="${esc(o.id)}" aria-pressed="${sel}">${sel ? "Selected · on the map" : "Choose this plan"}</button>
-        ${sel ? `<a class="fs-btn primary" href="#s-act">Act on it ↓</a>` : ""}</div>
+        ${sel ? `<a class="fs-btn primary" href="#pane-act">Act on it →</a>` : ""}</div>
       </article>`;
     }).join("") + (opts.length > 4 ? `<button type="button" class="fs-btn ghost fs-more-btn" id="morePlans">${state.showAll ? "Show fewer plans" : `Show ${opts.length - 4} more plans`}</button>` : "");
     $("strategyCards").querySelectorAll("[data-pick]").forEach((b) => b.addEventListener("click", () => pickPlan(b.dataset.pick)));
@@ -200,7 +200,7 @@
   }
   function pickPlan(id) {
     state.planId = id; setLayer("fit"); renderStrategies(); renderPareto(); refreshC2();
-    if (window.innerWidth < 980) document.querySelector(".fs-mapcard").scrollIntoView({ behavior: "smooth", block: "start" });
+    if (window.innerWidth < 1024) $("mapSec").scrollIntoView({ behavior: "smooth", block: "start" });
   }
   function renderTable(opts) {
     const keys = state.data.objectives.keys;
@@ -209,7 +209,7 @@
   }
 
   /* ---------- map + layers ---------- */
-  const LAYERS = [{ id: "crops", t: "Crops 2025" }, { id: "forecast", t: "2026 forecast" }, { id: "fit", t: "Where the plan fits" }, { id: "erosion", t: "Slope" }, { id: "scout", t: "Scout list" }];
+  const LAYERS = [{ id: "crops", t: "Crops 2025" }, { id: "forecast", t: "2026 forecast" }, { id: "fit", t: "Plan fit" }, { id: "erosion", t: "Slope" }, { id: "scout", t: "Scout list" }];
   const FLAG = { low: /Low model confidence/, slope: /Above-average slope/, repeat: /same cash crop/ };
   const FLAGC = { low: "#fbbf24", repeat: "#f87171", slope: "#d4c4ff" };
   const hasFlag = (f, k) => (f.flags || []).some((t) => FLAG[k].test(t));
@@ -239,67 +239,119 @@
     });
     FIT = { m, win, name: plan.name };
   }
-  function drawMap() {
-    const canvas = $("map"), ctx = canvas.getContext("2d"), img = state.mapImg, M = state.data.map; if (!img) return;
-    const scale = img.width / M.width, s = M.block * scale;
-    canvas.width = img.width; canvas.height = img.height;
-    ctx.fillStyle = "#07091a"; ctx.fillRect(0, 0, canvas.width, canvas.height);
-    const L = state.layer;
-    ctx.globalAlpha = L === "crops" ? 1 : 0.22; ctx.drawImage(img, 0, 0); ctx.globalAlpha = 1;
-    if (L === "fit") computeFit();
-    const fit = L === "fit" && FIT ? FIT.m : null; const maxM = fit ? Math.max(0.0001, ...Object.values(fit)) : 1;
+  /* Leaflet map: USDA CDL 2025 reprojected to Web Mercator (data/geo.json) on a basemap, with the 1.2 km analysis squares as polygons. */
+  let LM = null, SQ = {}, CDL = null, ASSETS = null, GEO = null;
+  const SQ_BASE = { color: "rgba(7,9,26,.55)", weight: 0.6, opacity: 1, fillOpacity: 0, dashArray: null };
+  function initMap(geo) {
+    GEO = geo; if (window.OGShell) OGShell.fit();
+    LM = L.map("map", { zoomControl: false, zoomSnap: 0.25, preferCanvas: true });
+    L.control.zoom({ position: "bottomright" }).addTo(LM);
+    const b = L.latLngBounds(geo.bounds); LM.fitBounds(b, { padding: [12, 12] }); LM.setMaxBounds(b.pad(0.6)); LM.setMinZoom(Math.floor(LM.getZoom() - 1));
+    L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}", { attribution: "Tiles &copy; Esri · Crops: USDA NASS CDL 2025", maxZoom: 16 }).addTo(LM);
+    LM.createPane("labels"); LM.getPane("labels").style.zIndex = 650; LM.getPane("labels").style.pointerEvents = "none";
+    L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}", { pane: "labels", maxZoom: 16 }).addTo(LM);
+    CDL = L.imageOverlay(geo.image, b, { className: "fs-cdl", interactive: false }).addTo(LM);
+    const rend = L.canvas({ padding: 0.3 });
     state.data.fields.forEach((f) => {
-      const x = f.col * s, y = f.row * s;
-      let c = null, a = 0.85;
-      if (L === "forecast") { c = color(f.pred_2026); a = 0.3 + 0.65 * f.pred_confidence; }
-      else if (L === "erosion") { c = rampColor(SLOPE_RAMP, slopeT(f.slope)); a = 0.9; }
-      else if (fit) { const v = fit[f.id]; if (v >= 0) { c = mix("#5b7bd6", "#d4c4ff", Math.min(1, v / maxM)); a = 0.92; } else { c = "#20263f"; a = 0.75; } }
-      else if (L === "scout") { const k = flagKind(f); if (k) { c = FLAGC[k]; a = 0.9; } else { c = "#161b33"; a = 0.55; } }
-      if (c) { ctx.globalAlpha = a; ctx.fillStyle = c; ctx.fillRect(x + 0.5, y + 0.5, s - 1, s - 1); ctx.globalAlpha = 1; }
-      if (state.marks.plan.has(f.id)) { ctx.strokeStyle = "#6ee7b7"; ctx.lineWidth = 3; ctx.strokeRect(x + 2, y + 2, s - 4, s - 4); }
-      if (state.marks.scout && hasFlag(f, "low")) { ctx.setLineDash([3, 3]); ctx.strokeStyle = "#fbbf24"; ctx.lineWidth = 2; ctx.strokeRect(x + 2, y + 2, s - 4, s - 4); ctx.setLineDash([]); }
-      if (state.marks.cover && hasFlag(f, "slope")) { ctx.setLineDash([2, 2]); ctx.strokeStyle = COVER_C; ctx.lineWidth = 2; ctx.strokeRect(x + 3, y + 3, s - 6, s - 6); ctx.setLineDash([]); }
-      if (L !== "crops") { ctx.strokeStyle = "rgba(7,9,26,.55)"; ctx.lineWidth = 1; ctx.strokeRect(x, y, s, s); }
+      const c = geo.squares[f.id]; if (!c) return;
+      const pg = L.polygon(c, Object.assign({ renderer: rend, bubblingMouseEvents: false }, SQ_BASE)).addTo(LM);
+      pg.on("click", () => selectField(f.id));
+      pg.on("mouseover", () => { state.hover = f.id; styleSq(f); }); pg.on("mouseout", () => { state.hover = null; styleSq(f); });
+      pg.bindTooltip(() => { const last = f.history[f.history.length - 1]; return `<b>${f.id}</b> · ${esc(CROP[last.crop])} in ${last.year}<br>2026 guess ${esc(CROP[f.pred_2026])} (${Math.round(f.pred_confidence * 100)}%) · ${f.slope.toFixed(1)}° slope`; }, { sticky: true, direction: "top", offset: [0, -8] });
+      SQ[f.id] = pg;
     });
-    const sel = curField(); if (sel) {
-      const x = sel.col * s, y = sel.row * s;
-      ctx.strokeStyle = "#07091a"; ctx.lineWidth = 6; ctx.strokeRect(x - 2, y - 2, s + 4, s + 4);
-      ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 3; ctx.strokeRect(x - 2, y - 2, s + 4, s + 4);
-    }
-    if (state.hover && state.hover !== state.fieldId) { const h = fieldById(state.hover); if (h) { ctx.strokeStyle = "rgba(255,255,255,.85)"; ctx.lineWidth = 1.5; ctx.strokeRect(h.col * s, h.row * s, s, s); } }
-    renderLegend();
+    ASSETS = L.layerGroup().addTo(LM);
+    if ("ResizeObserver" in window) new ResizeObserver(() => LM.invalidateSize()).observe($("map"));
   }
+  const ZONE = { Proposed: "#d4c4ff", Queued: "#fbbf24", Tasked: "#9ec1ff", "In progress": "#9ec1ff", Done: "#6ee7b7" };
+  function sqStyle(f) {
+    const L_ = state.layer; let st = Object.assign({}, SQ_BASE);
+    if (L_ === "crops") st = Object.assign(st, { color: "rgba(7,9,26,.35)", weight: 0.4 });
+    else if (L_ === "forecast") st = Object.assign(st, { fillColor: color(f.pred_2026), fillOpacity: 0.3 + 0.6 * f.pred_confidence });
+    else if (L_ === "erosion") st = Object.assign(st, { fillColor: rampColor(SLOPE_RAMP, slopeT(f.slope)), fillOpacity: 0.9 });
+    else if (L_ === "fit" && FIT) { const v = FIT.m[f.id]; st = Object.assign(st, v >= 0 ? { fillColor: mix("#5b7bd6", "#d4c4ff", Math.min(1, v / FIT.max)), fillOpacity: 0.92 } : { fillColor: "#20263f", fillOpacity: 0.75 }); }
+    else if (L_ === "scout") { const k = flagKind(f); st = Object.assign(st, k ? { fillColor: FLAGC[k], fillOpacity: 0.9 } : { fillColor: "#161b33", fillOpacity: 0.55 }); }
+    if (state.marks.plan.has(f.id)) st = Object.assign(st, { color: "#6ee7b7", weight: 3 });
+    if (state.marks.scout && hasFlag(f, "low")) st = Object.assign(st, { color: "#fbbf24", weight: 2, dashArray: "3 3" });
+    if (state.marks.cover && hasFlag(f, "slope")) st = Object.assign(st, { color: COVER_C, weight: 2, dashArray: "2 2" });
+    const z = state.zone && state.zone.ids.has(f.id) ? zoneStatus() : null;
+    if (z) st = Object.assign(st, { color: ZONE[z] || "#d4c4ff", weight: 2.2, dashArray: z === "Proposed" ? "4 3" : null });
+    if (state.hover === f.id) st = Object.assign(st, { color: "#ffffff", weight: 1.6 });
+    if (state.fieldId === f.id) st = Object.assign(st, { color: "#ffffff", weight: 3.5, dashArray: null });
+    return st;
+  }
+  function styleSq(f) { const pg = SQ[f.id]; if (pg) { pg.setStyle(sqStyle(f)); if (state.fieldId === f.id) pg.bringToFront(); } }
+  function drawMap() {
+    if (!LM) return;
+    if (state.layer === "fit") { computeFit(); if (FIT) FIT.max = Math.max(0.0001, ...Object.values(FIT.m)); }
+    CDL.setOpacity(state.layer === "crops" ? 1 : 0.22);
+    state.data.fields.forEach(styleSq);
+    const sel = curField(); if (sel && SQ[sel.id]) SQ[sel.id].bringToFront();
+    drawAssets(); renderLegend(); selbar();
+  }
+
   function renderLegend() {
     const L = state.layer, sw = (c, t) => `<span><i style="background:${c}"></i>${esc(t)}</span>`;
     let lg = "", note = "";
-    if (L === "crops") { lg = ["corn", "soy", "hay", "grass", "other_crop", "non_ag"].map((k) => sw(color(k), CROP[k])).join(""); note = "USDA cropland map, 2025, 30 m. Each square is 1.2 km. White outline: your field."; }
-    if (L === "forecast") { lg = ["corn", "soy", "grass"].map((k) => sw(color(k), CROP[k])).join("") + `<span class="fs-lg-t">Paler = less sure</span>`; note = "The model's guess for each square's main crop in 2026, from crop history plus NASA terrain, climate and greenness."; }
-    if (L === "erosion") { lg = `<span class="fs-ramp" style="background:linear-gradient(90deg,${SLOPE_RAMP.join(",")})"></span><span class="fs-lg-t">flat → steep (${state.minSlope.toFixed(1)}° to ${state.maxSlope.toFixed(1)}°)</span>`; note = "Slope from NASA NASADEM. Steeper squares lose more soil when bare, so winter rye pays off most there."; }
-    if (L === "fit") { lg = sw("#d4c4ff", "This plan is the best fit") + sw("#20263f", "Another plan fits better"); note = FIT ? `“${FIT.name}” is the best fit on ${FIT.win} of ${state.data.fields.length} squares for your priorities (against the three named plans). Move a priority and watch the map change.` : ""; }
-    if (L === "scout") { const c = state.flagCounts; lg = sw(FLAGC.low, `Forecast unsure (${c.low})`) + sw(FLAGC.repeat, `Same cash crop twice (${c.repeat})`) + sw(FLAGC.slope, `Steep (${c.slopeOnly})`); note = "Squares worth a visit before planting. Each square shows its most urgent reason."; }
-    if (state.marks.plan.size || state.marks.scout || state.marks.cover) lg += `<span class="fs-lg-t mk">Outlined: approved work</span>`;
+    if (L === "crops") { lg = ["corn", "soy", "hay", "grass", "other_crop", "non_ag"].map((k) => sw(color(k), CROP[k])).join(""); note = "USDA cropland map 2025, 30 m. Squares are 1.2 km. White outline: your field."; }
+    if (L === "forecast") { lg = ["corn", "soy", "grass"].map((k) => sw(color(k), CROP[k])).join("") + `<span class="fs-lg-t">Paler = less sure</span>`; note = "The model's guess for each square's main crop in 2026."; }
+    if (L === "erosion") { lg = `<span class="fs-ramp" style="background:linear-gradient(90deg,${SLOPE_RAMP.join(",")})"></span><span class="fs-lg-t">flat → steep (${state.minSlope.toFixed(1)}° to ${state.maxSlope.toFixed(1)}°)</span>`; note = "Slope from NASA NASADEM. Steeper squares lose more soil when bare."; }
+    if (L === "fit") { lg = sw("#d4c4ff", "This plan fits best") + sw("#20263f", "Another plan fits better"); note = FIT ? `“${FIT.name}” is the best fit on ${FIT.win} of ${state.data.fields.length} squares for your priorities.` : ""; }
+    if (L === "scout") { const c = state.flagCounts; lg = sw(FLAGC.low, `Forecast unsure (${c.low})`) + sw(FLAGC.repeat, `Same cash crop twice (${c.repeat})`) + sw(FLAGC.slope, `Steep (${c.slopeOnly})`); note = "Squares worth a visit before planting."; }
+    if (state.zone && state.zone.action) lg += `<span class="fs-lg-t mk"><i style="background:transparent;border:2px dashed ${ZONE[zoneStatus()] || "#d4c4ff"}"></i>Target: ${esc(state.zone.unit)} · ${esc(zoneStatus() || "")} (simulated)</span>`;
+    else if (state.marks.plan.size || state.marks.scout || state.marks.cover) lg += `<span class="fs-lg-t mk">Outlined: approved work</span>`;
     $("mapLegend").innerHTML = lg; $("mapNote").textContent = note;
   }
-  function tileAt(ev) {
-    const canvas = $("map"), r = canvas.getBoundingClientRect(); const x = (ev.clientX - r.left) * (canvas.width / r.width), y = (ev.clientY - r.top) * (canvas.height / r.height);
-    const M = state.data.map, bs = M.block * (canvas.width / M.width); const col = Math.floor(x / bs), row = Math.floor(y / bs);
-    return state.data.fields.find((f) => f.col === col && f.row === row) || null;
+
+  /* simulated tasking on the map: the selected action's target squares light up; approved tasks get markers that move
+     Proposed -> Queued -> Tasked -> In progress -> Done (driven by the shared C2 component's simulated timers). */
+  const taskSt = {};
+  const center = (id) => SQ[id] ? SQ[id].getBounds().getCenter() : null;
+  function targetsFor(id) {
+    const F = state.data.fields, f = curField(), typ = F.slice().sort((a, b) => Math.abs(a.slope - TYP_SLOPE) - Math.abs(b.slope - TYP_SLOPE))[0];
+    if (id === "field-shift-1" || id === "field-shift-5") return { ids: [(f || typ).id], unit: f ? `field ${f.id}` : "typical field" };
+    if (id === "field-shift-2") { const ids = F.filter((x) => hasFlag(x, "slope")).sort((a, b) => b.slope - a.slope).map((x) => x.id); return { ids, unit: "steep squares" }; }
+    if (id === "field-shift-4") { const ids = F.filter((x) => hasFlag(x, "low")).sort((a, b) => a.pred_confidence - b.pred_confidence).map((x) => x.id); return { ids, unit: "squares to scout" }; }
+    if (id === "field-shift-3") { const ids = F.filter((x) => x.row % 11 === 5 && x.col % 11 === 5).map((x) => x.id); return { ids, unit: "soil-moisture check points" }; }
+    return { ids: [], unit: "" };
   }
-  function onHover(ev) {
-    const f = tileAt(ev), tip = $("mapTip"); const id = f ? f.id : null;
-    if (id !== state.hover) { state.hover = id; drawMap(); }
-    if (!f) { tip.hidden = true; return; }
-    const last = f.history[f.history.length - 1];
-    tip.innerHTML = `<b>${f.id}</b> · ${esc(CROP[last.crop])} in ${last.year} · 2026 guess ${esc(CROP[f.pred_2026])} (${Math.round(f.pred_confidence * 100)}%) · ${f.slope.toFixed(1)}° slope`;
-    const box = $("map").parentElement.getBoundingClientRect(); tip.hidden = false;
-    tip.style.left = Math.min(box.width - tip.offsetWidth - 6, Math.max(6, ev.clientX - box.left + 12)) + "px"; tip.style.top = Math.max(6, ev.clientY - box.top - 44) + "px";
+  function zoneStatus() {
+    const a = state.zone && state.zone.action; if (!a) return null; const ts = (a.tasks || []).map((t) => taskSt[a.id + "|" + t.label]).filter(Boolean);
+    if (!ts.length) return "Proposed"; if (ts.every((x) => x === "Done")) return "Done"; if (ts.some((x) => x === "In progress")) return "In progress"; if (ts.some((x) => x === "Tasked")) return "Tasked"; return "Queued";
+  }
+  function drawAssets() {
+    if (!ASSETS) return; ASSETS.clearLayers(); const z = state.zone; if (!z || !z.action) return;
+    const pts = z.list.slice(0, Math.max(1, (z.action.tasks || []).length)).map(center).filter(Boolean); if (!pts.length) return;
+    (z.action.tasks || []).forEach((t, k) => {
+      const st = taskSt[z.action.id + "|" + t.label] || "Proposed", ll = pts[k % pts.length];
+      const html = `<div class="og-asset" data-s="${esc(st)}" style="margin-top:${(Math.floor(k / pts.length) * 26) - 20}px">${window.OGC2 ? OGC2.icon(t.asset) : ""}<span class="lb">${esc(t.label)}</span><em>${esc(st)}</em></div>`;
+      L.marker(ll, { icon: L.divIcon({ className: "og-pin", html, iconSize: [0, 0] }), keyboard: false, interactive: false, zIndexOffset: 500 }).addTo(ASSETS);
+    });
+  }
+  function selbar() {
+    const box = $("mapSelbar"), z = state.zone; if (!box) return; if (!z || !z.action) { box.hidden = true; return; }
+    const on = state.c2 && state.c2.state.approved[z.action.id];
+    box.hidden = false;
+    box.innerHTML = `<span class="k">${esc(z.action.cls || "")}</span><span><b>${z.list.length}</b> ${esc(z.unit)}</span><button type="button" class="${on ? "done" : ""}">${on ? "Approved · Undo" : esc(z.action.verb || "Approve")}</button>`;
+    box.querySelector("button").onclick = () => state.c2 && state.c2.approve(z.action.id);
+  }
+  function showZone(a) {
+    if (!a) { state.zone = null; drawMap(); return; }
+    const t = targetsFor(a.id); state.zone = { action: a, ids: new Set(t.ids), unit: t.unit };
+    state.zone.list = t.ids;
+    drawMap();
+    if (LM && t.ids.length) { const bb = L.latLngBounds(t.ids.map((id) => SQ[id] && SQ[id].getBounds()).filter(Boolean).reduce((acc, x) => acc.concat([x.getSouthWest(), x.getNorthEast()]), []));
+      const anim = !state.fromHash && performance.now() > 4000;
+      if (t.ids.length <= 2) LM.fitBounds(bb.pad(2.5), { maxZoom: 12.5, animate: anim }); else LM.fitBounds(L.latLngBounds(GEO.bounds), { padding: [12, 12], animate: anim }); }
   }
   function selectField(id) {
     state.fieldId = id || null;
     document.querySelectorAll("#featured button").forEach((b) => b.setAttribute("aria-pressed", String((b.dataset.id || null) === state.fieldId)));
     renderField(); update();
   }
-  function update() { renderStrategies(); drawMap(); renderPareto(); refreshC2(); renderSimple(); }
+  function update() {
+    if (state.zone && state.zone.action) { const t = targetsFor(state.zone.action.id); state.zone.ids = new Set(t.ids); state.zone.list = t.ids; state.zone.unit = t.unit; }
+    renderStrategies(); drawMap(); renderPareto(); refreshC2(); renderSimple(); }
 
   /* ---------- farmer view: the same data in plain sentences for one field ---------- */
   function renderSimple() {
@@ -326,18 +378,18 @@
     const simple = m === "simple"; $("s-simple").hidden = !simple; [...document.querySelector("main").children].forEach((el) => { if (el.id !== "s-simple") el.hidden = simple; });
     document.querySelectorAll(".fs-mode [data-mode]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.mode === m)));
     document.querySelectorAll(".fs-steps a").forEach((a) => a.classList.toggle("dim", simple));
-    if (!simple) window.dispatchEvent(new Event("resize"));
+    if (!simple) { window.dispatchEvent(new Event("resize")); if (LM) setTimeout(() => LM.invalidateSize(), 30); }
   }
   document.addEventListener("click", (ev) => {
     const mb = ev.target.closest(".fs-mode [data-mode]"); if (mb) return setMode(mb.dataset.mode);
     const pk = ev.target.closest("#simplePick button"); if (pk) return selectField(pk.dataset.id || null);
     const sb = ev.target.closest("#simpleBody [data-s]"); if (!sb) return;
-    if (sb.dataset.s === "full") { setMode("full"); document.getElementById("s-plan").scrollIntoView({ behavior: "smooth" }); return; }
+    if (sb.dataset.s === "full") { setMode("full"); if (window.OGShell) OGShell.show("plan"); return; }
     if (!state.c2) return;
-    if (sb.dataset.s === "approve") { setMode("full"); if (!state.c2.state.approved["field-shift-1"]) state.c2.approve("field-shift-1"); document.querySelector('#c2 .c2-card[data-id="field-shift-1"]').scrollIntoView({ behavior: "smooth", block: "center" }); }
+    if (sb.dataset.s === "approve") { setMode("full"); if (window.OGShell) OGShell.show("act"); if (!state.c2.state.approved["field-shift-1"]) state.c2.approve("field-shift-1"); document.querySelector('#c2 .c2-card[data-id="field-shift-1"]').scrollIntoView({ behavior: "smooth", block: "nearest" }); }
     if (sb.dataset.s === "alert") { setMode("full"); state.c2.alert("field-shift-1"); }
   });
-  document.querySelectorAll(".fs-steps a").forEach((a) => a.addEventListener("click", () => { if (!$("s-simple").hidden) setMode("full"); }));
+  document.addEventListener("click", (ev) => { const g = ev.target.closest("[data-go]"); if (g && window.OGShell) OGShell.show(g.dataset.go); });
 
   /* ---------- step 4: act (shared C2 component, simulated tasking). Ids match the project page's #act=field-shift-N links. ---------- */
   function actionDefs() {
@@ -383,16 +435,19 @@
     if (!window.OGC2) { $("c2").innerHTML = `<p class="fs-fine">The action queue didn't load.</p>`; return; }
     const defs = actionDefs(); state.c2Actions = defs;
     state.c2 = window.OGC2.mount("#c2", {
-      app: "field-shift", kicker: "Decision support", title: "Recommended actions", user: "Farmer, agronomist or co-op",
+      app: "field-shift", dock: true, kicker: "Decision support", title: "Recommended actions", user: "Farmer, agronomist or co-op",
       actions: defs,
-      onSelect: (a) => { if (!a) return; setLayer(LAYER_FOR[a.id] || "crops"); if (!state.fromHash) document.querySelector(".fs-mapcard").scrollIntoView({ behavior: "smooth", block: "start" }); },
+      onSelect: (a) => { if (a) { state.layer = LAYER_FOR[a.id] || "crops"; $("layers").querySelectorAll("button").forEach((b) => b.setAttribute("aria-checked", String(b.dataset.layer === state.layer))); }
+        showZone(a); if (a && window.innerWidth < 1024 && !state.fromHash) $("mapSec").scrollIntoView({ behavior: "smooth", block: "start" }); },
+      onTask: (a, t, s) => { taskSt[a.id + "|" + t.label] = s; drawMap(); },
       onApprove: (a, on) => {
+        (a.tasks || []).forEach((t) => { const k = a.id + "|" + t.label; if (on) taskSt[k] = "Queued"; else delete taskSt[k]; });
         if (a.id === "field-shift-1") { const f = curField(); if (f) { if (on) state.marks.plan.add(f.id); else state.marks.plan.delete(f.id); } }
         if (a.id === "field-shift-4") state.marks.scout = on;
         if (a.id === "field-shift-2") state.marks.cover = on;
         drawMap();
       },
-      onReset: () => { state.marks = { plan: new Set(), scout: false, cover: false }; drawMap(); refreshC2(); },
+      onReset: () => { state.marks = { plan: new Set(), scout: false, cover: false }; Object.keys(taskSt).forEach((k) => delete taskSt[k]); drawMap(); refreshC2(); },
       foot: "Simulated: shows how an approved plan would become seed orders, drone surveys and scouting jobs. No real supplier, drone or crew is contacted.",
     });
   }
@@ -409,10 +464,16 @@
   }
   function deepLink() {
     // /field-shift/app/#act=field-shift-N (links from the project page): open that action and its map layer.
+    if (/alert=/.test(location.hash) && window.OGShell) OGShell.show("act");
+    const dm = /^#demo(?:=([\w-]+))?$/.exec(location.hash);
+    if (dm && state.c2) { // capture state for the video and slides: select, approve (tasks run to Done in ~5 s), open the alert draft
+      const id = dm[1] || "field-shift-4"; if (window.OGShell) OGShell.show("act"); state.fromHash = true; state.c2.select(id); state.fromHash = false;
+      setTimeout(() => { if (!state.c2.state.approved[id]) state.c2.approve(id); const d = (state.c2Actions || []).find((x) => x.id === id); if (d && d.alert) state.c2.alert(id, { quiet: true }); if (window.OGShell) OGShell.scrollDock(document.querySelector(`#c2 .c2-card[data-id="${id}"]`)); }, 900); return; }
     const m = /^#act=([\w-]+)$/.exec(location.hash); if (!m || !state.c2) return;
+    if (window.OGShell) OGShell.show("act");
     const card = document.querySelector(`#c2 .c2-card[data-id="${CSS.escape(m[1])}"]`); if (!card) return;
     if (!card.classList.contains("sel")) { state.fromHash = true; state.c2.select(m[1]); state.fromHash = false; }
-    setTimeout(() => card.scrollIntoView({ behavior: "smooth", block: "center" }), 80);
+    setTimeout(() => { if (window.OGShell) OGShell.scrollDock(card); }, 120);
   }
 
   /* ---------- step 5: impact (copy from OG_APP.impact = src/modules/field-shift/app.json when present) ---------- */
@@ -519,7 +580,8 @@
   Promise.all([
     fetch("data/app_data.json").then((r) => { if (!r.ok) throw new Error("app_data.json missing"); return r.json(); }),
     fetch("data/colab_run/results.json").then((r) => { if (!r.ok) throw new Error("colab_run/results.json missing"); return r.json(); }),
-  ]).then(([data, colab]) => {
+    fetch("data/geo.json").then((r) => { if (!r.ok) throw new Error("geo.json missing"); return r.json(); }),
+  ]).then(([data, colab, geo]) => {
     state.data = data; state.colab = colab;
     data.objectives.keys.forEach((k) => { state.weights[k] = 50; });
     TYP_SLOPE = median(data.fields.map((f) => f.slope));
@@ -532,10 +594,7 @@
     buildOptions();
     renderLayers(); renderFeatured(); renderSliders(); renderField(); renderHelp(); renderModel(); renderColab(); renderCitations(); renderClimate(); renderImpact();
     renderStrategies(); renderPareto();
-    const img = new Image(); img.onload = () => { state.mapImg = img; drawMap(); }; img.src = data.map.cdl_2025;
-    const map = $("map");
-    map.addEventListener("click", (ev) => { const f = tileAt(ev); if (f) selectField(f.id); });
-    map.addEventListener("mousemove", onHover); map.addEventListener("mouseleave", () => { state.hover = null; $("mapTip").hidden = true; drawMap(); });
+    initMap(geo); drawMap();
     mountC2(); stepNav(); deepLink(); window.addEventListener("hashchange", deepLink);
     renderSimple(); if (/simple/.test(location.hash)) setMode("simple");
     window.addEventListener("hashchange", () => { if (/simple/.test(location.hash)) setMode("simple"); });

@@ -1,0 +1,23 @@
+{
+  "note": "Stable capture states for the three dashboards. Everything shown is simulated tasking on real data. Load the URL, then wait ~6 s for the assets to reach Done and the alert draft to open.",
+  "hash_api": {
+    "#demo": "default demo state: select the default action, approve it, run the sim to Done, open the 'Send alert (simulated)' draft",
+    "#demo=<action-id>": "same, for a chosen action",
+    "#act=<action-id>": "select the action and highlight its target zones on the map (no approval)",
+    "#alert=<action-id>": "open the simulated alert draft for that action"
+  },
+  "apps": {
+    "sar-change":  { "demo": "/sar-change/app/#demo",  "default_action": "sar-change-1",  "actions": ["sar-change-1","sar-change-2","sar-change-3","sar-change-4"], "c2_host": "#opsC2", "map": "#opsMap", "selbar": "#opsSel", "selbar_go": "#opsSel .ops-go", "layers": ".ops-toolbar [data-layer=swipe|delta|still]", "tabs": ".og-tabs [data-pane=act|change|impact]" },
+    "hotspots":    { "demo": "/hotspots/app/#demo",    "default_action": "hotspots-1",    "actions": ["hotspots-1","hotspots-2","hotspots-3","hotspots-4"], "c2_host": "#c2", "map": "#map", "selbar": "#mapSelbar", "selbar_go": "#mapSelbar button", "layers": "#mapSec [data-layer=fire|trend|ratio]", "tabs": ".og-tabs [data-pane=act|outlook|flags|impact]", "calendar": "#calendar" },
+    "field-shift": { "demo": "/field-shift/app/#demo", "default_action": "field-shift-4", "actions": ["field-shift-1","field-shift-2","field-shift-3","field-shift-4","field-shift-5"], "c2_host": "#c2", "map": "#map", "selbar": "#mapSelbar", "selbar_go": "#mapSelbar button", "layers": "#layers [data-layer]", "tabs": ".og-tabs [data-pane=field|prio|plan|act]", "caveat": "#c2 sits in the 'act' tab, hidden by default: click .og-tabs [data-pane=act] first, or load with #act=<id> / #demo" }
+  },
+  "card_selectors": {
+    "card": ".c2-card[data-id=<id>]",
+    "show_on_map": ".c2-card[data-id=<id>] .c2-show",
+    "approve_dispatch": ".c2-card[data-id=<id>] .c2-go",
+    "alert_draft": ".c2-card[data-id=<id>] .c2-alrt",
+    "send_alert_simulated": ".c2-send",
+    "details_toggle": ".c2-card[data-id=<id>] .c2-more",
+    "map_assets": ".og-asset[data-s]  (data-s = Proposed | Queued | Tasked | In progress | Done)"
+  }
+}

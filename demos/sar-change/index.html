@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="briefing.css">
   <link rel="stylesheet" href="ops.css">
 </head>
-<body>
+<body class="og-app sar-app">
   <header class="app-header">
     <div class="header-inner">
       <div class="ops-top"><div class="kicker">NASA Space Apps 2026 · SAR Change · Confirm</div><button type="button" class="bf-inline" data-briefing-open="1">▶ Briefing</button></div>
@@ -27,30 +27,18 @@
 
   <main>
     <section class="panel active" id="panel-ops" role="tabpanel" aria-labelledby="tab-ops">
-      <ol class="ops-kpis" aria-label="Flood water from NASA OPERA radar">
-        <li><small>Before · 26 Oct</small><b data-k="before">30.7</b><span>km² new water</span></li>
-        <li class="arrow" aria-hidden="true">→</li>
-        <li class="hot"><small>After · 31 Oct</small><b data-k="after">77.7</b><span>km² new water</span></li>
-        <li class="arrow" aria-hidden="true">=</li>
-        <li><small>Change</small><b data-k="net">+47.0</b><span>km² in 5 days</span></li>
-        <li><small>3 weeks later · 19 Nov</small><b data-k="still">52.0</b><span>km² still wet</span></li>
-      </ol>
-      <section class="ops-rain" id="rainSec" aria-labelledby="rainH">
-        <div class="ops-rain-head"><p class="ops-k">Leading signal · rain and cloud, 15 Oct → 20 Nov 2024</p>
-          <h2 id="rainH">Rain warned on day zero. Radar mapped the water on day two.</h2></div>
-        <div class="ops-rain-body"><div class="ops-rain-chart" id="rainChart" role="img" aria-label="Daily rain upstream of Valencia and cloud cover, with radar pass dates"></div>
-          <ul class="ops-rain-notes" id="rainNotes"></ul></div>
-        <p class="ops-cap" id="rainCap"></p>
-      </section>
-      <div class="ops-grid">
-        <div class="ops-mapcol">
-          <div class="ops-mapcard">
-            <div class="ops-toolbar" role="group" aria-label="Map layer">
+      <div class="og-work ops-work">
+        <section class="og-stage ops-stage" id="mapSec" aria-label="Flood map">
+          <div class="ops-bar">
+            <div class="og-seg ops-toolbar" role="group" aria-label="Map layer">
               <button type="button" data-layer="swipe" aria-pressed="true">Before ↔ After</button>
               <button type="button" data-layer="delta" aria-pressed="false">What changed</button>
               <button type="button" data-layer="still" aria-pressed="false">3 weeks later</button>
-              <label class="ops-tog"><input type="checkbox" id="opsTowns" checked> Towns</label>
             </div>
+            <label class="ops-tog"><input type="checkbox" id="opsTowns" checked> Towns</label>
+            <div class="og-selbar ops-sel" id="opsSel" hidden></div>
+          </div>
+          <div class="og-mapbox ops-mapbox">
             <div class="ops-map" id="opsMap" aria-label="OPERA flood water map with municipality outlines">
               <img class="ly ly-after" id="lyAfter" src="ops/opera-after.webp" alt="Water on 31 Oct 2024, NASA OPERA DSWx-S1" width="1150" height="1068">
               <img class="ly ly-delta" id="lyDelta" src="ops/opera-delta.webp" alt="Change in water between 26 and 31 Oct 2024" width="1150" height="1068" loading="lazy">
@@ -62,32 +50,53 @@
               <div class="ops-side-lab r" id="labR"><b>After</b><span>31 Oct 2024 · Sentinel-1A radar</span><em>77.7 km² new water</em></div>
               <div class="ops-handle" id="opsHandle" role="slider" tabindex="0" aria-label="Compare before and after" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"><i>↔</i></div>
               <div class="ops-legend" id="opsLegend"></div>
-              <div class="ops-sel" id="opsSel" hidden></div>
             </div>
-            <div class="ops-legend static mob" id="opsLegend2"></div>
-            <p class="ops-cap">NASA/JPL OPERA DSWx-S1 surface water, 30 m, from Sentinel-1 radar. "New water" = water outside the usual water seen 1–28 Oct. Town outlines © OpenStreetMap.</p>
           </div>
-          <div class="ops-pick" role="group" aria-label="Pick an action to see it on the map" id="opsPick"></div>
-        </div>
-        <div class="ops-c2col"><div id="opsC2"></div></div>
+          <div class="ops-legend static mob" id="opsLegend2"></div>
+          <p class="ops-cap">NASA/JPL OPERA DSWx-S1 surface water, 30 m, from Sentinel-1 radar. "New water" = water outside the usual water seen 1–28 Oct. Town outlines © OpenStreetMap.</p>
+          <div class="ops-pick" role="group" aria-label="Pick an action to see it on the map" id="opsPick" hidden></div>
+        </section>
+
+        <aside class="og-dock" aria-label="Decision support">
+          <div class="og-dock-head">
+            <ol class="ops-kpis" aria-label="Flood water from NASA OPERA radar">
+              <li><small>Before · 26 Oct</small><b data-k="before">30.7</b><span>km² new water</span></li>
+              <li class="hot"><small>After · 31 Oct</small><b data-k="after">77.7</b><span>km² new water</span></li>
+              <li><small>Change</small><b data-k="net">+47.0</b><span>km² in 5 days</span></li>
+              <li><small>19 Nov</small><b data-k="still">52.0</b><span>km² still wet</span></li>
+            </ol>
+            <div class="og-tabs" role="tablist" aria-label="Panels">
+              <button type="button" role="tab" data-pane="act" aria-selected="true">Actions<i>4</i></button>
+              <button type="button" role="tab" data-pane="change" aria-selected="false">What changed</button>
+              <button type="button" role="tab" data-pane="impact" aria-selected="false">Impact</button>
+            </div>
+          </div>
+          <div class="og-dock-body">
+            <section class="og-pane" id="pane-act" aria-label="Recommended actions"><div id="opsC2"></div></section>
+            <section class="og-pane ops-delta" id="pane-change" hidden aria-labelledby="wcH">
+              <div id="whatChanged"><p class="og-h">What changed · 26 → 31 Oct 2024</p><h2 id="wcH" class="ops-wch"><b data-k="net">+47.0</b> km² more flood water in five days</h2></div>
+              <ul class="ops-split">
+                <li class="new"><b data-k="added">53.6</b><span>km² newly wet</span></li>
+                <li class="kept"><b data-k="kept">24.1</b><span>km² wet on both dates</span></li>
+                <li class="gone"><b data-k="gone">6.6</b><span>km² dried out</span></li>
+              </ul>
+              <div class="ops-legend static" id="deltaLegend"></div>
+              <h3 class="og-h">Most newly wet ground, by town</h3>
+              <ol class="ops-rank" id="opsRank"></ol>
+              <p class="ops-note" id="blindNote"></p>
+            </section>
+            <section class="og-pane ops-impact-wrap" id="pane-impact" hidden aria-label="Impact"><div id="opsImpact"></div></section>
+          </div>
+        </aside>
       </div>
-      <section class="ops-delta" id="whatChanged" aria-labelledby="wcH">
-        <div class="ops-delta-head"><p class="ops-k">What changed · 26 → 31 Oct 2024</p><h2 id="wcH"><b data-k="net">+47.0</b> km² more flood water in five days</h2></div>
-        <div class="ops-delta-grid">
-          <figure class="ops-delta-fig"><img src="ops/opera-delta.webp" alt="Difference map: newly wet, wet on both dates, dried out" width="1150" height="1068" loading="lazy"><div class="ops-legend static" id="deltaLegend"></div></figure>
-          <div class="ops-delta-txt">
-            <ul class="ops-split">
-              <li class="new"><b data-k="added">53.6</b><span>km² newly wet</span></li>
-              <li class="kept"><b data-k="kept">24.1</b><span>km² wet on both dates</span></li>
-              <li class="gone"><b data-k="gone">6.6</b><span>km² dried out</span></li>
-            </ul>
-            <h3>Most newly wet ground, by town</h3>
-            <ol class="ops-rank" id="opsRank"></ol>
-            <p class="ops-note" id="blindNote"></p>
-          </div>
-        </div>
+
+      <section class="ops-rain" id="rainSec" aria-labelledby="rainH">
+        <div class="ops-rain-head"><p class="ops-k">Leading signal · rain and cloud, 15 Oct → 20 Nov 2024</p>
+          <h2 id="rainH">Rain warned on day zero. Radar mapped the water on day two.</h2></div>
+        <div class="ops-rain-body"><div class="ops-rain-chart" id="rainChart" role="img" aria-label="Daily rain upstream of Valencia and cloud cover, with radar pass dates"></div>
+          <ul class="ops-rain-notes" id="rainNotes"></ul></div>
+        <p class="ops-cap" id="rainCap"></p>
       </section>
-      <section class="ops-impact-wrap" aria-label="Impact"><div id="opsImpact"></div></section>
     </section>
 
     <section class="panel" id="panel-viewer" role="tabpanel" aria-labelledby="tab-viewer">

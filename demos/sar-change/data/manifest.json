@@ -1,0 +1,1631 @@
+{
+  "title": "Dancing with the SARs \u2014 local demo",
+  "challenge": "https://www.spaceappschallenge.org/2026/challenges/dancing-with-the-sars/",
+  "licence": "Apache-2.0",
+  "valencia": {
+    "orbits": [
+      {
+        "id": "des_0610",
+        "label": "Descending 06:10 UTC (track 0610, UTM 30N)",
+        "pass": "descending",
+        "time": "06:10",
+        "crs": "EPSG:32630",
+        "bounds": [
+          715083.9512379772,
+          4353045.202993656,
+          732823.9512379772,
+          4371305.202993656
+        ],
+        "n_dates": 7,
+        "stretch_db": {
+          "vv": [
+            -21.47262954711914,
+            3.6238765716552734
+          ],
+          "vh": [
+            -23.66822052001953,
+            -7.3362321853637695
+          ],
+          "ratio": [
+            0.20642998814582825,
+            15.691482543945312
+          ]
+        },
+        "dates": [
+          {
+            "id": "20240919T0610",
+            "iso": "2024-09-19T06:10:00Z",
+            "day": "2024-09-19",
+            "orbit_pass": "descending",
+            "item": "S1A_IW_GRDH_1SDV_20240919T061016_20240919T061041_055730_06CE99_rtc",
+            "width": 995,
+            "height": 1024,
+            "native_width": 1774,
+            "native_height": 1826,
+            "crs": "EPSG:32630",
+            "bounds": [
+              715083.9512379772,
+              4353045.202993656,
+              732823.9512379772,
+              4371305.202993656
+            ],
+            "files": {
+              "vv": "tiles/valencia/des_0610/20240919T0610/vv.png",
+              "vh": "tiles/valencia/des_0610/20240919T0610/vh.png",
+              "fcc": "tiles/valencia/des_0610/20240919T0610/fcc.png"
+            },
+            "days_from_dana": -40
+          },
+          {
+            "id": "20241001T0610",
+            "iso": "2024-10-01T06:10:00Z",
+            "day": "2024-10-01",
+            "orbit_pass": "descending",
+            "item": "S1A_IW_GRDH_1SDV_20241001T061016_20241001T061041_055905_06D589_rtc",
+            "width": 995,
+            "height": 1024,
+            "native_width": 1774,
+            "native_height": 1826,
+            "crs": "EPSG:32630",
+            "bounds": [
+              715083.9512379772,
+              4353045.202993656,
+              732823.9512379772,
+              4371305.202993656
+            ],
+            "files": {
+              "vv": "tiles/valencia/des_0610/20241001T0610/vv.png",
+              "vh": "tiles/valencia/des_0610/20241001T0610/vh.png",
+              "fcc": "tiles/valencia/des_0610/20241001T0610/fcc.png"
+            },
+            "days_from_dana": -28
+          },
+          {
+            "id": "20241013T0610",
+            "iso": "2024-10-13T06:10:00Z",
+            "day": "2024-10-13",
+            "orbit_pass": "descending",
+            "item": "S1A_IW_GRDH_1SDV_20241013T061016_20241013T061041_056080_06DC6A_rtc",
+            "width": 995,
+            "height": 1024,
+            "native_width": 1774,
+            "native_height": 1826,
+            "crs": "EPSG:32630",
+            "bounds": [
+              715083.9512379772,
+              4353045.202993656,
+              732823.9512379772,
+              4371305.202993656
+            ],
+            "files": {
+              "vv": "tiles/valencia/des_0610/20241013T0610/vv.png",
+              "vh": "tiles/valencia/des_0610/20241013T0610/vh.png",
+              "fcc": "tiles/valencia/des_0610/20241013T0610/fcc.png"
+            },
+            "days_from_dana": -16
+          },
+          {
+            "id": "20241025T0610",
+            "iso": "2024-10-25T06:10:00Z",
+            "day": "2024-10-25",
+            "orbit_pass": "descending",
+            "item": "S1A_IW_GRDH_1SDV_20241025T061016_20241025T061041_056255_06E360_rtc",
+            "width": 995,
+            "height": 1024,
+            "native_width": 1774,
+            "native_height": 1826,
+            "crs": "EPSG:32630",
+            "bounds": [
+              715083.9512379772,
+              4353045.202993656,
+              732823.9512379772,
+              4371305.202993656
+            ],
+            "files": {
+              "vv": "tiles/valencia/des_0610/20241025T0610/vv.png",
+              "vh": "tiles/valencia/des_0610/20241025T0610/vh.png",
+              "fcc": "tiles/valencia/des_0610/20241025T0610/fcc.png"
+            },
+            "days_from_dana": -4
+          },
+          {
+            "id": "20241106T0610",
+            "iso": "2024-11-06T06:10:00Z",
+            "day": "2024-11-06",
+            "orbit_pass": "descending",
+            "item": "S1A_IW_GRDH_1SDV_20241106T061016_20241106T061041_056430_06EA4C_rtc",
+            "width": 995,
+            "height": 1024,
+            "native_width": 1774,
+            "native_height": 1826,
+            "crs": "EPSG:32630",
+            "bounds": [
+              715083.9512379772,
+              4353045.202993656,
+              732823.9512379772,
+              4371305.202993656
+            ],
+            "files": {
+              "vv": "tiles/valencia/des_0610/20241106T0610/vv.png",
+              "vh": "tiles/valencia/des_0610/20241106T0610/vh.png",
+              "fcc": "tiles/valencia/des_0610/20241106T0610/fcc.png"
+            },
+            "days_from_dana": 8
+          },
+          {
+            "id": "20241118T0610",
+            "iso": "2024-11-18T06:10:00Z",
+            "day": "2024-11-18",
+            "orbit_pass": "descending",
+            "item": "S1A_IW_GRDH_1SDV_20241118T061016_20241118T061041_056605_06F14B_rtc",
+            "width": 995,
+            "height": 1024,
+            "native_width": 1774,
+            "native_height": 1826,
+            "crs": "EPSG:32630",
+            "bounds": [
+              715083.9512379772,
+              4353045.202993656,
+              732823.9512379772,
+              4371305.202993656
+            ],
+            "files": {
+              "vv": "tiles/valencia/des_0610/20241118T0610/vv.png",
+              "vh": "tiles/valencia/des_0610/20241118T0610/vh.png",
+              "fcc": "tiles/valencia/des_0610/20241118T0610/fcc.png"
+            },
+            "days_from_dana": 20
+          },
+          {
+            "id": "20241212T0610",
+            "iso": "2024-12-12T06:10:00Z",
+            "day": "2024-12-12",
+            "orbit_pass": "descending",
+            "item": "S1A_IW_GRDH_1SDV_20241212T061014_20241212T061039_056955_06FF1C_rtc",
+            "width": 995,
+            "height": 1024,
+            "native_width": 1774,
+            "native_height": 1826,
+            "crs": "EPSG:32630",
+            "bounds": [
+              715083.9512379772,
+              4353045.202993656,
+              732823.9512379772,
+              4371305.202993656
+            ],
+            "files": {
+              "vv": "tiles/valencia/des_0610/20241212T0610/vv.png",
+              "vh": "tiles/valencia/des_0610/20241212T0610/vh.png",
+              "fcc": "tiles/valencia/des_0610/20241212T0610/fcc.png"
+            },
+            "days_from_dana": 44
+          }
+        ],
+        "change": {
+          "des0610_oct25_nov06": {
+            "gray": "tiles/change/des0610_oct25_nov06/vv_dB_diff.png",
+            "color": "tiles/change/des0610_oct25_nov06/vv_change.png",
+            "stretch_db": [
+              -10.825572967529297,
+              10.825572967529297
+            ]
+          }
+        }
+      },
+      {
+        "id": "asc_1755",
+        "label": "Ascending 17:55 UTC (track 1755, UTM 31N)",
+        "pass": "ascending",
+        "time": "17:55",
+        "crs": "EPSG:32631",
+        "bounds": [
+          198175.3788712824,
+          4355264.788077681,
+          216075.3788712824,
+          4373674.788077681
+        ],
+        "n_dates": 7,
+        "stretch_db": {
+          "vv": [
+            -20.69043731689453,
+            1.562238335609436
+          ],
+          "vh": [
+            -23.826900482177734,
+            -6.453403472900391
+          ],
+          "ratio": [
+            0.916069746017456,
+            12.719948768615723
+          ]
+        },
+        "dates": [
+          {
+            "id": "20240920T1755",
+            "iso": "2024-09-20T17:55:00Z",
+            "day": "2024-09-20",
+            "orbit_pass": "ascending",
+            "item": "S1A_IW_GRDH_1SDV_20240920T175500_20240920T175525_055752_06CF79_rtc",
+            "width": 996,
+            "height": 1024,
+            "native_width": 1790,
+            "native_height": 1841,
+            "crs": "EPSG:32631",
+            "bounds": [
+              198175.3788712824,
+              4355264.788077681,
+              216075.3788712824,
+              4373674.788077681
+            ],
+            "files": {
+              "vv": "tiles/valencia/asc_1755/20240920T1755/vv.png",
+              "vh": "tiles/valencia/asc_1755/20240920T1755/vh.png",
+              "fcc": "tiles/valencia/asc_1755/20240920T1755/fcc.png"
+            },
+            "days_from_dana": -39
+          },
+          {
+            "id": "20241002T1755",
+            "iso": "2024-10-02T17:55:00Z",
+            "day": "2024-10-02",
+            "orbit_pass": "ascending",
+            "item": "S1A_IW_GRDH_1SDV_20241002T175500_20241002T175525_055927_06D668_rtc",
+            "width": 996,
+            "height": 1024,
+            "native_width": 1790,
+            "native_height": 1841,
+            "crs": "EPSG:32631",
+            "bounds": [
+              198175.3788712824,
+              4355264.788077681,
+              216075.3788712824,
+              4373674.788077681
+            ],
+            "files": {
+              "vv": "tiles/valencia/asc_1755/20241002T1755/vv.png",
+              "vh": "tiles/valencia/asc_1755/20241002T1755/vh.png",
+              "fcc": "tiles/valencia/asc_1755/20241002T1755/fcc.png"
+            },
+            "days_from_dana": -27
+          },
+          {
+            "id": "20241014T1755",
+            "iso": "2024-10-14T17:55:00Z",
+            "day": "2024-10-14",
+            "orbit_pass": "ascending",
+            "item": "S1A_IW_GRDH_1SDV_20241014T175501_20241014T175526_056102_06DD4A_rtc",
+            "width": 996,
+            "height": 1024,
+            "native_width": 1790,
+            "native_height": 1841,
+            "crs": "EPSG:32631",
+            "bounds": [
+              198175.3788712824,
+              4355264.788077681,
+              216075.3788712824,
+              4373674.788077681
+            ],
+            "files": {
+              "vv": "tiles/valencia/asc_1755/20241014T1755/vv.png",
+              "vh": "tiles/valencia/asc_1755/20241014T1755/vh.png",
+              "fcc": "tiles/valencia/asc_1755/20241014T1755/fcc.png"
+            },
+            "days_from_dana": -15
+          },
+          {
+            "id": "20241026T1755",
+            "iso": "2024-10-26T17:55:00Z",
+            "day": "2024-10-26",
+            "orbit_pass": "ascending",
+            "item": "S1A_IW_GRDH_1SDV_20241026T175501_20241026T175526_056277_06E43E_rtc",
+            "width": 996,
+            "height": 1024,
+            "native_width": 1790,
+            "native_height": 1841,
+            "crs": "EPSG:32631",
+            "bounds": [
+              198175.3788712824,
+              4355264.788077681,
+              216075.3788712824,
+              4373674.788077681
+            ],
+            "files": {
+              "vv": "tiles/valencia/asc_1755/20241026T1755/vv.png",
+              "vh": "tiles/valencia/asc_1755/20241026T1755/vh.png",
+              "fcc": "tiles/valencia/asc_1755/20241026T1755/fcc.png"
+            },
+            "days_from_dana": -3
+          },
+          {
+            "id": "20241107T1755",
+            "iso": "2024-11-07T17:55:00Z",
+            "day": "2024-11-07",
+            "orbit_pass": "ascending",
+            "item": "S1A_IW_GRDH_1SDV_20241107T175500_20241107T175525_056452_06EB2B_rtc",
+            "width": 996,
+            "height": 1024,
+            "native_width": 1790,
+            "native_height": 1841,
+            "crs": "EPSG:32631",
+            "bounds": [
+              198175.3788712824,
+              4355264.788077681,
+              216075.3788712824,
+              4373674.788077681
+            ],
+            "files": {
+              "vv": "tiles/valencia/asc_1755/20241107T1755/vv.png",
+              "vh": "tiles/valencia/asc_1755/20241107T1755/vh.png",
+              "fcc": "tiles/valencia/asc_1755/20241107T1755/fcc.png"
+            },
+            "days_from_dana": 9
+          },
+          {
+            "id": "20241201T1755",
+            "iso": "2024-12-01T17:55:00Z",
+            "day": "2024-12-01",
+            "orbit_pass": "ascending",
+            "item": "S1A_IW_GRDH_1SDV_20241201T175459_20241201T175524_056802_06F925_rtc",
+            "width": 996,
+            "height": 1024,
+            "native_width": 1790,
+            "native_height": 1841,
+            "crs": "EPSG:32631",
+            "bounds": [
+              198175.3788712824,
+              4355264.788077681,
+              216075.3788712824,
+              4373674.788077681
+            ],
+            "files": {
+              "vv": "tiles/valencia/asc_1755/20241201T1755/vv.png",
+              "vh": "tiles/valencia/asc_1755/20241201T1755/vh.png",
+              "fcc": "tiles/valencia/asc_1755/20241201T1755/fcc.png"
+            },
+            "days_from_dana": 33
+          },
+          {
+            "id": "20241213T1755",
+            "iso": "2024-12-13T17:55:00Z",
+            "day": "2024-12-13",
+            "orbit_pass": "ascending",
+            "item": "S1A_IW_GRDH_1SDV_20241213T175458_20241213T175523_056977_06FFFF_rtc",
+            "width": 996,
+            "height": 1024,
+            "native_width": 1790,
+            "native_height": 1841,
+            "crs": "EPSG:32631",
+            "bounds": [
+              198175.3788712824,
+              4355264.788077681,
+              216075.3788712824,
+              4373674.788077681
+            ],
+            "files": {
+              "vv": "tiles/valencia/asc_1755/20241213T1755/vv.png",
+              "vh": "tiles/valencia/asc_1755/20241213T1755/vh.png",
+              "fcc": "tiles/valencia/asc_1755/20241213T1755/fcc.png"
+            },
+            "days_from_dana": 45
+          }
+        ],
+        "change": {
+          "asc1755_oct26_nov07": {
+            "gray": "tiles/change/asc1755_oct26_nov07/vv_dB_diff.png",
+            "color": "tiles/change/asc1755_oct26_nov07/vv_change.png",
+            "stretch_db": [
+              -7.692596435546875,
+              7.692596435546875
+            ]
+          }
+        }
+      },
+      {
+        "id": "asc_1803",
+        "label": "Ascending 18:03 UTC (track 1803, UTM 30N)",
+        "pass": "ascending",
+        "time": "18:03",
+        "crs": "EPSG:32630",
+        "bounds": [
+          715083.9512379772,
+          4353045.202993656,
+          732823.9512379772,
+          4371305.202993656
+        ],
+        "n_dates": 6,
+        "stretch_db": {
+          "vv": [
+            -21.570072174072266,
+            2.018766403198242
+          ],
+          "vh": [
+            -27.225976943969727,
+            -6.30195951461792
+          ],
+          "ratio": [
+            2.10241436958313,
+            13.015037536621094
+          ]
+        },
+        "dates": [
+          {
+            "id": "20240925T1803",
+            "iso": "2024-09-25T18:03:00Z",
+            "day": "2024-09-25",
+            "orbit_pass": "ascending",
+            "item": "S1A_IW_GRDH_1SDV_20240925T180255_20240925T180320_055825_06D25C_rtc",
+            "width": 995,
+            "height": 1024,
+            "native_width": 1774,
+            "native_height": 1826,
+            "crs": "EPSG:32630",
+            "bounds": [
+              715083.9512379772,
+              4353045.202993656,
+              732823.9512379772,
+              4371305.202993656
+            ],
+            "files": {
+              "vv": "tiles/valencia/asc_1803/20240925T1803/vv.png",
+              "vh": "tiles/valencia/asc_1803/20240925T1803/vh.png",
+              "fcc": "tiles/valencia/asc_1803/20240925T1803/fcc.png"
+            },
+            "days_from_dana": -34
+          },
+          {
+            "id": "20241007T1803",
+            "iso": "2024-10-07T18:03:00Z",
+            "day": "2024-10-07",
+            "orbit_pass": "ascending",
+            "item": "S1A_IW_GRDH_1SDV_20241007T180256_20241007T180321_056000_06D943_rtc",
+            "width": 995,
+            "height": 1024,
+            "native_width": 1774,
+            "native_height": 1826,
+            "crs": "EPSG:32630",
+            "bounds": [
+              715083.9512379772,
+              4353045.202993656,
+              732823.9512379772,
+              4371305.202993656
+            ],
+            "files": {
+              "vv": "tiles/valencia/asc_1803/20241007T1803/vv.png",
+              "vh": "tiles/valencia/asc_1803/20241007T1803/vh.png",
+              "fcc": "tiles/valencia/asc_1803/20241007T1803/fcc.png"
+            },
+            "days_from_dana": -22
+          },
+          {
+            "id": "20241019T1803",
+            "iso": "2024-10-19T18:03:00Z",
+            "day": "2024-10-19",
+            "orbit_pass": "ascending",
+            "item": "S1A_IW_GRDH_1SDV_20241019T180256_20241019T180321_056175_06E02E_rtc",
+            "width": 995,
+            "height": 1024,
+            "native_width": 1774,
+            "native_height": 1826,
+            "crs": "EPSG:32630",
+            "bounds": [
+              715083.9512379772,
+              4353045.202993656,
+              732823.9512379772,
+              4371305.202993656
+            ],
+            "files": {
+              "vv": "tiles/valencia/asc_1803/20241019T1803/vv.png",
+              "vh": "tiles/valencia/asc_1803/20241019T1803/vh.png",
+              "fcc": "tiles/valencia/asc_1803/20241019T1803/fcc.png"
+            },
+            "days_from_dana": -10
+          },
+          {
+            "id": "20241112T1803",
+            "iso": "2024-11-12T18:03:00Z",
+            "day": "2024-11-12",
+            "orbit_pass": "ascending",
+            "item": "S1A_IW_GRDH_1SDV_20241112T180255_20241112T180320_056525_06EE16_rtc",
+            "width": 995,
+            "height": 1024,
+            "native_width": 1774,
+            "native_height": 1826,
+            "crs": "EPSG:32630",
+            "bounds": [
+              715083.9512379772,
+              4353045.202993656,
+              732823.9512379772,
+              4371305.202993656
+            ],
+            "files": {
+              "vv": "tiles/valencia/asc_1803/20241112T1803/vv.png",
+              "vh": "tiles/valencia/asc_1803/20241112T1803/vh.png",
+              "fcc": "tiles/valencia/asc_1803/20241112T1803/fcc.png"
+            },
+            "days_from_dana": 14
+          },
+          {
+            "id": "20241124T1803",
+            "iso": "2024-11-24T18:03:00Z",
+            "day": "2024-11-24",
+            "orbit_pass": "ascending",
+            "item": "S1A_IW_GRDH_1SDV_20241124T180254_20241124T180319_056700_06F516_rtc",
+            "width": 995,
+            "height": 1024,
+            "native_width": 1774,
+            "native_height": 1826,
+            "crs": "EPSG:32630",
+            "bounds": [
+              715083.9512379772,
+              4353045.202993656,
+              732823.9512379772,
+              4371305.202993656
+            ],
+            "files": {
+              "vv": "tiles/valencia/asc_1803/20241124T1803/vv.png",
+              "vh": "tiles/valencia/asc_1803/20241124T1803/vh.png",
+              "fcc": "tiles/valencia/asc_1803/20241124T1803/fcc.png"
+            },
+            "days_from_dana": 26
+          },
+          {
+            "id": "20241206T1803",
+            "iso": "2024-12-06T18:03:00Z",
+            "day": "2024-12-06",
+            "orbit_pass": "ascending",
+            "item": "S1A_IW_GRDH_1SDV_20241206T180253_20241206T180318_056875_06FBFD_rtc",
+            "width": 995,
+            "height": 1024,
+            "native_width": 1774,
+            "native_height": 1826,
+            "crs": "EPSG:32630",
+            "bounds": [
+              715083.9512379772,
+              4353045.202993656,
+              732823.9512379772,
+              4371305.202993656
+            ],
+            "files": {
+              "vv": "tiles/valencia/asc_1803/20241206T1803/vv.png",
+              "vh": "tiles/valencia/asc_1803/20241206T1803/vh.png",
+              "fcc": "tiles/valencia/asc_1803/20241206T1803/fcc.png"
+            },
+            "days_from_dana": 38
+          }
+        ],
+        "change": {}
+      },
+      {
+        "id": "des_0602",
+        "label": "Descending 06:02 UTC (track 0602, UTM 31N)",
+        "pass": "descending",
+        "time": "06:02",
+        "crs": "EPSG:32631",
+        "bounds": [
+          198175.3788712824,
+          4355264.788077681,
+          216075.3788712824,
+          4373674.788077681
+        ],
+        "n_dates": 6,
+        "stretch_db": {
+          "vv": [
+            -20.804126739501953,
+            4.777351379394531
+          ],
+          "vh": [
+            -26.45587921142578,
+            -6.1363444328308105
+          ],
+          "ratio": [
+            2.1831541061401367,
+            15.962592124938965
+          ]
+        },
+        "dates": [
+          {
+            "id": "20240926T0602",
+            "iso": "2024-09-26T06:02:00Z",
+            "day": "2024-09-26",
+            "orbit_pass": "descending",
+            "item": "S1A_IW_GRDH_1SDV_20240926T060206_20240926T060231_055832_06D2A3_rtc",
+            "width": 996,
+            "height": 1024,
+            "native_width": 1790,
+            "native_height": 1841,
+            "crs": "EPSG:32631",
+            "bounds": [
+              198175.3788712824,
+              4355264.788077681,
+              216075.3788712824,
+              4373674.788077681
+            ],
+            "files": {
+              "vv": "tiles/valencia/des_0602/20240926T0602/vv.png",
+              "vh": "tiles/valencia/des_0602/20240926T0602/vh.png",
+              "fcc": "tiles/valencia/des_0602/20240926T0602/fcc.png"
+            },
+            "days_from_dana": -33
+          },
+          {
+            "id": "20241008T0602",
+            "iso": "2024-10-08T06:02:00Z",
+            "day": "2024-10-08",
+            "orbit_pass": "descending",
+            "item": "S1A_IW_GRDH_1SDV_20241008T060207_20241008T060232_056007_06D989_rtc",
+            "width": 996,
+            "height": 1024,
+            "native_width": 1790,
+            "native_height": 1841,
+            "crs": "EPSG:32631",
+            "bounds": [
+              198175.3788712824,
+              4355264.788077681,
+              216075.3788712824,
+              4373674.788077681
+            ],
+            "files": {
+              "vv": "tiles/valencia/des_0602/20241008T0602/vv.png",
+              "vh": "tiles/valencia/des_0602/20241008T0602/vh.png",
+              "fcc": "tiles/valencia/des_0602/20241008T0602/fcc.png"
+            },
+            "days_from_dana": -21
+          },
+          {
+            "id": "20241020T0602",
+            "iso": "2024-10-20T06:02:00Z",
+            "day": "2024-10-20",
+            "orbit_pass": "descending",
+            "item": "S1A_IW_GRDH_1SDV_20241020T060207_20241020T060232_056182_06E074_rtc",
+            "width": 996,
+            "height": 1024,
+            "native_width": 1790,
+            "native_height": 1841,
+            "crs": "EPSG:32631",
+            "bounds": [
+              198175.3788712824,
+              4355264.788077681,
+              216075.3788712824,
+              4373674.788077681
+            ],
+            "files": {
+              "vv": "tiles/valencia/des_0602/20241020T0602/vv.png",
+              "vh": "tiles/valencia/des_0602/20241020T0602/vh.png",
+              "fcc": "tiles/valencia/des_0602/20241020T0602/fcc.png"
+            },
+            "days_from_dana": -9
+          },
+          {
+            "id": "20241101T0602",
+            "iso": "2024-11-01T06:02:00Z",
+            "day": "2024-11-01",
+            "orbit_pass": "descending",
+            "item": "S1A_IW_GRDH_1SDV_20241101T060207_20241101T060232_056357_06E766_rtc",
+            "width": 996,
+            "height": 1024,
+            "native_width": 1790,
+            "native_height": 1841,
+            "crs": "EPSG:32631",
+            "bounds": [
+              198175.3788712824,
+              4355264.788077681,
+              216075.3788712824,
+              4373674.788077681
+            ],
+            "files": {
+              "vv": "tiles/valencia/des_0602/20241101T0602/vv.png",
+              "vh": "tiles/valencia/des_0602/20241101T0602/vh.png",
+              "fcc": "tiles/valencia/des_0602/20241101T0602/fcc.png"
+            },
+            "days_from_dana": 3
+          },
+          {
+            "id": "20241125T0602",
+            "iso": "2024-11-25T06:02:00Z",
+            "day": "2024-11-25",
+            "orbit_pass": "descending",
+            "item": "S1A_IW_GRDH_1SDV_20241125T060205_20241125T060230_056707_06F55C_rtc",
+            "width": 996,
+            "height": 1024,
+            "native_width": 1790,
+            "native_height": 1841,
+            "crs": "EPSG:32631",
+            "bounds": [
+              198175.3788712824,
+              4355264.788077681,
+              216075.3788712824,
+              4373674.788077681
+            ],
+            "files": {
+              "vv": "tiles/valencia/des_0602/20241125T0602/vv.png",
+              "vh": "tiles/valencia/des_0602/20241125T0602/vh.png",
+              "fcc": "tiles/valencia/des_0602/20241125T0602/fcc.png"
+            },
+            "days_from_dana": 27
+          },
+          {
+            "id": "20241207T0602",
+            "iso": "2024-12-07T06:02:00Z",
+            "day": "2024-12-07",
+            "orbit_pass": "descending",
+            "item": "S1A_IW_GRDH_1SDV_20241207T060204_20241207T060229_056882_06FC39_rtc",
+            "width": 996,
+            "height": 1024,
+            "native_width": 1790,
+            "native_height": 1841,
+            "crs": "EPSG:32631",
+            "bounds": [
+              198175.3788712824,
+              4355264.788077681,
+              216075.3788712824,
+              4373674.788077681
+            ],
+            "files": {
+              "vv": "tiles/valencia/des_0602/20241207T0602/vv.png",
+              "vh": "tiles/valencia/des_0602/20241207T0602/vh.png",
+              "fcc": "tiles/valencia/des_0602/20241207T0602/fcc.png"
+            },
+            "days_from_dana": 39
+          }
+        ],
+        "change": {
+          "des0602_oct20_nov01": {
+            "gray": "tiles/change/des0602_oct20_nov01/vv_dB_diff.png",
+            "color": "tiles/change/des0602_oct20_nov01/vv_change.png",
+            "stretch_db": [
+              -12.932440757751465,
+              12.932440757751465
+            ]
+          }
+        }
+      }
+    ],
+    "swipe_pairs": [
+      {
+        "id": "des0602_oct20_nov01",
+        "orbit": "des_0602",
+        "pre": "20241020T0602",
+        "post": "20241101T0602",
+        "title": "Descending 06:02: 20 Oct (9 days before) vs 1 Nov (3 days after)",
+        "note": "Same orbit, same grid. Closest same-track pair bracketing the 29 Oct 2024 DANA flood."
+      },
+      {
+        "id": "asc1755_oct26_nov07",
+        "orbit": "asc_1755",
+        "pre": "20241026T1755",
+        "post": "20241107T1755",
+        "title": "Ascending 17:55: 26 Oct (3 days before) vs 7 Nov (9 days after)",
+        "note": "Same orbit, same grid. Pre-event scene is the last acquisition before the flood."
+      },
+      {
+        "id": "des0610_oct25_nov06",
+        "orbit": "des_0610",
+        "pre": "20241025T0610",
+        "post": "20241106T0610",
+        "title": "Descending 06:10: 25 Oct (4 days before) vs 6 Nov (8 days after)",
+        "note": "Same orbit, same grid."
+      }
+    ],
+    "event": {
+      "name": "Valencia DANA flood",
+      "date": "2024-10-29",
+      "location": "Valencia, Spain"
+    }
+  },
+  "sen1floods11": [
+    {
+      "id": "Spain_5650136",
+      "country": "Spain",
+      "split": "official Sen1Floods11 hand-labelled test",
+      "water_frac": 0.6073,
+      "water_pixels": 104207,
+      "bounds": [
+        -0.643912395656873,
+        38.174806313943186,
+        -0.5979186531099535,
+        38.220800056490106
+      ],
+      "crs": "EPSG:4326",
+      "width": 512,
+      "height": 512,
+      "files": {
+        "vv": "tiles/sen1/Spain_5650136/vv.png",
+        "vh": "tiles/sen1/Spain_5650136/vh.png",
+        "fcc": "tiles/sen1/Spain_5650136/fcc.png",
+        "label": "tiles/sen1/Spain_5650136/label.png",
+        "otsu": "tiles/sen1/Spain_5650136/otsu.png",
+        "jrc": "tiles/sen1/Spain_5650136/jrc.png"
+      }
+    },
+    {
+      "id": "Spain_7387658",
+      "country": "Spain",
+      "split": "official Sen1Floods11 hand-labelled test",
+      "water_frac": 0.5839,
+      "water_pixels": 153006,
+      "bounds": [
+        -0.7818936232976315,
+        38.12881257139627,
+        -0.735899880750712,
+        38.174806313943186
+      ],
+      "crs": "EPSG:4326",
+      "width": 512,
+      "height": 512,
+      "files": {
+        "vv": "tiles/sen1/Spain_7387658/vv.png",
+        "vh": "tiles/sen1/Spain_7387658/vh.png",
+        "fcc": "tiles/sen1/Spain_7387658/fcc.png",
+        "label": "tiles/sen1/Spain_7387658/label.png",
+        "otsu": "tiles/sen1/Spain_7387658/otsu.png",
+        "jrc": "tiles/sen1/Spain_7387658/jrc.png"
+      }
+    },
+    {
+      "id": "Spain_7370579",
+      "country": "Spain",
+      "split": "official Sen1Floods11 hand-labelled test",
+      "water_frac": 0.2673,
+      "water_pixels": 70035,
+      "bounds": [
+        -0.7818936232976315,
+        38.08281882884935,
+        -0.735899880750712,
+        38.12881257139627
+      ],
+      "crs": "EPSG:4326",
+      "width": 512,
+      "height": 512,
+      "files": {
+        "vv": "tiles/sen1/Spain_7370579/vv.png",
+        "vh": "tiles/sen1/Spain_7370579/vh.png",
+        "fcc": "tiles/sen1/Spain_7370579/fcc.png",
+        "label": "tiles/sen1/Spain_7370579/label.png",
+        "otsu": "tiles/sen1/Spain_7370579/otsu.png",
+        "jrc": "tiles/sen1/Spain_7370579/jrc.png"
+      }
+    },
+    {
+      "id": "Spain_6095801",
+      "country": "Spain",
+      "split": "official Sen1Floods11 hand-labelled test",
+      "water_frac": 0.0868,
+      "water_pixels": 22736,
+      "bounds": [
+        -0.827887365844551,
+        38.08281882884935,
+        -0.7818936232976316,
+        38.12881257139627
+      ],
+      "crs": "EPSG:4326",
+      "width": 512,
+      "height": 512,
+      "files": {
+        "vv": "tiles/sen1/Spain_6095801/vv.png",
+        "vh": "tiles/sen1/Spain_6095801/vh.png",
+        "fcc": "tiles/sen1/Spain_6095801/fcc.png",
+        "label": "tiles/sen1/Spain_6095801/label.png",
+        "otsu": "tiles/sen1/Spain_6095801/otsu.png",
+        "jrc": "tiles/sen1/Spain_6095801/jrc.png"
+      }
+    },
+    {
+      "id": "Paraguay_34417",
+      "country": "Paraguay",
+      "split": "official Sen1Floods11 hand-labelled test",
+      "water_frac": 1.0,
+      "water_pixels": 50026,
+      "bounds": [
+        -57.768140638930895,
+        -24.422677292414253,
+        -57.722146896383975,
+        -24.376683549867334
+      ],
+      "crs": "EPSG:4326",
+      "width": 512,
+      "height": 512,
+      "files": {
+        "vv": "tiles/sen1/Paraguay_34417/vv.png",
+        "vh": "tiles/sen1/Paraguay_34417/vh.png",
+        "fcc": "tiles/sen1/Paraguay_34417/fcc.png",
+        "label": "tiles/sen1/Paraguay_34417/label.png",
+        "otsu": "tiles/sen1/Paraguay_34417/otsu.png",
+        "jrc": "tiles/sen1/Paraguay_34417/jrc.png"
+      }
+    },
+    {
+      "id": "Sri-Lanka_534068",
+      "country": "Sri-Lanka",
+      "split": "official Sen1Floods11 hand-labelled test",
+      "water_frac": 0.9814,
+      "water_pixels": 257268,
+      "bounds": [
+        81.54690553568827,
+        7.956917460617074,
+        81.5928992782352,
+        8.002911203163993
+      ],
+      "crs": "EPSG:4326",
+      "width": 512,
+      "height": 512,
+      "files": {
+        "vv": "tiles/sen1/Sri-Lanka_534068/vv.png",
+        "vh": "tiles/sen1/Sri-Lanka_534068/vh.png",
+        "fcc": "tiles/sen1/Sri-Lanka_534068/fcc.png",
+        "label": "tiles/sen1/Sri-Lanka_534068/label.png",
+        "otsu": "tiles/sen1/Sri-Lanka_534068/otsu.png",
+        "jrc": "tiles/sen1/Sri-Lanka_534068/jrc.png"
+      }
+    },
+    {
+      "id": "Ghana_866994",
+      "country": "Ghana",
+      "split": "official Sen1Floods11 hand-labelled test",
+      "water_frac": 0.9018,
+      "water_pixels": 105971,
+      "bounds": [
+        -0.735899880750712,
+        8.27887365844551,
+        -0.6899061382037925,
+        8.32486740099243
+      ],
+      "crs": "EPSG:4326",
+      "width": 512,
+      "height": 512,
+      "files": {
+        "vv": "tiles/sen1/Ghana_866994/vv.png",
+        "vh": "tiles/sen1/Ghana_866994/vh.png",
+        "fcc": "tiles/sen1/Ghana_866994/fcc.png",
+        "label": "tiles/sen1/Ghana_866994/label.png",
+        "otsu": "tiles/sen1/Ghana_866994/otsu.png",
+        "jrc": "tiles/sen1/Ghana_866994/jrc.png"
+      }
+    },
+    {
+      "id": "India_80221",
+      "country": "India",
+      "split": "official Sen1Floods11 hand-labelled test",
+      "water_frac": 0.7544,
+      "water_pixels": 114506,
+      "bounds": [
+        92.7233849745897,
+        26.538389449572552,
+        92.76937871713663,
+        26.58438319211947
+      ],
+      "crs": "EPSG:4326",
+      "width": 512,
+      "height": 512,
+      "files": {
+        "vv": "tiles/sen1/India_80221/vv.png",
+        "vh": "tiles/sen1/India_80221/vh.png",
+        "fcc": "tiles/sen1/India_80221/fcc.png",
+        "label": "tiles/sen1/India_80221/label.png",
+        "otsu": "tiles/sen1/India_80221/otsu.png",
+        "jrc": "tiles/sen1/India_80221/jrc.png"
+      }
+    },
+    {
+      "id": "Mekong_1443339",
+      "country": "Mekong",
+      "split": "official Sen1Floods11 hand-labelled test",
+      "water_frac": 0.7354,
+      "water_pixels": 192783,
+      "bounds": [
+        105.8775953430087,
+        12.280329260027507,
+        105.92358908555562,
+        12.326323002574426
+      ],
+      "crs": "EPSG:4326",
+      "width": 512,
+      "height": 512,
+      "files": {
+        "vv": "tiles/sen1/Mekong_1443339/vv.png",
+        "vh": "tiles/sen1/Mekong_1443339/vh.png",
+        "fcc": "tiles/sen1/Mekong_1443339/fcc.png",
+        "label": "tiles/sen1/Mekong_1443339/label.png",
+        "otsu": "tiles/sen1/Mekong_1443339/otsu.png",
+        "jrc": "tiles/sen1/Mekong_1443339/jrc.png"
+      }
+    },
+    {
+      "id": "Pakistan_849790",
+      "country": "Pakistan",
+      "split": "official Sen1Floods11 hand-labelled test",
+      "water_frac": 0.6683,
+      "water_pixels": 171908,
+      "bounds": [
+        71.42828217536598,
+        32.517575980672085,
+        71.4742759179129,
+        32.563569723219004
+      ],
+      "crs": "EPSG:4326",
+      "width": 512,
+      "height": 512,
+      "files": {
+        "vv": "tiles/sen1/Pakistan_849790/vv.png",
+        "vh": "tiles/sen1/Pakistan_849790/vh.png",
+        "fcc": "tiles/sen1/Pakistan_849790/fcc.png",
+        "label": "tiles/sen1/Pakistan_849790/label.png",
+        "otsu": "tiles/sen1/Pakistan_849790/otsu.png",
+        "jrc": "tiles/sen1/Pakistan_849790/jrc.png"
+      }
+    },
+    {
+      "id": "Nigeria_812045",
+      "country": "Nigeria",
+      "split": "official Sen1Floods11 hand-labelled test",
+      "water_frac": 0.5065,
+      "water_pixels": 120118,
+      "bounds": [
+        5.795211560911857,
+        9.060767281743141,
+        5.841205303458776,
+        9.10676102429006
+      ],
+      "crs": "EPSG:4326",
+      "width": 512,
+      "height": 512,
+      "files": {
+        "vv": "tiles/sen1/Nigeria_812045/vv.png",
+        "vh": "tiles/sen1/Nigeria_812045/vh.png",
+        "fcc": "tiles/sen1/Nigeria_812045/fcc.png",
+        "label": "tiles/sen1/Nigeria_812045/label.png",
+        "otsu": "tiles/sen1/Nigeria_812045/otsu.png",
+        "jrc": "tiles/sen1/Nigeria_812045/jrc.png"
+      }
+    },
+    {
+      "id": "Somalia_322855",
+      "country": "Somalia",
+      "split": "official Sen1Floods11 hand-labelled test",
+      "water_frac": 0.1754,
+      "water_pixels": 44737,
+      "bounds": [
+        45.579798863997226,
+        3.127574493190526,
+        45.625792606544145,
+        3.1735682357374455
+      ],
+      "crs": "EPSG:4326",
+      "width": 512,
+      "height": 512,
+      "files": {
+        "vv": "tiles/sen1/Somalia_322855/vv.png",
+        "vh": "tiles/sen1/Somalia_322855/vh.png",
+        "fcc": "tiles/sen1/Somalia_322855/fcc.png",
+        "label": "tiles/sen1/Somalia_322855/label.png",
+        "otsu": "tiles/sen1/Somalia_322855/otsu.png",
+        "jrc": "tiles/sen1/Somalia_322855/jrc.png"
+      }
+    },
+    {
+      "id": "USA_905409",
+      "country": "USA",
+      "split": "official Sen1Floods11 hand-labelled test",
+      "water_frac": 0.1697,
+      "water_pixels": 44467,
+      "bounds": [
+        -94.93108461684184,
+        38.6807374819593,
+        -94.88509087429492,
+        38.72673122450622
+      ],
+      "crs": "EPSG:4326",
+      "width": 512,
+      "height": 512,
+      "files": {
+        "vv": "tiles/sen1/USA_905409/vv.png",
+        "vh": "tiles/sen1/USA_905409/vh.png",
+        "fcc": "tiles/sen1/USA_905409/fcc.png",
+        "label": "tiles/sen1/USA_905409/label.png",
+        "otsu": "tiles/sen1/USA_905409/otsu.png",
+        "jrc": "tiles/sen1/USA_905409/jrc.png"
+      }
+    }
+  ],
+  "nisar": [
+    {
+      "city": "valencia",
+      "n_granules_cmr": 55,
+      "n_browse_staged": 6,
+      "date_range": [
+        "2026-06-25T19:01:07.000Z",
+        "2026-10-28T18:53:18.000Z"
+      ],
+      "collections": [
+        "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "NISAR_L2_GCOV_V1"
+      ],
+      "staged": [
+        {
+          "title": "NISAR_L2_PR_GCOV_034_066_D_069_2005_DHDH_M_20261028T185318_20261028T185353_P05036_N_F_J_001",
+          "start": "2026-10-28T18:53:18.000Z",
+          "collection": "NISAR_L2_GCOV_V1",
+          "size_mb_h5": "1458.2953033447266",
+          "h5": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_066_D_069_2005_DHDH_M_20261028T185318_20261028T185353_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_066_D_069_2005_DHDH_M_20261028T185318_20261028T185353_P05036_N_F_J_001.h5",
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_066_D_069_2005_DHDH_M_20261028T185318_20261028T185353_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_066_D_069_2005_DHDH_M_20261028T185318_20261028T185353_P05036_N_F_J_001_QA_STATS.h5"
+          ],
+          "browse_urls": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_066_D_069_2005_DHDH_M_20261028T185318_20261028T185353_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_066_D_069_2005_DHDH_M_20261028T185318_20261028T185353_P05036_N_F_J_001_LATLON.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_066_D_069_2005_DHDH_M_20261028T185318_20261028T185353_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_066_D_069_2005_DHDH_M_20261028T185318_20261028T185353_P05036_N_F_J_001_NATIVE.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_066_D_069_2005_DHDH_M_20261028T185318_20261028T185353_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_066_D_069_2005_DHDH_M_20261028T185318_20261028T185353_P05036_N_F_J_001_NATIVE_A_HHHH.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_066_D_069_2005_DHDH_M_20261028T185318_20261028T185353_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_066_D_069_2005_DHDH_M_20261028T185318_20261028T185353_P05036_N_F_J_001_NATIVE_A_HVHV.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_066_D_069_2005_DHDH_M_20261028T185318_20261028T185353_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_066_D_069_2005_DHDH_M_20261028T185318_20261028T185353_P05036_N_F_J_001_NATIVE_B_HHHH.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_066_D_069_2005_DHDH_M_20261028T185318_20261028T185353_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_066_D_069_2005_DHDH_M_20261028T185318_20261028T185353_P05036_N_F_J_001_NATIVE_B_HVHV.png"
+          ],
+          "file": "tiles/nisar/valencia/NISAR_L2_PR_GCOV_034_066_D_069_2005_DHDH_M_20261028T185318_20261028T185353_P0503.jpg",
+          "native_px": [
+            1992,
+            1975
+          ]
+        },
+        {
+          "title": "NISAR_L2_PR_GCOV_034_058_A_022_2005_DHDH_A_20261028T050718_20261028T050753_P05036_N_F_J_001",
+          "start": "2026-10-28T05:07:18.000Z",
+          "collection": "NISAR_L2_GCOV_V1",
+          "size_mb_h5": "1849.5628652572632",
+          "h5": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_058_A_022_2005_DHDH_A_20261028T050718_20261028T050753_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_058_A_022_2005_DHDH_A_20261028T050718_20261028T050753_P05036_N_F_J_001.h5",
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_058_A_022_2005_DHDH_A_20261028T050718_20261028T050753_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_058_A_022_2005_DHDH_A_20261028T050718_20261028T050753_P05036_N_F_J_001_QA_STATS.h5"
+          ],
+          "browse_urls": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_058_A_022_2005_DHDH_A_20261028T050718_20261028T050753_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_058_A_022_2005_DHDH_A_20261028T050718_20261028T050753_P05036_N_F_J_001_LATLON.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_058_A_022_2005_DHDH_A_20261028T050718_20261028T050753_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_058_A_022_2005_DHDH_A_20261028T050718_20261028T050753_P05036_N_F_J_001_NATIVE.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_058_A_022_2005_DHDH_A_20261028T050718_20261028T050753_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_058_A_022_2005_DHDH_A_20261028T050718_20261028T050753_P05036_N_F_J_001_NATIVE_A_HHHH.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_058_A_022_2005_DHDH_A_20261028T050718_20261028T050753_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_058_A_022_2005_DHDH_A_20261028T050718_20261028T050753_P05036_N_F_J_001_NATIVE_A_HVHV.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_058_A_022_2005_DHDH_A_20261028T050718_20261028T050753_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_058_A_022_2005_DHDH_A_20261028T050718_20261028T050753_P05036_N_F_J_001_NATIVE_B_HHHH.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_058_A_022_2005_DHDH_A_20261028T050718_20261028T050753_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_058_A_022_2005_DHDH_A_20261028T050718_20261028T050753_P05036_N_F_J_001_NATIVE_B_HVHV.png"
+          ],
+          "file": "tiles/nisar/valencia/NISAR_L2_PR_GCOV_034_058_A_022_2005_DHDH_A_20261028T050718_20261028T050753_P0503.jpg",
+          "native_px": [
+            2000,
+            1978
+          ]
+        },
+        {
+          "title": "NISAR_L2_PR_GCOV_033_167_D_069_2005_DHDH_A_20261023T190137_20261023T190212_P05036_N_F_J_001",
+          "start": "2026-10-23T19:01:37.000Z",
+          "collection": "NISAR_L2_GCOV_V1",
+          "size_mb_h5": "1854.3283185958862",
+          "h5": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_167_D_069_2005_DHDH_A_20261023T190137_20261023T190212_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_167_D_069_2005_DHDH_A_20261023T190137_20261023T190212_P05036_N_F_J_001.h5",
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_167_D_069_2005_DHDH_A_20261023T190137_20261023T190212_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_167_D_069_2005_DHDH_A_20261023T190137_20261023T190212_P05036_N_F_J_001_QA_STATS.h5"
+          ],
+          "browse_urls": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_167_D_069_2005_DHDH_A_20261023T190137_20261023T190212_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_167_D_069_2005_DHDH_A_20261023T190137_20261023T190212_P05036_N_F_J_001_LATLON.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_167_D_069_2005_DHDH_A_20261023T190137_20261023T190212_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_167_D_069_2005_DHDH_A_20261023T190137_20261023T190212_P05036_N_F_J_001_NATIVE.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_167_D_069_2005_DHDH_A_20261023T190137_20261023T190212_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_167_D_069_2005_DHDH_A_20261023T190137_20261023T190212_P05036_N_F_J_001_NATIVE_A_HHHH.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_167_D_069_2005_DHDH_A_20261023T190137_20261023T190212_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_167_D_069_2005_DHDH_A_20261023T190137_20261023T190212_P05036_N_F_J_001_NATIVE_A_HVHV.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_167_D_069_2005_DHDH_A_20261023T190137_20261023T190212_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_167_D_069_2005_DHDH_A_20261023T190137_20261023T190212_P05036_N_F_J_001_NATIVE_B_HHHH.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_167_D_069_2005_DHDH_A_20261023T190137_20261023T190212_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_167_D_069_2005_DHDH_A_20261023T190137_20261023T190212_P05036_N_F_J_001_NATIVE_B_HVHV.png"
+          ],
+          "file": "tiles/nisar/valencia/NISAR_L2_PR_GCOV_033_167_D_069_2005_DHDH_A_20261023T190137_20261023T190212_P0503.jpg",
+          "native_px": [
+            1956,
+            1921
+          ]
+        },
+        {
+          "title": "NISAR_L2_PR_GCOV_033_167_D_068_2005_DHDH_A_20261023T190104_20261023T190138_P05036_N_F_J_001",
+          "start": "2026-10-23T19:01:04.000Z",
+          "collection": "NISAR_L2_GCOV_V1",
+          "size_mb_h5": "1825.6775550842285",
+          "h5": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_167_D_068_2005_DHDH_A_20261023T190104_20261023T190138_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_167_D_068_2005_DHDH_A_20261023T190104_20261023T190138_P05036_N_F_J_001.h5",
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_167_D_068_2005_DHDH_A_20261023T190104_20261023T190138_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_167_D_068_2005_DHDH_A_20261023T190104_20261023T190138_P05036_N_F_J_001_QA_STATS.h5"
+          ],
+          "browse_urls": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_167_D_068_2005_DHDH_A_20261023T190104_20261023T190138_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_167_D_068_2005_DHDH_A_20261023T190104_20261023T190138_P05036_N_F_J_001_LATLON.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_167_D_068_2005_DHDH_A_20261023T190104_20261023T190138_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_167_D_068_2005_DHDH_A_20261023T190104_20261023T190138_P05036_N_F_J_001_NATIVE.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_167_D_068_2005_DHDH_A_20261023T190104_20261023T190138_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_167_D_068_2005_DHDH_A_20261023T190104_20261023T190138_P05036_N_F_J_001_NATIVE_A_HHHH.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_167_D_068_2005_DHDH_A_20261023T190104_20261023T190138_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_167_D_068_2005_DHDH_A_20261023T190104_20261023T190138_P05036_N_F_J_001_NATIVE_A_HVHV.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_167_D_068_2005_DHDH_A_20261023T190104_20261023T190138_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_167_D_068_2005_DHDH_A_20261023T190104_20261023T190138_P05036_N_F_J_001_NATIVE_B_HHHH.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_167_D_068_2005_DHDH_A_20261023T190104_20261023T190138_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_167_D_068_2005_DHDH_A_20261023T190104_20261023T190138_P05036_N_F_J_001_NATIVE_B_HVHV.png"
+          ],
+          "file": "tiles/nisar/valencia/NISAR_L2_PR_GCOV_033_167_D_068_2005_DHDH_A_20261023T190104_20261023T190138_P0503.jpg",
+          "native_px": [
+            1956,
+            1935
+          ]
+        },
+        {
+          "title": "NISAR_L2_PR_GCOV_033_159_A_021_2005_DHDH_M_20261023T051503_20261023T051536_P05036_N_F_J_001",
+          "start": "2026-10-23T05:15:03.000Z",
+          "collection": "NISAR_L2_GCOV_V1",
+          "size_mb_h5": "1805.765290260315",
+          "h5": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_159_A_021_2005_DHDH_M_20261023T051503_20261023T051536_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_159_A_021_2005_DHDH_M_20261023T051503_20261023T051536_P05036_N_F_J_001.h5",
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_159_A_021_2005_DHDH_M_20261023T051503_20261023T051536_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_159_A_021_2005_DHDH_M_20261023T051503_20261023T051536_P05036_N_F_J_001_QA_STATS.h5"
+          ],
+          "browse_urls": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_159_A_021_2005_DHDH_M_20261023T051503_20261023T051536_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_159_A_021_2005_DHDH_M_20261023T051503_20261023T051536_P05036_N_F_J_001_LATLON.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_159_A_021_2005_DHDH_M_20261023T051503_20261023T051536_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_159_A_021_2005_DHDH_M_20261023T051503_20261023T051536_P05036_N_F_J_001_NATIVE.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_159_A_021_2005_DHDH_M_20261023T051503_20261023T051536_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_159_A_021_2005_DHDH_M_20261023T051503_20261023T051536_P05036_N_F_J_001_NATIVE_A_HHHH.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_159_A_021_2005_DHDH_M_20261023T051503_20261023T051536_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_159_A_021_2005_DHDH_M_20261023T051503_20261023T051536_P05036_N_F_J_001_NATIVE_A_HVHV.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_159_A_021_2005_DHDH_M_20261023T051503_20261023T051536_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_159_A_021_2005_DHDH_M_20261023T051503_20261023T051536_P05036_N_F_J_001_NATIVE_B_HHHH.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_159_A_021_2005_DHDH_M_20261023T051503_20261023T051536_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_159_A_021_2005_DHDH_M_20261023T051503_20261023T051536_P05036_N_F_J_001_NATIVE_B_HVHV.png"
+          ],
+          "file": "tiles/nisar/valencia/NISAR_L2_PR_GCOV_033_159_A_021_2005_DHDH_M_20261023T051503_20261023T051536_P0503.jpg",
+          "native_px": [
+            1976,
+            1937
+          ]
+        },
+        {
+          "title": "NISAR_L2_PR_GCOV_033_066_D_069_2005_DHDH_M_20261016T185318_20261016T185353_P05023_N_F_J_001",
+          "start": "2026-10-16T18:53:18.000Z",
+          "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+          "size_mb_h5": "1457.9420347213745",
+          "h5": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_066_D_069_2005_DHDH_M_20261016T185318_20261016T185353_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_066_D_069_2005_DHDH_M_20261016T185318_20261016T185353_P05023_N_F_J_001.h5",
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_066_D_069_2005_DHDH_M_20261016T185318_20261016T185353_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_066_D_069_2005_DHDH_M_20261016T185318_20261016T185353_P05023_N_F_J_001_QA_STATS.h5"
+          ],
+          "browse_urls": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_066_D_069_2005_DHDH_M_20261016T185318_20261016T185353_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_066_D_069_2005_DHDH_M_20261016T185318_20261016T185353_P05023_N_F_J_001_LATLON.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_066_D_069_2005_DHDH_M_20261016T185318_20261016T185353_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_066_D_069_2005_DHDH_M_20261016T185318_20261016T185353_P05023_N_F_J_001_NATIVE.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_066_D_069_2005_DHDH_M_20261016T185318_20261016T185353_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_066_D_069_2005_DHDH_M_20261016T185318_20261016T185353_P05023_N_F_J_001_NATIVE_A_HHHH.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_066_D_069_2005_DHDH_M_20261016T185318_20261016T185353_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_066_D_069_2005_DHDH_M_20261016T185318_20261016T185353_P05023_N_F_J_001_NATIVE_A_HVHV.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_066_D_069_2005_DHDH_M_20261016T185318_20261016T185353_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_066_D_069_2005_DHDH_M_20261016T185318_20261016T185353_P05023_N_F_J_001_NATIVE_B_HHHH.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_PROVISIONAL_V1/NISAR_L2_PR_GCOV_033_066_D_069_2005_DHDH_M_20261016T185318_20261016T185353_P05023_N_F_J_001/NISAR_L2_PR_GCOV_033_066_D_069_2005_DHDH_M_20261016T185318_20261016T185353_P05023_N_F_J_001_NATIVE_B_HVHV.png"
+          ],
+          "file": "tiles/nisar/valencia/NISAR_L2_PR_GCOV_033_066_D_069_2005_DHDH_M_20261016T185318_20261016T185353_P0502.jpg",
+          "native_px": [
+            1992,
+            1975
+          ]
+        }
+      ]
+    },
+    {
+      "city": "toronto",
+      "n_granules_cmr": 67,
+      "n_browse_staged": 6,
+      "date_range": [
+        "2025-10-28T10:16:24.000Z",
+        "2026-10-30T10:24:44.000Z"
+      ],
+      "collections": [
+        "NISAR_L2_GCOV_BETA_V1",
+        "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "NISAR_L2_GCOV_V1"
+      ],
+      "staged": [
+        {
+          "title": "NISAR_L2_PR_GCOV_034_090_A_024_4005_DHDH_A_20261030T102444_20261030T102453_P05036_N_P_J_001",
+          "start": "2026-10-30T10:24:44.000Z",
+          "collection": "NISAR_L2_GCOV_V1",
+          "size_mb_h5": "1884.1952152252197",
+          "h5": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_090_A_024_4005_DHDH_A_20261030T102444_20261030T102453_P05036_N_P_J_001/NISAR_L2_PR_GCOV_034_090_A_024_4005_DHDH_A_20261030T102444_20261030T102453_P05036_N_P_J_001.h5",
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_090_A_024_4005_DHDH_A_20261030T102444_20261030T102453_P05036_N_P_J_001/NISAR_L2_PR_GCOV_034_090_A_024_4005_DHDH_A_20261030T102444_20261030T102453_P05036_N_P_J_001_QA_STATS.h5"
+          ],
+          "browse_urls": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_090_A_024_4005_DHDH_A_20261030T102444_20261030T102453_P05036_N_P_J_001/NISAR_L2_PR_GCOV_034_090_A_024_4005_DHDH_A_20261030T102444_20261030T102453_P05036_N_P_J_001_LATLON.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_090_A_024_4005_DHDH_A_20261030T102444_20261030T102453_P05036_N_P_J_001/NISAR_L2_PR_GCOV_034_090_A_024_4005_DHDH_A_20261030T102444_20261030T102453_P05036_N_P_J_001_NATIVE.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_090_A_024_4005_DHDH_A_20261030T102444_20261030T102453_P05036_N_P_J_001/NISAR_L2_PR_GCOV_034_090_A_024_4005_DHDH_A_20261030T102444_20261030T102453_P05036_N_P_J_001_NATIVE_A_HHHH.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_090_A_024_4005_DHDH_A_20261030T102444_20261030T102453_P05036_N_P_J_001/NISAR_L2_PR_GCOV_034_090_A_024_4005_DHDH_A_20261030T102444_20261030T102453_P05036_N_P_J_001_NATIVE_A_HVHV.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_090_A_024_4005_DHDH_A_20261030T102444_20261030T102453_P05036_N_P_J_001/NISAR_L2_PR_GCOV_034_090_A_024_4005_DHDH_A_20261030T102444_20261030T102453_P05036_N_P_J_001_NATIVE_B_HHHH.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_090_A_024_4005_DHDH_A_20261030T102444_20261030T102453_P05036_N_P_J_001/NISAR_L2_PR_GCOV_034_090_A_024_4005_DHDH_A_20261030T102444_20261030T102453_P05036_N_P_J_001_NATIVE_B_HVHV.png"
+          ],
+          "file": "tiles/nisar/toronto/NISAR_L2_PR_GCOV_034_090_A_024_4005_DHDH_A_20261030T102444_20261030T102453_P0503.jpg",
+          "native_px": [
+            1992,
+            1945
+          ]
+        },
+        {
+          "title": "NISAR_L2_PR_GCOV_034_090_A_024_2005_DHDH_M_20261030T102444_20261030T102519_P05036_N_F_J_001",
+          "start": "2026-10-30T10:24:44.000Z",
+          "collection": "NISAR_L2_GCOV_V1",
+          "size_mb_h5": "1563.094391822815",
+          "h5": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_090_A_024_2005_DHDH_M_20261030T102444_20261030T102519_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_090_A_024_2005_DHDH_M_20261030T102444_20261030T102519_P05036_N_F_J_001.h5",
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_090_A_024_2005_DHDH_M_20261030T102444_20261030T102519_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_090_A_024_2005_DHDH_M_20261030T102444_20261030T102519_P05036_N_F_J_001_QA_STATS.h5"
+          ],
+          "browse_urls": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_090_A_024_2005_DHDH_M_20261030T102444_20261030T102519_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_090_A_024_2005_DHDH_M_20261030T102444_20261030T102519_P05036_N_F_J_001_LATLON.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_090_A_024_2005_DHDH_M_20261030T102444_20261030T102519_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_090_A_024_2005_DHDH_M_20261030T102444_20261030T102519_P05036_N_F_J_001_NATIVE.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_090_A_024_2005_DHDH_M_20261030T102444_20261030T102519_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_090_A_024_2005_DHDH_M_20261030T102444_20261030T102519_P05036_N_F_J_001_NATIVE_A_HHHH.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_090_A_024_2005_DHDH_M_20261030T102444_20261030T102519_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_090_A_024_2005_DHDH_M_20261030T102444_20261030T102519_P05036_N_F_J_001_NATIVE_A_HVHV.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_090_A_024_2005_DHDH_M_20261030T102444_20261030T102519_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_090_A_024_2005_DHDH_M_20261030T102444_20261030T102519_P05036_N_F_J_001_NATIVE_B_HHHH.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_090_A_024_2005_DHDH_M_20261030T102444_20261030T102519_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_090_A_024_2005_DHDH_M_20261030T102444_20261030T102519_P05036_N_F_J_001_NATIVE_B_HVHV.png"
+          ],
+          "file": "tiles/nisar/toronto/NISAR_L2_PR_GCOV_034_090_A_024_2005_DHDH_M_20261030T102444_20261030T102519_P0503.jpg",
+          "native_px": [
+            1992,
+            1945
+          ]
+        },
+        {
+          "title": "NISAR_L2_PR_GCOV_034_090_A_023_4005_DHDH_A_20261030T102410_20261030T102445_P05036_N_F_J_001",
+          "start": "2026-10-30T10:24:10.000Z",
+          "collection": "NISAR_L2_GCOV_V1",
+          "size_mb_h5": "5905.324234008789",
+          "h5": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_090_A_023_4005_DHDH_A_20261030T102410_20261030T102445_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_090_A_023_4005_DHDH_A_20261030T102410_20261030T102445_P05036_N_F_J_001.h5",
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_090_A_023_4005_DHDH_A_20261030T102410_20261030T102445_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_090_A_023_4005_DHDH_A_20261030T102410_20261030T102445_P05036_N_F_J_001_QA_STATS.h5"
+          ],
+          "browse_urls": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_090_A_023_4005_DHDH_A_20261030T102410_20261030T102445_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_090_A_023_4005_DHDH_A_20261030T102410_20261030T102445_P05036_N_F_J_001_LATLON.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_090_A_023_4005_DHDH_A_20261030T102410_20261030T102445_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_090_A_023_4005_DHDH_A_20261030T102410_20261030T102445_P05036_N_F_J_001_NATIVE.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_090_A_023_4005_DHDH_A_20261030T102410_20261030T102445_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_090_A_023_4005_DHDH_A_20261030T102410_20261030T102445_P05036_N_F_J_001_NATIVE_A_HHHH.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_090_A_023_4005_DHDH_A_20261030T102410_20261030T102445_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_090_A_023_4005_DHDH_A_20261030T102410_20261030T102445_P05036_N_F_J_001_NATIVE_A_HVHV.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_090_A_023_4005_DHDH_A_20261030T102410_20261030T102445_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_090_A_023_4005_DHDH_A_20261030T102410_20261030T102445_P05036_N_F_J_001_NATIVE_B_HHHH.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_034_090_A_023_4005_DHDH_A_20261030T102410_20261030T102445_P05036_N_F_J_001/NISAR_L2_PR_GCOV_034_090_A_023_4005_DHDH_A_20261030T102410_20261030T102445_P05036_N_F_J_001_NATIVE_B_HVHV.png"
+          ],
+          "file": "tiles/nisar/toronto/NISAR_L2_PR_GCOV_034_090_A_023_4005_DHDH_A_20261030T102410_20261030T102445_P0503.jpg",
+          "native_px": [
+            1992,
+            1937
+          ]
+        },
+        {
+          "title": "NISAR_L2_PR_GCOV_033_162_A_024_4005_DHDH_A_20261023T101624_20261023T101659_P05036_N_F_J_001",
+          "start": "2026-10-23T10:16:24.000Z",
+          "collection": "NISAR_L2_GCOV_V1",
+          "size_mb_h5": "6189.87668800354",
+          "h5": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_162_A_024_4005_DHDH_A_20261023T101624_20261023T101659_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_162_A_024_4005_DHDH_A_20261023T101624_20261023T101659_P05036_N_F_J_001.h5",
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_162_A_024_4005_DHDH_A_20261023T101624_20261023T101659_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_162_A_024_4005_DHDH_A_20261023T101624_20261023T101659_P05036_N_F_J_001_QA_STATS.h5"
+          ],
+          "browse_urls": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_162_A_024_4005_DHDH_A_20261023T101624_20261023T101659_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_162_A_024_4005_DHDH_A_20261023T101624_20261023T101659_P05036_N_F_J_001_LATLON.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_162_A_024_4005_DHDH_A_20261023T101624_20261023T101659_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_162_A_024_4005_DHDH_A_20261023T101624_20261023T101659_P05036_N_F_J_001_NATIVE.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_162_A_024_4005_DHDH_A_20261023T101624_20261023T101659_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_162_A_024_4005_DHDH_A_20261023T101624_20261023T101659_P05036_N_F_J_001_NATIVE_A_HHHH.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_162_A_024_4005_DHDH_A_20261023T101624_20261023T101659_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_162_A_024_4005_DHDH_A_20261023T101624_20261023T101659_P05036_N_F_J_001_NATIVE_A_HVHV.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_162_A_024_4005_DHDH_A_20261023T101624_20261023T101659_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_162_A_024_4005_DHDH_A_20261023T101624_20261023T101659_P05036_N_F_J_001_NATIVE_B_HHHH.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_162_A_024_4005_DHDH_A_20261023T101624_20261023T101659_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_162_A_024_4005_DHDH_A_20261023T101624_20261023T101659_P05036_N_F_J_001_NATIVE_B_HVHV.png"
+          ],
+          "file": "tiles/nisar/toronto/NISAR_L2_PR_GCOV_033_162_A_024_4005_DHDH_A_20261023T101624_20261023T101659_P0503.jpg",
+          "native_px": [
+            2012,
+            1979
+          ]
+        },
+        {
+          "title": "NISAR_L2_PR_GCOV_010_162_A_024_4005_DHDH_A_20260120T101628_20260120T101703_X05010_N_F_J_001",
+          "start": "2026-01-20T10:16:28.000Z",
+          "collection": "NISAR_L2_GCOV_BETA_V1",
+          "size_mb_h5": "6169.280163764954",
+          "h5": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_BETA_V1/NISAR_L2_PR_GCOV_010_162_A_024_4005_DHDH_A_20260120T101628_20260120T101703_X05010_N_F_J_001/NISAR_L2_PR_GCOV_010_162_A_024_4005_DHDH_A_20260120T101628_20260120T101703_X05010_N_F_J_001.h5",
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_BETA_V1/NISAR_L2_PR_GCOV_010_162_A_024_4005_DHDH_A_20260120T101628_20260120T101703_X05010_N_F_J_001/NISAR_L2_PR_GCOV_010_162_A_024_4005_DHDH_A_20260120T101628_20260120T101703_X05010_N_F_J_001_QA_STATS.h5"
+          ],
+          "browse_urls": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_BETA_V1/NISAR_L2_PR_GCOV_010_162_A_024_4005_DHDH_A_20260120T101628_20260120T101703_X05010_N_F_J_001/NISAR_L2_PR_GCOV_010_162_A_024_4005_DHDH_A_20260120T101628_20260120T101703_X05010_N_F_J_001.png"
+          ],
+          "file": "tiles/nisar/toronto/NISAR_L2_PR_GCOV_010_162_A_024_4005_DHDH_A_20260120T101628_20260120T101703_X0501.jpg",
+          "native_px": [
+            2012,
+            1992
+          ]
+        },
+        {
+          "title": "NISAR_L2_PR_GCOV_009_162_A_024_4005_DHDH_A_20260108T101627_20260108T101702_X05009_N_F_J_001",
+          "start": "2026-01-08T10:16:27.000Z",
+          "collection": "NISAR_L2_GCOV_BETA_V1",
+          "size_mb_h5": "6157.2085065841675",
+          "h5": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_BETA_V1/NISAR_L2_PR_GCOV_009_162_A_024_4005_DHDH_A_20260108T101627_20260108T101702_X05009_N_F_J_001/NISAR_L2_PR_GCOV_009_162_A_024_4005_DHDH_A_20260108T101627_20260108T101702_X05009_N_F_J_001.h5",
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_BETA_V1/NISAR_L2_PR_GCOV_009_162_A_024_4005_DHDH_A_20260108T101627_20260108T101702_X05009_N_F_J_001/NISAR_L2_PR_GCOV_009_162_A_024_4005_DHDH_A_20260108T101627_20260108T101702_X05009_N_F_J_001_QA_STATS.h5"
+          ],
+          "browse_urls": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_BETA_V1/NISAR_L2_PR_GCOV_009_162_A_024_4005_DHDH_A_20260108T101627_20260108T101702_X05009_N_F_J_001/NISAR_L2_PR_GCOV_009_162_A_024_4005_DHDH_A_20260108T101627_20260108T101702_X05009_N_F_J_001.png"
+          ],
+          "file": "tiles/nisar/toronto/NISAR_L2_PR_GCOV_009_162_A_024_4005_DHDH_A_20260108T101627_20260108T101702_X0500.jpg",
+          "native_px": [
+            2012,
+            1992
+          ]
+        }
+      ]
+    },
+    {
+      "city": "jasper",
+      "n_granules_cmr": 76,
+      "n_browse_staged": 6,
+      "date_range": [
+        "2025-10-22T03:08:45.000Z",
+        "2026-11-08T12:31:52.000Z"
+      ],
+      "collections": [
+        "NISAR_L2_GCOV_BETA_V1",
+        "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "NISAR_L2_GCOV_V1"
+      ],
+      "staged": [
+        {
+          "title": "NISAR_L2_PR_GCOV_035_048_A_028_4005_DHDH_A_20261108T123152_20261108T123227_P05036_N_F_J_001",
+          "start": "2026-11-08T12:31:52.000Z",
+          "collection": "NISAR_L2_GCOV_V1",
+          "size_mb_h5": "7478.452349662781",
+          "h5": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_035_048_A_028_4005_DHDH_A_20261108T123152_20261108T123227_P05036_N_F_J_001/NISAR_L2_PR_GCOV_035_048_A_028_4005_DHDH_A_20261108T123152_20261108T123227_P05036_N_F_J_001.h5",
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_035_048_A_028_4005_DHDH_A_20261108T123152_20261108T123227_P05036_N_F_J_001/NISAR_L2_PR_GCOV_035_048_A_028_4005_DHDH_A_20261108T123152_20261108T123227_P05036_N_F_J_001_QA_STATS.h5"
+          ],
+          "browse_urls": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_035_048_A_028_4005_DHDH_A_20261108T123152_20261108T123227_P05036_N_F_J_001/NISAR_L2_PR_GCOV_035_048_A_028_4005_DHDH_A_20261108T123152_20261108T123227_P05036_N_F_J_001_LATLON.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_035_048_A_028_4005_DHDH_A_20261108T123152_20261108T123227_P05036_N_F_J_001/NISAR_L2_PR_GCOV_035_048_A_028_4005_DHDH_A_20261108T123152_20261108T123227_P05036_N_F_J_001_NATIVE.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_035_048_A_028_4005_DHDH_A_20261108T123152_20261108T123227_P05036_N_F_J_001/NISAR_L2_PR_GCOV_035_048_A_028_4005_DHDH_A_20261108T123152_20261108T123227_P05036_N_F_J_001_NATIVE_A_HHHH.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_035_048_A_028_4005_DHDH_A_20261108T123152_20261108T123227_P05036_N_F_J_001/NISAR_L2_PR_GCOV_035_048_A_028_4005_DHDH_A_20261108T123152_20261108T123227_P05036_N_F_J_001_NATIVE_A_HVHV.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_035_048_A_028_4005_DHDH_A_20261108T123152_20261108T123227_P05036_N_F_J_001/NISAR_L2_PR_GCOV_035_048_A_028_4005_DHDH_A_20261108T123152_20261108T123227_P05036_N_F_J_001_NATIVE_B_HHHH.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_035_048_A_028_4005_DHDH_A_20261108T123152_20261108T123227_P05036_N_F_J_001/NISAR_L2_PR_GCOV_035_048_A_028_4005_DHDH_A_20261108T123152_20261108T123227_P05036_N_F_J_001_NATIVE_B_HVHV.png"
+          ],
+          "file": "tiles/nisar/jasper/NISAR_L2_PR_GCOV_035_048_A_028_4005_DHDH_A_20261108T123152_20261108T123227_P0503.jpg",
+          "native_px": [
+            2048,
+            1983
+          ]
+        },
+        {
+          "title": "NISAR_L2_PR_GCOV_033_172_D_062_4005_DHDH_A_20261024T031704_20261024T031740_P05036_N_F_J_001",
+          "start": "2026-10-24T03:17:04.000Z",
+          "collection": "NISAR_L2_GCOV_V1",
+          "size_mb_h5": "7289.786497116089",
+          "h5": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_172_D_062_4005_DHDH_A_20261024T031704_20261024T031740_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_172_D_062_4005_DHDH_A_20261024T031704_20261024T031740_P05036_N_F_J_001.h5",
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_172_D_062_4005_DHDH_A_20261024T031704_20261024T031740_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_172_D_062_4005_DHDH_A_20261024T031704_20261024T031740_P05036_N_F_J_001_QA_STATS.h5"
+          ],
+          "browse_urls": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_172_D_062_4005_DHDH_A_20261024T031704_20261024T031740_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_172_D_062_4005_DHDH_A_20261024T031704_20261024T031740_P05036_N_F_J_001_LATLON.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_172_D_062_4005_DHDH_A_20261024T031704_20261024T031740_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_172_D_062_4005_DHDH_A_20261024T031704_20261024T031740_P05036_N_F_J_001_NATIVE.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_172_D_062_4005_DHDH_A_20261024T031704_20261024T031740_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_172_D_062_4005_DHDH_A_20261024T031704_20261024T031740_P05036_N_F_J_001_NATIVE_A_HHHH.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_172_D_062_4005_DHDH_A_20261024T031704_20261024T031740_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_172_D_062_4005_DHDH_A_20261024T031704_20261024T031740_P05036_N_F_J_001_NATIVE_A_HVHV.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_172_D_062_4005_DHDH_A_20261024T031704_20261024T031740_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_172_D_062_4005_DHDH_A_20261024T031704_20261024T031740_P05036_N_F_J_001_NATIVE_B_HHHH.png",
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_V1/NISAR_L2_PR_GCOV_033_172_D_062_4005_DHDH_A_20261024T031704_20261024T031740_P05036_N_F_J_001/NISAR_L2_PR_GCOV_033_172_D_062_4005_DHDH_A_20261024T031704_20261024T031740_P05036_N_F_J_001_NATIVE_B_HVHV.png"
+          ],
+          "file": "tiles/nisar/jasper/NISAR_L2_PR_GCOV_033_172_D_062_4005_DHDH_A_20261024T031704_20261024T031740_P0503.jpg",
+          "native_px": [
+            1962,
+            1939
+          ]
+        },
+        {
+          "title": "NISAR_L2_PR_GCOV_010_149_A_028_4005_DHDH_A_20260119T124015_20260119T124050_X05010_N_F_J_001",
+          "start": "2026-01-19T12:40:15.000Z",
+          "collection": "NISAR_L2_GCOV_BETA_V1",
+          "size_mb_h5": "7089.2056493759155",
+          "h5": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_BETA_V1/NISAR_L2_PR_GCOV_010_149_A_028_4005_DHDH_A_20260119T124015_20260119T124050_X05010_N_F_J_001/NISAR_L2_PR_GCOV_010_149_A_028_4005_DHDH_A_20260119T124015_20260119T124050_X05010_N_F_J_001.h5",
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_BETA_V1/NISAR_L2_PR_GCOV_010_149_A_028_4005_DHDH_A_20260119T124015_20260119T124050_X05010_N_F_J_001/NISAR_L2_PR_GCOV_010_149_A_028_4005_DHDH_A_20260119T124015_20260119T124050_X05010_N_F_J_001_QA_STATS.h5"
+          ],
+          "browse_urls": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_BETA_V1/NISAR_L2_PR_GCOV_010_149_A_028_4005_DHDH_A_20260119T124015_20260119T124050_X05010_N_F_J_001/NISAR_L2_PR_GCOV_010_149_A_028_4005_DHDH_A_20260119T124015_20260119T124050_X05010_N_F_J_001.png"
+          ],
+          "file": "tiles/nisar/jasper/NISAR_L2_PR_GCOV_010_149_A_028_4005_DHDH_A_20260119T124015_20260119T124050_X0501.jpg",
+          "native_px": [
+            2028,
+            2008
+          ]
+        },
+        {
+          "title": "NISAR_L2_PR_GCOV_010_120_A_029_4005_DHDH_A_20260117T122410_20260117T122446_X05010_N_F_J_001",
+          "start": "2026-01-17T12:24:10.000Z",
+          "collection": "NISAR_L2_GCOV_BETA_V1",
+          "size_mb_h5": "7180.810642242432",
+          "h5": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_BETA_V1/NISAR_L2_PR_GCOV_010_120_A_029_4005_DHDH_A_20260117T122410_20260117T122446_X05010_N_F_J_001/NISAR_L2_PR_GCOV_010_120_A_029_4005_DHDH_A_20260117T122410_20260117T122446_X05010_N_F_J_001.h5",
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_BETA_V1/NISAR_L2_PR_GCOV_010_120_A_029_4005_DHDH_A_20260117T122410_20260117T122446_X05010_N_F_J_001/NISAR_L2_PR_GCOV_010_120_A_029_4005_DHDH_A_20260117T122410_20260117T122446_X05010_N_F_J_001_QA_STATS.h5"
+          ],
+          "browse_urls": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_BETA_V1/NISAR_L2_PR_GCOV_010_120_A_029_4005_DHDH_A_20260117T122410_20260117T122446_X05010_N_F_J_001/NISAR_L2_PR_GCOV_010_120_A_029_4005_DHDH_A_20260117T122410_20260117T122446_X05010_N_F_J_001.png"
+          ],
+          "file": "tiles/nisar/jasper/NISAR_L2_PR_GCOV_010_120_A_029_4005_DHDH_A_20260117T122410_20260117T122446_X0501.jpg",
+          "native_px": [
+            1959,
+            1947
+          ]
+        },
+        {
+          "title": "NISAR_L2_PR_GCOV_009_172_D_062_4005_DHDH_A_20260109T031708_20260109T031743_X05009_N_F_J_001",
+          "start": "2026-01-09T03:17:08.000Z",
+          "collection": "NISAR_L2_GCOV_BETA_V1",
+          "size_mb_h5": "7092.923510551453",
+          "h5": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_BETA_V1/NISAR_L2_PR_GCOV_009_172_D_062_4005_DHDH_A_20260109T031708_20260109T031743_X05009_N_F_J_001/NISAR_L2_PR_GCOV_009_172_D_062_4005_DHDH_A_20260109T031708_20260109T031743_X05009_N_F_J_001.h5",
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_BETA_V1/NISAR_L2_PR_GCOV_009_172_D_062_4005_DHDH_A_20260109T031708_20260109T031743_X05009_N_F_J_001/NISAR_L2_PR_GCOV_009_172_D_062_4005_DHDH_A_20260109T031708_20260109T031743_X05009_N_F_J_001_QA_STATS.h5"
+          ],
+          "browse_urls": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_BETA_V1/NISAR_L2_PR_GCOV_009_172_D_062_4005_DHDH_A_20260109T031708_20260109T031743_X05009_N_F_J_001/NISAR_L2_PR_GCOV_009_172_D_062_4005_DHDH_A_20260109T031708_20260109T031743_X05009_N_F_J_001.png"
+          ],
+          "file": "tiles/nisar/jasper/NISAR_L2_PR_GCOV_009_172_D_062_4005_DHDH_A_20260109T031708_20260109T031743_X0500.jpg",
+          "native_px": [
+            1962,
+            1951
+          ]
+        },
+        {
+          "title": "NISAR_L2_PR_GCOV_009_149_A_028_4005_DHDH_A_20260107T124014_20260107T124049_X05009_N_F_J_001",
+          "start": "2026-01-07T12:40:14.000Z",
+          "collection": "NISAR_L2_GCOV_BETA_V1",
+          "size_mb_h5": "7093.197533607483",
+          "h5": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_BETA_V1/NISAR_L2_PR_GCOV_009_149_A_028_4005_DHDH_A_20260107T124014_20260107T124049_X05009_N_F_J_001/NISAR_L2_PR_GCOV_009_149_A_028_4005_DHDH_A_20260107T124014_20260107T124049_X05009_N_F_J_001.h5",
+            "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GCOV_BETA_V1/NISAR_L2_PR_GCOV_009_149_A_028_4005_DHDH_A_20260107T124014_20260107T124049_X05009_N_F_J_001/NISAR_L2_PR_GCOV_009_149_A_028_4005_DHDH_A_20260107T124014_20260107T124049_X05009_N_F_J_001_QA_STATS.h5"
+          ],
+          "browse_urls": [
+            "https://nisar.asf.earthdatacloud.nasa.gov/BROWSE/NISAR_L2_GCOV_BETA_V1/NISAR_L2_PR_GCOV_009_149_A_028_4005_DHDH_A_20260107T124014_20260107T124049_X05009_N_F_J_001/NISAR_L2_PR_GCOV_009_149_A_028_4005_DHDH_A_20260107T124014_20260107T124049_X05009_N_F_J_001.png"
+          ],
+          "file": "tiles/nisar/jasper/NISAR_L2_PR_GCOV_009_149_A_028_4005_DHDH_A_20260107T124014_20260107T124049_X0500.jpg",
+          "native_px": [
+            2028,
+            2008
+          ]
+        }
+      ]
+    }
+  ],
+  "metrics": {
+    "caveat": "One seed, not a published benchmark. Colab T4 attempt 1 reached these numbers, then the free GPU runtime ended before the final cell embedded PNGs or ONNX weights. Figures will be recovered on a T4 retry.",
+    "dataset": "Sen1Floods11 official hand-labelled test split (90 chips), C-band Sentinel-1 VV/VH",
+    "seed": 42,
+    "hpo": {
+      "best_valid_water_iou": 0.6286,
+      "trials": 14,
+      "pruned": 5
+    },
+    "test_water_iou": {
+      "unet_final": 0.6635,
+      "otsu_per_chip": 0.2181,
+      "global_vv_threshold": 0.4682,
+      "all_dry": 0.0
+    },
+    "channel_ablation_test_water_iou": {
+      "vv": 0.5713,
+      "vv_vh": 0.651,
+      "vv_vh_ratio": 0.6713
+    },
+    "cpu_inference_s_per_512_tile": {
+      "onnx_fp32": {
+        "seconds": 1.6289,
+        "water_iou_30chip_subset": 0.7067,
+        "size_mb": 17.3
+      },
+      "onnx_int8": {
+        "seconds": 14.3556,
+        "water_iou_30chip_subset": 0.7078,
+        "size_mb": 5.5
+      },
+      "torch_fp32": {
+        "seconds": 2.3825
+      }
+    },
+    "note_int8": "Dynamic INT8 quantization preserved water IoU on the 30-chip subset but was slower than FP32 on Colab CPU (not an edge device).",
+    "source": "/workspace/colab_queue/runs/02_nasa_sar_flood_hpo/attempt1_numbers.txt"
+  },
+  "citations": [
+    {
+      "item": "Sen1Floods11",
+      "credit": "Bonafilia, Tellman, Anderson, Issenberg (2020). Sen1Floods11: a georeferenced dataset to train and test deep learning flood algorithms for Sentinel-1. CVPR EarthVision.",
+      "licence": "CC-BY-4.0",
+      "url": "https://github.com/cloudtostreet/Sen1Floods11"
+    },
+    {
+      "item": "Sentinel-1 RTC over Valencia",
+      "credit": "Copernicus Sentinel-1 SAR, radiometrically terrain-corrected (RTC) via Microsoft Planetary Computer / ASF. Event context: 29 Oct 2024 DANA flood, Valencia, Spain.",
+      "licence": "Copernicus Sentinel open access (CC-BY-SA compatible attribution).",
+      "url": "https://planetarycomputer.microsoft.com/dataset/sentinel-1-rtc"
+    },
+    {
+      "item": "NISAR GCOV browse imagery and CMR metadata",
+      "credit": "NASA-ISRO SAR (NISAR) Level-2 Geocoded Polarimetric Covariance (GCOV). Browse PNGs and granule metadata from NASA CMR / ASF DAAC. Full .h5 granules require a free Earthdata login and are not bundled in this local demo.",
+      "licence": "NASA open data.",
+      "url": "https://nisar.asf.alaska.edu/"
+    },
+    {
+      "item": "JRC Global Surface Water (permanent water prior in Sen1Floods11)",
+      "credit": "Pekel, Cottam, Gorelick, Belward (2016). High-resolution mapping of global surface water and its long-term changes. Nature.",
+      "licence": "Copernicus / JRC open data.",
+      "url": "https://global-surface-water.appspot.com/"
+    }
+  ],
+  "hooks": {
+    "onnx_infer": "plugins/infer.py",
+    "nisar_h5": "plugins/nisar_h5.py",
+    "note": "Drop Saturday's trained ONNX weights and Earthdata-downloaded NISAR .h5 granules into these hooks. This demo ships without those files."
+  }
+}

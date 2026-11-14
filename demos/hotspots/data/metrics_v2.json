@@ -1,0 +1,650 @@
+{
+  "note": "one seed, not a published benchmark",
+  "seed": 0,
+  "protocol": {
+    "train_years": [
+      2012,
+      2020
+    ],
+    "val_year": 2021,
+    "test_years": [
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "cell_deg": 0.25,
+    "model": "LightGBM regression on log1p residual vs EB cell-ratio offset, no raw cell intensity history, then a 2021-only blend with the EB baseline and optional count scale.",
+    "intervals": "quantile GBM on residual, blended the same way, then Mondrian CQR stratified by contemporaneous MODIS count, with active-cell-aware margins, calibrated on 2021."
+  },
+  "colab_v1_reference": {
+    "Canada": {
+      "eb_cell_ratio_rmse_log1p": 0.3109,
+      "tuned_lgbm_rmse_log1p": 0.3198,
+      "tuned_lgbm_bias_pct": -63.4729,
+      "tuned_lgbm_spearman": 0.3471,
+      "no_cell_history_rmse_log1p": 0.2875,
+      "cqr_coverage_active": 0.5912
+    },
+    "Argentina": {
+      "eb_cell_ratio_rmse_log1p": 0.553,
+      "tuned_lgbm_rmse_log1p": 0.4843,
+      "tuned_lgbm_bias_pct": 11.0662,
+      "cqr_coverage_active": 0.8229
+    }
+  },
+  "countries": {
+    "Canada": {
+      "country": "Canada",
+      "status": "ok",
+      "note": "one seed, not a published benchmark",
+      "seed": 0,
+      "cell_deg": 0.25,
+      "val_year": 2021,
+      "test_years": [
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "n_test_cell_months": 498302,
+      "global_ratio_value": 5.321793755051753,
+      "eb_prior_strength_k": 30,
+      "baselines": {
+        "global_ratio": {
+          "rmse_log1p": 0.3248,
+          "mae": 2.5201,
+          "spearman": 0.6448,
+          "total_bias_pct": -8.1105,
+          "monthly_total_mape_pct": 20.3783,
+          "monthly_total_spearman": 0.9923
+        },
+        "month_ratio": {
+          "rmse_log1p": 0.3164,
+          "mae": 2.6896,
+          "spearman": 0.6447,
+          "total_bias_pct": -7.2876,
+          "monthly_total_mape_pct": 19.1159,
+          "monthly_total_spearman": 0.9911
+        },
+        "cell_ratio": {
+          "rmse_log1p": 0.3247,
+          "mae": 3.7164,
+          "spearman": 0.642,
+          "total_bias_pct": 0.7654,
+          "monthly_total_mape_pct": 17.7793,
+          "monthly_total_spearman": 0.9856
+        },
+        "eb_cell_ratio": {
+          "rmse_log1p": 0.3109,
+          "mae": 2.556,
+          "spearman": 0.6447,
+          "total_bias_pct": -7.1114,
+          "monthly_total_mape_pct": 16.6566,
+          "monthly_total_spearman": 0.991
+        }
+      },
+      "unmixed_residual_test": {
+        "rmse_log1p": 0.2844,
+        "mae": 2.4166,
+        "spearman": 0.6469,
+        "total_bias_pct": -8.2953,
+        "monthly_total_mape_pct": 39.441,
+        "monthly_total_spearman": 0.9923
+      },
+      "tuned_residual_test": {
+        "rmse_log1p": 0.2844,
+        "mae": 2.4166,
+        "spearman": 0.6469,
+        "total_bias_pct": -8.2953,
+        "monthly_total_mape_pct": 39.441,
+        "monthly_total_spearman": 0.9923
+      },
+      "tuned_residual_val": {
+        "rmse_log1p": 0.2768,
+        "mae": 1.2825,
+        "spearman": 0.638,
+        "total_bias_pct": -0.0439,
+        "monthly_total_mape_pct": 41.0479,
+        "monthly_total_spearman": 0.993
+      },
+      "calibration": {
+        "blend_weight_on_residual": 1.0,
+        "val_count_scale": 1.0,
+        "val_metrics": {
+          "rmse_log1p": 0.2768,
+          "mae": 1.2825,
+          "spearman": 0.638,
+          "total_bias_pct": -0.0439,
+          "monthly_total_mape_pct": 41.0479,
+          "monthly_total_spearman": 0.993
+        },
+        "rule": "w and optional count scale chosen on 2021 only to beat EB RMSE and reduce monthly MAPE / |bias|."
+      },
+      "val_bias_correction_log": -0.013037,
+      "best_params": {
+        "num_leaves": 34,
+        "min_data_in_leaf": 329,
+        "learning_rate": 0.07468110929172835,
+        "feature_fraction": 0.8988130702078172,
+        "lambda_l2": 0.45259321937192204,
+        "max_depth": 8
+      },
+      "best_iter": 554,
+      "hpo_trials": 8,
+      "delta_rmse_log1p_vs_eb_cell_ratio": -0.0265,
+      "beats_best_baseline_rmse_log1p": true,
+      "top_features_gain": [
+        [
+          "log1p_eb",
+          44006.46
+        ],
+        [
+          "m_frp_med",
+          19588.12
+        ],
+        [
+          "lon",
+          18291.51
+        ],
+        [
+          "lat",
+          13179.62
+        ],
+        [
+          "m_night",
+          8855.8
+        ],
+        [
+          "log1p_m_n_lag1",
+          7941.51
+        ],
+        [
+          "month_ratio",
+          5781.51
+        ],
+        [
+          "frp_per_hotspot",
+          5202.61
+        ],
+        [
+          "log1p_m_n_lead1",
+          3830.97
+        ],
+        [
+          "mcos",
+          3737.11
+        ],
+        [
+          "m_bright",
+          3719.46
+        ],
+        [
+          "m_pix",
+          2876.26
+        ],
+        [
+          "log1p_frp_sum",
+          2712.06
+        ],
+        [
+          "month",
+          2404.93
+        ],
+        [
+          "m_aqua",
+          2308.28
+        ],
+        [
+          "msin",
+          1702.2
+        ],
+        [
+          "log1p_m_n",
+          1545.38
+        ],
+        [
+          "frac_off_nadir",
+          1045.1
+        ],
+        [
+          "frac_low_frp",
+          894.35
+        ]
+      ],
+      "intervals": {
+        "target_coverage": 0.9,
+        "cqr_coverage": 0.9917,
+        "cqr_coverage_on_viirs_active_cells": 0.8864,
+        "cqr_coverage_on_zero_cells": 0.9988,
+        "mean_width_cqr": 13.0961,
+        "mean_width_cqr_active": 136.8764,
+        "n_active": 31164,
+        "n_total": 498302,
+        "per_stratum_margin": {
+          "0": 4.3943,
+          "1": 0.0154,
+          "2": 2.1123,
+          "3": 180.9654
+        },
+        "per_stratum_margin_active_only": {
+          "0": 4.3943,
+          "1": -0.7999,
+          "2": 1.673,
+          "3": 180.9654
+        },
+        "global_margin": 0.0,
+        "global_margin_active_only": 4.6147,
+        "cqr_note": "Applied margin is max(all-cells, VIIRS-active-cells) per MODIS-count stratum, calibrated on 2021. Conservative for overall coverage; aimed at ~90% on active cells.",
+        "stratum_edges_m_n": [
+          3.0,
+          23.0
+        ],
+        "stratum_rule": "0: m_n==0; 1: 0<m_n<=p50; 2: p50<m_n<=p90; 3: m_n>p90",
+        "calibration_year": 2021
+      },
+      "calendar": {
+        "years": [
+          2000,
+          2025
+        ],
+        "backcast_years": [
+          2000,
+          2011
+        ],
+        "anomaly_rule": "robust z = 0.6745*(x-median)/MAD per calendar month, |z|>3.5. 2000-2011 are model back-casts (carry model error); 2012+ are observed VIIRS.",
+        "n_flagged_months": 22,
+        "flagged": [
+          [
+            2023,
+            9,
+            65.3822
+          ],
+          [
+            2023,
+            5,
+            36.8185
+          ],
+          [
+            2025,
+            5,
+            20.3999
+          ],
+          [
+            2025,
+            9,
+            11.7444
+          ],
+          [
+            2023,
+            6,
+            10.8669
+          ],
+          [
+            2017,
+            9,
+            9.745
+          ],
+          [
+            2023,
+            8,
+            9.2814
+          ],
+          [
+            2024,
+            8,
+            8.3809
+          ],
+          [
+            2024,
+            9,
+            8.177
+          ],
+          [
+            2019,
+            5,
+            7.7743
+          ],
+          [
+            2023,
+            7,
+            6.6868
+          ],
+          [
+            2017,
+            8,
+            5.175
+          ],
+          [
+            2025,
+            8,
+            5.0952
+          ],
+          [
+            2016,
+            5,
+            5.0848
+          ],
+          [
+            2021,
+            10,
+            5.0145
+          ],
+          [
+            2025,
+            6,
+            4.8142
+          ]
+        ],
+        "csv": "calendar_canada.csv"
+      },
+      "files": {
+        "tiles": "tiles_canada.parquet",
+        "disagreement": "disagreement_canada.parquet",
+        "calendar": "calendar_canada.csv",
+        "model": "residual_canada.txt"
+      }
+    },
+    "Argentina": {
+      "country": "Argentina",
+      "status": "ok",
+      "note": "one seed, not a published benchmark",
+      "seed": 0,
+      "cell_deg": 0.25,
+      "val_year": 2021,
+      "test_years": [
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "n_test_cell_months": 193472,
+      "global_ratio_value": 3.2458311892899103,
+      "eb_prior_strength_k": 30,
+      "baselines": {
+        "global_ratio": {
+          "rmse_log1p": 0.5593,
+          "mae": 1.9418,
+          "spearman": 0.6855,
+          "total_bias_pct": -5.513,
+          "monthly_total_mape_pct": 15.3579,
+          "monthly_total_spearman": 0.9728
+        },
+        "month_ratio": {
+          "rmse_log1p": 0.5613,
+          "mae": 1.9439,
+          "spearman": 0.6854,
+          "total_bias_pct": -4.9988,
+          "monthly_total_mape_pct": 13.5439,
+          "monthly_total_spearman": 0.9703
+        },
+        "cell_ratio": {
+          "rmse_log1p": 0.5574,
+          "mae": 1.9336,
+          "spearman": 0.6856,
+          "total_bias_pct": 0.3728,
+          "monthly_total_mape_pct": 14.7175,
+          "monthly_total_spearman": 0.9739
+        },
+        "eb_cell_ratio": {
+          "rmse_log1p": 0.553,
+          "mae": 1.8002,
+          "spearman": 0.6858,
+          "total_bias_pct": -3.5811,
+          "monthly_total_mape_pct": 12.1972,
+          "monthly_total_spearman": 0.9797
+        }
+      },
+      "unmixed_residual_test": {
+        "rmse_log1p": 0.5111,
+        "mae": 1.6863,
+        "spearman": 0.6893,
+        "total_bias_pct": -24.4248,
+        "monthly_total_mape_pct": 28.2914,
+        "monthly_total_spearman": 0.9773
+      },
+      "tuned_residual_test": {
+        "rmse_log1p": 0.5191,
+        "mae": 1.7784,
+        "spearman": 0.6893,
+        "total_bias_pct": -1.5623,
+        "monthly_total_mape_pct": 16.6088,
+        "monthly_total_spearman": 0.9773
+      },
+      "tuned_residual_val": {
+        "rmse_log1p": 0.5157,
+        "mae": 1.656,
+        "spearman": 0.6983,
+        "total_bias_pct": 0.0,
+        "monthly_total_mape_pct": 14.9412,
+        "monthly_total_spearman": 0.8601
+      },
+      "calibration": {
+        "blend_weight_on_residual": 1.0,
+        "val_count_scale": 1.3025144347114126,
+        "val_metrics": {
+          "rmse_log1p": 0.5157,
+          "mae": 1.656,
+          "spearman": 0.6983,
+          "total_bias_pct": 0.0,
+          "monthly_total_mape_pct": 14.9412,
+          "monthly_total_spearman": 0.8601
+        },
+        "rule": "w and optional count scale chosen on 2021 only to beat EB RMSE and reduce monthly MAPE / |bias|."
+      },
+      "val_bias_correction_log": -0.059446,
+      "best_params": {
+        "num_leaves": 38,
+        "min_data_in_leaf": 415,
+        "learning_rate": 0.052764705102906824,
+        "feature_fraction": 0.7451974323486036,
+        "lambda_l2": 1.1205837185064167,
+        "max_depth": 7
+      },
+      "best_iter": 800,
+      "hpo_trials": 8,
+      "delta_rmse_log1p_vs_eb_cell_ratio": -0.0339,
+      "beats_best_baseline_rmse_log1p": true,
+      "top_features_gain": [
+        [
+          "log1p_eb",
+          78093.35
+        ],
+        [
+          "log1p_m_n",
+          60849.21
+        ],
+        [
+          "lat",
+          46659.64
+        ],
+        [
+          "log1p_m_n_lead1",
+          45662.94
+        ],
+        [
+          "log1p_m_n_lag1",
+          38801.9
+        ],
+        [
+          "lon",
+          37347.17
+        ],
+        [
+          "m_bright",
+          24486.94
+        ],
+        [
+          "m_aqua",
+          16137.58
+        ],
+        [
+          "m_night",
+          11567.24
+        ],
+        [
+          "mcos",
+          10092.46
+        ],
+        [
+          "msin",
+          8249.5
+        ],
+        [
+          "month_ratio",
+          6708.77
+        ],
+        [
+          "month",
+          6323.95
+        ],
+        [
+          "frp_per_hotspot",
+          4965.23
+        ],
+        [
+          "log1p_frp_sum",
+          4221.72
+        ],
+        [
+          "m_frp_med",
+          3344.25
+        ],
+        [
+          "m_pix",
+          3211.31
+        ],
+        [
+          "frac_low_frp",
+          2127.51
+        ],
+        [
+          "frac_off_nadir",
+          2028.98
+        ]
+      ],
+      "intervals": {
+        "target_coverage": 0.9,
+        "cqr_coverage": 0.9717,
+        "cqr_coverage_on_viirs_active_cells": 0.9006,
+        "cqr_coverage_on_zero_cells": 0.9946,
+        "mean_width_cqr": 9.261,
+        "mean_width_cqr_active": 27.5718,
+        "n_active": 47174,
+        "n_total": 193472,
+        "per_stratum_margin": {
+          "0": 1.5115,
+          "1": 0.0,
+          "2": 0.6137,
+          "3": 14.6741
+        },
+        "per_stratum_margin_active_only": {
+          "0": 1.5115,
+          "1": -1.0,
+          "2": 0.483,
+          "3": 14.6741
+        },
+        "global_margin": 0.0,
+        "global_margin_active_only": 1.0,
+        "cqr_note": "Applied margin is max(all-cells, VIIRS-active-cells) per MODIS-count stratum, calibrated on 2021. Conservative for overall coverage; aimed at ~90% on active cells.",
+        "stratum_edges_m_n": [
+          3.0,
+          17.0
+        ],
+        "stratum_rule": "0: m_n==0; 1: 0<m_n<=p50; 2: p50<m_n<=p90; 3: m_n>p90",
+        "calibration_year": 2021
+      },
+      "calendar": {
+        "years": [
+          2000,
+          2025
+        ],
+        "backcast_years": [
+          2000,
+          2011
+        ],
+        "anomaly_rule": "robust z = 0.6745*(x-median)/MAD per calendar month, |z|>3.5. 2000-2011 are model back-casts (carry model error); 2012+ are observed VIIRS.",
+        "n_flagged_months": 14,
+        "flagged": [
+          [
+            2008,
+            4,
+            9.2007
+          ],
+          [
+            2022,
+            1,
+            7.842
+          ],
+          [
+            2022,
+            2,
+            6.3134
+          ],
+          [
+            2020,
+            4,
+            5.5279
+          ],
+          [
+            2016,
+            12,
+            5.2115
+          ],
+          [
+            2020,
+            5,
+            4.9771
+          ],
+          [
+            2022,
+            11,
+            4.4119
+          ],
+          [
+            2020,
+            10,
+            4.0209
+          ],
+          [
+            2008,
+            6,
+            3.9676
+          ],
+          [
+            2017,
+            1,
+            3.9388
+          ],
+          [
+            2008,
+            5,
+            3.7771
+          ],
+          [
+            2020,
+            3,
+            3.6345
+          ],
+          [
+            2003,
+            11,
+            3.5903
+          ],
+          [
+            2004,
+            6,
+            3.5114
+          ]
+        ],
+        "csv": "calendar_argentina.csv"
+      },
+      "files": {
+        "tiles": "tiles_argentina.parquet",
+        "disagreement": "disagreement_argentina.parquet",
+        "calendar": "calendar_argentina.csv",
+        "model": "residual_argentina.txt"
+      }
+    }
+  }
+}

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Field Shift — Story County, Iowa (NASA Space Apps demo)</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="briefing.css">
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="kicker">NASA Space Apps 2026 · unlisted demo · not submitted</div>
+      <h1 style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">Field Shift <button type="button" class="bf-inline" data-briefing-open="1">▶ Experiment briefing</button></h1>
+      <p class="sub">A farmer-facing look at multi-year rotation options for Story County, Iowa, using NASA Earth observations, USDA CDL, and SoilGrids. This tool supports, and does not replace, local agronomic judgment.</p>
+      <nav class="tabs" role="tablist">
+        <button role="tab" aria-selected="true" data-tab="plan" id="tab-plan">Plan a rotation</button>
+        <button role="tab" aria-selected="false" data-tab="scores" id="tab-scores">How we scored it</button>
+        <button role="tab" aria-selected="false" data-tab="model" id="tab-model">Model honesty</button>
+        <button role="tab" aria-selected="false" data-tab="citations" id="tab-citations">Citations</button>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="panel active" id="panel-plan" role="tabpanel">
+      <div class="disclaimer" id="disclaimer"></div>
+      <div class="grid-2">
+        <div class="card">
+          <h2>Story County tiles</h2>
+          <p class="hint">Each square is a 1.2 km analysis tile built from 30 m USDA CDL pixels. Click a tile, or pick a featured one. The map shows 2025 crop groups.</p>
+          <canvas id="map" width="657" height="662" aria-label="Story County crop map"></canvas>
+          <div class="legend" id="mapLegend"></div>
+          <div class="featured" id="featured"></div>
+        </div>
+        <div>
+          <div class="card" id="fieldCard">
+            <h2 id="fieldTitle">County typical tile</h2>
+            <div class="meta-grid" id="fieldMeta"></div>
+            <div class="history" id="history" aria-label="Crop history"></div>
+            <div class="flags" id="flags"></div>
+          </div>
+          <div class="card">
+            <h2>Your priorities</h2>
+            <p class="hint">Move the sliders to say what matters on this farm. Scores update immediately. Equal weights are the default.</p>
+            <div class="sliders" id="sliders"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Rotation strategies compared</h2>
+        <p class="hint">At least three options, including the current corn-soy rotation, plus non-dominated sequences from a small NSGA-II search. Ranked for the selected tile and your weights.</p>
+        <div class="cards" id="strategyCards"></div>
+      </div>
+      <div class="card">
+        <h2>Trade-off table</h2>
+        <div style="overflow:auto">
+          <table class="trade" id="tradeTable"></table>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Pareto front</h2>
+        <p class="hint">Each point is a 4-year sequence on the selected tile. X is water demand, Y is erosion risk (lower is better on both axes). Gold points are named strategies. Green points are other non-dominated NSGA-II options.</p>
+        <canvas id="pareto" width="800" height="280" aria-label="Pareto scatter of water demand versus erosion risk"></canvas>
+        <p class="hint" id="paretoNote"></p>
+      </div>
+      <div class="card">
+        <h2>NASA POWER climate context (county center)</h2>
+        <canvas id="clim" width="800" height="160" aria-label="Annual growing-season precipitation and GDD"></canvas>
+        <p class="hint">Growing-season (Apr–Sep) precipitation and growing degree days at 42.035°N, 93.465°W, 2000–2024. Planning indicators use the median of the last ten years, not a weather forecast.</p>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-scores" role="tabpanel">
+      <div class="card">
+        <h2>What each number means</h2>
+        <div id="objHelp"></div>
+        <p class="hint">Cover-crop “+cover” years assume a winter rye that shrinks bare-soil months and uses a little extra water. That assumption is documented, not observed as a CDL class. SMAP, ECOSTRESS, GPM IMERG and GRACE are named in the challenge and are not in this local demo because they need an Earthdata login.</p>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-model" role="tabpanel">
+      <div class="card caveat" id="modelCaveat"></div>
+      <div class="card">
+        <h2>Next-season crop, test years 2024–2025</h2>
+        <div id="baseBars"></div>
+        <p class="hint">Persistence is weak because Story County already alternates corn and soy. The practical bar is the 2nd-order Markov table. LightGBM is useful when it improves calibration and rare classes, not just headline accuracy.</p>
+      </div>
+      <div class="card">
+        <h2>Feature-group ablation</h2>
+        <div id="abBars"></div>
+      </div>
+      <div class="card">
+        <h2>Calibration (temperature scaling on 2022–2023)</h2>
+        <p id="calText" class="hint"></p>
+        <img id="calImg" alt="Confusion matrix and reliability diagram" style="width:100%;height:auto;border-radius:8px">
+        <img id="abImg" alt="Baseline versus LightGBM ablation bars" style="width:100%;height:auto;border-radius:8px;margin-top:10px">
+      </div>
+      <div class="card">
+        <h2>County maps (local run)</h2>
+        <img id="histImg" alt="CDL history 2016, 2020, 2025 from the local Story County run" style="width:100%;height:auto;border-radius:8px">
+        <img id="slopeImg" alt="NASADEM slope and analysis tiles from the local Story County run" style="width:100%;height:auto;border-radius:8px;margin-top:10px">
+      </div>
+      <div class="card" id="colabCard">
+        <h2>Colab Full-County Run (2024–25)</h2>
+        <p class="hint">A larger personal-Colab CPU run on the same Story County AOI and the same temporal split (train through 2021, validation 2022–2023, test 2024–2025). Seed 0, 25 Optuna trials, 400,000 sampled pixels (266,664 / 66,666 / 66,666), plus a 2025 full-county map over about 1.50 million farmed pixels. Shown here as evidence alongside the local Story County run above, not as a replacement for it. Both runs are labeled <strong>one seed, not a published benchmark</strong>.</p>
+        <div class="caveat" id="colabCaveat"></div>
+        <div class="compare" id="colabCompare"></div>
+        <h3>Baselines vs LightGBM (Colab test years)</h3>
+        <div id="colabBars"></div>
+        <p id="colabText" class="hint"></p>
+        <h3>Feature-group ablation (Colab)</h3>
+        <div id="colabAbBars"></div>
+        <img id="colabAbImg" alt="Colab baselines versus LightGBM feature-group ablation. One seed, not a published benchmark." style="width:100%;height:auto;border-radius:8px;margin-top:10px">
+        <h3>Confusion and calibration (Colab)</h3>
+        <img id="colabCalImg" alt="Colab LightGBM confusion matrix and reliability diagram, test years 2024–2025. Temperature scaling T=0.90 slightly worsened ECE." style="width:100%;height:auto;border-radius:8px;margin-top:10px">
+        <h3>2025 full-county map (Colab)</h3>
+        <p class="hint">Held-out year 2025: USDA CDL actual, LightGBM prediction from history + soil + climate + NDVI, and disagreement (30.2% of farmed pixels). Pixel accuracy over 1,495,561 farmed pixels is 0.811. One seed, not a published benchmark.</p>
+        <img id="colabMapImg" alt="Story County 2025 CDL actual versus predicted next-season crop and disagreement map from the Colab full-county run" style="width:100%;height:auto;border-radius:8px;margin-top:10px">
+      </div>
+    </section>
+
+    <section class="panel" id="panel-citations" role="tabpanel">
+      <div class="card">
+        <h2>Data and software</h2>
+        <ol class="cites" id="citeList"></ol>
+        <p>Original software in this folder is licensed under Apache License 2.0. Cite every source in a Space Apps submission and disclose this pre-existing tooling. This is a local demo, not a submitted project and not a published benchmark.</p>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <p>Local demo for NASA International Space Apps Challenge 2026, challenge “Field Shift: Adapting Farms with NASA Data”. Apache-2.0.</p>
+    <p class="status" id="loadStatus">Loading Story County results…</p>
+  </footer>
+  <script src="app.js"></script>
+  <script src="briefing.js"></script>
+  <script src="briefing_content.js"></script>
+</body>
+</html>

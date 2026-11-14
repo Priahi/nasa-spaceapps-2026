@@ -1,0 +1,690 @@
+{
+ "firms_v1_colab": {
+  "FIRMS_SETUP": {
+   "countries": [
+    "Canada",
+    "Argentina"
+   ],
+   "years_modis": [
+    2000,
+    2025
+   ],
+   "years_viirs": [
+    2012,
+    2025
+   ],
+   "test_years": [
+    2022,
+    2023,
+    2024,
+    2025
+   ],
+   "cells_deg": [
+    0.1,
+    0.25,
+    0.5
+   ],
+   "main_cell_deg": 0.25,
+   "hpo_trials": 30,
+   "seed": 0,
+   "smoke": false,
+   "note": "one seed, not a published benchmark",
+   "elapsed_s": 2.6
+  },
+  "FIRMS_DATA_CANADA": {
+   "status": "ok",
+   "modis_detections": 1444577,
+   "viirs_detections": 6016839,
+   "modis_cell_months": 94239,
+   "viirs_cell_months": 103306,
+   "source": "FIRMS country archives, no login",
+   "seed": 0,
+   "smoke": false,
+   "note": "one seed, not a published benchmark",
+   "elapsed_s": 29.6
+  },
+  "FIRMS_DATA_ARGENTINA": {
+   "status": "ok",
+   "modis_detections": 1604248,
+   "viirs_detections": 2550467,
+   "modis_cell_months": 211102,
+   "viirs_cell_months": 170286,
+   "source": "FIRMS country archives, no login",
+   "seed": 0,
+   "smoke": false,
+   "note": "one seed, not a published benchmark",
+   "elapsed_s": 47.1
+  },
+  "FIRMS_CANADA_BASELINES": {
+   "status": "ok",
+   "cell_deg": 0.25,
+   "test_years": [
+    2022,
+    2023,
+    2024,
+    2025
+   ],
+   "n_test_cell_months": 498302,
+   "global_ratio_value": 5.321793755051753,
+   "eb_prior_strength_k": 30,
+   "global_ratio": {
+    "rmse_log1p": 0.3248,
+    "mae": 2.5201,
+    "spearman": 0.6448,
+    "total_bias_pct": -8.1105,
+    "monthly_total_mape_pct": 20.3783,
+    "monthly_total_spearman": 0.9923
+   },
+   "month_ratio": {
+    "rmse_log1p": 0.3164,
+    "mae": 2.6896,
+    "spearman": 0.6447,
+    "total_bias_pct": -7.2876,
+    "monthly_total_mape_pct": 19.1159,
+    "monthly_total_spearman": 0.9911
+   },
+   "cell_ratio": {
+    "rmse_log1p": 0.3247,
+    "mae": 3.7164,
+    "spearman": 0.642,
+    "total_bias_pct": 0.7654,
+    "monthly_total_mape_pct": 17.7793,
+    "monthly_total_spearman": 0.9856
+   },
+   "eb_cell_ratio": {
+    "rmse_log1p": 0.3109,
+    "mae": 2.556,
+    "spearman": 0.6447,
+    "total_bias_pct": -7.1114,
+    "monthly_total_mape_pct": 16.6566,
+    "monthly_total_spearman": 0.991
+   },
+   "seed": 0,
+   "smoke": false,
+   "note": "one seed, not a published benchmark",
+   "elapsed_s": 126.0
+  },
+  "FIRMS_CANADA_LGBM": {
+   "status": "ok",
+   "hpo_trials": 30,
+   "best_params": {
+    "num_leaves": 247,
+    "min_data_in_leaf": 10,
+    "learning_rate": 0.1707,
+    "feature_fraction": 0.7971,
+    "lambda_l2": 0.4528,
+    "objective": "tweedie"
+   },
+   "val_year": 2021,
+   "default_params_test": {
+    "rmse_log1p": 0.7021,
+    "mae": 1211129.2739,
+    "spearman": 0.1638,
+    "total_bias_pct": 18264781.2488,
+    "monthly_total_mape_pct": 5152273.3215,
+    "monthly_total_spearman": 0.9814
+   },
+   "tuned_test": {
+    "rmse_log1p": 0.3198,
+    "mae": 4.68,
+    "spearman": 0.3471,
+    "total_bias_pct": -63.4729,
+    "monthly_total_mape_pct": 35.5212,
+    "monthly_total_spearman": 0.9827
+   },
+   "best_iter": 19,
+   "delta_rmse_log1p_vs_eb_cell_ratio": 0.0089,
+   "beats_best_baseline_rmse_log1p": false,
+   "top_features_gain": [
+    [
+     "m_n",
+     16375976.7506
+    ],
+    [
+     "m_bright",
+     5710514.807
+    ],
+    [
+     "cell_active",
+     594691.4306
+    ],
+    [
+     "m_night",
+     572007.9163
+    ],
+    [
+     "cell_ratio",
+     442086.8995
+    ],
+    [
+     "lat",
+     273294.6455
+    ],
+    [
+     "lon",
+     231745.8582
+    ],
+    [
+     "cell_v",
+     170917.5783
+    ]
+   ],
+   "seed": 0,
+   "smoke": false,
+   "note": "one seed, not a published benchmark",
+   "elapsed_s": 910.2
+  },
+  "FIRMS_CANADA_INTERVALS": {
+   "status": "ok",
+   "target_coverage": 0.9,
+   "quantile_gbm_coverage": 0.9682,
+   "cqr_coverage": 0.9682,
+   "cqr_margin": 0.0,
+   "mean_width_raw": 6.5892,
+   "mean_width_cqr": 6.5892,
+   "cqr_coverage_on_viirs_active_cells": 0.5912,
+   "calibration_year": 2021,
+   "seed": 0,
+   "smoke": false,
+   "note": "one seed, not a published benchmark",
+   "elapsed_s": 1048.0
+  },
+  "FIRMS_CANADA_ABLATION": {
+   "status": "ok",
+   "note": "one seed, not a published benchmark. Cell-size rows: compare monthly_total_* only; cell-level metrics change with cell size.",
+   "full": {
+    "rmse_log1p": 0.3198,
+    "mae": 4.68,
+    "spearman": 0.3471,
+    "total_bias_pct": -63.4729,
+    "monthly_total_mape_pct": 35.5212,
+    "monthly_total_spearman": 0.9827
+   },
+   "no_cell_history": {
+    "rmse_log1p": 0.2875,
+    "mae": 2.6,
+    "spearman": 0.36,
+    "total_bias_pct": -21.1979,
+    "monthly_total_mape_pct": 17.6014,
+    "monthly_total_spearman": 0.9859
+   },
+   "no_lag_lead": {
+    "rmse_log1p": 0.3421,
+    "mae": 5.45,
+    "spearman": 0.3354,
+    "total_bias_pct": -76.4592,
+    "monthly_total_mape_pct": 44.6641,
+    "monthly_total_spearman": 0.9792
+   },
+   "no_frp_bright_pix": {
+    "rmse_log1p": 0.3382,
+    "mae": 5.4036,
+    "spearman": 0.34,
+    "total_bias_pct": -75.5697,
+    "monthly_total_mape_pct": 43.7396,
+    "monthly_total_spearman": 0.9813
+   },
+   "count_only": {
+    "rmse_log1p": 0.3156,
+    "mae": 2.953,
+    "spearman": 0.2529,
+    "total_bias_pct": -18.3006,
+    "monthly_total_mape_pct": 21.3852,
+    "monthly_total_spearman": 0.981
+   },
+   "cell_0.1deg": {
+    "rmse_log1p": 0.3437,
+    "mae": 1.9431,
+    "spearman": 0.1961,
+    "total_bias_pct": -89.613,
+    "monthly_total_mape_pct": 60.0059,
+    "monthly_total_spearman": 0.9542
+   },
+   "cell_0.5deg": {
+    "rmse_log1p": 0.3834,
+    "mae": 9.9134,
+    "spearman": 0.4808,
+    "total_bias_pct": -46.128,
+    "monthly_total_mape_pct": 25.8873,
+    "monthly_total_spearman": 0.9858
+   },
+   "seed": 0,
+   "smoke": false,
+   "elapsed_s": 1221.1
+  },
+  "FIRMS_CANADA_CALENDAR": {
+   "status": "ok",
+   "years": [
+    2000,
+    2025
+   ],
+   "backcast_years": [
+    2000,
+    2011
+   ],
+   "anomaly_rule": "robust z = 0.6745*(x-median)/MAD per calendar month, |z|>3.5",
+   "n_flagged_months": 25,
+   "flagged": [
+    [
+     2023,
+     9,
+     81.0249
+    ],
+    [
+     2023,
+     5,
+     49.2524
+    ],
+    [
+     2025,
+     5,
+     27.2891
+    ],
+    [
+     2023,
+     6,
+     20.7558
+    ],
+    [
+     2023,
+     8,
+     16.223
+    ],
+    [
+     2024,
+     8,
+     14.6841
+    ],
+    [
+     2025,
+     9,
+     14.418
+    ],
+    [
+     2017,
+     9,
+     11.9352
+    ],
+    [
+     2019,
+     5,
+     10.3997
+    ],
+    [
+     2024,
+     9,
+     9.988
+    ],
+    [
+     2025,
+     6,
+     9.5174
+    ],
+    [
+     2017,
+     8,
+     9.2053
+    ]
+   ],
+   "csv": "firms_canada_harmonized_calendar.csv",
+   "caveat": "Back-cast years carry model error; the held-out-year metrics above are the evidence for it.",
+   "seed": 0,
+   "smoke": false,
+   "note": "one seed, not a published benchmark",
+   "elapsed_s": 1228.0
+  },
+  "FIRMS_ARGENTINA_BASELINES": {
+   "status": "ok",
+   "cell_deg": 0.25,
+   "test_years": [
+    2022,
+    2023,
+    2024,
+    2025
+   ],
+   "n_test_cell_months": 193472,
+   "global_ratio_value": 3.2458311892899103,
+   "eb_prior_strength_k": 30,
+   "global_ratio": {
+    "rmse_log1p": 0.5593,
+    "mae": 1.9418,
+    "spearman": 0.6855,
+    "total_bias_pct": -5.513,
+    "monthly_total_mape_pct": 15.3579,
+    "monthly_total_spearman": 0.9728
+   },
+   "month_ratio": {
+    "rmse_log1p": 0.5613,
+    "mae": 1.9439,
+    "spearman": 0.6854,
+    "total_bias_pct": -4.9988,
+    "monthly_total_mape_pct": 13.5439,
+    "monthly_total_spearman": 0.9703
+   },
+   "cell_ratio": {
+    "rmse_log1p": 0.5574,
+    "mae": 1.9336,
+    "spearman": 0.6856,
+    "total_bias_pct": 0.3728,
+    "monthly_total_mape_pct": 14.7175,
+    "monthly_total_spearman": 0.9739
+   },
+   "eb_cell_ratio": {
+    "rmse_log1p": 0.553,
+    "mae": 1.8002,
+    "spearman": 0.6858,
+    "total_bias_pct": -3.5811,
+    "monthly_total_mape_pct": 12.1972,
+    "monthly_total_spearman": 0.9797
+   },
+   "seed": 0,
+   "smoke": false,
+   "note": "one seed, not a published benchmark",
+   "elapsed_s": 1231.5
+  },
+  "FIRMS_ARGENTINA_LGBM": {
+   "status": "ok",
+   "hpo_trials": 30,
+   "best_params": {
+    "num_leaves": 97,
+    "min_data_in_leaf": 71,
+    "learning_rate": 0.0907,
+    "feature_fraction": 0.5625,
+    "lambda_l2": 7.9972,
+    "objective": "poisson"
+   },
+   "val_year": 2021,
+   "default_params_test": {
+    "rmse_log1p": 0.4902,
+    "mae": 1.8694,
+    "spearman": 0.6319,
+    "total_bias_pct": 0.1729,
+    "monthly_total_mape_pct": 16.6247,
+    "monthly_total_spearman": 0.9761
+   },
+   "tuned_test": {
+    "rmse_log1p": 0.4843,
+    "mae": 2.1748,
+    "spearman": 0.6349,
+    "total_bias_pct": 11.0662,
+    "monthly_total_mape_pct": 17.545,
+    "monthly_total_spearman": 0.9763
+   },
+   "best_iter": 795,
+   "delta_rmse_log1p_vs_eb_cell_ratio": -0.0687,
+   "beats_best_baseline_rmse_log1p": true,
+   "top_features_gain": [
+    [
+     "m_n",
+     44530843.1349
+    ],
+    [
+     "m_frp_sum",
+     11686052.0362
+    ],
+    [
+     "m_frp_med",
+     2016591.1194
+    ],
+    [
+     "m_aqua",
+     1855305.1013
+    ],
+    [
+     "m_night",
+     1527969.381
+    ],
+    [
+     "cell_active",
+     1517228.9779
+    ],
+    [
+     "cell_v",
+     1113052.1958
+    ],
+    [
+     "cell_ratio",
+     983212.0928
+    ]
+   ],
+   "seed": 0,
+   "smoke": false,
+   "note": "one seed, not a published benchmark",
+   "elapsed_s": 2414.6
+  },
+  "FIRMS_ARGENTINA_INTERVALS": {
+   "status": "ok",
+   "target_coverage": 0.9,
+   "quantile_gbm_coverage": 0.9464,
+   "cqr_coverage": 0.9464,
+   "cqr_margin": 0.0,
+   "mean_width_raw": 6.8276,
+   "mean_width_cqr": 6.8276,
+   "cqr_coverage_on_viirs_active_cells": 0.8229,
+   "calibration_year": 2021,
+   "seed": 0,
+   "smoke": false,
+   "note": "one seed, not a published benchmark",
+   "elapsed_s": 2481.1
+  },
+  "FIRMS_ARGENTINA_ABLATION": {
+   "status": "ok",
+   "note": "one seed, not a published benchmark. Cell-size rows: compare monthly_total_* only; cell-level metrics change with cell size.",
+   "full": {
+    "rmse_log1p": 0.4843,
+    "mae": 2.1748,
+    "spearman": 0.6349,
+    "total_bias_pct": 11.0662,
+    "monthly_total_mape_pct": 17.545,
+    "monthly_total_spearman": 0.9763
+   },
+   "no_cell_history": {
+    "rmse_log1p": 0.4805,
+    "mae": 1.9783,
+    "spearman": 0.6257,
+    "total_bias_pct": 1.6384,
+    "monthly_total_mape_pct": 14.7983,
+    "monthly_total_spearman": 0.9736
+   },
+   "no_lag_lead": {
+    "rmse_log1p": 0.4996,
+    "mae": 2.072,
+    "spearman": 0.6319,
+    "total_bias_pct": 2.2126,
+    "monthly_total_mape_pct": 18.7056,
+    "monthly_total_spearman": 0.9665
+   },
+   "no_frp_bright_pix": {
+    "rmse_log1p": 0.4864,
+    "mae": 2.5964,
+    "spearman": 0.6344,
+    "total_bias_pct": 22.9228,
+    "monthly_total_mape_pct": 22.3408,
+    "monthly_total_spearman": 0.9806
+   },
+   "count_only": {
+    "rmse_log1p": 0.5531,
+    "mae": 2.087,
+    "spearman": 0.4611,
+    "total_bias_pct": -4.0794,
+    "monthly_total_mape_pct": 14.6444,
+    "monthly_total_spearman": 0.9736
+   },
+   "cell_0.1deg": {
+    "rmse_log1p": 0.3503,
+    "mae": 0.8035,
+    "spearman": 0.4266,
+    "total_bias_pct": 31.2641,
+    "monthly_total_mape_pct": 29.7531,
+    "monthly_total_spearman": 0.9669
+   },
+   "cell_0.5deg": {
+    "rmse_log1p": 0.5788,
+    "mae": 4.9102,
+    "spearman": 0.7818,
+    "total_bias_pct": 1.855,
+    "monthly_total_mape_pct": 14.6923,
+    "monthly_total_spearman": 0.9773
+   },
+   "seed": 0,
+   "smoke": false,
+   "elapsed_s": 3134.9
+  },
+  "FIRMS_ARGENTINA_CALENDAR": {
+   "status": "ok",
+   "years": [
+    2000,
+    2025
+   ],
+   "backcast_years": [
+    2000,
+    2011
+   ],
+   "anomaly_rule": "robust z = 0.6745*(x-median)/MAD per calendar month, |z|>3.5",
+   "n_flagged_months": 17,
+   "flagged": [
+    [
+     2008,
+     4,
+     11.3442
+    ],
+    [
+     2022,
+     1,
+     8.3494
+    ],
+    [
+     2022,
+     2,
+     6.4043
+    ],
+    [
+     2020,
+     5,
+     5.3434
+    ],
+    [
+     2020,
+     4,
+     4.9137
+    ],
+    [
+     2020,
+     3,
+     4.6058
+    ],
+    [
+     2004,
+     3,
+     4.4176
+    ],
+    [
+     2008,
+     6,
+     4.4125
+    ],
+    [
+     2004,
+     6,
+     4.3827
+    ],
+    [
+     2017,
+     1,
+     4.1936
+    ],
+    [
+     2020,
+     6,
+     4.0876
+    ],
+    [
+     2022,
+     11,
+     3.9701
+    ]
+   ],
+   "csv": "firms_argentina_harmonized_calendar.csv",
+   "caveat": "Back-cast years carry model error; the held-out-year metrics above are the evidence for it.",
+   "seed": 0,
+   "smoke": false,
+   "note": "one seed, not a published benchmark",
+   "elapsed_s": 3182.8
+  },
+  "FILES": {
+   "status": "ok",
+   "pngs": [
+    "firms_argentina_ablation.png",
+    "firms_argentina_annual.png",
+    "firms_argentina_calendar.png",
+    "firms_argentina_disagreement_map.png",
+    "firms_argentina_hpo.png",
+    "firms_argentina_pred_vs_obs.png",
+    "firms_canada_ablation.png",
+    "firms_canada_annual.png",
+    "firms_canada_calendar.png",
+    "firms_canada_disagreement_map.png",
+    "firms_canada_hpo.png",
+    "firms_canada_pred_vs_obs.png"
+   ],
+   "csvs": [
+    "firms_argentina_harmonized_calendar.csv",
+    "firms_canada_harmonized_calendar.csv"
+   ],
+   "seed": 0,
+   "smoke": false,
+   "note": "one seed, not a published benchmark",
+   "elapsed_s": 3182.8
+  },
+  "source": "/workspace/colab_queue/runs/01_nasa_firms_harmonization/all_output.txt"
+ },
+ "e2_burn_scars": {
+  "source": "/workspace/colab_gpu/GPU_RESULTS_ALL.md",
+  "quote": "E2 burn scars: TinyUNet fallback (Prithvi not loaded), 32 train/8 val scenes, 250 steps. unet_miou 0.6084, burn_iou 0.3657 vs all-unburned baseline miou 0.4234, burn_iou 0.0. Small subset, not Prithvi.",
+  "data": "NASA HLS Burn Scars (Harmonized Landsat Sentinel-2)",
+  "model": "TinyUNet (Prithvi not loaded)",
+  "n_train_scenes": 32,
+  "n_val_scenes": 8,
+  "steps": 250,
+  "model_miou": 0.6084,
+  "model_burn_iou": 0.3657,
+  "baseline": "all-unburned",
+  "baseline_miou": 0.4234,
+  "baseline_burn_iou": 0.0
+ },
+ "e10_cpu_speed": {
+  "source": "/workspace/research_plan/BOX_PROGRESS.md",
+  "quote": "- E10: ONNX FP32 8.8 ms / mIoU 0.4746 versus PyTorch 49.56 ms / 0.4746 and INT8 23.67 ms / 0.4745, on a CPU retrain of the E2 TinyUNet, not the Colab 0.6084 weights.",
+  "what": "CPU retrain of the E2 TinyUNet, not the Colab weights",
+  "onnx_fp32_ms": 8.8,
+  "pytorch_ms": 49.56,
+  "onnx_int8_ms": 23.67,
+  "miou_fp32": 0.4746,
+  "miou_int8": 0.4745
+ },
+ "plan_box_prototype": {
+  "source": "/workspace/nasa-spaceapps/PLAN.md",
+  "quote": "**Smoke test (box CPU, Canada, 2012-2015 subsample, test year 2015, one seed):**",
+  "rows": [
+   [
+    "Global ratio (3.84\u00d7)",
+    1.1,
+    0.432,
+    33.3
+   ],
+   [
+    "Per-month ratio",
+    0.969,
+    0.434,
+    15.7
+   ],
+   [
+    "LightGBM Poisson, 50 rounds, no tuning",
+    0.968,
+    0.452,
+    -39.6
+   ]
+  ],
+  "note": "Box CPU, Canada 2012-2015 subsample, test year 2015, one seed. Too small to conclude anything."
+ }
+}

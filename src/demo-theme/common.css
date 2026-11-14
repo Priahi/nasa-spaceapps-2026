@@ -1,0 +1,23 @@
+/* Suite theme: aligns the three demos with the combined site (blue/purple palette, Geist). Data colour ramps are untouched. */
+@font-face { font-family: "Geist"; src: url("../../assets/fonts/Geist-Variable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Geist Mono"; src: url("../../assets/fonts/GeistMono-Variable.woff2") format("woff2"); font-weight: 100 900; font-display: swap; }
+.suite-bar { position: relative; z-index: 9500; display: flex; align-items: center; gap: .8rem; padding: .55rem 1rem; background: #07091a; border-bottom: 1px solid rgba(190,205,255,.18);
+  font: 500 13px/1.2 "Geist", system-ui, sans-serif; color: #b7c0d6; }
+.suite-bar a { color: #f4f6fb; text-decoration: none; display: inline-flex; align-items: center; gap: .4rem; }
+.suite-bar a:hover { color: #9ec1ff; }
+.suite-bar .dot { width: 14px; height: 14px; border-radius: 50%; background: conic-gradient(from 210deg, #9ec1ff, #d4c4ff, #9ec1ff); }
+.suite-bar .sp { margin-left: auto; display: flex; gap: .9rem; flex-wrap: wrap; }
+.suite-bar .sp a { color: #b7c0d6; } .suite-bar .sp a[aria-current] { color: #9ec1ff; }
+html.in-frame .suite-bar { display: none; }
+@media (max-width: 560px) { .suite-bar .sp a:not(.home) { display: none; } }
+/* briefing deck */
+.bf-launch, .bf-inline { background: linear-gradient(120deg, #9ec1ff, #d4c4ff) !important; color: #071018 !important; }
+.bf-overlay { background: #07091a !important; font-family: "Geist", system-ui, sans-serif !important; }
+.bf-top, .bf-bottom { background: #10142c !important; border-color: rgba(190,205,255,.16) !important; }
+.bf-top .bf-deck, .bf-arrow { color: #d4c4ff !important; }
+.bf-kicker { color: #9ec1ff !important; }
+.bf-slide h3 { color: #d4c4ff !important; }
+.bf-dot.on { background: #9ec1ff !important; }
+.bf-card, .bf-kpi, .bf-step { background: #10142c !important; border-color: rgba(190,205,255,.16) !important; }
+.bf-note { border-left-color: #d4c4ff !important; background: rgba(212,196,255,.08) !important; color: #e6ddff !important; }
+.bf-kpi.warn b { color: #d4c4ff !important; }

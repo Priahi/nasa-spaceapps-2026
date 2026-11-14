@@ -1,0 +1,47 @@
+{
+ "r16_eurosat_croptype": {
+  "dataset": "EuroSAT RGB crop classes",
+  "licence": "MIT",
+  "classes": [
+   "AnnualCrop",
+   "PermanentCrop",
+   "Pasture"
+  ],
+  "seed": 0,
+  "epochs": 12,
+  "n_train": 4500,
+  "n_select": 1500,
+  "n_test": 1500,
+  "baseline_accuracy": 0.4,
+  "chosen_config": "lr3e-3",
+  "test_accuracy": 0.824,
+  "source": "/workspace/colab_hpo/round2_personal/results.json"
+ },
+ "plan_box_prototype": {
+  "source": "/workspace/nasa-spaceapps/PLAN.md",
+  "quote": "**Smoke test (box CPU, 20k pixels, test year 2020, one seed):**",
+  "rows": [
+   [
+    "Persistence",
+    0.348,
+    0.355
+   ],
+   [
+    "Corn/soy alternation",
+    0.705,
+    0.508
+   ],
+   [
+    "Markov-2 table",
+    0.817,
+    0.509
+   ],
+   [
+    "LightGBM, 60 rounds, no tuning",
+    0.824,
+    0.499
+   ]
+  ],
+  "note": "Box CPU, 20k pixels, test year 2020, one seed."
+ }
+}

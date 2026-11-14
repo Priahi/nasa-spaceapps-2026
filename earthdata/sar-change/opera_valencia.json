@@ -1,0 +1,169 @@
+{
+ "product": "OPERA_L3_DSWX-S1_V1 (NASA/JPL OPERA, PO.DAAC), B01_WTR layer",
+ "aoi_lonlat": [
+  -0.75,
+  39.2,
+  -0.2,
+  39.55
+ ],
+ "grid_deg": 0.0003,
+ "tiles": [
+  "T30SYJ",
+  "T31SBD"
+ ],
+ "n_acquisitions": 21,
+ "files_used": 44,
+ "usual_water_km2": 350.52,
+ "pixel_km2": 0.0008563245274807504,
+ "series": [
+  {
+   "acq": "20241001T061103",
+   "orbit": "descending",
+   "valid_frac": 0.87,
+   "water_km2": 354.25,
+   "new_water_km2": 4.06
+  },
+  {
+   "acq": "20241002T175505",
+   "orbit": "ascending",
+   "valid_frac": 0.87,
+   "water_km2": 355.07,
+   "new_water_km2": 4.88
+  },
+  {
+   "acq": "20241007T180316",
+   "orbit": "ascending",
+   "valid_frac": 0.87,
+   "water_km2": 353.87,
+   "new_water_km2": 3.92
+  },
+  {
+   "acq": "20241008T060248",
+   "orbit": "descending",
+   "valid_frac": 0.87,
+   "water_km2": 355.0,
+   "new_water_km2": 4.77
+  },
+  {
+   "acq": "20241013T061057",
+   "orbit": "descending",
+   "valid_frac": 0.87,
+   "water_km2": 356.8,
+   "new_water_km2": 6.62
+  },
+  {
+   "acq": "20241014T175432",
+   "orbit": "ascending",
+   "valid_frac": 0.87,
+   "water_km2": 360.29,
+   "new_water_km2": 10.08
+  },
+  {
+   "acq": "20241014T175439",
+   "orbit": "ascending",
+   "valid_frac": 0.87,
+   "water_km2": 360.29,
+   "new_water_km2": 10.08
+  },
+  {
+   "acq": "20241019T180307",
+   "orbit": "ascending",
+   "valid_frac": 0.87,
+   "water_km2": 363.43,
+   "new_water_km2": 13.33
+  },
+  {
+   "acq": "20241020T060250",
+   "orbit": "descending",
+   "valid_frac": 0.87,
+   "water_km2": 362.34,
+   "new_water_km2": 12.24
+  },
+  {
+   "acq": "20241025T061030",
+   "orbit": "descending",
+   "valid_frac": 0.87,
+   "water_km2": 375.25,
+   "new_water_km2": 25.01
+  },
+  {
+   "acq": "20241026T175436",
+   "orbit": "ascending",
+   "valid_frac": 0.87,
+   "water_km2": 381.15,
+   "new_water_km2": 30.73
+  },
+  {
+   "acq": "20241026T175457",
+   "orbit": "ascending",
+   "valid_frac": 0.87,
+   "water_km2": 381.03,
+   "new_water_km2": 30.59
+  },
+  {
+   "acq": "20241031T180258",
+   "orbit": "ascending",
+   "valid_frac": 0.87,
+   "water_km2": 425.71,
+   "new_water_km2": 77.7
+  },
+  {
+   "acq": "20241101T060236",
+   "orbit": "descending",
+   "valid_frac": 0.87,
+   "water_km2": 403.17,
+   "new_water_km2": 54.26
+  },
+  {
+   "acq": "20241106T061057",
+   "orbit": "descending",
+   "valid_frac": 0.87,
+   "water_km2": 390.28,
+   "new_water_km2": 40.63
+  },
+  {
+   "acq": "20241107T175439",
+   "orbit": "ascending",
+   "valid_frac": 0.87,
+   "water_km2": 411.05,
+   "new_water_km2": 61.45
+  },
+  {
+   "acq": "20241112T180310",
+   "orbit": "ascending",
+   "valid_frac": 0.87,
+   "water_km2": 397.13,
+   "new_water_km2": 48.38
+  },
+  {
+   "acq": "20241113T060247",
+   "orbit": "descending",
+   "valid_frac": 0.87,
+   "water_km2": 400.52,
+   "new_water_km2": 52.63
+  },
+  {
+   "acq": "20241118T061054",
+   "orbit": "descending",
+   "valid_frac": 0.87,
+   "water_km2": 381.4,
+   "new_water_km2": 31.66
+  },
+  {
+   "acq": "20241119T175450",
+   "orbit": "ascending",
+   "valid_frac": 0.295,
+   "water_km2": 135.89,
+   "new_water_km2": 29.3
+  },
+  {
+   "acq": "20241119T175502",
+   "orbit": "ascending",
+   "valid_frac": 0.87,
+   "water_km2": 402.07,
+   "new_water_km2": 51.96
+  }
+ ],
+ "map_before": "20241026T175436",
+ "map_after": "20241031T180258"
+}

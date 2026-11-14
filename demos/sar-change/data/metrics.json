@@ -1,0 +1,38 @@
+{
+  "caveat": "One seed, not a published benchmark. Colab T4 attempt 1 reached these numbers, then the free GPU runtime ended before the final cell embedded PNGs or ONNX weights. Figures will be recovered on a T4 retry.",
+  "dataset": "Sen1Floods11 official hand-labelled test split (90 chips), C-band Sentinel-1 VV/VH",
+  "seed": 42,
+  "hpo": {
+    "best_valid_water_iou": 0.6286,
+    "trials": 14,
+    "pruned": 5
+  },
+  "test_water_iou": {
+    "unet_final": 0.6635,
+    "otsu_per_chip": 0.2181,
+    "global_vv_threshold": 0.4682,
+    "all_dry": 0.0
+  },
+  "channel_ablation_test_water_iou": {
+    "vv": 0.5713,
+    "vv_vh": 0.651,
+    "vv_vh_ratio": 0.6713
+  },
+  "cpu_inference_s_per_512_tile": {
+    "onnx_fp32": {
+      "seconds": 1.6289,
+      "water_iou_30chip_subset": 0.7067,
+      "size_mb": 17.3
+    },
+    "onnx_int8": {
+      "seconds": 14.3556,
+      "water_iou_30chip_subset": 0.7078,
+      "size_mb": 5.5
+    },
+    "torch_fp32": {
+      "seconds": 2.3825
+    }
+  },
+  "note_int8": "Dynamic INT8 quantization preserved water IoU on the 30-chip subset but was slower than FP32 on Colab CPU (not an edge device).",
+  "source": "/workspace/colab_queue/runs/02_nasa_sar_flood_hpo/attempt1_numbers.txt"
+}

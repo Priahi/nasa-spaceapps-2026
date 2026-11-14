@@ -1,0 +1,26 @@
+[
+  {
+    "item": "Sen1Floods11",
+    "credit": "Bonafilia, Tellman, Anderson, Issenberg (2020). Sen1Floods11: a georeferenced dataset to train and test deep learning flood algorithms for Sentinel-1. CVPR EarthVision.",
+    "licence": "CC-BY-4.0",
+    "url": "https://github.com/cloudtostreet/Sen1Floods11"
+  },
+  {
+    "item": "Sentinel-1 RTC over Valencia",
+    "credit": "Copernicus Sentinel-1 SAR, radiometrically terrain-corrected (RTC) via Microsoft Planetary Computer / ASF. Event context: 29 Oct 2024 DANA flood, Valencia, Spain.",
+    "licence": "Copernicus Sentinel open access (CC-BY-SA compatible attribution).",
+    "url": "https://planetarycomputer.microsoft.com/dataset/sentinel-1-rtc"
+  },
+  {
+    "item": "NISAR GCOV browse imagery and CMR metadata",
+    "credit": "NASA-ISRO SAR (NISAR) Level-2 Geocoded Polarimetric Covariance (GCOV). Browse PNGs and granule metadata from NASA CMR / ASF DAAC. Full .h5 granules require a free Earthdata login and are not bundled in this local demo.",
+    "licence": "NASA open data.",
+    "url": "https://nisar.asf.alaska.edu/"
+  },
+  {
+    "item": "JRC Global Surface Water (permanent water prior in Sen1Floods11)",
+    "credit": "Pekel, Cottam, Gorelick, Belward (2016). High-resolution mapping of global surface water and its long-term changes. Nature.",
+    "licence": "Copernicus / JRC open data.",
+    "url": "https://global-surface-water.appspot.com/"
+  }
+]

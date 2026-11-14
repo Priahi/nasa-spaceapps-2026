@@ -1,0 +1,71 @@
+{
+ "e8_first_attempt": {
+  "source": "/workspace/colab_gpu/GPU_RESULTS_ALL.md",
+  "quote": "E8 Sen1Floods11 (official hand-labelled, 252 train / 89 val chips, TinyUNet w32 d2, 400 steps, crop 128): unet_miou 0.5647, water_iou 0.2268 vs all-dry baseline miou 0.5122, water_iou 0.1348. Beats baseline but small and weak in absolute terms.",
+  "n_train": 252,
+  "n_val": 89,
+  "model": "TinyUNet w32 d2",
+  "steps": 400,
+  "crop": 128,
+  "model_miou": 0.5647,
+  "model_water_iou": 0.2268,
+  "baseline": "all-dry",
+  "baseline_miou": 0.5122,
+  "baseline_water_iou_as_recorded": 0.1348
+ },
+ "plan_box_prototype": {
+  "source": "/workspace/nasa-spaceapps/PLAN.md",
+  "quote": "**Smoke test (box CPU, 12 train/val/test chips, 1 epoch, one seed):**",
+  "otsu_water_iou": 0.19,
+  "unet_water_iou": 0.453,
+  "cpu_s_per_512_tile": 0.08,
+  "note": "12 train/val/test chips, 1 epoch, one seed. Untrained-scale prototype."
+ },
+ "r17_oscd_change": {
+  "dataset": "OSCD labeled cities",
+  "licence": "CC BY-NC-SA 4.0",
+  "seed": 0,
+  "epochs": 8,
+  "n_train": 382,
+  "n_select": 35,
+  "n_test": 73,
+  "chosen_config": "siamese-w16",
+  "test_f1": 0.1671,
+  "difference_test_f1": 0.144,
+  "no_change_f1": 0.0,
+  "cities": {
+   "train": [
+    "abudhabi",
+    "aguasclaras",
+    "beihai",
+    "beirut",
+    "bercy",
+    "cupertino",
+    "hongkong",
+    "nantes",
+    "saclay_e"
+   ],
+   "select": [
+    "bordeaux",
+    "rennes"
+   ],
+   "test": [
+    "mumbai",
+    "paris",
+    "pisa"
+   ]
+  },
+  "source": "/workspace/colab_hpo/round2_personal/results.json"
+ },
+ "e5_oscd_lora": {
+  "source": "/workspace/colab_gpu/GPU_RESULTS_ALL.md",
+  "quote": "E5 OSCD change detection: frozen DINOv2-small + LoRA(r8, 36 layers) + linear head, 40 train crops / 24 val crops (224px), 80 steps. f1 0.0844 (precision 0.0867, recall 0.0823) vs LoRA-off linear head f1 0.1058. LoRA is WORSE than baseline. Tiny, under-trained, not a claim.",
+  "lora_f1": 0.0844,
+  "lora_precision": 0.0867,
+  "lora_recall": 0.0823,
+  "lora_off_linear_f1": 0.1058,
+  "train_crops": 40,
+  "val_crops": 24,
+  "steps": 80
+ }
+}

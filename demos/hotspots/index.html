@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FIRMS Hot Spots Harmonizer — NASA Space Apps demo</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%23e8a317'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/briefing.css" />
+</head>
+<body>
+  <header class="top">
+    <div>
+      <h1>Harmonized burning activity calendar</h1>
+      <p class="sub">MODIS C6.1 (2000–2025) to VIIRS S-NPP scale. NASA Space Apps 2026 demo. One seed, not a published benchmark.</p>
+    </div>
+    <div class="controls">
+      <label>Region
+        <select id="preset"></select>
+      </label>
+      <button type="button" id="drawBtn" class="btn">Draw box on map</button>
+      <button type="button" id="csvBtn" class="btn primary">Download CSV</button>
+      <button type="button" class="bf-inline" data-briefing-open="1">▶ Experiment briefing</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="map-pane">
+      <div id="map" role="application" aria-label="Hotspot disagreement map"></div>
+      <p class="legend" id="mapLegend">Color is log2((VIIRS+1)/(MODIS+1)) over 2012–2025. Blue: MODIS sees relatively more. Red: VIIRS sees relatively more. Drag a box, or pick a preset.</p>
+      <p class="aoi" id="aoiLabel"></p>
+    </section>
+
+    <section class="side">
+      <article class="card" id="statusCard">
+        <h2>Status</h2>
+        <p id="status">Loading…</p>
+      </article>
+
+      <article class="card">
+        <h2>Why the sensors disagree</h2>
+        <div id="reasons">Select a region to load.</div>
+      </article>
+
+      <article class="card">
+        <h2>Held-out test (2022–2025)</h2>
+        <p class="fine">Val year 2021. Residual LightGBM on top of an empirical-Bayes cell-ratio baseline. No raw cell-intensity history features.</p>
+        <div id="metrics" class="table-wrap">Loading…</div>
+      </article>
+    </section>
+  </main>
+
+  <section class="calendar-pane">
+    <div class="cal-head">
+      <h2>2000–2025 burning calendar</h2>
+      <p class="fine">Color is log10(count + 1). Cyan outline: unusual month (|robust z| &gt; 3.5 vs that calendar month’s 2000–2025 median). The dashed line is 2012, when VIIRS begins. Hover a cell for the count, z-score, and model interval. Back-cast years (2000–2011) carry model error.</p>
+    </div>
+    <div id="calendar"></div>
+    <div id="tooltip" class="tooltip" hidden></div>
+  </section>
+
+  <footer>
+    <p>Data: NASA FIRMS, MODIS Collection 6.1 (MCD14ML) and VIIRS S-NPP (VNP14IMG), <a href="https://firms.modaps.eosdis.nasa.gov/">firms.modaps.eosdis.nasa.gov</a>. NASA data has no restriction on use; cite FIRMS.</p>
+    <p>This tool and model code: Apache-2.0. Unlisted demo build (static, precomputed from the local model run). Intervals are Mondrian conformalized quantile regression (90% target), summed over cells in the AOI, and are not a formal regional confidence interval.</p>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="/static_api.js"></script>
+  <script src="/app.js"></script>
+  <script src="/briefing.js"></script>
+  <script src="/briefing_content.js"></script>
+</body>
+</html>

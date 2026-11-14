@@ -1,0 +1,4 @@
+:root { --bg: #07091a; --bg-2: #10142c; --card: #121733; --ink: #f4f6fb; --muted: #b7c0d6; --line: rgba(190,205,255,.16); --accent: #9ec1ff; --accent-2: #d4c4ff; --font: "Geist", system-ui, sans-serif; --mono: "Geist Mono", ui-monospace, monospace; }
+a { color: #9ec1ff; }
+h2 { color: #d4c4ff; }
+.btn.primary { background: linear-gradient(120deg, #9ec1ff, #d4c4ff) !important; color: #071018 !important; border: 0 !important; }

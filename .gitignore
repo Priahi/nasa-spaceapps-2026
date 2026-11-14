@@ -1,0 +1,26 @@
+dist/
+node_modules/
+__pycache__/
+*.pyc
+.wrangler/
+shots/
+# raw satellite downloads (re-fetch with the scripts; see earthdata/EARTHDATA.md)
+trends/raw/
+earthdata/**/raw/
+upgrades/hls/
+upgrades/mcd64/
+upgrades/opera/
+upgrades/dl.err
+upgrades/dl.log
+*.nc
+*.nc4
+*.hdf
+*.h5
+*.tif
+# build scratch and local notes
+submission/build/
+STATUS.md
+.netrc
+.env
+.env.*
+*.urs_cookies

@@ -1,0 +1,2 @@
+:root { --bg: #f4f6fb; --paper: #ffffff; --ink: #12141c; --muted: #3d465c; --line: rgba(18,20,40,.12); --green: #1d4ed8; --green-2: #6d28d9; --gold: #6d28d9; --sans: "Geist", system-ui, sans-serif; --mono: "Geist Mono", ui-monospace, monospace; --shadow: 0 10px 30px rgba(29,78,216,.08); }
+header { background: linear-gradient(120deg, #0b1030, #1b1f4d 60%, #2a1f5c) !important; color: #f4f6fb !important; }

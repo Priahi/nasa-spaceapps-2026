@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Orbit to Ground · GeoAI Toronto · NASA Space Apps 2026</title>
+<style>
+@font-face{font-family:Geist;src:url(build/fonts/Geist-Variable.woff2) format("woff2");font-weight:100 900}
+@font-face{font-family:"Geist Mono";src:url(build/fonts/GeistMono-Variable.woff2) format("woff2");font-weight:100 900}
+:root{--bg:#07091a;--bg2:#10142c;--ink:#f4f6fb;--muted:#b7c0d6;--faint:#8b95ad;--line:rgba(190,205,255,.14);--line2:rgba(190,205,255,.28);--a:#9ec1ff;--b:#d4c4ff;--neg:#f0b9d6;--ok:#9ef0c9;--mono:"Geist Mono",ui-monospace,monospace}
+*{box-sizing:border-box}html,body{margin:0;background:#000}
+body{font-family:Geist,system-ui,sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+@page{size:1920px 1080px;margin:0}
+.s{position:relative;width:1920px;height:1080px;overflow:hidden;padding:84px 104px 76px;display:flex;flex-direction:column;page-break-after:always;isolation:isolate;
+ background:radial-gradient(1100px 560px at 6% -12%,rgba(80,120,255,.24),transparent 58%),radial-gradient(900px 520px at 104% -4%,rgba(150,90,255,.2),transparent 55%),var(--bg)}
+.s::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--a);opacity:.07;-webkit-mask:url(build/contours/section-background.svg) 0 0/480px repeat;mask:url(build/contours/section-background.svg) 0 0/480px repeat}
+.s.hero::before{opacity:.16;-webkit-mask:url(build/contours/hero-overlay.svg) center top/cover no-repeat;mask:url(build/contours/hero-overlay.svg) center top/cover no-repeat}
+.top{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:26px}
+.top b{color:var(--a);font-weight:500}
+.foot{margin-top:auto;display:flex;justify-content:space-between;font-family:var(--mono);font-size:13px;letter-spacing:.08em;color:var(--faint);text-transform:uppercase;padding-top:18px}
+h1,h2,h3{margin:0;font-weight:500;letter-spacing:-.04em}
+h2{font-size:62px;line-height:1.02;margin-bottom:14px}
+.grad{background:linear-gradient(120deg,var(--a),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{font-size:25px;line-height:1.4;color:var(--muted);margin:0;max-width:1300px}
+.mono{font-family:var(--mono)}
+.chip{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--line2);border-radius:999px;padding:8px 16px;font-family:var(--mono);font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:rgba(16,20,44,.6)}
+.chip i{width:8px;height:8px;border-radius:50%;background:var(--a);box-shadow:0 0 12px var(--a)}
+.card{position:relative;background:linear-gradient(180deg,rgba(22,27,58,.86),rgba(12,15,34,.9));border:1px solid var(--line);border-radius:22px;overflow:hidden}
+.card::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(520px 260px at 20% 0%,rgba(158,193,255,.10),transparent 60%)}
+.beam{position:relative}.beam::before{content:"";position:absolute;inset:-1px;border-radius:23px;padding:1.5px;z-index:2;pointer-events:none;
+ background:conic-gradient(from 210deg,transparent 0 62%,var(--a) 78%,var(--b) 88%,transparent 100%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.corner{position:absolute;right:0;bottom:0;width:180px;height:180px;background:var(--a);opacity:.22;-webkit-mask:url(build/contours/card-corner.svg) center/contain no-repeat;mask:url(build/contours/card-corner.svg) center/contain no-repeat;pointer-events:none}
+.tag{font-family:var(--mono);font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--a)}
+.shot{display:block;width:100%;border-radius:14px;border:1px solid var(--line2);box-shadow:0 30px 80px rgba(0,0,0,.45)}
+.metrics{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.metrics>div{background:rgba(9,12,30,.92);padding:18px 22px}
+.metrics .k{font-family:var(--mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);display:block;margin-bottom:8px}
+.metrics strong{display:block;font-size:34px;font-weight:500;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.metrics p{margin:8px 0 0;font-size:15.5px;line-height:1.35;color:var(--muted)}
+.metrics .neg strong{color:var(--neg)} .metrics .yes strong{color:var(--ok)}
+.wwh{display:grid;gap:14px}
+.wwh div{border-left:2px solid var(--line2);padding:2px 0 2px 18px}
+.wwh .tag{display:block;margin-bottom:6px}
+.wwh p{margin:0;font-size:19px;line-height:1.42;color:var(--muted)} .wwh p b{color:var(--ink);font-weight:500}
+table{border-collapse:collapse;width:100%}
+</style></head><body>
+
+<!-- 1 TITLE -->
+<section class="s hero">
+ <div class="top"><span>NASA Space Apps Challenge 2026 · <b>Toronto Local Event</b></span><span>1 / 7</span></div>
+ <div style="display:flex;gap:16px;align-items:center;margin-top:6px"><span class="chip"><i></i>Challenge · Be An Earth System Trend Detective!</span></div>
+ <h1 style="font-size:150px;line-height:.9;letter-spacing:-.06em;margin:34px 0 22px">Orbit to <span class="grad">Ground</span></h1>
+ <p class="lede" style="font-size:30px;max-width:1420px;color:#d6dcec">One connected Earth-change intelligence system, from orbit to decision. It <b style="color:var(--a);font-weight:500">detects</b> fire across a multi-sensor record, <b style="color:var(--a);font-weight:500">confirms</b> floods through cloud and night with radar, and helps farms <b style="color:var(--a);font-weight:500">adapt</b>. Every module answers: what is changing, where, how much, and is it significant?</p>
+ <div style="display:flex;gap:40px;margin:30px 0 0;font-size:22px;color:var(--muted)">
+  <div><span class="tag" style="display:block;margin-bottom:6px">Team</span><span style="color:var(--ink);font-size:30px;letter-spacing:-.02em">GeoAI Toronto</span></div>
+  <div style="border-left:1px solid var(--line2);padding-left:40px"><span class="tag" style="display:block;margin-bottom:6px">Member</span><span style="color:var(--ink);font-size:30px;letter-spacing:-.02em">Parsa Riahi</span></div>
+  <div style="border-left:1px solid var(--line2);padding-left:40px"><span class="tag" style="display:block;margin-bottom:6px">Live system</span><span class="mono" style="color:var(--ink);font-size:26px">nasa-spaceapps-2026.pages.dev</span></div>
+ </div>
+ <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:auto">
+  <div class="card beam"><img src="build/shots/hot-app.png" style="display:block;width:100%;height:200px;object-fit:cover;object-position:top"><div style="padding:16px 22px 18px"><span class="tag">01 · Detect</span><h3 style="font-size:28px;margin-top:6px">Hot Spots</h3><p style="margin:4px 0 0;color:var(--muted);font-size:17px">MODIS + VIIRS fire record, one scale, 2000–2025</p></div></div>
+  <div class="card beam"><img src="build/shots/sar-app.png" style="display:block;width:100%;height:200px;object-fit:cover;object-position:center 60%"><div style="padding:16px 22px 18px"><span class="tag">02 · Confirm</span><h3 style="font-size:28px;margin-top:6px">SAR Change</h3><p style="margin:4px 0 0;color:var(--muted);font-size:17px">Radar flood mapping, Valencia 2024, NISAR-ready</p></div></div>
+  <div class="card beam"><img src="build/shots/field-app.png" style="display:block;width:100%;height:200px;object-fit:cover;object-position:top"><div style="padding:16px 22px 18px"><span class="tag">03 · Adapt</span><h3 style="font-size:28px;margin-top:6px">Field Shift</h3><p style="margin:4px 0 0;color:var(--muted);font-size:17px">Crop rotation + growing season, Story County, Iowa</p></div></div>
+ </div>
+</section>
+
+<!-- 2 WHY -->
+<section class="s">
+ <div class="top"><span><b>Why</b> · the problem</span><span>2 / 7</span></div>
+ <h2>Earth is changing. <span class="grad">The evidence is scattered across sensors.</span></h2>
+ <p class="lede">Satellites already see these changes, but the evidence rarely reaches a decision intact. Records break when satellites change, clouds hide disasters, and farm plans lag the climate.</p>
+ <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:34px">
+  <div class="card" style="padding:30px 32px 30px"><div class="corner"></div><span class="tag">01 · Detect · Fire</span><h3 style="font-size:34px;margin:12px 0 14px">The fire record is split in two.</h3><p style="margin:0;font-size:20px;line-height:1.45;color:var(--muted)">MODIS (1 km, from 2000) and VIIRS (375 m, from 2012) see fire differently. Over Canada since 2012, VIIRS reports about <b style="color:var(--ink);font-weight:500">5.6 detections for every MODIS one</b>. A 2005 fire season can't be fairly compared with a 2023 one, so a 25-year trend can't be read directly.</p><div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--line)"><strong style="display:block;font-size:40px;font-weight:500;letter-spacing:-.04em;line-height:1">14.6 Mha</strong><p style="margin:8px 0 0;font-size:16px;line-height:1.4;color:var(--faint)">of Canada's forest burned in 2023; over 230,000 people evacuated. Source: Natural Resources Canada</p></div></div>
+  <div class="card" style="padding:30px 32px 30px"><div class="corner"></div><span class="tag">02 · Confirm · Water</span><h3 style="font-size:34px;margin:12px 0 14px">Floods arrive with the clouds.</h3><p style="margin:0;font-size:20px;line-height:1.45;color:var(--muted)">During the storm, optical satellites mostly see cloud. Radar sees through cloud, day and night, but it's hard to read unless you're a specialist. And a single extreme flood raises a harder question: <b style="color:var(--ink);font-weight:500">is it a trend, or one event?</b></p><div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--line)"><strong style="display:block;font-size:40px;font-weight:500;letter-spacing:-.04em;line-height:1">230 deaths</strong><p style="margin:8px 0 0;font-size:16px;line-height:1.4;color:var(--faint)">confirmed after the Oct–Nov 2024 DANA floods in Spain, 222 in the Valencia region. Source: Government of Spain, Info DANA</p></div></div>
+  <div class="card" style="padding:30px 32px 30px"><div class="corner"></div><span class="tag">03 · Adapt · Farms</span><h3 style="font-size:34px;margin:12px 0 14px">Farm plans lag the climate.</h3><p style="margin:0;font-size:20px;line-height:1.45;color:var(--muted)">The rotation a farmer picks this year shapes the soil for years, while frost dates, heat and moisture keep shifting. Farmers need to know <b style="color:var(--ink);font-weight:500">which shifts are real</b> and what they mean for the next plan.</p><div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--line)"><strong style="display:block;font-size:40px;font-weight:500;letter-spacing:-.04em;line-height:1">33%</strong><p style="margin:8px 0 0;font-size:16px;line-height:1.4;color:var(--faint)">of the world's land is moderately to highly degraded. Source: FAO, Status of the World's Soil Resources (2015)</p></div></div>
+ </div>
+ <div class="metrics" style="grid-template-columns:repeat(4,1fr);margin-top:26px">
+  <div><span class="k">Question 1</span><strong>What is changing?</strong><p>Fire activity, rainfall, water storage, growing season</p></div>
+  <div><span class="k">Question 2</span><strong>Where?</strong><p>Per region, province and grid cell, on a map</p></div>
+  <div><span class="k">Question 3</span><strong>How much?</strong><p>Sen's slope per year with a 95% confidence interval</p></div>
+  <div><span class="k">Question 4</span><strong>Is it significant?</strong><p>Mann-Kendall p-value, with an autocorrelation check</p></div>
+ </div>
+ <div class="foot"><span>Orbit to Ground · GeoAI Toronto</span><span>5.6× ratio: our count from NASA FIRMS archives, Canada 2012–2025</span></div>
+</section>
+
+<!-- 3 WHAT / HOW: architecture -->
+<section class="s">
+ <div class="top"><span><b>What</b> · one system, orbit to decision</span><span>3 / 7</span></div>
+ <h2>Detect. Confirm. Adapt. <span class="grad">Then test the trend.</span></h2>
+ <p class="lede">Three working modules share one Trend Detective engine. Each turns NASA observations into a map, a model and a verdict you can check.</p>
+ <svg viewBox="0 0 1712 600" width="1712" height="600" style="margin-top:30px;overflow:visible" font-family="Geist" >
+  <defs>
+   <linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#9ec1ff"/><stop offset="1" stop-color="#d4c4ff"/></linearGradient>
+   <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#9ec1ff"/></marker>
+  </defs>
+  <g font-family="Geist Mono" font-size="14" letter-spacing="2" fill="#8b95ad">
+   <text x="0" y="16">ORBIT · NASA DATA</text><text x="470" y="16">MODULES</text><text x="1010" y="16">TREND DETECTIVE</text><text x="1420" y="16">DECISION</text>
+  </g>
+  <!-- data column -->
+  <g font-size="17" fill="#f4f6fb">
+   <rect x="0" y="36" width="380" height="164" rx="16" fill="rgba(16,20,44,.85)" stroke="rgba(190,205,255,.22)"/>
+   <text x="22" y="72" font-weight="500" font-size="19">Fire</text><text x="22" y="100" fill="#b7c0d6">FIRMS MODIS C6.1 (2000–)</text><text x="22" y="126" fill="#b7c0d6">FIRMS VIIRS S-NPP 375 m (2012–)</text><text x="22" y="152" fill="#b7c0d6">MODIS MCD64A1 burned area</text>
+   <rect x="0" y="216" width="380" height="164" rx="16" fill="rgba(16,20,44,.85)" stroke="rgba(190,205,255,.22)"/>
+   <text x="22" y="252" font-weight="500" font-size="19">Water</text><text x="22" y="280" fill="#b7c0d6">NISAR L2 GCOV via NASA CMR</text><text x="22" y="306" fill="#b7c0d6">OPERA DSWx-S1 · Sentinel-1 RTC</text><text x="22" y="332" fill="#b7c0d6">GRACE/GRACE-FO mascons</text><text x="22" y="358" fill="#b7c0d6">NASA POWER + GPM IMERG rainfall</text>
+   <rect x="0" y="396" width="380" height="164" rx="16" fill="rgba(16,20,44,.85)" stroke="rgba(190,205,255,.22)"/>
+   <text x="22" y="432" font-weight="500" font-size="19">Land</text><text x="22" y="460" fill="#b7c0d6">NASA POWER temperature (1981–)</text><text x="22" y="486" fill="#b7c0d6">SMAP · GLDAS soil moisture</text><text x="22" y="512" fill="#b7c0d6">NASADEM · MOD13Q1 NDVI · HLS</text><text x="22" y="538" fill="#b7c0d6">USDA Cropland Data Layer</text>
+  </g>
+  <g stroke="#9ec1ff" stroke-width="1.5" fill="none" opacity=".75" marker-end="url(#ar)">
+   <path d="M380 118 H462"/><path d="M380 298 H462"/><path d="M380 478 H462"/>
+  </g>
+  <!-- modules -->
+  <g>
+   <rect x="470" y="36" width="440" height="164" rx="18" fill="rgba(22,27,58,.95)" stroke="url(#g)" stroke-width="1.5"/>
+   <text x="494" y="68" font-family="Geist Mono" font-size="14" letter-spacing="2" fill="#9ec1ff">01 · DETECT</text><text x="494" y="102" font-size="27" font-weight="500" fill="#f4f6fb">Hot Spots</text>
+   <text x="494" y="134" font-size="17" fill="#b7c0d6">Empirical-Bayes ratio + LightGBM</text><text x="494" y="160" font-size="17" fill="#b7c0d6">correction, conformal intervals</text><text x="494" y="184" font-size="15" fill="#8b95ad">→ one VIIRS-scale fire calendar</text>
+   <rect x="470" y="216" width="440" height="164" rx="18" fill="rgba(22,27,58,.95)" stroke="url(#g)" stroke-width="1.5"/>
+   <text x="494" y="248" font-family="Geist Mono" font-size="14" letter-spacing="2" fill="#9ec1ff">02 · CONFIRM</text><text x="494" y="282" font-size="27" font-weight="500" fill="#f4f6fb">SAR Change</text>
+   <text x="494" y="314" font-size="17" fill="#b7c0d6">U-Net water model on radar,</text><text x="494" y="340" font-size="17" fill="#b7c0d6">before/after change, OPERA water</text><text x="494" y="364" font-size="15" fill="#8b95ad">→ flood extent through cloud and night</text>
+   <rect x="470" y="396" width="440" height="164" rx="18" fill="rgba(22,27,58,.95)" stroke="url(#g)" stroke-width="1.5"/>
+   <text x="494" y="428" font-family="Geist Mono" font-size="14" letter-spacing="2" fill="#9ec1ff">03 · ADAPT</text><text x="494" y="462" font-size="27" font-weight="500" fill="#f4f6fb">Field Shift</text>
+   <text x="494" y="494" font-size="17" fill="#b7c0d6">LightGBM next-crop model +</text><text x="494" y="520" font-size="17" fill="#b7c0d6">NSGA-II rotation search</text><text x="494" y="544" font-size="15" fill="#8b95ad">→ ranked four-year rotations</text>
+  </g>
+  <g stroke="#9ec1ff" stroke-width="1.5" fill="none" opacity=".75">
+   <path d="M910 118 C960 118 960 298 1002 298"/><path d="M910 298 H1002" marker-end="url(#ar)"/><path d="M910 478 C960 478 960 298 1002 298"/>
+  </g>
+  <!-- engine -->
+  <rect x="1010" y="96" width="350" height="404" rx="22" fill="rgba(30,30,72,.92)" stroke="url(#g)" stroke-width="2"/>
+  <text x="1036" y="138" font-size="27" font-weight="500" fill="#f4f6fb">Annual series</text>
+  <text x="1036" y="166" font-size="16" fill="#b7c0d6">one value per year, per region / cell</text>
+  <line x1="1036" x2="1334" y1="190" y2="190" stroke="rgba(190,205,255,.2)"/>
+  <text x="1036" y="226" font-size="21" fill="#f4f6fb">Mann-Kendall test</text><text x="1036" y="250" font-size="15.5" fill="#8b95ad">two-sided, α = 0.05</text>
+  <text x="1036" y="290" font-size="21" fill="#f4f6fb">Sen's slope + 95% CI</text><text x="1036" y="314" font-size="15.5" fill="#8b95ad">robust change per year</text>
+  <text x="1036" y="354" font-size="21" fill="#f4f6fb">Hamed-Rao check</text><text x="1036" y="378" font-size="15.5" fill="#8b95ad">autocorrelation-corrected p</text>
+  <line x1="1036" x2="1334" y1="402" y2="402" stroke="rgba(190,205,255,.2)"/>
+  <text x="1036" y="436" font-family="Geist Mono" font-size="14" letter-spacing="1.5" fill="#d4c4ff">VERDICT: WHAT · WHERE ·</text><text x="1036" y="462" font-family="Geist Mono" font-size="14" letter-spacing="1.5" fill="#d4c4ff">HOW MUCH · SIGNIFICANT?</text>
+  <path d="M1360 298 H1412" stroke="#9ec1ff" stroke-width="1.5" marker-end="url(#ar)" opacity=".75"/>
+  <!-- decision -->
+  <g font-size="17">
+   <rect x="1420" y="96" width="292" height="122" rx="16" fill="rgba(16,20,44,.85)" stroke="rgba(190,205,255,.22)"/><text x="1442" y="134" font-size="21" font-weight="500" fill="#f4f6fb">Fire managers</text><text x="1442" y="162" fill="#b7c0d6">Is this season truly</text><text x="1442" y="186" fill="#b7c0d6">unusual for this area?</text>
+   <rect x="1420" y="237" width="292" height="122" rx="16" fill="rgba(16,20,44,.85)" stroke="rgba(190,205,255,.22)"/><text x="1442" y="275" font-size="21" font-weight="500" fill="#f4f6fb">Flood responders</text><text x="1442" y="303" fill="#b7c0d6">Where is the water now,</text><text x="1442" y="327" fill="#b7c0d6">and is the risk trending?</text>
+   <rect x="1420" y="378" width="292" height="122" rx="16" fill="rgba(16,20,44,.85)" stroke="rgba(190,205,255,.22)"/><text x="1442" y="416" font-size="21" font-weight="500" fill="#f4f6fb">Farmers, advisers</text><text x="1442" y="444" fill="#b7c0d6">Which rotation fits the</text><text x="1442" y="468" fill="#b7c0d6">season we now have?</text>
+  </g>
+ </svg>
+ <div class="foot"><span>How: Python (LightGBM, PyTorch, ONNX, pymannkendall) · static web (Leaflet) · runs in the browser, no server</span><span>Orbit to Ground · GeoAI Toronto</span></div>
+</section>
+
+<!-- 4 HOT SPOTS -->
+<section class="s">
+ <div class="top"><span><b>01 · Detect</b> · Hot Spots · fire</span><span>4 / 7</span></div>
+ <h2>Is fire activity in Canada increasing? <span class="grad">Yes.</span></h2>
+ <div style="display:grid;grid-template-columns:470px 1fr;gap:44px;margin-top:22px;flex:1;min-height:0">
+  <div class="wwh">
+   <div><span class="tag">Why</span><p>MODIS and VIIRS count fire on <b>different scales</b>, so the 25-year record breaks in 2012.</p></div>
+   <div><span class="tag">What</span><p>A <b>harmonized 2000–2025 fire calendar</b> for any area, with calibrated uncertainty, plus a per-province trend test.</p></div>
+   <div><span class="tag">How</span><p><b>11,616,131 FIRMS detections</b> on a 0.25° grid. Per-cell empirical-Bayes ratio + LightGBM correction (train 2012–20, tune 2021, test 2022–25), conformal intervals. Trend: annual totals 2003–2025.</p></div>
+   <div><span class="tag">Trend verdict</span><p>Canada rises on all three MODIS-era series (count, harmonized, fire power) and an independent burned-area product agrees. Argentina falls. Province-level calls are tentative: harmonized significant in AB, BC, NB, NS, NU; MODIS-only in none.</p></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1.12fr 1fr;gap:22px;align-content:start">
+   <img class="shot" src="build/shots/hotspots-tw.png" style="height:404px;object-fit:cover;object-position:top left">
+   <img class="shot" src="build/shots/hot-app.png" style="height:404px;object-fit:cover;object-position:top left">
+   <div class="metrics" style="grid-column:1/-1;grid-template-columns:repeat(5,1fr)">
+    <div class="yes"><span class="k">Canada · MODIS count</span><strong>+3,019/yr</strong><p>95% CI +81 to +5,184 · p = 0.035</p></div>
+    <div class="yes"><span class="k">Burned area · MCD64A1</span><strong>+272 km²/yr</strong><p>independent check, boreal tile h11v03 (BC/AB/SK) · p = 0.004</p></div>
+    <div><span class="k">Argentina · MODIS</span><strong>−1,909/yr</strong><p>falling · p &lt; 0.001</p></div>
+    <div><span class="k">Model vs baseline</span><strong>−8.5% RMSE</strong><p>0.2844 vs 0.3109, Canada 2022–25 · 88.6% interval coverage (target 90%)</p></div>
+    <div class="neg"><span class="k">Honest miss</span><strong>39.4%</strong><p>Canada monthly-total error vs 16.7% for the baseline</p></div>
+   </div>
+  </div>
+ </div>
+ <div class="foot"><span>NASA FIRMS MODIS C6.1 (MCD14ML) + VIIRS S-NPP (VNP14IMG) · MODIS MCD64A1 (LP DAAC) · Mann-Kendall + Sen's slope</span><span>Live: /hotspots/ · /hotspots/app/</span></div>
+</section>
+
+<!-- 5 SAR CHANGE -->
+<section class="s">
+ <div class="top"><span><b>02 · Confirm</b> · SAR Change · water</span><span>5 / 7</span></div>
+ <h2>Was the Valencia flood a trend? <span class="grad">No. The water was real.</span></h2>
+ <div style="display:grid;grid-template-columns:470px 1fr;gap:44px;margin-top:22px;flex:1;min-height:0">
+  <div class="wwh">
+   <div><span class="tag">Why</span><p>The 29 Oct 2024 DANA flood came under cloud. <b>Radar sees through cloud and night</b>, but it's hard to read.</p></div>
+   <div><span class="tag">What</span><p>An interactive radar flood viewer: swipe, time-lapse, change map, a water model and NASA OPERA water maps. <b>NISAR-ready</b>: NISAR data begin after this flood, so the viewer is set up for the next one.</p></div>
+   <div><span class="tag">How</span><p>26 Sentinel-1 RTC passes; a U-Net trained on Sen1Floods11; NASA/JPL OPERA DSWx-S1 as an independent check; 198 NISAR L2 GCOV granules (2025–26) found via NASA CMR.</p></div>
+   <div><span class="tag">Trend verdict</span><p>NASA POWER (45 yr) and GPM IMERG (27 yr) rain show <b>no significant trend</b> around Valencia. One flood isn't a trend. GRACE/GRACE-FO shows the region's water storage falling.</p></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1.05fr;gap:18px;align-content:start">
+   <figure style="margin:0"><img class="shot" src="build/shots/opera-before-crop.png" style="height:300px;object-fit:cover"><figcaption class="mono" style="font-size:13px;color:var(--faint);margin-top:8px;letter-spacing:.05em">OPERA DSWX-S1 · 26 OCT 2024 · BEFORE</figcaption></figure>
+   <figure style="margin:0"><img class="shot" src="build/shots/opera-after-crop.png" style="height:300px;object-fit:cover"><figcaption class="mono" style="font-size:13px;color:var(--faint);margin-top:8px;letter-spacing:.05em">31 OCT 2024 · LILAC = WATER OUTSIDE USUAL</figcaption></figure>
+   <figure style="margin:0"><img class="shot" src="build/shots/sar-change-tw.png" style="height:300px;object-fit:cover;object-position:top left"><figcaption class="mono" style="font-size:13px;color:var(--faint);margin-top:8px;letter-spacing:.05em">TREND WIDGET · NASA POWER 1981–2025</figcaption></figure>
+   <div class="metrics" style="grid-column:1/-1;grid-template-columns:repeat(5,1fr);margin-top:6px">
+    <div class="yes"><span class="k">New water (OPERA)</span><strong style="font-size:27px;white-space:nowrap">30.7 → 77.7 km²</strong><p>water outside usual, 26 → 31 Oct 2024, mostly Albufera rice belt</p></div>
+    <div><span class="k">Water model</span><strong>66.4% IoU</strong><p>U-Net vs 21.8% per-chip Otsu, Sen1Floods11 test split</p></div>
+    <div><span class="k">Valencia · wettest day</span><strong>No trend</strong><p>+0.08 mm/yr · p = 0.28 · 1981–2025</p></div>
+    <div class="yes"><span class="k">Valencia · GRACE storage</span><strong>−0.39 cm/yr</strong><p>p = 0.002 · 2003–2025</p></div>
+    <div><span class="k">Rain check · GPM IMERG</span><strong>No trend</strong><p>Valencia annual total · p = 0.62 · 1998–2024</p></div>
+   </div>
+  </div>
+ </div>
+ <div class="foot"><span>OPERA DSWx-S1 (PO.DAAC) · NISAR GCOV (CMR, ASF DAAC) · GRACE/GRACE-FO (PO.DAAC) · GPM IMERG (GES DISC) · NASA POWER · ESA Sentinel-1</span><span>Live: /sar-change/ · /sar-change/app/</span></div>
+</section>
+
+<!-- 6 FIELD SHIFT -->
+<section class="s">
+ <div class="top"><span><b>03 · Adapt</b> · Field Shift · farms</span><span>6 / 7</span></div>
+ <h2>Is Iowa's growing season changing? <span class="grad">Yes, it's longer.</span></h2>
+ <div style="display:grid;grid-template-columns:470px 1fr;gap:44px;margin-top:22px;flex:1;min-height:0">
+  <div class="wwh">
+   <div><span class="tag">Why</span><p>A rotation shapes the soil for years, while <b>frost, heat and moisture shift</b> underneath it.</p></div>
+   <div><span class="tag">What</span><p>A rotation explorer for Story County, Iowa: predict next season's crop, then <b>search and rank four-year rotations</b> by the farmer's own priorities.</p></div>
+   <div><span class="tag">How</span><p>USDA CDL 2009–2025, NASADEM, NASA POWER, MODIS NDVI and SoilGrids feed a LightGBM model (test 2024–25) and an NSGA-II search: 36 non-dominated rotations, re-ranked by five sliders.</p></div>
+   <div><span class="tag">Trend verdict</span><p>The frost-free season is lengthening because the <b>first autumn frost comes later</b> (all 35 grid cells). Spring frost, summer rain and soil moisture (NASA POWER, SMAP, GLDAS) show no significant trend.</p></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1.12fr 1fr;gap:22px;align-content:start">
+   <img class="shot" src="build/shots/field-shift-tw.png" style="height:404px;object-fit:cover;object-position:top left">
+   <img class="shot" src="build/shots/field-app.png" style="height:404px;object-fit:cover;object-position:top left">
+   <div class="metrics" style="grid-column:1/-1;grid-template-columns:repeat(5,1fr)">
+    <div class="yes"><span class="k">Frost-free season</span><strong>+0.43 d/yr</strong><p>central Iowa · p = 0.006 · 1981–2025</p></div>
+    <div class="yes"><span class="k">First autumn frost</span><strong>Later</strong><p>+0.40 d/yr · p &lt; 0.001 · 35/35 cells</p></div>
+    <div class="yes"><span class="k">May–Sep corn GDD</span><strong>+4.6 /yr</strong><p>p &lt; 0.001</p></div>
+    <div><span class="k">Next-crop model</span><strong>0.8176</strong><p>accuracy · macro-F1 0.5012 vs Markov-2 0.8136 / 0.4633</p></div>
+    <div class="neg"><span class="k">Honest miss</span><strong>ECE 0.0351</strong><p>temperature scaling hurt calibration (raw 0.016), so raw probabilities are kept</p></div>
+   </div>
+  </div>
+ </div>
+ <div class="foot"><span>NASA POWER · SMAP (NSIDC) · GLDAS (GES DISC) · HLS · NASADEM · MOD13Q1 · USDA CDL · SoilGrids</span><span>Live: /field-shift/ · /field-shift/app/</span></div>
+</section>
+
+<!-- 7 VERDICT + HOW WE KNOW -->
+<section class="s">
+ <div class="top"><span><b>How we know</b> · the Trend Detective verdict board</span><span>7 / 7</span></div>
+ <h2>Same test everywhere. <span class="grad">Shown even when the answer is no.</span></h2>
+ <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:40px;margin-top:22px">
+  <div class="card" style="padding:8px 26px 10px">
+   <table style="font-size:20px">
+    <thead><tr class="mono" style="font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)"><td style="padding:14px 0">What</td><td>Where</td><td>How much / yr</td><td style="text-align:right">Significant?</td></tr></thead>
+    <tbody style="color:var(--muted)">
+     <tr style="border-top:1px solid var(--line)"><td style="padding:13px 0;color:var(--ink)">Active fires (MODIS)</td><td>Canada 2003–25</td><td>+3,019</td><td style="text-align:right;color:var(--ok)">Yes · p = 0.035</td></tr>
+     <tr style="border-top:1px solid var(--line)"><td style="padding:13px 0;color:var(--ink)">Active fires (MODIS)</td><td>Argentina 2003–25</td><td>−1,909</td><td style="text-align:right;color:var(--ok)">Yes · p &lt; 0.001</td></tr>
+     <tr style="border-top:1px solid var(--line)"><td style="padding:13px 0;color:var(--ink)">Burned area (MCD64A1)</td><td>Boreal BC/AB/SK 2003–25</td><td>+272 km²</td><td style="text-align:right;color:var(--ok)">Yes · p = 0.004</td></tr>
+     <tr style="border-top:1px solid var(--line)"><td style="padding:13px 0;color:var(--ink)">Wettest-day rain</td><td>E. Spain 1981–25</td><td>+0.08 mm</td><td style="text-align:right">No · p = 0.28</td></tr>
+     <tr style="border-top:1px solid var(--line)"><td style="padding:13px 0;color:var(--ink)">Annual rain (GPM IMERG)</td><td>E. Spain 1998–2024</td><td>+1.78 mm</td><td style="text-align:right">No · p = 0.62</td></tr>
+     <tr style="border-top:1px solid var(--line)"><td style="padding:13px 0;color:var(--ink)">Water storage (GRACE)</td><td>E. Spain 2003–25</td><td>−0.39 cm</td><td style="text-align:right;color:var(--ok)">Yes · p = 0.002</td></tr>
+     <tr style="border-top:1px solid var(--line)"><td style="padding:13px 0;color:var(--ink)">Water storage (GRACE)</td><td>S. Ontario 2003–25</td><td>+0.55 cm</td><td style="text-align:right;color:var(--ok)">Yes · p = 0.014</td></tr>
+     <tr style="border-top:1px solid var(--line)"><td style="padding:13px 0;color:var(--ink)">Frost-free season</td><td>Central Iowa 1981–25</td><td>+0.43 days</td><td style="text-align:right;color:var(--ok)">Yes · p = 0.006</td></tr>
+     <tr style="border-top:1px solid var(--line)"><td style="padding:13px 0;color:var(--ink)">May–Sep corn GDD</td><td>Central Iowa 1981–25</td><td>+4.6 °C·days</td><td style="text-align:right;color:var(--ok)">Yes · p &lt; 0.001</td></tr>
+     <tr style="border-top:1px solid var(--line)"><td style="padding:13px 0;color:var(--ink)">Water storage (GRACE)</td><td>Central Iowa 2003–25</td><td>−0.12 cm</td><td style="text-align:right">No · p = 0.57</td></tr>
+     <tr style="border-top:1px solid var(--line)"><td style="padding:13px 0;color:var(--ink)">Soil moisture (SMAP)</td><td>Central Iowa 2015–25</td><td>−0.0015 m³/m³</td><td style="text-align:right">No · p = 0.21</td></tr>
+    </tbody>
+   </table>
+  </div>
+  <div style="display:grid;gap:18px;align-content:start">
+   <div class="wwh">
+    <div><span class="tag">Held-out years</span><p>Every model is trained on earlier years and scored on later ones, against simple baselines.</p></div>
+    <div><span class="tag">Second source</span><p>Fire counts checked against MCD64A1 burned area; reanalysis rain against GPM IMERG; soil water against SMAP and GLDAS.</p></div>
+    <div><span class="tag">Autocorrelation</span><p>Hamed-Rao check on every trend. Ontario's reanalysis rain drop (p = 0.006) fails it (p = 0.052) and GPM IMERG doesn't confirm it, so we don't call it.</p></div>
+    <div><span class="tag">Not cause</span><p>Significance shows change, not why. Sensor and reanalysis changes are disclosed.</p></div>
+   </div>
+   <div class="card beam" style="padding:20px 24px"><span class="tag">Next</span><p style="margin:8px 0 0;font-size:18px;line-height:1.45;color:var(--muted)">Rain-gauge checks, NOAA-20/21 VIIRS, NISAR L-band for the next flood, more counties and regions, and a pick-any-place trend tool.</p></div>
+   <div class="card" style="padding:20px 24px"><span class="tag">Try it live</span><p class="mono" style="margin:10px 0 0;font-size:17px;line-height:1.7;color:var(--ink)">nasa-spaceapps-2026.pages.dev<br><span style="color:var(--muted)">/hotspots/app/ · /sar-change/app/ · /field-shift/app/</span></p></div>
+  </div>
+ </div>
+ <div class="foot"><span>nasa-spaceapps-2026.pages.dev · code Apache-2.0 · AI coding assistants helped with code and text; all numbers come from our own runs on public data · not affiliated with NASA</span><span>GeoAI Toronto</span></div>
+</section>
+</body></html>

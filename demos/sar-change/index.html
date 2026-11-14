@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dancing with the SARs — Valencia DANA flood (NASA Space Apps demo)</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="briefing.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="kicker">NASA Space Apps 2026 · unlisted demo · not submitted</div>
+      <h1 style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">Dancing with the SARs <button type="button" class="bf-inline" data-briefing-open="1">▶ Experiment briefing</button></h1>
+      <p class="sub">Interactive radar view of the 29 October 2024 DANA flood in Valencia, Spain, from Sentinel-1 C-band RTC, plus Sen1Floods11 chips, NISAR L-band browse imagery, and an honest water-IoU table.</p>
+      <nav class="tabs" role="tablist" aria-label="Sections">
+        <button role="tab" aria-selected="true" data-tab="viewer" id="tab-viewer">Viewer</button>
+        <button role="tab" aria-selected="false" data-tab="physics" id="tab-physics">Why radar works here</button>
+        <button role="tab" aria-selected="false" data-tab="metrics" id="tab-metrics">Metrics</button>
+        <button role="tab" aria-selected="false" data-tab="nisar" id="tab-nisar">NISAR</button>
+        <button role="tab" aria-selected="false" data-tab="citations" id="tab-citations">Citations</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel active" id="panel-viewer" role="tabpanel" aria-labelledby="tab-viewer">
+      <div class="card">
+        <div class="row">
+          <label class="ctrl">Mode
+            <select id="mode">
+              <option value="swipe">Before / after swipe</option>
+              <option value="timelapse">Time-lapse scrub</option>
+              <option value="sen1">Sen1Floods11 chips</option>
+            </select>
+          </label>
+          <label class="ctrl" id="orbitWrap">Orbit (same track only)
+            <select id="orbit"></select>
+          </label>
+          <label class="ctrl" id="pairWrap">Pair
+            <select id="pair"></select>
+          </label>
+          <label class="ctrl">Product
+            <select id="product">
+              <option value="fcc">False color (VV, VH, VV/VH)</option>
+              <option value="vv">VV backscatter</option>
+              <option value="vh">VH backscatter</option>
+            </select>
+          </label>
+          <button class="btn" id="playBtn" hidden>Play</button>
+        </div>
+        <p class="hint" id="modeHint"></p>
+      </div>
+
+      <div id="valenciaView">
+        <div class="card">
+          <div id="swipeBox" class="swipe-wrap" aria-label="Before and after radar swipe">
+            <img id="afterImg" alt="After the flood">
+            <div class="swipe-before" id="beforeClip">
+              <img id="beforeImg" alt="Before the flood">
+            </div>
+            <div class="swipe-handle" id="swipeHandle" role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-label="Swipe position">
+              <div class="swipe-knob">↔</div>
+            </div>
+          </div>
+          <div class="cap" id="swipeCap">
+            <span id="preCap"></span>
+            <span class="event">29 Oct 2024 DANA</span>
+            <span id="postCap"></span>
+          </div>
+          <div id="changeBox" hidden>
+            <p class="change-note">VV dB difference (post minus pre). Cyan is a decrease in backscatter, often standing water or a smoother surface. Amber is an increase. Same orbit, same grid, real pixels — not a model output.</p>
+            <div class="stage"><img id="changeImg" alt="VV backscatter change map"></div>
+            <div class="legend">
+              <span><i class="swatch" style="background:#14c8d0"></i> lower VV (water-like)</span>
+              <span><i class="swatch" style="background:#d4a22a"></i> higher VV</span>
+            </div>
+          </div>
+        </div>
+        <div class="card" id="tlBox" hidden>
+          <div class="stage"><img id="tlImg" alt="Sentinel-1 time-lapse frame"></div>
+          <div class="timeline">
+            <input type="range" id="tlRange" min="0" max="6" value="0" step="1" aria-label="Time-lapse date">
+            <div class="ticks" id="tlTicks"></div>
+          </div>
+          <p class="hint" id="tlCap"></p>
+        </div>
+      </div>
+
+      <div id="sen1View" hidden>
+        <div class="card">
+          <p class="hint">Official Sen1Floods11 hand-labelled test chips. Images are real VV/VH (already in dB). The cyan overlay is the hand label; amber is the dataset's per-chip Otsu baseline; blue is JRC permanent water.</p>
+          <div class="chip-grid" id="chipGrid"></div>
+        </div>
+        <div class="card">
+          <div class="overlay-toggles">
+            <label><input type="checkbox" id="ovLabel" checked> Hand label</label>
+            <label><input type="checkbox" id="ovOtsu"> Otsu baseline</label>
+            <label><input type="checkbox" id="ovJrc"> JRC permanent water</label>
+          </div>
+          <div class="compare">
+            <div class="stage" style="position:relative">
+              <img id="sen1Base" alt="Selected Sen1Floods11 chip">
+              <img id="sen1Ov1" alt="" style="position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none">
+              <img id="sen1Ov2" alt="" style="position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none">
+              <img id="sen1Ov3" alt="" style="position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none">
+            </div>
+            <div>
+              <h3 id="sen1Title" style="margin-top:0"></h3>
+              <p class="hint" id="sen1Meta"></p>
+              <div class="legend">
+                <span><i class="swatch" style="background:#00c8dc"></i> Hand-labelled water</span>
+                <span><i class="swatch" style="background:#ffaa28"></i> Otsu water</span>
+                <span><i class="swatch" style="background:#4670ff"></i> JRC permanent water</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-physics" role="tabpanel" aria-labelledby="tab-physics">
+      <div class="card caveat">These scenes are C-band Sentinel-1 (5.4 GHz, ~5.6 cm wavelength) from 2024. NISAR L-band (~1.25 GHz, ~24 cm) was not yet imaging Valencia during the 29 Oct 2024 flood. The NISAR browses below are later (2025–2026) public previews of the same region, used here to explain the physics we would apply to a Saturday .h5 granule — not as images of the DANA event itself.</div>
+      <div class="phys-grid">
+        <article class="card">
+          <h3>VV, VH, and the VV/VH ratio</h3>
+          <p>A SAR instrument sends a microwave pulse and listens for the echo (backscatter). Polarization names the electric-field direction: <strong>VV</strong> is vertical transmit and vertical receive; <strong>VH</strong> is vertical transmit and horizontal receive (cross-pol).</p>
+          <p>Smooth open water acts like a mirror. The pulse reflects away from the satellite (<em>specular reflection</em>), so VV backscatter drops and water looks dark. Cross-pol (VH) is already weak over smooth water, so the <strong>VV/VH ratio</strong> (VV minus VH in dB) helps separate wind-roughened water, wet soil, and vegetation.</p>
+          <p>The false-color product in the viewer is exactly that: red = VV, green = VH, blue = VV/VH, stretched with a shared 2–98 percentile per orbit so the time-lapse does not flicker.</p>
+        </article>
+        <article class="card">
+          <h3>Dielectric constant and roughness</h3>
+          <svg class="diagram" viewBox="0 0 400 220" role="img" aria-label="Specular reflection off smooth water versus rough-surface scatter">
+            <text x="12" y="20" fill="#9aa8bd" font-size="12" font-family="sans-serif">Smooth water — energy glances away</text>
+            <rect x="20" y="150" width="160" height="10" fill="#1c3a55"/>
+            <path d="M60 70 L120 150" stroke="#3ce0f0" stroke-width="2" fill="none"/>
+            <path d="M120 150 L180 70" stroke="#3ce0f0" stroke-width="2" fill="none" stroke-dasharray="5 4"/>
+            <circle cx="60" cy="70" r="4" fill="#3ce0f0"/>
+            <text x="200" y="20" fill="#9aa8bd" font-size="12" font-family="sans-serif">Rough / vegetated — energy returns</text>
+            <polyline points="220,160 240,148 260,166 280,146 300,164 320,150 340,162 360,148" fill="none" stroke="#5dcc8a" stroke-width="2"/>
+            <path d="M250 70 L280 150" stroke="#f0b43c" stroke-width="2" fill="none"/>
+            <path d="M280 150 L265 80" stroke="#f0b43c" stroke-width="2" fill="none"/>
+            <path d="M280 150 L310 90" stroke="#f0b43c" stroke-width="2" fill="none"/>
+          </svg>
+          <p>Radar is most sensitive to two things: <strong>surface roughness</strong> relative to the wavelength, and the <strong>dielectric constant</strong>. Liquid water has a very high dielectric constant, so wet soil and inundation change the return even when the geometry stays the same. That is why a dark VV patch after 29 October is physically meaningful, not just a contrast stretch.</p>
+        </article>
+        <article class="card">
+          <h3>Why NISAR L-band can see flood under a canopy</h3>
+          <p>C-band (Sentinel-1) interacts strongly with leaves and small branches. In orchards, marshes, and the Albufera wetland, C-band often never reaches the water under the vegetation, so a flood can be missed. L-band (NISAR) is about four times longer. It penetrates deeper into the canopy and can return a double-bounce signature from trunk and water — a brighter, not darker, response in inundated forest.</p>
+          <p>That contrast — C-band dark open water versus L-band canopy-penetrating inundation — is the story this challenge is built for. Saturday's Earthdata .h5 hook is how we put real NISAR polarizations on the same map.</p>
+        </article>
+        <article class="card">
+          <h3>What this viewer is (and is not)</h3>
+          <p>Every Valencia frame is a real Sentinel-1 RTC GeoTIFF, downsampled for the web, with VV, VH, and VV/VH rendered from the same pixels. Before/after pairs are always the same orbit and the same grid. The change map is a VV dB difference, not a neural-network mask.</p>
+          <p>The U-Net numbers in the Metrics tab were measured on Sen1Floods11, not on these Valencia tiles. Valencia is the storytelling AOI; Sen1Floods11 is the labelled test set. We do not pretend otherwise.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-metrics" role="tabpanel" aria-labelledby="tab-metrics">
+      <div class="card caveat" id="metricCaveat"></div>
+      <div class="card">
+        <h3>Test water IoU on Sen1Floods11 (official hand-labelled test split, 90 chips)</h3>
+        <div class="bars" id="iouBars"></div>
+      </div>
+      <div class="card">
+        <h3>Channel ablation (same U-Net recipe, test water IoU)</h3>
+        <div class="bars" id="ablateBars"></div>
+        <p class="hint">Adding VH, then the VV/VH ratio, is the only change between these three arms. The ratio arm is the strongest of the three on this seed.</p>
+      </div>
+      <div class="card">
+        <h3>CPU inference on a 512-pixel tile (Colab CPU, not an edge device)</h3>
+        <table class="metrics" id="inferTable"></table>
+        <p class="hint" id="int8Note"></p>
+      </div>
+      <div class="card">
+        <h3>Saturday hooks</h3>
+        <p>The trained ONNX weights and any NISAR .h5 granules are not in this tree (the free T4 runtime ended before the export was saved; .h5 files need an Earthdata login). The CLI hooks are ready:</p>
+        <pre>python plugins/infer.py --onnx /path/to/unet.onnx --vv tile_vv.tif --vh tile_vh.tif --out pred.png
+python plugins/nisar_h5.py --h5 /path/to/NISAR_L2_PR_GCOV_....h5 --out-dir ./nisar_extracted</pre>
+        <p class="hint">Tiled 512 px inference with 64 px cosine blending, CPU only, no credentials in the repo.</p>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-nisar" role="tabpanel" aria-labelledby="tab-nisar">
+      <div class="card">
+        <p>Public NISAR GCOV browse PNGs and CMR metadata, staged locally. These are L-band previews over Valencia, Toronto, and Jasper from 2025–2026 — later than the DANA flood. Full geocoded polarimetry lives in the companion .h5 granules (typically 1.5–7 GB) at the ASF DAAC and is not shipped here.</p>
+        <div id="nisarCatalog"></div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-citations" role="tabpanel" aria-labelledby="tab-citations">
+      <div class="card">
+        <h3>Data and software</h3>
+        <ol class="cites" id="citeList"></ol>
+        <p>Original software in this folder is licensed under Apache License 2.0. NASA content remains in the public domain. Sen1Floods11 is CC-BY-4.0. Cite every source in a Space Apps submission and disclose this pre-existing tooling.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Local demo for NASA International Space Apps Challenge 2026, challenge “Dancing with the SARs”. Apache-2.0. Unlisted demo, not submitted, not a published benchmark.</p>
+    <p class="status" id="loadStatus">Loading staged tiles…</p>
+  </footer>
+  <script src="app.js"></script>
+  <script src="briefing.js"></script>
+  <script src="briefing_content.js"></script>
+</body>
+</html>

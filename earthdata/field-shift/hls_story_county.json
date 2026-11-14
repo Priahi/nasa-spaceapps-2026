@@ -1,0 +1,58 @@
+{
+ "product": "HLS v2.0 HLSL30 + HLSS30 (LP DAAC), 30 m",
+ "aoi": "Story County, Iowa bbox -93.70,41.86,-93.23,42.21",
+ "tile": "T15TVG",
+ "scenes": {
+  "HLS.L30.T15TVG.2025204T165916.v2.0": {
+   "date": "2025-07-23",
+   "sensor": "L30",
+   "valid_frac": 0.95,
+   "ndvi_median": 0.914,
+   "ndvi_gt_0p7_frac": 0.921
+  },
+  "HLS.L30.T15TVG.2025212T165919.v2.0": {
+   "date": "2025-07-31",
+   "sensor": "L30",
+   "valid_frac": 0.912,
+   "ndvi_median": 0.897,
+   "ndvi_gt_0p7_frac": 0.944
+  },
+  "HLS.S30.T15TVG.2024214T170851.v2.0": {
+   "date": "2024-08-01",
+   "sensor": "S30",
+   "valid_frac": 0.595,
+   "ndvi_median": 0.904,
+   "ndvi_gt_0p7_frac": 0.909
+  },
+  "HLS.S30.T15TVG.2025195T165921.v2.0": {
+   "date": "2025-07-14",
+   "sensor": "S30",
+   "valid_frac": 0.904,
+   "ndvi_median": 0.898,
+   "ndvi_gt_0p7_frac": 0.924
+  },
+  "HLS.S30.T15TVG.2025225T165911.v2.0": {
+   "date": "2025-08-13",
+   "sensor": "S30",
+   "valid_frac": 0.796,
+   "ndvi_median": 0.906,
+   "ndvi_gt_0p7_frac": 0.933
+  }
+ },
+ "pair": {
+  "2024": [
+   "HLS.S30.T15TVG.2024214T170851.v2.0",
+   "2024-08-01"
+  ],
+  "2025": [
+   "HLS.L30.T15TVG.2025212T165919.v2.0",
+   "2025-07-31"
+  ]
+ },
+ "pair_valid_km2": 880.5,
+ "pair_vegetated_km2": 866.4,
+ "ndvi_change_median_vegetated": -0.01,
+ "vegetated_km2_ndvi_up_gt_0p1": 42.1,
+ "vegetated_km2_ndvi_down_gt_0p1": 22.4,
+ "note": "Single-date mid-summer NDVI difference between two different years/sensors; shows field-by-field contrast, not a crop-type classification."
+}

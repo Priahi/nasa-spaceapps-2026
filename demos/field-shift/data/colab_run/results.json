@@ -1,0 +1,159 @@
+{
+  "label": "Colab Full-County Run (2024\u201325)",
+  "caveat": "One seed (0), not a published benchmark. Personal Colab CPU, Story County, Iowa (FIPS 19169). Same temporal split as the local demo: train 2009\u20132021 after 5-year lags, validation 2022\u20132023, test 2024\u20132025. Sample of 400,000 farmed 30 m pixels (266,664 / 66,666 / 66,666). 25 Optuna trials. Temperature scaling fit on validation years slightly worsened test ECE (0.016 \u2192 0.0351) and NLL (0.4936 \u2192 0.5022); the raw probabilities are the more honest calibration from this run. other_crop F1 is 0.0 (hay 0.3346).",
+  "source": "/workspace/colab_queue/runs/03_nasa_crop_rotation/",
+  "runtime_seconds": 1599.6,
+  "seed": 0,
+  "smoke": false,
+  "note": "one seed, not a published benchmark",
+  "fips": "19169",
+  "years": [
+    2009,
+    2025
+  ],
+  "val_years": [
+    2022,
+    2023
+  ],
+  "test_years": [
+    2024,
+    2025
+  ],
+  "n_lags": 5,
+  "n_pixels_sampled": 400000,
+  "n_train": 266664,
+  "n_val": 66666,
+  "n_test": 66666,
+  "hpo_trials": 25,
+  "best_params": {
+    "num_leaves": 19,
+    "min_data_in_leaf": 325,
+    "learning_rate": 0.0237,
+    "feature_fraction": 0.9878,
+    "lambda_l2": 0.0047
+  },
+  "baselines": {
+    "persistence": {
+      "acc": 0.299,
+      "macro_f1": 0.2749
+    },
+    "corn_soy_alternation": {
+      "acc": 0.7415,
+      "macro_f1": 0.4564
+    },
+    "markov2": {
+      "acc": 0.8136,
+      "macro_f1": 0.4633
+    }
+  },
+  "lgbm": {
+    "acc": 0.8176,
+    "macro_f1": 0.5012,
+    "per_class_f1": {
+      "corn": 0.8608,
+      "soy": 0.8001,
+      "hay": 0.3346,
+      "grass": 0.7984,
+      "other_crop": 0.0,
+      "non_ag": 0.2136
+    },
+    "delta_acc_vs_markov2": 0.004,
+    "delta_macro_f1_vs_markov2": 0.0379,
+    "beats_markov2_on_macro_f1": true,
+    "top_features_gain": [
+      [
+        "lag2",
+        2647752.5414
+      ],
+      [
+        "lag1",
+        2645392.1043
+      ],
+      [
+        "lag4",
+        386617.5849
+      ],
+      [
+        "n_corn",
+        239621.6748
+      ],
+      [
+        "n_hay",
+        169206.8299
+      ],
+      [
+        "lag3",
+        133574.0421
+      ],
+      [
+        "n_soy",
+        97849.209
+      ],
+      [
+        "prev_ndvi_peak",
+        77215.5643
+      ],
+      [
+        "prev_gs_precip",
+        74842.9007
+      ],
+      [
+        "lag5",
+        40690.5808
+      ]
+    ]
+  },
+  "calibration": {
+    "method": "temperature scaling fit on validation years 2022\u20132023",
+    "temperature": 0.8983,
+    "test_ece_before": 0.016,
+    "test_ece_after": 0.0351,
+    "test_nll_before": 0.4936,
+    "test_nll_after": 0.5022,
+    "ece_bins": 15
+  },
+  "ablation": {
+    "history_only": {
+      "acc": 0.8127,
+      "macro_f1": 0.4582
+    },
+    "+terrain_soil": {
+      "acc": 0.8214,
+      "macro_f1": 0.4847
+    },
+    "+climate": {
+      "acc": 0.8185,
+      "macro_f1": 0.4976
+    },
+    "+ndvi (full)": {
+      "acc": 0.8176,
+      "macro_f1": 0.5012
+    }
+  },
+  "test_class_share": {
+    "corn": 0.531,
+    "soy": 0.332,
+    "grass": 0.102,
+    "non_ag": 0.023,
+    "hay": 0.008,
+    "other_crop": 0.004
+  },
+  "map": {
+    "year": 2025,
+    "farmed_pixels": 1495561,
+    "pixel_accuracy_full_county": 0.8111,
+    "disagreement_frac": 0.302
+  },
+  "figures": {
+    "ablation": "data/colab_run/crop_ablation.png",
+    "confusion_calibration": "data/colab_run/crop_confusion_calibration.png",
+    "map": "data/colab_run/crop_map.png"
+  },
+  "data_sources": [
+    "USDA NASS CDL via CropScape (public domain)",
+    "NASADEM via Planetary Computer",
+    "SoilGrids clay, sand, SOC, pH, bulk density",
+    "NASA POWER daily weather 2008\u20132025",
+    "MODIS MOD13Q1 v061 NDVI via Planetary Computer (2013\u20132024)"
+  ]
+}

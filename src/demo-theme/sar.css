@@ -1,0 +1,2 @@
+:root { --bg: #07091a; --bg-elev: #10142c; --bg-elev-2: #161b3a; --line: rgba(190,205,255,.16); --text: #f4f6fb; --muted: #b7c0d6; --cyan: #9ec1ff; --cyan-dim: #4a5fa8; --amber: #d4c4ff; --sans: "Geist", system-ui, sans-serif; --mono: "Geist Mono", ui-monospace, monospace; }
+header.app-header { background: linear-gradient(180deg, rgba(7,9,26,.97), rgba(7,9,26,.92)) !important; }

@@ -35,7 +35,7 @@
     return {
       kicker: `Result · ${name} · years the model never saw (${P.test_years[0]}–${P.test_years[P.test_years.length - 1]})`,
       title: `${name}: our model's average error is about ${low}% lower than the best simple method`,
-      body: [`We hid ${P.test_years[0]}–${P.test_years[P.test_years.length - 1]} from the model, then asked it to predict how many VIIRS fire detections each map square would have each month from the MODIS detections alone. Shorter bars are better.`],
+      body: [`We hid ${P.test_years[0]}–${P.test_years[P.test_years.length - 1]} from the model, then asked it to predict how many VIIRS fire detections each map square got each month from the MODIS detections alone. Shorter bars are better.`],
       visual: B.bars(rows, { min: Math.min(...rows.map((x) => x.value)) * 0.85, max: Math.max(...rows.map((x) => x.value)) * 1.03, labelWidth: 330, axis: "Average error per map square per month (lower is better; the axis does not start at zero)", aria: `${name} error by method` }),
       why: name === "Canada"
         ? "Fire managers comparing today's season with the early 2000s get numbers on the same scale, square by square, instead of a jump caused by a new satellite."
@@ -55,7 +55,7 @@
       title: "We put 26 years of satellite fire records on one consistent scale",
       html: `<div class="bf-onemin">
         <div><h3>The problem</h3><p>NASA's older fire satellite (MODIS) and newer one (VIIRS) count the same fires very differently. VIIRS spots about ${f1(ca.global_ratio_value)}× more fire pixels in Canada. A 25-year fire history that mixes them is misleading.</p></div>
-        <div><h3>What we built</h3><p>A model that translates every old MODIS month into "what VIIRS would have seen", with a range of uncertainty, for any area you draw on a map.</p></div>
+        <div><h3>What we built</h3><p>A model that translates every old MODIS month into "what VIIRS could have seen", with a range of uncertainty, for any area you draw on a map.</p></div>
         <div><h3>Does it work?</h3><p>On years it never saw, its average error is about ${caLow}% lower than the best simple method in Canada and ${arLow}% lower in Argentina.</p></div>
         <div><h3>Where it falls short</h3><p>Our first version lost to the simple method in Canada. The current one still does worse on whole-country monthly totals, so for those we show the simple method too.</p></div></div>`,
       why: "Firefighters, planners and insurers can ask \"was this month really unusual?\" and trust that the answer isn't just a satellite change.",
@@ -213,7 +213,7 @@
         ["Hidden years (test)", "2022–2025 were kept away from the model until the final check."],
         ["Uncertainty range", "A low–high band meant to contain the true value 9 times out of 10 (conformal prediction)."],
         ["Unusual month", "A month far outside the 26-year normal for that calendar month (robust z-score above 3.5)."],
-        ["Back-cast", "Our estimate of what VIIRS would have seen in 2000–2011, before it flew."],
+        ["Back-cast", "Our estimate of what VIIRS could have seen in 2000–2011, before it flew."],
         ["Bias", "Systematic over- or undercounting, as a percentage of the total."],
       ]),
     },

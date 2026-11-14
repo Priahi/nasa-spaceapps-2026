@@ -6,7 +6,7 @@
     "orbits": [
       {
         "id": "des_0610",
-        "label": "Descending 06:10 UTC (track 0610, UTM 30N)",
+        "label": "Descending 6:10 AM UTC (track 0610, UTM 30N)",
         "pass": "descending",
         "time": "06:10",
         "crs": "EPSG:32630",
@@ -220,7 +220,7 @@
       },
       {
         "id": "asc_1755",
-        "label": "Ascending 17:55 UTC (track 1755, UTM 31N)",
+        "label": "Ascending 5:55 PM UTC (track 1755, UTM 31N)",
         "pass": "ascending",
         "time": "17:55",
         "crs": "EPSG:32631",
@@ -434,7 +434,7 @@
       },
       {
         "id": "asc_1803",
-        "label": "Ascending 18:03 UTC (track 1803, UTM 30N)",
+        "label": "Ascending 6:03 PM UTC (track 1803, UTM 30N)",
         "pass": "ascending",
         "time": "18:03",
         "crs": "EPSG:32630",
@@ -615,7 +615,7 @@
       },
       {
         "id": "des_0602",
-        "label": "Descending 06:02 UTC (track 0602, UTM 31N)",
+        "label": "Descending 6:02 AM UTC (track 0602, UTM 31N)",
         "pass": "descending",
         "time": "06:02",
         "crs": "EPSG:32631",

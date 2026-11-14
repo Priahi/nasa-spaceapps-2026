@@ -295,7 +295,7 @@ def landing():
 <section class="hero hero-tight hs-hook" id="hook"><div class="topo-hero" aria-hidden="true"></div><div class="wrap hero-copy">
 <p class="chip"><i></i>NASA Space Apps 2026 · {e(SITE['challenge'])}</p>
 <p class="eyebrow">Valencia, Spain · 29 October 2024</p>
-<h1>The red warning came at <span class="grad">07:36</span>.<br/>The phone alert came at <span class="grad">20:11</span>.</h1>
+<h1>The red warning came at <span class="grad">7:36 AM</span>.<br/>The phone alert came at <span class="grad">8:11 PM</span>.</h1>
 <p class="lede">229 people died in the Valencia region. This is one night told twice: as it happened, and rewound with NASA satellite data.</p>
 <div class="actions"><a class="btn" href="#night">Start the story &darr;</a><a class="btn ghost" href="/sar-change/app/#demo">Open the flood dashboard</a><a class="btn ghost" href="#demo-video">&#9654; Demo video</a></div>
 <p class="fine">Sources: <a href="{_HS['aemet'][1]}" rel="noopener">AEMET</a>, <a href="{_HS['elpais'][1]}" rel="noopener">El País</a>. Orbit to Ground turns NASA satellite data into the next move.</p>
@@ -304,7 +304,7 @@ def landing():
 {rewind}
 <section class="section tight hs-could"><div class="wrap" data-fx="rise">
 <p class="eyebrow">What could have changed</p>
-<blockquote>With an upstream rain signal and a radar map, Elena could have had a drafted alert for her town hours before 20:11, and a map of where the water went on day two.</blockquote>
+<blockquote>With an upstream rain signal and a radar map, Elena could have had a drafted alert for her town hours before 8:11 PM, and a map of where the water went on day two.</blockquote>
 <p class="fine">A rewind, not a claim: alerts and tasking are simulated, and we make no claim about lives saved.</p>
 <div class="actions"><a class="btn launch" href="/sar-change/app/#demo">Try the rewind in the flood dashboard</a><a class="btn ghost" href="/sar-change/">The flood project</a></div>
 </div></section>
@@ -558,7 +558,7 @@ def main():
     if imp.exists():
         dimp = json.loads(imp.read_text()); vw = ROOT / "src" / "impact_view.json"
         if vw.exists(): dimp["_view"] = {k: v for k, v in json.loads(vw.read_text()).items() if not k.startswith("_")}
-        out_imp.write_text(json.dumps(dimp, ensure_ascii=False))
+        out_imp.write_text(json.dumps(dimp, ensure_ascii=False).replace("would have", "could have"))  # site wording rule
     elif out_imp.exists(): out_imp.unlink()
     # deck.html (slide 8 embeds the demo videos) + its assets and the per-app clips
     if (ROOT / "submission" / "deck.html").exists():

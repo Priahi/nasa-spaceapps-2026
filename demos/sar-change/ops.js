@@ -190,10 +190,12 @@
     host.innerHTML = `<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="xMidYMid meet">${s}</svg>
       <div class="ops-rain-leg"><span><i class="sw rb"></i>Daily rain, upstream average (mm)</span><span><i class="sw hot"></i>Day over 50 mm</span><span><i class="ln cl"></i>Cloud cover (%)</span><span><i class="ln ps"></i>Sentinel-1 radar pass</span></div>`;
     const over = D.filter((d) => d.mean >= 50), cl = D.find((d) => d.d === "2024-10-29");
-    $("rainNotes").innerHTML = `<li><b>${pk.mean} mm</b><span>average rain upstream on ${+pk.d.slice(8)} Oct, ${pk.max} mm in the wettest 10 km cell. ${over.length === 1 ? "The only day over 50 mm in these five weeks." : ""}</span></li>
+    $("rainNotes").innerHTML = `<li><b>${pk.mean} mm</b><span>average rain upstream on ${+pk.d.slice(8)} Oct, ${pk.max} mm in the wettest 10 km cell. ${over.length === 1 ? "The only day over 50 mm in these five weeks." : ""} That's ${Math.round(pk.mean / 457.9 * 100)}% of València's average year (457.9 mm) in one day.</span></li>
       <li><b>${cl && cl.cloud != null ? cl.cloud + "%" : "n/a"}</b><span>cloud cover that day. Optical satellites can't see the ground; radar can.</span></li>
-      <li><b>2 days</b><span>from the rain peak (29 Oct) to the first radar map of the water (31 Oct). A rain rule like "over 50 mm upstream" could have raised the flag on day zero; the radar then shows where the water went.</span></li>`;
-    $("rainCap").textContent = "Rain: " + R.source.split("; cloud")[0] + ". Cloud: NASA POWER (CERES SYN1deg) daily cloud amount at 39.4° N, 0.65° W. IMERG days are UTC. Reanalysis and satellite rain smooth local extremes; rain gauges in the storm core recorded more.";
+      <li><b>2 days</b><span>from the rain peak (29 Oct) to the first radar map of the water (31 Oct). A rain rule like "over 50 mm upstream" could have raised the flag on day zero; the radar then shows where the water went.</span></li>
+      ${K ? `<li><b>${Math.round(K.after / 134.65 * 100)}%</b><span>of the city of València's area (134.65 km²): that's the ${f1(K.after)} km² of new water radar mapped on 31 Oct.</span></li>` : ""}`;
+    $("rainCap").innerHTML = esc("Rain: " + R.source.split("; cloud")[0] + ". Cloud: NASA POWER (CERES SYN1deg) daily cloud amount at 39.4° N, 0.65° W. IMERG days are UTC. Reanalysis and satellite rain smooth local extremes; rain gauges in the storm core recorded more.")
+      + ' Comparisons: València\'s 1991–2020 average rainfall, <a href="https://www.nodc.noaa.gov/archive/arc0216/0253808/2.2/data/0-data/Region-6-WMO-Normals-9120/Spain/CSV/VALENCIA_8285.csv" rel="noopener">AEMET/WMO normals</a>; city area, <a href="https://www.valencia.es/estadistica/Recull/Recull2024_Castellano.pdf" rel="noopener">Ajuntament de València</a>.';
   }
   fetch("ops/rain.json").then((r) => r.json()).then(rain).catch((e) => console.warn("rain", e));
 

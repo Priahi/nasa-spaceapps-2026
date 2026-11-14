@@ -2,27 +2,170 @@
  "_about": "Comparison rows and source links for the dashboards' What-if panels. Text and numbers copied from submission/IMPACT.md (another worker's file); merged into /shared/impact.json at build time.",
  "flood": {
   "compare": [
-   ["AEMET warnings", "Red weather warning by zone at 07:36, 12.5 h before phones were alerted. A warning isn't an instruction to the public.", "Turns the rain signal into a drafted, town-specific alert with what to do, ready to send (simulated)."],
-   ["EFAS / GloFAS", "Flood-probability notices to agencies by email, up to 48 h ahead; not binding, and it underestimated the size.", "Doesn't replace forecasts. Adds observed NASA rain + radar evidence on one screen with a task queue, so a notice becomes an action."],
-   ["ES-Alert", "Sent at 20:11 with \"avoid travel\" only.", "Pre-fills the message and the target towns from the map (simulated; no real ES-Alert link)."],
-   ["Copernicus EMS rapid mapping", "First maps 31 Oct; province-wide extent 2 Nov.", "Open NASA OPERA radar water every pass, linked to rain and simulated dispatch. Complements EMS; not faster for the first map."]
+   [
+    "AEMET warnings",
+    "Red weather warning by zone at 7:36 AM, 12.5 h before phones were alerted. A warning isn't an instruction to the public.",
+    "Turns the rain signal into a drafted, town-specific alert with what to do, ready to send (simulated)."
+   ],
+   [
+    "EFAS / GloFAS",
+    "Flood-probability notices to agencies by email, up to 48 h ahead; not binding, and it underestimated the size.",
+    "Doesn't replace forecasts. Adds observed NASA rain + radar evidence on one screen with a task queue, so a notice becomes an action."
+   ],
+   [
+    "ES-Alert",
+    "Sent at 8:11 PM with \"avoid travel\" only.",
+    "Pre-fills the message and the target towns from the map (simulated; no real ES-Alert link)."
+   ],
+   [
+    "Copernicus EMS rapid mapping",
+    "First maps 31 Oct; province-wide extent 2 Nov.",
+    "Open NASA OPERA radar water every pass, linked to rain and simulated dispatch. Complements EMS; not faster for the first map."
+   ]
   ],
-  "sources": [["El País (deaths, times)", "https://elpais.com/espana/2025-10-26/como-donde-y-a-que-hora-murieron-las-229-victimas-de-la-dana.html"], ["Consorseguros (insured loss)", "https://consorsegurosdigital.com/en/numero-23/sumario/contributions/valencia_floods/"], ["Ivie (assets)", "https://www.ivie.es/es_ES/la-dana-puede-haber-destruido-al-menos-el-20-de-los-85-900-millones-de-euros-de-activos-privados-y-publicos-localizados-en-los-municipios-inundados/"], ["NHWC 2006 (Day curve)", "https://water.usgs.gov/osw/pubs/Flood_Management_benefits_complete.pdf"], ["Global Commission on Adaptation 2019", "https://gca.org/wp-content/uploads/2019/09/GlobalCommission_Report_FINAL.pdf"], ["Pappenberger et al. 2015", "https://centaur.reading.ac.uk/40264/1/PappenbergerMonetaryBenefit.pdf"], ["Rocha Silva et al. 2025 (Ahr)", "https://nhess.copernicus.org/articles/25/1501/2025/"], ["ESA (EMS maps)", "https://www.esa.int/es/articles/about-us/directorates/earth-observation-programmes/devastating-floods-in-spain-witnessed-by-satellites"], ["NASA GPM (IMERG latency)", "https://gpm.nasa.gov/resources/faq/what-determines-latency-imerg"]]
+  "sources": [
+   [
+    "El País (deaths, times)",
+    "https://elpais.com/espana/2025-10-26/como-donde-y-a-que-hora-murieron-las-229-victimas-de-la-dana.html"
+   ],
+   [
+    "Consorseguros (insured loss)",
+    "https://consorsegurosdigital.com/en/numero-23/sumario/contributions/valencia_floods/"
+   ],
+   [
+    "Ivie (assets)",
+    "https://www.ivie.es/es_ES/la-dana-puede-haber-destruido-al-menos-el-20-de-los-85-900-millones-de-euros-de-activos-privados-y-publicos-localizados-en-los-municipios-inundados/"
+   ],
+   [
+    "NHWC 2006 (Day curve)",
+    "https://water.usgs.gov/osw/pubs/Flood_Management_benefits_complete.pdf"
+   ],
+   [
+    "Global Commission on Adaptation 2019",
+    "https://gca.org/wp-content/uploads/2019/09/GlobalCommission_Report_FINAL.pdf"
+   ],
+   [
+    "Pappenberger et al. 2015",
+    "https://centaur.reading.ac.uk/40264/1/PappenbergerMonetaryBenefit.pdf"
+   ],
+   [
+    "Rocha Silva et al. 2025 (Ahr)",
+    "https://nhess.copernicus.org/articles/25/1501/2025/"
+   ],
+   [
+    "ESA (EMS maps)",
+    "https://www.esa.int/es/articles/about-us/directorates/earth-observation-programmes/devastating-floods-in-spain-witnessed-by-satellites"
+   ],
+   [
+    "NASA GPM (IMERG latency)",
+    "https://gpm.nasa.gov/resources/faq/what-determines-latency-imerg"
+   ],
+   [
+    "AEMET/WMO 1991–2020 normals, València (457.9 mm/yr)",
+    "https://www.nodc.noaa.gov/archive/arc0216/0253808/2.2/data/0-data/Region-6-WMO-Normals-9120/Spain/CSV/VALENCIA_8285.csv"
+   ]
+  ]
  },
  "fire": {
   "compare": [
-   ["NASA FIRMS", "Active fires within about 3 h of a pass: where it's burning now.", "Harmonizes MODIS (2000–) and VIIRS (2012–) into one 26-year, single-scale record so seasons can be compared and trends tested."],
-   ["CWFIS (Natural Resources Canada)", "Daily national fire weather and behaviour maps; not designed for operational fire management.", "Adds the multi-year, per-province view (is May getting worse here?) and a simulated pre-season task list."],
-   ["Readiness by fixed date", "Alberta: full staffing by 1 May, moved to 15 April for 2024.", "Sets the date from the province's own satellite record of unusual months, reviewed every winter."]
+   [
+    "NASA FIRMS",
+    "Active fires within about 3 h of a pass: where it's burning now.",
+    "Harmonizes MODIS (2000–) and VIIRS (2012–) into one 26-year, single-scale record so seasons can be compared and trends tested."
+   ],
+   [
+    "CWFIS (Natural Resources Canada)",
+    "Daily national fire weather and behaviour maps; not designed for operational fire management.",
+    "Adds the multi-year, per-province view (is May getting worse here?) and a simulated pre-season task list."
+   ],
+   [
+    "Readiness by fixed date",
+    "Alberta: full staffing by 1 May, moved to 15 April for 2024.",
+    "Sets the date from the province's own satellite record of unusual months, reviewed every winter."
+   ]
   ],
-  "sources": [["MNP 2017 (Horse River review)", "https://open.alberta.ca/dataset/7cc619bd-56ce-488e-b007-cada28430589/resource/6c6560d3-0a8e-4550-b1d1-86e58409dea2/download/2016horseriverwildfirereview-mar2017.pdf"], ["MNP 2025 (Alberta 2023)", "https://open.alberta.ca/dataset/c8b32d6d-2b52-486d-a4f6-855ced2b9a71/resource/20e8af07-b2cd-43e4-b2e3-0eecbbd91a5b/download/pses-government-of-alberta-2023-spring-wildfire-post-incident-assessment-2025.pdf"], ["IBC (insured cost)", "https://www.newswire.ca/news-releases/northern-alberta-wildfire-costliest-insured-natural-disaster-in-canadian-history-585872181.html"], ["The Weather Network (15 Apr staffing)", "https://www.theweathernetwork.com/en/news/nature/outdoors/alberta-to-fully-staff-wildfire-crew-earlier-following-a-record-breaking-season"], ["Stocks et al. 2002 (3% / 97%)", "https://sites.ualberta.ca/~flanniga/publications/2003%20Stocks%20et%20al.%20J%20Geophys%20Res%20-%20Large%20forest%20fires.pdf"], ["NASA FIRMS FAQ", "https://www.earthdata.nasa.gov/data/tools/firms/faq"], ["CWFIS", "https://natural-resources.canada.ca/forests-forestry/wildland-fires/current-wildland-fire-activity-cwfis"]]
+  "sources": [
+   [
+    "MNP 2017 (Horse River review)",
+    "https://open.alberta.ca/dataset/7cc619bd-56ce-488e-b007-cada28430589/resource/6c6560d3-0a8e-4550-b1d1-86e58409dea2/download/2016horseriverwildfirereview-mar2017.pdf"
+   ],
+   [
+    "MNP 2025 (Alberta 2023)",
+    "https://open.alberta.ca/dataset/c8b32d6d-2b52-486d-a4f6-855ced2b9a71/resource/20e8af07-b2cd-43e4-b2e3-0eecbbd91a5b/download/pses-government-of-alberta-2023-spring-wildfire-post-incident-assessment-2025.pdf"
+   ],
+   [
+    "IBC (insured cost)",
+    "https://www.newswire.ca/news-releases/northern-alberta-wildfire-costliest-insured-natural-disaster-in-canadian-history-585872181.html"
+   ],
+   [
+    "The Weather Network (15 Apr staffing)",
+    "https://www.theweathernetwork.com/en/news/nature/outdoors/alberta-to-fully-staff-wildfire-crew-earlier-following-a-record-breaking-season"
+   ],
+   [
+    "Stocks et al. 2002 (3% / 97%)",
+    "https://sites.ualberta.ca/~flanniga/publications/2003%20Stocks%20et%20al.%20J%20Geophys%20Res%20-%20Large%20forest%20fires.pdf"
+   ],
+   [
+    "NASA FIRMS FAQ",
+    "https://www.earthdata.nasa.gov/data/tools/firms/faq"
+   ],
+   [
+    "CWFIS",
+    "https://natural-resources.canada.ca/forests-forestry/wildland-fires/current-wildland-fire-activity-cwfis"
+   ],
+   [
+    "Statistics Canada (province areas)",
+    "https://www150.statcan.gc.ca/n1/pub/11-402-x/2012000/chap/geo/tbl/tbl06-eng.htm"
+   ],
+   [
+    "KPMG (88,000 evacuated)",
+    "https://open.alberta.ca/dataset/accfd27e-5e08-4f6c-8cd9-188be0e1e1b2/resource/541f276f-2fb4-4789-a41f-ef5ce7c0eec5/download/2016-wildfire-kpmg-report.pdf"
+   ]
+  ]
  },
  "field": {
   "compare": [
-   ["USDA NASS Cropland Data Layer", "The best map of what was planted, released about February of the next year (75–82% accuracy).", "Predicts next season per pixel, before planting (0.8176, one county, one seed: a different task, so not directly comparable)."],
-   ["NASS Prospective Plantings / Crop Progress", "State-level surveys (31 March) and weekly state progress.", "Field-level, with the climate trend (frost-free days, soil water) attached."],
-   ["Cover-crop programs", "Cost-share by application.", "Ranks the fields where rye pays off most (steep, erosion-prone)."]
+   [
+    "USDA NASS Cropland Data Layer",
+    "The best map of what was planted, released about February of the next year (75–82% accuracy).",
+    "Predicts next season per pixel, before planting (0.8176, one county, one seed: a different task, so not directly comparable)."
+   ],
+   [
+    "NASS Prospective Plantings / Crop Progress",
+    "State-level surveys (31 March) and weekly state progress.",
+    "Field-level, with the climate trend (frost-free days, soil water) attached."
+   ],
+   [
+    "Cover-crop programs",
+    "Cost-share by application.",
+    "Ranks the fields where rye pays off most (steep, erosion-prone)."
+   ]
   ],
-  "sources": [["USDA NASS Crop Production 2012", "https://esmis.nal.usda.gov/sites/default/release-files/k3569432s/8s45qb85z/12579v877/CropProdSu-01-11-2013.pdf"], ["USDA FSA prices", "https://www.fsa.usda.gov/sites/default/files/documents/2016_mya.pdf"], ["SARE/CTIC 2012–13 survey", "https://www.sare.org/wp-content/uploads/SARE-CTIC-CC-Survey-Report-V2.8.pdf"], ["Plastina et al. 2018 (ISU costs)", "https://www.card.iastate.edu/files/inline-files/plastina-180309.pdf"], ["NASS CDL FAQ", "https://www.nass.usda.gov/Research_and_Science/Cropland/sarsfaqs2.php"]]
+  "sources": [
+   [
+    "USDA NASS Crop Production 2012",
+    "https://esmis.nal.usda.gov/sites/default/release-files/k3569432s/8s45qb85z/12579v877/CropProdSu-01-11-2013.pdf"
+   ],
+   [
+    "USDA FSA prices",
+    "https://www.fsa.usda.gov/sites/default/files/documents/2016_mya.pdf"
+   ],
+   [
+    "SARE/CTIC 2012–13 survey",
+    "https://www.sare.org/wp-content/uploads/SARE-CTIC-CC-Survey-Report-V2.8.pdf"
+   ],
+   [
+    "Plastina et al. 2018 (ISU costs)",
+    "https://www.card.iastate.edu/files/inline-files/plastina-180309.pdf"
+   ],
+   [
+    "NASS CDL FAQ",
+    "https://www.nass.usda.gov/Research_and_Science/Cropland/sarsfaqs2.php"
+   ],
+   [
+    "U.S. Census Bureau QuickFacts, Iowa (2010 population 3,046,355)",
+    "https://www.census.gov/quickfacts/fact/table/IA/POP010220"
+   ]
+  ]
  }
 }

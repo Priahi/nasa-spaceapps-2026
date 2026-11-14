@@ -17,10 +17,10 @@ Times are 12-hour, local (Valencia CET, Alberta MDT). Slides and speech use roun
 - Exact facts: 7:36 AM red warning (Newtral; El País gives 7:35 AM); 11:45 AM first recorded death (El País); 3–8 PM 616.8 mm at Turís (AEMET); 6:55 PM Poyo ravine at 2,282 m³/s (Reuters; La Vanguardia); 8:11 PM ES-Alert, at least 156 already dead (El País). 12 h 35 min from warning to alert; 229 deaths in the Valencia region.
 - Units: 616.8 ÷ 475 = 1.30, "1.3 years of València's rain in one afternoon".
 
-## 3 · Rewind with the decision tool (demo: /sar-change/app/#demo, 30 s video)
+## 3 · Rewind with the decision tool (four walkthrough loops + the official demo video, playable on the slide)
 "Same night, same data. Rain signal, radar map, one alert to all 8 towns, teams and passes queued."
 - 91 mm upstream (IMERG), 99% cloud (POWER). Radar 31 Oct: 77.7 km² new water outside normal water bodies (vs 30.7 km² on 26 Oct); 8 towns hold 75.8 km².
-- The loop is the live app: towns flagged, teams placed, "Alert everyone (simulated)" sent, queue to Done.
+- The four frames are click-through loops of the live app: (1) radar before/after slider and water classified, (2) recommended actions, (3) teams and passes queued, (4) one alert to all 8 towns (simulated). The right column plays the official demo video (press play).
 - "Elena could have had a drafted alert for her town hours before the ~8 PM phone alert." (Slide rounds: ~90 mm, ~78 km², up from ~31, ~76 km² in 8 towns.)
 
 ## 4 · What if? (illustrative, from submission/IMPACT.md)
@@ -44,6 +44,8 @@ Times are 12-hour, local (Valencia CET, Alberta MDT). Slides and speech use roun
 - Comparison: FIRMS (now), CWFIS (fire weather days), fixed staffing date. Sources IMPACT.md [W1]–[W9].
 
 ## 6 · Fields vertical (demo: /field-shift/app/#demo)
+- Lead with the lead time: the next-season map is ready in February, before planting; the USDA CDL for a season arrives about 11 months later. Then the drought-insurance figure, about $1.2 M.
+- Accuracy, said honestly as a secondary point: ~82% vs ~81% from crop history alone is a small edge; the value is timing plus the attached climate trend.
 - Crop map: Story County, Iowa, every 30 m pixel (USDA NASS CDL in our app). Next-season crop 81.8% correct on held-out 2024–25 (crop history alone 81.4%).
 - Tasking: drone survey and scouts on 114 squares, queue moving (simulated).
 - Slide rounds: ~82% vs ~81%; (~11 bu × ~$6.90 − ~$32) ≈ $44/acre × ~26,500 acres ≈ $1.2 M.
@@ -54,4 +56,4 @@ Times are 12-hour, local (Valencia CET, Alberta MDT). Slides and speech use roun
 - Shared inputs (Sentinel-1 radar, FIRMS thermal, IMERG + POWER rain, HLS/Landsat/Sentinel-2 optical + CDL, GRACE + GLDAS) → one engine (Mann-Kendall + Sen's slope trend detection; per-signal models: U-Net water, empirical-Bayes + LightGBM + conformal fire range, LightGBM next-season crop + NSGA-II) → signal, map, alert, task → outputs per vertical.
 - Results on the right edge: 66.4% water IoU vs 21.8% Otsu (90 hand-labelled chips); fire 8.5% lower error (RMSE 0.2844 vs 0.3109), 88.6% range coverage (target 90%); crop 81.8% vs 81.4%, macro-F1 0.5012 vs 0.4633; trends: Iowa frost-free +0.43 d/yr (p = 0.006), E. Spain water −0.39 cm/yr (GRACE, p = 0.002), Valencia wettest day p = 0.28 (no trend, said out loud).
 - Strip: built = flood, wildfire, farms, groundwater; future = drought alerts, smoke + air, infrastructure, landslides. Civil uses only.
-- Close: "Team GeoAI Toronto, Parsa Riahi. See it. Decide. Act."
+- Close: "I'm Parsa Riahi; I built this solo, in Toronto. See it. Decide. Act."

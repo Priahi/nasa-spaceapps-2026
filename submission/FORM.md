@@ -1,6 +1,6 @@
 # NASA Space Apps 2026: project submission text (draft, NOT submitted)
 
-**Team:** GeoAI Toronto · **Member:** Parsa Riahi (solo) · **Local event:** Toronto
+**Team:** Parsa Riahi (built solo) · **Local event:** Toronto
 **Challenge:** Be An Earth System Trend Detective! (https://www.spaceappschallenge.org/2026/challenges/earth-system-trend-detective/)
 **Deadline:** Sun 15 Nov 2026, 11:59 PM ET
 

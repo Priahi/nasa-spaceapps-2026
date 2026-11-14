@@ -17,14 +17,14 @@ Orbit to Ground: Earth-change intelligence from orbit to decision
 Orbit to Ground is one connected system that turns NASA satellite data into decisions, built as three working modules and a shared trend engine. **Detect:** Hot Spots harmonizes MODIS and VIIRS active fires into one 2000–2025 record, so fire seasons can be compared across the 2012 sensor switch. **Confirm:** SAR Change maps the October 2024 Valencia flood with radar, which sees through cloud and at night, and is set up for NISAR. **Adapt:** Field Shift predicts next season's crop in Story County, Iowa, and ranks four-year rotations by a farmer's priorities. A Trend Detective layer answers the challenge's four questions for each module: what is changing, where, how much (Sen's slope with a 95% CI) and is it significant (Mann-Kendall). Findings: Canada's fire detections are rising (p = 0.035), confirmed by burned area; Valencia's rain isn't trending (p = 0.28) while its water storage is falling (p = 0.002); Iowa's frost-free season is getting longer (p = 0.006).
 
 ## Link to Project Demo
-- 30-second video (1920×1080, captioned): **[paste public/unlisted YouTube or Google Drive link to `submission/demo.mp4`]**
-- 7-slide deck (alternative or supporting): **[paste public link to `submission/deck.pdf`]**
+- 30-second video (1920×1080, captioned): https://nasa-spaceapps-2026.pages.dev/submission/demo.mp4 (captions: https://nasa-spaceapps-2026.pages.dev/submission/demo.en.srt; also playable on the home page: https://nasa-spaceapps-2026.pages.dev/#demo-video)
+- 7-slide deck (alternative or supporting): https://nasa-spaceapps-2026.pages.dev/submission/deck.pdf
 
 ## Link to Final Project
 https://nasa-spaceapps-2026.pages.dev
 
 Full-screen live tools: https://nasa-spaceapps-2026.pages.dev/hotspots/app/ · https://nasa-spaceapps-2026.pages.dev/sar-change/app/ · https://nasa-spaceapps-2026.pages.dev/field-shift/app/
-Code: https://github.com/Priahi/nasa-spaceapps-2026 *(currently private: make it public before adding this line, or delete the line)*
+Code (public, Apache-2.0): https://github.com/Priahi/nasa-spaceapps-2026
 
 ## Detailed Project Description
 

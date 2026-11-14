@@ -13,7 +13,7 @@ DEMOS = Path(sys.argv[sys.argv.index("--demos") + 1]) if "--demos" in sys.argv e
 SITE_URL = "https://nasa-spaceapps-2026.pages.dev"
 import os
 REPO_URL = "https://github.com/Priahi/nasa-spaceapps-2026"
-SHOW_REPO = os.environ.get("SHOW_REPO") == "1"  # flip on once the GitHub repo is public
+SHOW_REPO = os.environ.get("SHOW_REPO", "1") == "1"  # repo is public since 14 Nov 2026
 DEMO_DIR = {"hotspots": "hotspots", "sar-change": "sar-change", "field-shift": "field-shift"}
 THEME = {"hotspots": "hotspots.css", "sar-change": "sar.css", "field-shift": "field.css"}
 e = html.escape

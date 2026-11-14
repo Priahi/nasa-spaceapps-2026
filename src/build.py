@@ -101,7 +101,7 @@ REPO_NOTE = f' Source code: <a href="{REPO_URL}">{REPO_URL.replace("https://",""
 FOOT = f"""<footer class="site"><div class="wrap">
 <p><strong>Orbit to Ground</strong> · NASA International Space Apps Challenge 2026 · {e(SITE['challenge'])} · Team {e(SITE['team'])} ({e(SITE['author'])}).{REPO_NOTE}</p>
 <p>Data: NASA FIRMS, NASA-ISRO NISAR (via NASA CMR and ASF DAAC), NASA POWER, NASADEM, MODIS, plus ESA Copernicus Sentinel-1, Sen1Floods11, USDA NASS CDL and ISRIC SoilGrids. Province outlines: Natural Earth (public domain). Each project page lists its sources and licences. This site is not affiliated with or endorsed by NASA.</p>
-<p>AI disclosure: AI coding assistants helped write and refactor parts of the code, site and text. All models, metrics and figures come from our own runs on the public data listed. Model metrics are one seed each, not a published benchmark. {e(SITE['built_on'])}</p>
+<p>AI disclosure: AI coding assistants helped write and refactor parts of the code, site and text. All models, metrics and figures come from our own runs on the public data listed. Photos of people are illustrative AI-generated images, not real people or events; every chart, map and number comes from data. Model metrics are one seed each, not a published benchmark. {e(SITE['built_on'])}</p>
 </div></footer>
 <script src="/assets/vendor/gsap.min.js" defer></script>
 <script src="/assets/vendor/ScrollTrigger.min.js" defer></script>

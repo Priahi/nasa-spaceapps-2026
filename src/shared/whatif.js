@@ -8,7 +8,9 @@
   const NAMED = { "07:36": "about 7:30 AM", "07:23": "about 7:30 AM", "11:45": "around noon", "12:07": "around noon" };
   const round = (h, mi) => { const k = `${String(h).padStart(2, "0")}:${mi}`; if (NAMED[k]) return NAMED[k]; let H = +h + (+mi >= 30 ? 1 : 0); H %= 24; return H === 12 ? "around noon" : H === 0 ? "around midnight" : `about ${(H % 12) || 12} ${H < 12 ? "AM" : "PM"}`; };
   const t12 = (s) => String(s).replace(/(^|[^\d+:T])([01]?\d|2[0-3]):([0-5]\d)(?![\d:])(?!\s?[AP]M)/g, (m, p, h, mi) => p + round(h, mi))
-    .replace(/before at least (\d+) of the (\d+) pre-about (\d+ [AP]M) deaths/g, "before nearly all of the deaths dated before about $3").replace(/([AP]M|noon) (\d{1,2} [A-Z][a-z]{2})/g, "$1, $2");
+    .replace(/before at least (\d+) of the (\d+) pre-about (\d+ [AP]M) deaths/g, "before nearly all of the deaths dated before about $3").replace(/([AP]M|noon) (\d{1,2} [A-Z][a-z]{2})/g, "$1, $2")
+    // safety net: never show a doubled AM/PM suffix; when two stack up, the last one is the source's own
+    .replace(/\b(?:[AP]M\s*)+([AP]M)\b/g, "$1").replace(/\bnoon\s+[AP]M\b/g, "noon").replace(/\bpre-(about|around) /g, "before $1 ");
   const esc = (s) => t12(String(s == null ? "" : s)).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const pct = (f) => `${Math.round(f * 1000) / 10}%`;
   const n = (x) => Number(x).toLocaleString("en-US");

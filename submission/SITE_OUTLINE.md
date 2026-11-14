@@ -1,5 +1,5 @@
 # Site outline: Orbit to Ground (WHY / WHAT / HOW)
-Live: https://nasa-spaceapps-2026.pages.dev · Challenge: Be An Earth System Trend Detective! · Team GeoAI Toronto (Parsa Riahi)
+Live: https://nasa-spaceapps-2026.pages.dev · Challenge: Be An Earth System Trend Detective! · Built solo by Parsa Riahi
 Design: personal-site design system (Geist / Geist Mono, #07091a ground, blue #9ec1ff → violet #d4c4ff gradient, contour rules,
 GSAP ScrollTrigger + Lenis, spotlight / border-beam cards, tier metric panels, pinned "engine" pipeline diagram). No outside brand names.
 

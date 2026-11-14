@@ -583,6 +583,12 @@ def main():
     (DIST / "_headers").write_text("/assets/*\n  Cache-Control: public, max-age=3600\n/submission/*.srt\n  Content-Type: text/plain; charset=utf-8\n/submission/*.vtt\n  Content-Type: text/vtt; charset=utf-8\n/submission/*\n  Cache-Control: public, max-age=600\n/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n")
     bust_cache()
     n = sum(1 for _ in DIST.rglob("*") if _.is_file())
+    # guard: no doubled 12-hour suffixes anywhere in the shipped text
+    _dbl = re.compile(r"\b[AP]M\s+[AP]M\b")
+    for _f in DIST.rglob("*"):
+        if _f.suffix in (".html", ".js", ".json") and "submission" not in _f.parts and _f.stat().st_size < 5_000_000:
+            _m = _dbl.search(_f.read_text(errors="ignore"))
+            if _m: raise SystemExit(f"doubled AM/PM in {_f}: {_m.group(0)!r}")
     print(f"built {DIST} ({n} files)")
 
 def bust_cache():

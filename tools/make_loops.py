@@ -24,4 +24,4 @@ if __name__ == "__main__":
     n = 5 * 24
     enc(["-loop", "1", "-framerate", "24", "-i", str(SH / "field-crop-map.png")], f"scale=2400:-2,zoompan=z='1+0.16*sin(PI*on/{n})':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=1200x862:fps=24", "field", 5)
     # architecture: a highlight sweeps the five columns (inputs -> results)
-    enc(["-loop", "1", "-framerate", "24", "-i", str(SH / "arch-1.png")], "scale=1800:-2,drawbox=x='mod(t,5)/5*1800-60':y=0:w=330:h=ih:color=0x3f63d6@0.10:t=fill", "arch", 5)
+    enc(["-loop", "1", "-framerate", "24", "-i", str(SH / "arch-system.png")], "scale=1800:-2,drawbox=x='if(lt(mod(t\,5)\,1)\,20\,if(lt(mod(t\,5)\,2)\,430\,if(lt(mod(t\,5)\,3)\,840\,if(lt(mod(t\,5)\,4)\,1120\,1460))))':y=40:w='if(lt(mod(t\,5)\,1)\,380\,if(lt(mod(t\,5)\,2)\,390\,if(lt(mod(t\,5)\,3)\,260\,if(lt(mod(t\,5)\,4)\,320\,330))))':h=ih-80:color=0x3f63d6@0.09:t=fill,drawbox=x='if(lt(mod(t\,5)\,1)\,20\,if(lt(mod(t\,5)\,2)\,430\,if(lt(mod(t\,5)\,3)\,840\,if(lt(mod(t\,5)\,4)\,1120\,1460))))':y=40:w='if(lt(mod(t\,5)\,1)\,380\,if(lt(mod(t\,5)\,2)\,390\,if(lt(mod(t\,5)\,3)\,260\,if(lt(mod(t\,5)\,4)\,320\,330))))':h=ih-80:color=0x3f63d6@0.55:t=3", "arch", 5)

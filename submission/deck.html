@@ -206,24 +206,60 @@ h1,h2,h3{font-weight:600;letter-spacing:-.03em}
 .shot:has(.lp){background:#262a33}
 .arch{position:relative}.arch .arch-v{position:absolute;inset:10px;width:calc(100% - 20px);height:calc(100% - 20px);object-fit:contain;background:transparent}
 @media print{.shot .lp{display:none}.arch .arch-v{display:none}}
+
+/* v4 (≤7 slides) */
+.cmp{width:100%;border-collapse:separate;border-spacing:0 8px;font-size:18px}
+.cmp th{font:600 13px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--faint);text-align:left;padding:0 12px}
+.cmp td{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:11px 12px;line-height:1.28;vertical-align:top}
+.cmp td:first-child{border-left:1px solid var(--line);border-radius:12px 0 0 12px;font-weight:600;white-space:nowrap}
+.cmp td:last-child{border-right:1px solid var(--line);border-radius:0 12px 12px 0}
+.cmp td.us{color:var(--ink)}.cmp td.gap{color:var(--muted)}
+.hu{font-size:17px;color:var(--muted);line-height:1.3}.hu b{color:var(--ink)}
+.vert{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(0,1fr);gap:22px;margin-top:18px;flex:1;min-height:0}
+.vert .l{display:grid;grid-template-rows:minmax(0,1.25fr) minmax(0,1fr);gap:14px;min-height:0}
+.vert .l2{display:grid;grid-template-columns:1fr 1fr;gap:14px;min-height:0}
+.vert .r{display:flex;flex-direction:column;gap:12px;min-height:0}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:14px 18px}
+.card .k{font:600 13px var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.card h3{font-size:24px;line-height:1.2;margin-top:4px;letter-spacing:-.02em}
+.card p{font-size:17px;color:var(--muted);line-height:1.3;margin-top:4px}
+.card .ar{font-size:17px;padding:8px 10px;margin-top:8px}
+.card.wf{background:#f3fbf5;border-color:#bfe3c9}
+.mini{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mini .card strong{display:block;font-size:34px;letter-spacing:-.03em;line-height:1.05}
+.dl{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.dl .btn{margin-top:0;font-size:16px;padding:8px 14px}
+.fw{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:24px;margin-top:20px;flex:1;min-height:0}
+.fw .l{display:flex;flex-direction:column;gap:14px}
+.strip{display:flex;align-items:center;gap:16px;margin-top:14px}
+.strip .eng2{flex:1;display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:18px}
+.chip2{border-radius:999px;padding:6px 12px;background:#e6f4ea;color:#1e6b34;font:600 15px var(--mono);letter-spacing:.04em}
+.chip2.f{background:transparent;color:var(--faint);border:1.5px dashed #aab1c4}
+.team2{text-align:right;font-size:18px;color:var(--muted);line-height:1.3}.team2 b{display:block;font-size:24px;color:var(--ink)}
+
+.fw .cmp{font-size:21px;border-spacing:0 12px}.fw .cmp td{padding:16px 14px}.fw .cmp th{font-size:14px}
+.fw .hu{font-size:20px}.fw .mini .card strong{font-size:44px}.fw .mini .card p{font-size:18px}
+.vert .card p{font-size:19px}.vert .card h3{font-size:27px}.vert .card .ar{font-size:18px}.vert .cmp{font-size:18px!important}.vert .cmp td{padding:12px 12px}
+.vert .mini .card strong{font-size:38px}
+.strip .eng2{font-size:16px;gap:8px}.chip2{font-size:13px;padding:5px 10px}
 </style></head><body>
 <!-- 1 · Hook -->
 <section class="s">
- <div class="hd"><span>NASA Space Apps 2026 · <b>Be An Earth System Trend Detective!</b> · Orbit to Ground</span><span>1 / 10</span></div>
+ <div class="hd"><span>NASA Space Apps 2026 · <b>Be An Earth System Trend Detective!</b> · Orbit to Ground</span><span>1 / 7</span></div>
  <div class="split">
   <div class="stack">
    <p class="k water-t" style="font:600 20px var(--mono);letter-spacing:.14em;text-transform:uppercase">Valencia, Spain</p>
    <h1 class="big">29 October<br>2024.</h1>
-   <p class="lede"><b>771.8 mm</b> of rain fell on one town in a day.<br>The phone alert went out at <b>20:11</b>.<br>By then, at least <b>156 people</b> had died.</p>
+   <p class="lede"><b>771.8 mm</b> of rain, about <b>2½ feet</b>, fell on one town in a day: <b>1.6 times</b> what València gets in a whole year.<br>The phone alert went out at <b>8:11 PM</b>.<br>By then, at least <b>156 people</b> had died.</p>
   </div>
-  <div class="shot fill"><img class="lp-poster" src="assets/shots/loop-flood.jpg" alt="Radar flood map of the 8 towns with teams placed (simulated)"><video class="lp" autoplay muted loop playsinline preload="auto" poster="assets/shots/loop-flood.jpg"><source src="clips/loop-flood.webm" type="video/webm"><source src="clips/loop-flood.mp4" type="video/mp4"></video><span class="tag">Radar flood map · 31 Oct · 8 towns</span><span class="tk">Tasking (simulated)</span></div>
+  <div class="shot fill"><img src="assets/shots/comp-flood-hook.png" alt="Radar flood map of the 8 towns with teams placed" style="object-position:center"><span class="tag">Radar flood map · 31 Oct · 8 towns</span><span class="tk">Tasking (simulated)</span></div>
  </div>
- <div class="ft"><span class="src">AEMET event study (Turís, 29 Oct 2024) · El País, 26 Oct 2025 · map: NASA/JPL OPERA DSWx-S1</span><span>Team GeoAI Toronto · Parsa Riahi</span></div>
+ <div class="ft"><span class="src">AEMET event study (Turís) · AEMET normals, València 1981–2010: 475 mm a year · El País, 26 Oct 2025 · map: NASA/JPL OPERA DSWx-S1</span><span>Team GeoAI Toronto · Parsa Riahi</span></div>
 </section>
 
 <!-- 2 · Imagine -->
 <section class="s">
- <div class="hd"><span>Story 1 · Valencia, 29 October 2024</span><span>2 / 10</span></div>
+ <div class="hd"><span>Story 1 · Valencia, 29 October 2024</span><span>2 / 7</span></div>
  <h2 class="emo" style="font-size:74px">Imagine losing someone you love because <em>no one knew how much rain was coming</em> that day.</h2>
  <div class="e2" style="flex:none;margin-top:30px">
   <div class="l">
@@ -237,146 +273,129 @@ h1,h2,h3{font-weight:600;letter-spacing:-.03em}
   </div>
  </div>
  <div class="facts" style="margin-top:auto">
-  <div><time>07:36</time><span>red warning for the province</span></div>
-  <div><time>11:45</time><span>first recorded death</span></div>
-  <div><time>18:55</time><span>Poyo ravine at 2,282 m³/s</span></div>
-  <div class="late"><time>20:11</time><span>phone alert; at least 156 already dead</span></div>
+  <div><time>7:36 AM</time><span>red warning for the province</span></div>
+  <div><time>11:45 AM</time><span>first recorded death</span></div>
+  <div><time>3–8 PM</time><span>616.8 mm at Turís: 1.3 years of València's rain in an afternoon</span></div>
+  <div class="late"><time>8:11 PM</time><span>phone alert; at least 156 already dead</span></div>
  </div>
  <div class="gap" style="margin-top:16px;padding:16px 26px"><strong style="font-size:46px">12 h 35 min</strong><span style="font-size:24px">from the red warning to the phone alert. 229 people died in the Valencia region.</span></div>
- <div class="ft"><span class="src">AEMET · Newtral · El País, 26 Oct 2025 · rain: NASA GPM IMERG V07, cloud: NASA POWER · timeline: our dashboard, simulated</span><span>Orbit to Ground</span></div>
+ <div class="ft"><span class="src">AEMET (event study; normals 475 mm/yr) · Newtral · El País, 26 Oct 2025 · rain: NASA GPM IMERG V07, cloud: NASA POWER · timeline: our dashboard, simulated</span><span>Orbit to Ground</span></div>
 </section>
 
 <!-- 3 · Rewind -->
 <section class="s">
- <div class="hd"><span>Story 1 · rewind, with Orbit to Ground</span><span>3 / 10</span></div>
+ <div class="hd"><span>Story 1 · rewind, with Orbit to Ground</span><span>3 / 7</span></div>
  <h2 class="title">Rewind. Same night, same data, with Orbit to Ground.</h2>
  <div class="rw">
   <div class="c"><span class="n"><i>1</i>Signal</span><h3>Rain piles up upstream</h3><p class="m"><b>91 mm</b> upstream on 29 Oct (135 mm in the wettest cell). <b>99% cloud</b>: optical is blind.</p><div class="shot ct"><img style="object-position:center" src="assets/shots/comp-flood-signal.png" alt="Rain and cloud leading signal"></div></div>
-  <div class="c"><span class="n"><i>2</i>Map</span><h3>Radar sees through cloud</h3><p class="m"><b>77.7 km²</b> of new water (+47.0). <b>8 towns</b> hold 75.8 km² of it.</p><div class="shot"><img src="assets/shots/comp-flood-map.png" alt="Radar flood map with the 8 flagged towns" style="object-position:center"></div></div>
+  <div class="c"><span class="n"><i>2</i>Map</span><h3>Radar sees through cloud</h3><p class="m"><b>77.7 km²</b> of new water (+47.0). <b>8 towns</b> hold 75.8 km² of it.</p><div class="shot"><img class="lp-poster" src="assets/shots/loop-flood.jpg" alt="Radar flood map: towns flagged and teams placed (simulated)"><video class="lp" autoplay muted loop playsinline preload="auto" poster="assets/shots/loop-flood.jpg"><source src="clips/loop-flood.webm" type="video/webm"><source src="clips/loop-flood.mp4" type="video/mp4"></video><span class="tk">Live demo loop</span></div></div>
   <div class="c"><span class="n"><i>3</i>Alert</span><h3>One alert to all 8 towns</h3><p class="m">The water area, the rain and "stay off low ground", ready to send.</p><div class="shot ct"><img src="assets/shots/flood-alert.png" alt="Draft flood alert to the 8 towns"><span class="tk">Alert (simulated)</span></div></div>
   <div class="c"><span class="n"><i>4</i>Dispatch</span><h3>Teams, passes and aid</h3><p class="m">Rescue teams go to the flagged towns, drones to the streets radar can't see, and the next pass is queued.</p><div class="shot ct"><img src="assets/shots/comp-flood-dispatch.png" alt="Dispatch map with team markers and the task queue"><span class="tk">Tasking (simulated)</span></div></div>
  </div>
- <p class="safe">With an upstream rain signal and a radar map, Elena <b>could have</b> had a drafted alert for her town hours before 20:11, and a map of where the water went.</p>
- <div class="ft"><span class="pill">Hypothetical rewind · tasking and alerts are simulated</span><span class="src">NASA GPM IMERG V07 · NASA POWER · NASA/JPL OPERA DSWx-S1 (26 → 31 Oct)</span></div>
+ <p class="safe">With an upstream rain signal and a radar map, Elena <b>could have</b> had a drafted alert for her town hours before 8:11 PM, and a map of where the water went.</p>
+ <div class="ft"><span class="dl"><span class="pill">Hypothetical rewind · tasking and alerts are simulated</span><a class="btn" href="https://nasa-spaceapps-2026.pages.dev/sar-change/app/#demo">Open the flood demo →</a><a class="btn ghost" href="https://nasa-spaceapps-2026.pages.dev/submission/demo.mp4">▶ 30 s video</a></span><span class="src">NASA GPM IMERG V07 · NASA POWER · NASA/JPL OPERA DSWx-S1 (26 → 31 Oct)</span></div>
 </section>
 
-<!-- 4 · Fire -->
+<!-- 4 · Flood what-if -->
 <section class="s">
- <div class="hd"><span>Story 2 · before the fire season</span><span>4 / 10</span></div>
- <h2 class="title" style="font-size:56px"><span class="k fire">Hot Spots · 11.6 M fire detections, 2000–2025</span>Canada's fire map, then a duty officer staffs up early.</h2>
- <div class="f3">
-  <div class="shot"><img src="assets/shots/fire-canada-extent.png" alt="Fires per year across Canada, B.C. to Quebec, 2003 to 2025 average" style="object-fit:contain;object-position:center;background:#2b2b2b"><span class="tag">Canada, B.C. → Quebec · fires per year, 2003–2025 average</span></div>
-  <div class="r">
-   <div class="shot"><img class="lp-poster" src="assets/shots/loop-fire.jpg" alt="Alberta and B.C. with crews, hiring and camera tasks placed"><video class="lp" autoplay muted loop playsinline preload="auto" poster="assets/shots/loop-fire.jpg"><source src="clips/loop-fire.webm" type="video/webm"><source src="clips/loop-fire.mp4" type="video/mp4"></video><span class="tag">Alberta + B.C. · crews and hiring</span><span class="tk">Tasking (simulated)</span></div>
-   <div class="shot ct"><img src="assets/shots/fire-queue-run.png" alt="Fire task queue moving"><span class="tk">Queue (simulated)</span></div>
-   <div class="beats2">
-    <div class="beat sm"><span class="k">The trend</span><strong>+1,503 a year</strong><p>Alberta detections (p = 0.035); B.C. +2,587 (p = 0.045)</p></div>
-    <div class="beat sm"><span class="k">The watch month</span><strong>May</strong><p>5 of Alberta's 16 unusual fire months since 2000</p></div>
+ <div class="hd"><span>Story 1 · what if it had been there? · illustrative estimate</span><span>4 / 7</span></div>
+ <h2 class="title" style="font-size:50px;margin-top:16px">12 hours earlier = an alert before the first death.</h2>
+ <p class="sub" style="font-size:24px;margin-top:8px">Published warning curves put about <b style="color:var(--ink)">€1.1 bn</b> of Valencia's <b style="color:var(--ink)">€4.8 bn</b> insured loss within reach.</p>
+ <div class="fw">
+  <div class="l">
+   <div class="curve" style="grid-template-columns:repeat(4,1fr)"><div><b>13%</b><span>6 h earlier · 2:11 PM</span></div><div class="on"><b>22%</b><span>12 h earlier · 8:11 AM</span></div><div><b>30%</b><span>24 h earlier</span></div><div><b>~33%</b><span>48 h earlier</span></div></div>
+   <p class="ar" style="font-size:22px;padding:14px 16px">22% × €4.8 bn insured = <b>€1.06 bn</b><br>an 8:11 AM alert lands before the first recorded death (11:45 AM)</p>
+   <div class="mini">
+    <div class="card"><span class="k water-t">The bill, per claim</span><strong>≈ €19,000</strong><p>€4.8 bn over 250,663 insurance claims</p></div>
+    <div class="card"><span class="k water-t">The water, in city terms</span><strong>58%</strong><p>77.7 km² of new water = more than half the area of the city of València (134.65 km²)</p></div>
+   </div>
+   <p class="hu">The benefit does <b>not</b> stack per day: the curve levels off after about 24 h. The gap on 29 Oct was turning the 7:36 AM warning into a local alert, not detecting the rain. "Days earlier" is about the <b>map</b>: the rain signal came about 2 days before the first radar pass (31 Oct) and 4 days before the Copernicus map (2 Nov). We give no lives number for Valencia.</p>
+  </div>
+  <div>
+   <table class="cmp"><tr><th>Today</th><th>Gap on 29 Oct</th><th>Orbit to Ground adds</th></tr>
+    <tr><td>AEMET warning</td><td class="gap">red at 7:36 AM, by zone; not an instruction to the public</td><td class="us">a drafted, town-specific alert: go up, keep out of garages (simulated)</td></tr>
+    <tr><td>EFAS notices</td><td class="gap">emailed to agencies, not binding; 17% chance of a 20-year flood</td><td class="us">observed NASA rain + radar on one screen, with a task queue</td></tr>
+    <tr><td>ES-Alert</td><td class="gap">8:11 PM, "avoid any travel" only</td><td class="us">message and target towns pre-filled from the map (simulated)</td></tr>
+    <tr><td>Copernicus EMS</td><td class="gap">first maps 31 Oct; province-wide extent 2 Nov</td><td class="us">open OPERA radar water each pass, linked to rain and dispatch</td></tr>
+   </table>
+  </div>
+ </div>
+ <div class="tl" style="margin-top:28px">
+  <div class="t"><time style="font-size:44px">7:36 AM</time><h4 style="font-size:24px">Red warning</h4><p style="font-size:19px">The danger is known.</p></div>
+  <div class="t"><time style="font-size:44px;color:#1e6b34">8:11 AM</time><h4 style="font-size:24px">What if: the town alert goes out</h4><p style="font-size:19px">12 h earlier; drafted by the dashboard (simulated)</p></div>
+  <div class="t"><time style="font-size:44px">11:45 AM</time><h4 style="font-size:24px">First recorded death</h4><p style="font-size:19px">a driver at the Benimodo ravine</p></div>
+  <div class="t late"><time style="font-size:44px">8:11 PM</time><h4 style="font-size:24px">The real phone alert</h4><p style="font-size:19px">at least 156 already dead · <a href="https://nasa-spaceapps-2026.pages.dev/sar-change/app/#demo" style="color:var(--accent)">open the What if? panel →</a></p></div>
+ </div>
+ <div class="ft"><span class="pill">Illustrative estimate · alerts simulated</span><span class="src">Day (1970) via NHWC · GCA 2019 · Pappenberger 2015 · CCS · El País · EFAS · ESA · València Recull 2024</span></div>
+</section>
+
+<!-- 5 · Fire vertical -->
+<section class="s">
+ <div class="hd"><span>Story 2 · Hot Spots · the whole fire vertical</span><span>5 / 7</span></div>
+ <h2 class="title" style="font-size:46px;margin-top:14px"><span class="k fire" style="margin-bottom:8px">11.6 M fire detections, 2000–2025</span>The data flags May months ahead: staffing on 15 April gives 16 more days of readiness.</h2>
+ <div class="vert">
+  <div class="l">
+   <div class="shot"><img src="assets/shots/fire-canada-extent.png" alt="Fires per year across Canada, B.C. to Quebec" style="object-fit:cover;object-position:center"><span class="tag">Canada, B.C. → Quebec · fires per year, 2003–2025</span></div>
+   <div class="l2">
+    <div class="shot"><img class="lp-poster" src="assets/shots/loop-fire.jpg" alt="Alberta and B.C. with crews, hiring and camera tasks placed"><video class="lp" autoplay muted loop playsinline preload="auto" poster="assets/shots/loop-fire.jpg"><source src="clips/loop-fire.webm" type="video/webm"><source src="clips/loop-fire.mp4" type="video/mp4"></video><span class="tag">Alberta + B.C. · staffing</span><span class="tk">Tasking (simulated)</span></div>
+    <div class="shot ct"><img src="assets/shots/fire-queue-run.png" alt="Fire task queue moving" style="object-fit:contain;background:#10142c"><span class="tk">Queue (simulated)</span></div>
    </div>
   </div>
- </div>
- <div class="ft"><span class="pill">Staffing alert and notice are simulated</span><span class="src">NASA FIRMS, harmonized MODIS + VIIRS · a trend line, not a forecast</span></div>
-</section>
-
-<!-- 5 · One engine -->
-<section class="s">
- <div class="hd"><span>One engine, many sectors</span><span>5 / 10</span></div>
- <h2 class="title" style="font-size:56px">One engine. <span class="grad">Signal → map → alert → task.</span> Many sectors.</h2>
- <div class="eng">
-  <div style="display:flex;flex-direction:column;min-height:0">
-   <div class="shot" style="flex:1"><img class="lp-poster" src="assets/shots/loop-field.jpg" alt="Field Shift crop classification map of Story County, Iowa, 30 m"><video class="lp" autoplay muted loop playsinline preload="auto" poster="assets/shots/loop-field.jpg"><source src="clips/loop-field.webm" type="video/webm"><source src="clips/loop-field.mp4" type="video/mp4"></video><span class="tag">Field Shift · crop map, every 30 m pixel · Story County</span></div>
-   <p class="cap">Built · corn, soybean, hay, grass and more · next-season crop 81.8% correct (held-out 2024–25)</p>
-  </div>
-  <div class="sect">
-   <div class="srow"><h4>Emergency mgmt</h4><p>Flood water map by town, alert draft, dispatch<small>SAR Change · Valencia · 66.4% IoU</small></p><span class="lab b">Built</span></div>
-   <div class="srow"><h4>Wildfire</h4><p>Pre-season staffing and community notice<small>Hot Spots · Canada + Argentina · 26 years</small></p><span class="lab b">Built</span></div>
-   <div class="srow"><h4>Agriculture</h4><p>Crop map, next-crop call, 4-year plan<small>Field Shift · Story County, Iowa</small></p><span class="lab b">Built</span></div>
-   <div class="srow"><h4>Water · drought</h4><p>Groundwater trend watch, eastern Spain<small>GRACE −0.39 cm a year (p = 0.002)</small></p><span class="lab b">Built</span></div>
-   <div class="srow fut"><h4>Water · drought</h4><p>Drought and crop-stress alerts to growers</p><span class="lab f">Future</span></div>
-   <div class="srow fut"><h4>Health · air</h4><p>Smoke advisories for schools and clinics, from fire detections</p><span class="lab f">Future</span></div>
-   <div class="srow fut"><h4>Infrastructure</h4><p>Flood exposure of roads, rail and insured property, from the radar map</p><span class="lab f">Future</span></div>
-   <div class="srow fut"><h4>Civil works</h4><p>Landslide watch on slopes after heavy rain</p><span class="lab f">Future</span></div>
+  <div class="r">
+   <div class="mini">
+    <div class="card"><span class="k fire-t">The trend</span><strong>+1,503 a year</strong><p>Alberta detections (p = 0.035); B.C. +2,587 (p = 0.045)</p></div>
+    <div class="card"><span class="k fire-t">The watch month</span><strong>May</strong><p>5 of Alberta's 16 unusual fire months since 2000</p></div>
+   </div>
+   <div class="card wf"><span class="k crop-t">What if · illustrative</span><h3>16 more days of full readiness before the first big fire</h3><p>2016: Horse River started 1 May, the staffing target day. 2023: Drayton Valley started 23 Apr, before full staffing; a 15 April start gives 8 days.</p>
+    <p class="ar">1,088 fires × 3% ≈ 33 escapes · 97% × 2.2 M ha ÷ 33 ≈ 65,000 ha each</p>
+    <p>For scale: the escaped May 2016 fire burned 5,896 km², <b style="color:var(--ink)">more than all of Prince Edward Island</b>, moved 88,000 people and cost <b style="color:var(--ink)">$8.9 bn</b>. Its review found initial attack was immediate, so we don't claim staffing would have stopped it. The value is readiness across the whole season.</p></div>
+   <table class="cmp" style="font-size:16px"><tr><th>Today</th><th>What it does</th><th>We add</th></tr>
+    <tr><td>NASA FIRMS</td><td class="gap">where it's burning now</td><td class="us">one 26-year, single-scale record; trend tests</td></tr>
+    <tr><td>CWFIS</td><td class="gap">days of fire weather</td><td class="us">the multi-year view per province</td></tr>
+    <tr><td>Fixed date</td><td class="gap">staff by 1 May (now 15 Apr)</td><td class="us">set from the province's own record</td></tr>
+   </table>
+   <div class="dl" style="margin-top:auto"><a class="btn" href="https://nasa-spaceapps-2026.pages.dev/hotspots/app/#demo">Open Hot Spots →</a><a class="btn ghost" href="https://nasa-spaceapps-2026.pages.dev/submission/clips/hotspots.mp4">▶ Demo clip</a></div>
   </div>
  </div>
- <div class="ft"><span class="src">Built = live in the three dashboards · future = ideas, not results · civil uses only · map: USDA NASS CDL 2025</span><span>Orbit to Ground</span></div>
+ <div class="ft"><span class="pill">Illustrative estimate · staffing alert and notice are simulated</span><span class="src">NASA FIRMS (harmonized MODIS + VIIRS) · MNP 2017, 2025 · KPMG · IBC · The Weather Network · Stocks 2002 · Statistics Canada areas</span></div>
 </section>
 
-<!-- 6 · Technical -->
+<!-- 6 · Fields vertical -->
 <section class="s">
- <div class="hd"><span>Under the hood · 1 of 2</span><span>6 / 10</span></div>
- <h2 class="title" style="font-size:48px;margin-top:18px">Data in, model, output, score: flood and fire.</h2>
- <div class="arch"><img class="arch-print" src="assets/shots/arch-1.png" alt="Architecture: Sentinel-1 radar and GPM rain into a U-Net water model; FIRMS thermal into a calibrated fire range model"><video class="arch-v" autoplay muted loop playsinline preload="auto" poster="assets/shots/arch-1.png"><source src="clips/loop-arch.webm" type="video/webm"><source src="clips/loop-arch.mp4" type="video/mp4"></video></div>
- <div class="ft"><span class="src">One seed each, not a published benchmark · test sets: Sen1Floods11 (90 hand-labelled chips), FIRMS held-out 2022–25</span><span>Orbit to Ground</span></div>
-</section>
-
-<!-- 7 · Technical -->
-<section class="s">
- <div class="hd"><span>Under the hood · 2 of 2</span><span>7 / 10</span></div>
- <h2 class="title" style="font-size:48px;margin-top:18px">Data in, model, output, score: farms and trends.</h2>
- <div class="arch"><img src="assets/shots/arch-2.png" alt="Architecture: HLS optical and crop history into a next-season crop model; GRACE, GLDAS and POWER into Mann-Kendall trend tests"></div>
- <div class="ft"><span class="src">One seed, held-out 2024–25 · trends report p-values, and "no trend" when there is none</span><span>Orbit to Ground</span></div>
-</section>
-
-<!-- 8 · What-if -->
-<section class="s">
- <div class="hd"><span>Impact · what if it had been there?</span><span>8 / 10</span></div>
- <h2 class="title" style="font-size:52px;margin-top:18px">What the same signal is worth, a few hours or days earlier.</h2>
- <div class="wi">
-  <div class="wc"><span class="k water-t">Flood · Valencia, 29 Oct 2024</span>
-   <h3>12 hours earlier = an alert before the first death. Published warning curves put about €1.1 bn of Valencia's €4.8 bn insured loss within reach.</h3>
-   <div class="curve"><div><b>13%</b><span>6 h</span></div><div class="on"><b>22%</b><span>12 h</span></div><div><b>30%</b><span>24 h</span></div><div><b>~33%</b><span>48 h</span></div></div>
-   <p class="ar">22% × €4.8 bn insured = €1.06 bn<br>08:11 alert vs first death at 11:45</p>
-   <p class="note">The gap was turning the 07:36 warning into a local alert. The map: rain signal about 2 days before the first radar pass, 4 days before the Copernicus map. No lives estimate.</p>
-   <p class="vs"><b>Today:</b> AEMET warns by zone, EFAS emails agencies, ES-Alert said only "avoid travel". <b>We add</b> a town-specific alert draft and radar map on one screen.</p></div>
-  <div class="wc"><span class="k fire-t">Fire · Alberta</span>
-   <h3>The data flags May months ahead: staffing on 15 April instead of 1 May gives 16 more days of readiness. Every escape prevented spares about 65,000 ha.</h3>
-   <p class="ar">1,088 fires × 3% ≈ 33 escapes<br>97% × 2.2 M ha ÷ 33 ≈ 65,000 ha each</p>
-   <p class="note">Readiness across the season, not the outcome of any one fire. Escapes prevented is an assumption.</p>
-   <p class="vs"><b>Today:</b> FIRMS shows fires now; CWFIS covers days of fire weather; staffing is set by calendar. <b>We add</b> the 26-year per-province view.</p></div>
-  <div class="wc"><span class="k crop-t">Farms · a 2012-type drought</span>
-   <h3>In a 2012-type drought, rye on Story County's 92 steepest squares is worth about $1.2 M net, and our map is ready before planting instead of 11 months after.</h3>
-   <p class="ar">(11.1 bu × $6.89 − $32.09) = $44.39/acre<br>× 26,500 acres ≈ $1.18 M</p>
-   <p class="note">Drought insurance: a small cost most years, a payout in dry ones.</p>
-   <p class="vs"><b>Today:</b> the USDA crop map arrives after the season; plantings are state-level. <b>We add</b> a per-field next-season map.</p></div>
- </div>
- <div class="ft"><span class="pill">Illustrative estimate · not a measured outcome</span><span class="src">Day (1970) via NHWC · GCA 2019 · Pappenberger 2015 · CCS · El País · MNP 2017 · Stocks 2002 · USDA NASS · SARE/CTIC · ISU · full math in IMPACT.md</span></div>
-</section>
-
-<!-- 9 · Human value, team, close -->
-<section class="s">
- <div class="hd"><span>Human value</span><span>9 / 10</span></div>
- <h2 class="title">From a satellite signal to a decision, in time to act.</h2>
- <div class="ppl">
-  <div class="pp"><span class="k water-t">Flood · emergency coordinator</span><h3>Which towns, and when</h3><p class="bf">Optical satellites see only cloud. Towns are ranked from calls.</p><p class="af">A radar water map by town on day two, and an alert draft ready.</p><p class="num2"><b>77.7 km²</b>mapped through cloud · 66.4% IoU</p></div>
-  <div class="pp"><span class="k fire-t">Fire · duty officer</span><h3>Staff and warn before the season</h3><p class="bf">Crews called in after the fire starts.</p><p class="af">Crews staged before July, and a community notice before May.</p><p class="num2"><b>5 of 16</b>unusual Alberta months in May</p></div>
-  <div class="pp"><span class="k crop-t">Farm · grower</span><h3>What to plant next</h3><p class="bf">Plan from habit and last year's field.</p><p class="af">A next-crop call and a 4-year plan, with rye on steep fields.</p><p class="num2"><b>+19 days</b>longer frost-free season since 1981</p></div>
- </div>
- <div class="close">
-  <h2>Orbit to Ground.<br><span class="grad">See it. Decide. Act.</span></h2>
-  <div class="team"><b>Team GeoAI Toronto</b>Parsa Riahi · Toronto, Canada<br><span class="src">nasa-spaceapps-2026.pages.dev</span></div>
- </div>
- <div class="ft"><span class="src">Every number comes from our own runs on public data · tasking and alerts are simulated · not affiliated with NASA</span><span>Code Apache-2.0</span></div>
-</section>
-
-<!-- 10 · Product demos -->
-<section class="s">
- <div class="hd"><span>Product demos · try it live</span><span>10 / 10</span></div>
- <h2 class="title">Watch it work. Then open the apps.</h2>
- <div class="demos">
-  <div style="display:flex;flex-direction:column;min-height:0">
-   <div class="vid" style="flex:1"><video controls preload="metadata" playsinline muted poster="assets/shots/poster-sar.jpg" src="clips/sar-change.mp4"></video>
-    <img class="poster" src="assets/shots/poster-sar.jpg" alt="SAR Change demo"><span class="vtag">Primary demo · flood</span><span class="play"><i>▶</i></span><a class="over poster" href="https://nasa-spaceapps-2026.pages.dev/submission/clips/sar-change.mp4" aria-label="Play the SAR Change demo"></a></div>
-   <div class="links"><b class="water-t">SAR Change · the Valencia flood</b><span style="color:var(--muted)">rain signal → radar map → alert → dispatch</span><a class="btn" href="https://nasa-spaceapps-2026.pages.dev/sar-change/app/#demo">Open the app →</a></div>
+ <div class="hd"><span>Story 3 · Field Shift · the whole farm vertical</span><span>6 / 7</span></div>
+ <h2 class="title" style="font-size:46px;margin-top:14px"><span class="k crop" style="margin-bottom:8px">Story County, Iowa · every 30 m pixel</span>Rye on the steepest fields: drought insurance, planned before planting.</h2>
+ <div class="vert">
+  <div class="l2" style="grid-template-rows:minmax(0,1fr)">
+   <div class="shot"><img class="lp-poster" src="assets/shots/loop-field.jpg" alt="Field Shift crop classification map, Story County, 30 m"><video class="lp" autoplay muted loop playsinline preload="auto" poster="assets/shots/loop-field.jpg"><source src="clips/loop-field.webm" type="video/webm"><source src="clips/loop-field.mp4" type="video/mp4"></video><span class="tag">Crop map · corn, soybean, hay, grass</span></div>
+   <div class="shot"><img src="assets/shots/field-map-run.png" alt="Drone survey and scouts tasked to 114 squares" style="object-position:center"><span class="tag">Drone + scout · 114 squares</span><div class="inset" style="width:58%;top:auto;bottom:56px"><img src="assets/shots/field-queue-run.png" alt="Field task queue"></div><span class="tk">Tasking (simulated)</span></div>
   </div>
-  <div class="vids">
-   <div class="vrow"><div class="vid"><video controls preload="metadata" playsinline poster="assets/shots/poster-demo.jpg" src="demo.mp4"><track kind="captions" srclang="en" label="English" src="demo.en.vtt" default></video><img class="poster" src="assets/shots/poster-demo.jpg" alt=""><span class="play"><i>▶</i></span><a class="over poster" href="https://nasa-spaceapps-2026.pages.dev/submission/demo.mp4" aria-label="Play the 30-second demo"></a></div>
-    <div><h3>The 30-second story</h3><p>The Valencia night, rewound.</p><a class="btn ghost" href="https://nasa-spaceapps-2026.pages.dev/">nasa-spaceapps-2026.pages.dev</a></div></div>
-   <div class="vrow"><div class="vid"><video controls preload="metadata" playsinline muted poster="assets/shots/poster-hotspots.jpg" src="clips/hotspots.mp4"></video><img class="poster" src="assets/shots/poster-hotspots.jpg" alt=""><span class="play"><i>▶</i></span><a class="over poster" href="https://nasa-spaceapps-2026.pages.dev/submission/clips/hotspots.mp4" aria-label="Play the Hot Spots demo"></a></div>
-    <div><h3 class="fire-t">Hot Spots</h3><p>Crews before July, notice before May.</p><a class="btn" href="https://nasa-spaceapps-2026.pages.dev/hotspots/app/#demo">Open the app →</a></div></div>
-   <div class="vrow"><div class="vid"><video controls preload="metadata" playsinline muted poster="assets/shots/poster-field.jpg" src="clips/field-shift.mp4"></video><img class="poster" src="assets/shots/poster-field.jpg" alt=""><span class="play"><i>▶</i></span><a class="over poster" href="https://nasa-spaceapps-2026.pages.dev/submission/clips/field-shift.mp4" aria-label="Play the Field Shift demo"></a></div>
-    <div><h3 class="crop-t">Field Shift</h3><p>Rye on the steep fields.</p><a class="btn" href="https://nasa-spaceapps-2026.pages.dev/field-shift/app/#demo">Open the app →</a></div></div>
+  <div class="r">
+   <div class="mini">
+    <div class="card"><span class="k crop-t">Next-season crop</span><strong>81.8%</strong><p>correct per 30 m pixel (crop history alone: 81.4%), held-out 2024–25</p></div>
+    <div class="card"><span class="k crop-t">The climate trend</span><strong>+19 days</strong><p>longer frost-free season since 1981 (p = 0.006)</p></div>
+   </div>
+   <div class="card wf"><span class="k crop-t">What if · illustrative</span><h3>In a 2012-type drought, rye on the 92 steepest squares is worth about $1.2 M net.</h3>
+    <p class="ar">(11.1 bu × $6.89 − $32.09) = $44.39 an acre<br>× 26,500 acres ≈ $1.18 M</p>
+    <p>Drought insurance: it costs a little in most years and pays back in a dry one (about 2.4× its seed and planting cost in 2012, per the SARE survey). Iowa's 2012 corn fell 20%.</p></div>
+   <table class="cmp" style="font-size:16px"><tr><th>Today</th><th>When it arrives</th><th>We add</th></tr>
+    <tr><td>USDA crop map (CDL)</td><td class="gap">after the season: about 11 months later</td><td class="us">next season's map in February, before planting</td></tr>
+    <tr><td>Prospective Plantings</td><td class="gap">31 March, state-level</td><td class="us">field-level, with the climate trend attached</td></tr>
+   </table>
+   <div class="dl" style="margin-top:auto"><a class="btn" href="https://nasa-spaceapps-2026.pages.dev/field-shift/app/#demo">Open Field Shift →</a><a class="btn ghost" href="https://nasa-spaceapps-2026.pages.dev/submission/clips/field-shift.mp4">▶ Demo clip</a></div>
   </div>
  </div>
- <div class="ft"><span class="pill">Tasking and alerts are simulated</span><span>Orbit to Ground · Team GeoAI Toronto</span></div>
+ <div class="ft"><span class="pill">Illustrative estimate · scouting and drone tasks are simulated</span><span class="src">USDA NASS CDL + Crop Production 2012 · USDA FSA · SARE/CTIC 2012–13 survey · Iowa State (Plastina 2018) · NASA HLS · NASA POWER</span></div>
+</section>
+
+<!-- 7 · System + close -->
+<section class="s">
+ <div class="hd"><span>One system · how it works</span><span>7 / 7</span></div>
+ <h2 class="title" style="font-size:42px;margin-top:12px">Shared NASA inputs, one engine, one loop: signal → map → alert → task.</h2>
+ <div class="arch" style="margin-top:12px"><img class="arch-print" src="assets/shots/arch-system.png" alt="Shared inputs feed one engine of trend detection and per-signal models, then the signal, map, alert, task loop, then outputs and results per vertical"><video class="arch-v" autoplay muted loop playsinline preload="auto" poster="assets/shots/arch-system.png"><source src="clips/loop-arch.webm" type="video/webm"><source src="clips/loop-arch.mp4" type="video/mp4"></video></div>
+ <div class="strip">
+  <div class="eng2"><b>Same engine, every sector:</b><span class="chip2">Built · flood</span><span class="chip2">Built · wildfire</span><span class="chip2">Built · farms</span><span class="chip2">Built · groundwater</span><span class="chip2 f">Future · drought alerts</span><span class="chip2 f">Future · smoke + air</span><span class="chip2 f">Future · infrastructure</span><span class="chip2 f">Future · landslides</span></div>
+  <div class="team2"><b>Team GeoAI Toronto</b>Parsa Riahi · Toronto · <span class="grad" style="font-weight:600">See it. Decide. Act.</span></div>
+ </div>
+ <div class="ft"><span class="src">One seed each, not a published benchmark · civil uses only · tasking and alerts are simulated · not affiliated with NASA · nasa-spaceapps-2026.pages.dev</span><span>Code Apache-2.0</span></div>
 </section>
 </body></html>

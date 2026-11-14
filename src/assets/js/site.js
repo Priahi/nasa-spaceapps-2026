@@ -84,7 +84,7 @@
 
   // Smooth scroll on fine pointers only (same settings as the personal site)
   if (fine && window.Lenis) {
-    const lenis = new Lenis({ lerp: 0.1, smoothWheel: true, syncTouch: false, anchors: { offset: -72 } });
+    const lenis = new Lenis({ lerp: 0.1, smoothWheel: true, syncTouch: false, anchors: { offset: -96 } });
     lenis.on("scroll", ScrollTrigger.update);
     gsap.ticker.add((t) => lenis.raf(t * 1000)); gsap.ticker.lagSmoothing(0);
   }

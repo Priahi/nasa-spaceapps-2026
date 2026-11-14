@@ -5,7 +5,8 @@
 Usage: python3 src/build.py [--demos /path/to/nasa-spaceapps/deploy]"""
 import html, json, re, shutil, sys
 from pathlib import Path
-from story import STORIES, trend_story, chain, usecases_home, usecases_module, maps_block
+from story import maps_block
+from recs import APPS, PEOPLE_NOTE, rec_card, recs_block, impact_block, guide_data
 from content import SITE, PROJECTS, CRITERIA, TRENDS, GLOSSARY, STAKES, SYSTEM_PROBLEM, MODULES, UPGRADES
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -35,10 +36,13 @@ def copy_demo(slug):
     shutil.copytree(src, out, ignore=shutil.ignore_patterns("_headers", "robots.txt"))
     shutil.copy(SRC / "demo-theme" / "common.css", out / "suite-common.css")
     shutil.copy(SRC / "demo-theme" / THEME[slug], out / "suite-theme.css")
+    shutil.copy(SRC / "demo-theme" / "guide.css", out / "guide.css")
+    shutil.copy(SRC / "demo-theme" / "guide.js", out / "guide.js")
+    (out / "guide-data.js").write_text("window.OG_SLUG=" + json.dumps(slug) + ";window.OG_GUIDE=" + json.dumps(guide_data(), ensure_ascii=False) + ";")
     idx = out / "index.html"; h = idx.read_text()
     h = re.sub(r'\s*<meta name="robots"[^>]*>', "", h)
     h = re.sub(r'(href|src)="/(?!/)', r'\1="', h)  # root-absolute assets -> relative (demo now lives under /<slug>/app/)
-    h = h.replace("</head>", '  <link rel="stylesheet" href="suite-common.css" />\n  <link rel="stylesheet" href="suite-theme.css" />\n</head>', 1)
+    h = h.replace("</head>", '  <link rel="stylesheet" href="suite-common.css" />\n  <link rel="stylesheet" href="suite-theme.css" />\n  <link rel="stylesheet" href="guide.css" />\n</head>', 1)
     h = re.sub(r"(<body[^>]*>)", lambda m: m.group(1) + suite_bar(slug), h, count=1)
     # public-build wording (was written for the private preview)
     h = h.replace("NASA Space Apps 2026 · unlisted demo · not submitted", "NASA Space Apps 2026")
@@ -48,6 +52,7 @@ def copy_demo(slug):
     h = h.replace("Cite every source in a Space Apps submission and disclose this pre-existing tooling. This is a local demo, not a submitted project and not a published benchmark.",
                   "All sources are cited above. Builds on our earlier code and open-source libraries. One seed, not a published benchmark.")
     h = h.replace("Cite every source in a Space Apps submission and disclose this pre-existing tooling.", "Builds on our earlier code and open-source libraries.")
+    h = h.replace("</body>", '<script src="guide-data.js" defer></script><script src="guide.js" defer></script>\n</body>', 1)
     idx.write_text(h)
     for f in list(out.glob("*.js")) + list(out.glob("*.css")) + [idx]:
         if f.name.startswith("suite-"): continue
@@ -83,7 +88,7 @@ def head(title, desc, path, img="og.png"):
 """
 
 def nav(active):
-    items = [("/#why", "Why"), ("/#what", "What"), ("/#how", "How")] + [(f"/{p['slug']}/", p["name"].split(":")[0]) for p in PROJECTS] + [("/slides/", "Slides")]
+    items = [("/#actions", "Actions"), ("/#impact", "Impact")] + [(f"/{p['slug']}/", APPS[p["slug"]]["name"]) for p in PROJECTS] + [("/slides/", "Slides"), ("/#how", "How")]
     li = "".join(f'<li><a href="{h}"{" aria-current=\"page\"" if h==active else ""}>{e(t)}</a></li>' for h, t in items)
     mi = "".join(f'<a href="{h}">{e(t)}</a>' for h, t in items)
     return f"""<header class="nav"><a class="brand" href="/"><span class="brand-dot" aria-hidden="true"></span>Orbit to Ground</a>
@@ -119,117 +124,6 @@ def login_cell(name):
     y = any(k in name for k in LOGIN_KEYS)
     return f'<td class="{"login-y" if y else "login-n"}">{"Earthdata login" if y else "Public, no login"}</td>'
 
-def landing():
-    def kpi(p): return f'<strong class="grad">{e(p["card_kpi"][0])}</strong><span>{e(p["card_kpi"][1])}</span>'
-    stakes = "".join(f"""<li class="tier-card tier-{t}"><p class="tier-name">{e(x['theme'])}</p><strong>{e(x['big'])}</strong><p class="tier-text">{e(x['line'])}</p>
-<p class="tier-source"><a href="{x['url']}">{e(x['src'])}</a></p></li>""" for x, t in zip(STAKES, ("milestone", "category", "traction")))
-    # pinned engine: three modules + trend layer
-    parts = [(MODULES[p["slug"]]["role"], p["name"].split(":")[0], MODULES[p["slug"]]["statement"], p["card_kpi"][0] + " · " + p["card_kpi"][1], p["card_img"], f"/{p['slug']}/") for p in PROJECTS]
-    parts.append(("Measure", "Trend layer", "Every module answers the same four questions: what is changing, where, by how much, and is it significant? Mann-Kendall and Sen's slope on 23 to 45 years of NASA records.", "Canada fire +3,019 detections/yr (p = 0.035) · Iowa frost-free +0.43 d/yr (p = 0.006)", "trend-layer.webp", "/#trends"))
-    steps = "".join(f'<li class="{"active" if k == 0 else ""}"><span class="mono">0{k+1}</span><span class="role">{e(r)}</span><strong>{e(n)}</strong><p>{e(t)}</p><span class="engine-fact mono">{e(f)}</span></li>' for k, (r, n, t, f, im, h) in enumerate(parts))
-    stage = "".join(f'<img src="/assets/img/{im}" alt="{e(n)}" class="{"on" if k == 0 else ""}" loading="lazy" />' for k, (r, n, t, f, im, h) in enumerate(parts))
-    elist = "".join(f'<article><div class="engine-card"><img src="/assets/img/{im}" alt="{e(n)}" loading="lazy" /></div><p class="mono">0{k+1} · {e(r)}</p><h3>{e(n)}</h3><p>{e(t)}</p><p class="engine-fact mono">{e(f)}</p></article>' for k, (r, n, t, f, im, h) in enumerate(parts))
-    mods = ""
-    for k, p in enumerate(PROJECTS):
-        M = MODULES[p["slug"]]
-        li = "".join(f"<li>{e(d)}</li>" for d in M["delivers"])
-        mods += f"""<article class="spot mod-card{' flip' if k % 2 else ''}" data-fx="rise"><span class="beam" aria-hidden="true"></span>
-<a class="mod-media" href="/{p['slug']}/"><img src="/assets/img/{p['card_img']}" alt="{e(p['name'])} screenshot" loading="lazy" width="1200" height="750" /></a>
-<div class="mod-body"><span class="num">Module {p['n']} · {e(M['role'])}</span><h3>{e(p['name'])}</h3>
-<p class="stmt"><b style="color:var(--ink);font-weight:500">The problem.</b> {e(M['statement'])}</p><ul>{li}</ul>
-<div class="kpi">{kpi(p)}</div>
-<div class="actions" style="margin-top:1.1rem"><a class="btn launch" href="/{p['slug']}/app/">Launch dashboard</a><a class="btn ghost" href="/{p['slug']}/">Open the module</a></div></div></article>"""
-    cases = ""
-    for p in PROJECTS:
-        t = TRENDS[p["slug"]]; c = t["case"]; ok, sigt = c["sig"]
-        cases += f"""<a class="spot case" href="/{p['slug']}/#trend"><span class="corner" aria-hidden="true"></span><div class="spot-body"><span class="num">{p['n']} · {e(MODULES[p['slug']]['role'])} · {e(t['theme'])}</span><h3>{e(t['title'])}</h3>
-<div class="spark" data-spark="{c['spark']}"{f' data-mark="{c["mark"]}"' if c.get('mark') else ''} aria-hidden="true"></div>
-<dl><dt>What</dt><dd>{e(c['what'])}</dd><dt>Where</dt><dd>{e(c['where'])}</dd><dt>How much</dt><dd>{e(c['how'])}</dd><dt>Significant?</dt><dd class="{'yes' if ok else 'no'}">{e(sigt)}</dd></dl>
-<span class="go">Open the case &rarr;</span></div></a>"""
-    gloss = "".join(f'<div class="spot"><div class="spot-body"><span class="eyebrow">0{i+1}</span><h3>{e(a)}</h3><p>{e(b)}</p></div></div>' for i, (a, b) in enumerate(GLOSSARY))
-    seen, drows = set(), ""
-    for p in PROJECTS:
-        for a, b, u in p["data"] + TRENDS[p["slug"]]["data"]:
-            if a in seen or "basemap" in a: continue
-            seen.add(a); drows += f'<tr><td><a href="{u}">{e(a)}</a></td><td>{e(MODULES[p["slug"]]["role"])}</td><td>{e(b)}</td>{login_cell(a)}</tr>'
-    methods = [("Detect", "Empirical-Bayes per-cell VIIRS/MODIS ratio, corrected by LightGBM; conformal intervals at a 90% target; robust z-score flags (|z| > 3.5); MODIS MCD64A1 burned area as a second, area-based record."),
-               ("Confirm", "Sentinel-1 RTC stacks per orbit; U-Net trained on Sen1Floods11 (14 Optuna trials) against Otsu and a global threshold; OPERA DSWx-S1 water counted outside usual water."),
-               ("Adapt", "LightGBM next-season crop model on CDL history plus NASADEM, POWER, NDVI and SoilGrids; FAO-56 water demand; NSGA-II search over four-year rotations; HLS 30 m NDVI and SMAP soil moisture for field-level context."),
-               ("Measure", "One value per year; Mann-Kendall (two-sided, α = 0.05) and Sen's slope with a 95% CI; Hamed-Rao autocorrelation check; a second series wherever one exists (GRACE/GRACE-FO water storage, GPM IMERG rainfall, GLDAS and SMAP soil moisture).")]
-    meth = "".join(f'<li><p><b style="color:var(--ink);font-weight:500">{e(a)}.</b> {e(b)}</p></li>' for a, b in methods)
-    crit = "".join(f'<div class="spot crit"><div class="spot-body"><span class="tag">0{i+1}</span><h3>{e(c)}</h3><p>{e(d)}</p></div></div>' for i, (c, d) in enumerate(CRITERIA))
-    return head(SITE["title"], SITE["desc"], "/") + nav("/") + f"""<main id="content">
-<section class="hero"><div class="topo-hero" aria-hidden="true"></div><div class="wrap hero-copy">
-<p class="chip"><i></i>NASA Space Apps 2026 · {e(SITE['challenge'])}</p>
-<h1>Orbit to <span class="grad">Ground</span></h1>
-<p class="lede">{e(SITE['tagline'])} Three working modules turn NASA satellite data into decisions: detect, confirm, adapt. Each one answers what is changing, where, how much, and whether it's significant.</p>
-<div class="actions"><a class="btn" href="#what">See the system &darr;</a><a class="btn ghost" href="#demo-video">&#9654; Demo video</a><a class="btn ghost" href="/slides/">Slides</a></div>
-<div class="dash-strip"><span class="mono">Launch a dashboard</span><a class="btn launch" href="/hotspots/app/">Hot Spots</a><a class="btn launch" href="/sar-change/app/">SAR Change</a><a class="btn launch" href="/field-shift/app/">Field Shift</a></div>
-<ul class="proof">
-<li><a href="/hotspots/"><span class="src">01 · Detect</span><strong class="grad" data-count="11616131" data-dec="0">11,616,131</strong><span class="t">NASA FIRMS fire detections behind the model, Canada and Argentina, 2000–2025</span></a></li>
-<li><a href="/sar-change/"><span class="src">02 · Confirm</span><strong class="grad" data-count="3.0" data-dec="1" data-suffix="×">3.0×</strong><span class="t">the water overlap of the standard Otsu threshold, through cloud and night</span></a></li>
-<li><a href="/field-shift/"><span class="src">03 · Adapt</span><strong class="grad" data-count="36" data-dec="0">36</strong><span class="t">non-dominated four-year rotation plans, ranked by the farmer's priorities</span></a></li>
-</ul></div></section>
-
-<section class="block" id="demo-video" style="padding-top:0"><div class="wrap">
-<figure class="spot video-card" data-fx="rise"><span class="beam" aria-hidden="true"></span>
-<video controls preload="metadata" playsinline src="/submission/demo.mp4"><track kind="captions" srclang="en" label="English" src="/submission/demo.en.vtt" /></video>
-<figcaption><span class="mono">Demo · under 30 s</span> The three modules and the trend layer in one pass. <a href="/submission/demo.mp4">Download MP4</a> · <a href="/submission/demo.en.srt">Captions</a> · <a href="/submission/deck.pdf">Slides (PDF)</a></figcaption></figure>
-</div></section>
-
-""" + slides_strip(SLIDES) + f"""
-<section class="section" id="why"><div class="wrap">
-<div class="part-mark" data-fx="rise"><b>Why</b><span>01 · The problem</span></div>
-<div class="split-head" data-fx="rise"><div><h2>Change is fast. The evidence is split.</h2></div><p>Three recent events, each seen from orbit, each with a decision that came too late or without the full record.</p></div>
-<ul class="tier-list tier-list-lg tier-list-3" data-fx="stagger">{stakes}</ul>
-<p class="problem-line" data-fx="rise">{e(SYSTEM_PROBLEM)}</p>
-</div></section>
-
-<div class="topo-rule" aria-hidden="true"></div>
-
-<div id="what"></div>
-<section class="engine" data-engine aria-labelledby="engine-heading">
-<div class="engine-sticky wrap">
-<div class="engine-copy"><p class="eyebrow">What · 02 · The system</p><h2 id="engine-heading">Three modules, one pipeline.</h2><ol class="engine-steps">{steps}</ol>
-<div class="engine-cta"><a class="btn" href="#modules">Meet the modules</a><a class="btn ghost" href="#trends">The trend layer</a></div></div>
-<div class="engine-stage" aria-live="polite">{stage}<p class="engine-hud mono">01 · Detect</p></div>
-</div>
-<div class="engine-list wrap"><p class="eyebrow">What · 02 · The system</p><h2>Three modules, one pipeline.</h2>{elist}</div>
-</section>
-
-<section class="section" id="modules" style="padding-top:2rem"><div class="wrap">
-<div class="split-head" data-fx="rise"><div><p class="eyebrow">What · the modules</p><h2>Each module is a full, working tool.</h2></div><p>Open any module for its live demo, results, figures and data. Every tool runs in your browser from precomputed NASA data.</p></div>
-<div class="mod-list">{mods}</div></div></section>
-
-""" + chain() + usecases_home() + trend_story() + f"""
-<section class="section trend-sec" id="trends"><div class="wrap">
-<div class="split-head" data-fx="rise"><div><p class="eyebrow">What · the connective tissue</p><h2>Four questions in every module.</h2></div><p>The <a href="{SITE['challenge_url']}" style="color:var(--accent)">Trend Detective</a> layer: pick a variable, get the NASA record, plot it and test whether the change is real.</p></div>
-<div class="case-grid" data-fx="stagger">{cases}</div>
-<div class="glossary" style="margin-top:2rem" data-fx="stagger">{gloss}</div>
-</div></section>
-
-<div class="topo-rule" aria-hidden="true"></div>
-
-<section class="section" id="how"><div class="wrap">
-<div class="part-mark" data-fx="rise"><b>How</b><span>03 · Data, methods, validation</span></div>
-<div class="split-head" data-fx="rise"><div><h2>Built on NASA data. Tested before trusted.</h2></div><p>Every number comes from our own runs on the public datasets below. Model metrics are one seed each, not a published benchmark.</p></div>
-<div class="table-wrap" data-fx="rise"><table><thead><tr><th>Dataset</th><th>Module</th><th>How it's used</th><th>Access</th></tr></thead><tbody>{drows}</tbody></table></div>
-<div class="two" style="margin-top:3rem">
-<div data-fx="rise"><p class="eyebrow">Methods</p><ol class="facts">{meth}</ol></div>
-<div data-fx="rise"><p class="eyebrow">Validation and limits</p>
-<div class="honesty" style="grid-template-columns:1fr;margin-top:0">
-<div><p class="mono">What holds up</p><p>Models are trained on earlier years and tested on later ones (fire 2022–2025, crops 2024–2025) and beat simple baselines. Trends are tested on a second series where one exists.</p></div>
-<div><p class="mono">Where it falls short</p><p>Canada's monthly-total fire error is worse than the baseline (39.4% vs 16.7%). Province fire trends hold on the harmonized record but not MODIS alone, so we call them tentative. Trends show change, not cause. Where a second record disagrees, we say so: GPM IMERG satellite rainfall doesn't confirm the reanalysis drop in southern Ontario's rain extremes, so that claim is dropped.</p></div>
-</div></div></div>
-</div></section>
-
-<section class="section" id="judging"><div class="wrap">
-<div class="split-head" data-fx="rise"><div><p class="eyebrow">For the judges</p><h2>Scored on five criteria.</h2></div><p>One submission to {e(SITE['challenge'])}, team {e(SITE['team'])}. Each module page maps its work to the <a href="https://www.spaceappschallenge.org/resources/judging-awards-guide/" style="color:var(--accent)">2026 criteria</a>.</p></div>
-<div class="grid g5" data-fx="stagger">{crit}</div>
-</div></section>
-</main>
-""" + FOOT
-
 # ---------- opera chart (static SVG) ----------
 def opera_svg():
     f = ROOT / "upgrades" / "out" / "opera_valencia.json"
@@ -257,87 +151,195 @@ def opera_svg():
             f'<line x1="{fx-1:.1f}" x2="{fx-1:.1f}" y1="{mt-30}" y2="{H-m}" stroke="#d4c4ff" stroke-dasharray="3 4" /><text x="{fx-8:.1f}" y="{mt-18}" text-anchor="end">29 Oct flood</text>{bars}'
             "</svg>")
 
-# ---------- project pages ----------
+# ---------- pages ----------
+def shows_visual(key):
+    from story import T, ED, MCD, OPERA, line_chart, bar_chart, img as simg, slider as sslider, _opera_bars, matrix, fmt
+    if key == "mcd64_bars":
+        t = MCD["trend"]; return bar_chart(t["x"], t["series"], "km²", "Burned area per Apr–Oct season, km² · NASA MODIS MCD64A1", hl=2023)
+    if key == "canada_line":
+        m = T["fire"]["canada"]["Canada"]["modis_count"]
+        return line_chart(m["x"], m["series"], m["sen_slope_per_year"], "detections", "Fire detections per year, Canada · NASA FIRMS MODIS", ci=m["sen_ci95"], note=f"+{fmt(m['sen_slope_per_year'])}/yr · p = {m['p']:.3f}")
+    if key == "calendar":
+        return simg("hotspots-calendar.webp", "Alberta fire calendar, 2000–2025. Outlined squares are unusual months.")
+    if key == "opera_slider":
+        return sslider("opera-before.webp", "opera-after.webp", "26 Oct 2024", "31 Oct 2024")
+    if key == "opera_bars":
+        return _opera_bars([r for r in OPERA.get("series", []) if r["valid_frac"] >= 0.8])
+    if key == "grace_line":
+        g = ED["grace"]["valencia"]
+        return line_chart(g["x"], g["series"], g["sen_slope_per_year"], "cm", "Stored water, eastern Spain, cm · NASA GRACE/GRACE-FO", dec=1, mark=2017, ci=g["sen_ci95"], note=f"{fmt(g['sen_slope_per_year'], 2)} cm/yr · p = {g['p']:.3f}")
+    if key == "frost_line":
+        ff = T["crops"]["frost_free_days"]["region"]
+        return line_chart(ff["x"], ff["series"], ff["sen_slope_per_year"], "days", "Frost-free days per year, central Iowa · NASA POWER", ci=ff["sen_ci95"], note=f"+{ff['sen_slope_per_year']:.2f} d/yr · p = {ff['p']:.3f}")
+    if key == "water_matrix":
+        return matrix(only=[5])
+    if key == "hls":
+        return simg("hls-ndvi.webp", "NASA HLS 30 m greenness: 1 Aug 2024, 31 Jul 2025 and the change.", "light")
+    return ""
+
+def person_fig(src, alt, cls=""):
+    return (f'<figure class="person {cls}"><img src="/assets/img/{src}" alt="{e(alt)} (illustrative)" width="1280" height="720" />'
+            f'<span class="ill" title="{e(PEOPLE_NOTE)}">Illustrative image</span></figure>')
+
+def step_head(n, kicker, title):
+    return f'<div class="step-head" data-fx="rise"><span class="step-n">{n}</span><p class="eyebrow">{e(kicker)}</p>{f"<h2>{e(title)}</h2>" if title else ""}</div>'
+
+def landing():
+    stakes = "".join(f'<li class="stake"><strong class="grad">{e(x["big"])}</strong><p>{e(x["line"])}</p><a href="{x["url"]}">{e(x["src"])}</a></li>' for x in STAKES)
+    people = ""
+    for s in ("hotspots", "sar-change", "field-shift"):
+        A = APPS[s]; src, alt = A["hero"]
+        people += (f'<article class="pcard"><a href="/{s}/" class="pcard-img"><img src="/assets/img/{src}" alt="{e(alt)} (illustrative)" width="1280" height="720" /><span class="ill" title="{e(PEOPLE_NOTE)}">Illustrative</span></a>'
+                   f'<div class="pcard-body"><p class="eyebrow">{e(A["role"])} · {e(A["who"])}</p><h3>{e(A["headline"])}</h3>'
+                   f'<div class="actions"><a class="btn launch" href="/{s}/app/">Launch {e(A["name"])}</a><a class="btn ghost" href="/{s}/">See the actions</a></div></div></article>')
+    from story import T as _T, ED as _ED, MCD as _MCD, line_chart as _lc, fmt as _fmt, matrix as _mx, small_multiples as _sm, usecase_map as _um
+    heads = [("+272 km²/yr", "more burned ground, boreal Canada", "/hotspots/"), ("77.7 km²", "flood water seen through cloud, Valencia", "/sar-change/"),
+             ("+19 days", "longer frost-free season, Iowa", "/field-shift/"), ("−0.39 cm/yr", "stored water lost, eastern Spain", "#trend")]
+    hn = "".join(f'<a class="hn" href="{h}"><strong class="grad">{e(b)}</strong><span>{e(l)}</span></a>' for b, l, h in heads)
+    g = _ED["grace"]["valencia"]
+    gl = _lc(g["x"], g["series"], g["sen_slope_per_year"], "cm", "Stored water, eastern Spain · NASA GRACE/GRACE-FO, cm", dec=1, mark=2017, ci=g["sen_ci95"], note=f"{_fmt(g['sen_slope_per_year'], 2)} cm/yr · p = {g['p']:.3f}")
+    acts = ""
+    for s in ("hotspots", "sar-change", "field-shift"):
+        A = APPS[s]
+        acts += (f'<div class="act-app"><div class="act-head"><img src="/assets/img/{A["hero"][0]}" alt="" width="96" height="96" loading="lazy" /><div><p class="eyebrow">{e(A["role"])} · {e(A["name"])}</p><h3>{e(A["who"])}</h3></div>'
+                 f'<a class="btn launch" href="/{s}/app/">Launch</a></div>' + '<div class="recs compact">' + "".join(rec_card(r, i, True) for i, r in enumerate(A["recs"][:3])) + '</div>'
+                 f'<a class="more" href="/{s}/#actions">All {len(A["recs"])} actions for {e(A["name"])} &rarr;</a></div>')
+    imp = ""
+    for s in ("hotspots", "sar-change", "field-shift"):
+        A = APPS[s]; I = A["impact"]
+        imp += (f'<div class="imp-row"><a class="imp-app" href="/{s}/#impact">{e(A["name"])}</a><div class="imp tech"><b>{e(A["sum"][0])}</b><span>{e(A["sum"][1])}</span></div>'
+                f'<div class="imp-arrow" aria-hidden="true">→</div><div class="imp human"><b>{e(I["human"][1][1])}</b><span>{e(I["human"][0][1])}</span></div></div>')
+    mall = '<ul class="mstrip">' + "".join(f'<li class="{m[2] if len(m) > 2 else ""}"><strong>{e(m[0])}</strong><span>{e(A["name"])}: {e(m[1])}</span></li>' for s in ("hotspots", "sar-change", "field-shift") for A in [APPS[s]] for m in A["metrics"][:2]) + "</ul>"
+    seen, drows = set(), ""
+    for p in PROJECTS:
+        for a, b, u in p["data"] + TRENDS[p["slug"]]["data"]:
+            if a in seen or "basemap" in a: continue
+            seen.add(a); drows += f'<tr><td><a href="{u}">{e(a)}</a></td><td>{e(MODULES[p["slug"]]["role"])}</td><td>{e(b)}</td>{login_cell(a)}</tr>'
+    methods = [("Detect", "Per-cell VIIRS/MODIS ratio corrected by LightGBM; conformal 90% intervals; robust z-score flags; MODIS MCD64A1 burned area."),
+               ("Confirm", "Sentinel-1 RTC stacks; U-Net trained on Sen1Floods11 vs Otsu and a global threshold; NASA OPERA DSWx-S1 new water."),
+               ("Adapt", "LightGBM next-season crop model on CDL + NASADEM, POWER, NDVI, SoilGrids; FAO-56 water; NSGA-II rotations; HLS and SMAP context."),
+               ("Measure", "Mann-Kendall (α = 0.05) and Sen's slope with 95% CI, Hamed-Rao check, and a second NASA record wherever one exists.")]
+    meth = "".join(f'<li><b>{e(a)}.</b> {e(b)}</li>' for a, b in methods)
+    cases = ""
+    for p in PROJECTS:
+        t = TRENDS[p["slug"]]; c = t["case"]; ok, sigt = c["sig"]
+        cases += (f'<a class="spot case" href="/{p["slug"]}/#trend"><div class="spot-body"><span class="num">{e(MODULES[p["slug"]]["role"])} · {e(t["theme"])}</span><h3>{e(t["title"])}</h3>'
+                  f'<dl><dt>What</dt><dd>{e(c["what"])}</dd><dt>Where</dt><dd>{e(c["where"])}</dd><dt>How much</dt><dd>{e(c["how"])}</dd><dt>Significant?</dt><dd class="{"yes" if ok else "no"}">{e(sigt)}</dd></dl></div></a>')
+    crit = "".join(f'<li><b>{e(c)}</b> {e(d)}</li>' for c, d in CRITERIA)
+    return head(SITE["title"], SITE["desc"], "/") + nav("/") + f"""<main id="content">
+<section class="hero hero-tight"><div class="topo-hero" aria-hidden="true"></div><div class="wrap hero-copy">
+<p class="chip"><i></i>NASA Space Apps 2026 · {e(SITE['challenge'])}</p>
+<h1>Orbit to <span class="grad">Ground</span></h1>
+<p class="lede">NASA satellites see the change. We turn it into the next move.</p>
+<div class="actions"><a class="btn" href="#demo-video">&#9654; Watch the demo</a><a class="btn ghost" href="#actions">See the actions</a><a class="btn ghost" href="/slides/">Slides</a></div>
+</div><div class="wrap pcards">{people}</div></section>
+
+<section class="section tight" id="problem"><div class="wrap">
+{step_head(1, "The problem", "Change is fast. Decisions come late.")}
+<ul class="stakes" data-fx="stagger">{stakes}</ul></div></section>
+
+<section class="section tight" id="satellite"><div class="wrap">
+{step_head(2, "What the satellites show", "Four changes, tested on decades of NASA data.")}
+<div class="hns" data-fx="stagger">{hn}</div>
+<div class="trend-pair" id="trend" data-fx="rise"><div class="beat-media play">{gl}</div><div>{_mx()}</div></div>
+<details class="deep"><summary>Compare regions · same test, three places</summary>{_sm()}</details>
+</div></section>
+
+<section class="section tight" id="actions"><div class="wrap">
+{step_head(3, "What people do with it", "Satellite shows → I will → expected.")}
+<div class="ucmap-wrap" data-fx="rise">{_um()}</div>
+<div class="act-apps">{acts}</div>
+<p class="fine">Images of people are illustrative (AI-generated). Outcomes are what each action is meant to change; we haven't measured yields, lives or costs.</p>
+</div></section>
+
+<section class="section tight" id="impact"><div class="wrap">
+{step_head(4, "Impact", "From orbit to ground.")}
+<div class="imp-head"><span>Geospatial discovery</span><span></span><span>Human impact</span></div>
+<div class="imp-rows" data-fx="stagger">{imp}</div>
+<p class="mstrip-k">Backed by model accuracy · one seed per run, not a published benchmark</p>{mall}
+</div></section>
+
+<section class="section tight" id="demo-video"><div class="wrap">
+<figure class="spot video-card" data-fx="rise"><video controls preload="metadata" playsinline src="/submission/demo.mp4"><track kind="captions" srclang="en" label="English" src="/submission/demo.en.vtt" /></video>
+<figcaption><span class="mono">Demo · under 30 s</span> <a href="/submission/demo.mp4">MP4</a> · <a href="/submission/demo.en.srt">Captions</a> · <a href="/submission/deck.pdf">Slides (PDF)</a></figcaption></figure>
+</div></section>
+""" + slides_strip(SLIDES) + f"""
+<section class="section tight" id="how"><div class="wrap">
+<div class="step-head" data-fx="rise"><p class="eyebrow">How</p><h2>Built on NASA data. Tested before trusted.</h2></div>
+<details class="deep"><summary>The four trend questions, per module</summary><div class="case-grid">{cases}</div></details>
+<details class="deep"><summary>Data sources ({len(seen)})</summary><div class="table-wrap"><table><thead><tr><th>Dataset</th><th>Module</th><th>How it's used</th><th>Access</th></tr></thead><tbody>{drows}</tbody></table></div></details>
+<details class="deep"><summary>Methods</summary><ul class="facts">{meth}</ul></details>
+<details class="deep"><summary>Validation and limits</summary><ul class="facts"><li><b>What holds up.</b> Models trained on earlier years, tested on later ones, against simple baselines. Trends checked on a second NASA record where one exists.</li><li><b>Where it falls short.</b> Canada's monthly-total fire error is worse than the baseline (39.4% vs 16.7%). Provincial fire trends are tentative. Trends show change, not cause. GPM IMERG doesn't confirm the reanalysis drop in southern Ontario's rain extremes, so we don't claim it.</li></ul></details>
+<details class="deep"><summary>Judging criteria</summary><ul class="facts">{crit}</ul></details>
+</div></section>
+</main>
+""" + FOOT
+
 def project(i, p):
     prev_p, next_p = PROJECTS[i - 1], PROJECTS[(i + 1) % len(PROJECTS)]
-    M = MODULES[p["slug"]]; T = TRENDS[p["slug"]]; U = UPGRADES.get(p["slug"])
-    probs = "".join(f"<p>{e(t)}</p>" for t in p["problem"])
-    steps = "".join(f'<li data-n="{j+1:02d}"><h3>{e(a)}</h3><p>{e(b)}</p></li>' for j, (a, b) in enumerate(p["steps"]))
+    s = p["slug"]; A = APPS[s]; M = MODULES[s]; T = TRENDS[s]; U = UPGRADES.get(s)
+    big, pline, pimg, pcap = A["problem"]
+    shows = "".join(f'<div class="show{" flip" if k % 2 else ""}" data-fx="rise"><div class="show-vis beat-media play">{shows_visual(key)}</div>'
+                    f'<div class="show-txt"><strong class="grad">{e(b)}</strong><p>{e(l)}</p></div></div>' for k, (b, l, key) in enumerate(A["shows"]))
     kpis = "".join(kpi_html(k) for k in p["kpis"])
-    data = "".join(f'<tr><td>{e(a)}</td><td>{e(b)}</td>{login_cell(a)}<td><a href="{u}">source</a></td></tr>' for a, b, u in p["data"] + T["data"])
-    figs = "".join(f'<figure class="fig {c}" data-fx="rise"><img src="/assets/img/{f}" alt="{e(cap)}" loading="lazy" /><figcaption>{e(cap)}</figcaption></figure>' for f, cap, c in p["figs"])
-    crit = "".join(f'<div class="spot crit"><div class="spot-body"><span class="tag">{e(c)}</span><p style="color:var(--ink);margin-top:.5rem">{e(p["criteria"][c])}</p></div></div>' for c, _ in CRITERIA)
+    steps = "".join(f'<li><b>{e(a)}.</b> {e(b)}</li>' for a, b in p["steps"])
     limits = "".join(f"<li>{e(l)}</li>" for l in p["limits"])
-    deliv = "".join(f"<li>{e(d)}</li>" for d in M["delivers"])
+    data = "".join(f'<tr><td>{e(a)}</td><td>{e(b)}</td>{login_cell(a)}<td><a href="{u}">source</a></td></tr>' for a, b, u in p["data"] + T["data"])
+    figs = "".join(f'<figure class="fig {c}"><img src="/assets/img/{f}" alt="{e(cap)}" loading="lazy" /><figcaption>{e(cap)}</figcaption></figure>' for f, cap, c in p["figs"])
     finds = "".join(f"<li><b>{e(a)}</b> {e(b)}</li>" for a, b in T["findings"])
-    def slider(b, a, lb, la, cap, ratio="996 / 1024", title="The flood, through the clouds", eyebrow="Before and after"):
-        return f"""<section class="block"><div class="wrap"><div class="sec-head" data-fx="rise"><p class="eyebrow">{e(eyebrow)}</p><h2>{e(title)}</h2></div>
-<figure data-fx="rise" style="max-width:820px;margin:0 auto"><div class="ba" style="aspect-ratio:{ratio}"><img src="/assets/img/{b}" alt="Before: {e(lb)}" /><img class="after" src="/assets/img/{a}" alt="After: {e(la)}" />
-<span class="lab l">{e(lb)}</span><span class="lab r">{e(la)}</span><span class="handle" aria-hidden="true"></span>
-<input type="range" min="0" max="100" value="50" aria-label="Compare before and after" /></div><figcaption style="text-align:center">{e(cap)}</figcaption></figure></div></section>"""
-    ba = slider(*p["ba"]) if p.get("ba") else ""
-    up = ""
-    if U and U.get("ba"):
-        chart = opera_svg() if U.get("series") == "opera" else ""
-        up = (slider(*U["ba"], ratio="1200 / 979", title=U["title"], eyebrow="Earthdata upgrade · NASA OPERA") +
-              f'<section class="block" style="padding-top:0"><div class="wrap"><div class="prose" data-fx="rise" style="max-width:820px"><p>{e(U["text"])}</p><p style="color:var(--faint)">{e(U["note"])}</p></div><figure class="opera-fig" data-fx="rise"><p class="eyebrow" style="margin:0 0 .5rem">New water outside usual water, km² · OPERA DSWx-S1, 30 m</p>{chart}<figcaption>Each bar is one radar pass with at least 80% valid pixels. Hover or tap a bar for its date and area.</figcaption></figure></div></section>')
-    elif U:
-        uf = "".join(f'<figure class="fig {c}" data-fx="rise"><img src="/assets/img/{f}" alt="{e(cap)}" loading="lazy" /><figcaption>{e(cap)}</figcaption></figure>' for f, cap, c in U["figs"])
-        up = f"""<section class="block"><div class="wrap"><div class="sec-head" data-fx="rise"><p class="eyebrow">{e(U['eyebrow'])}</p><h2>{e(U['title'])}</h2></div>
-<div class="prose" data-fx="rise" style="max-width:820px"><p>{e(U['text'])}</p><p style="color:var(--faint)">{e(U['note'])}</p></div><div class="figs" style="margin-top:1.5rem">{uf}</div></div></section>"""
+    crit = "".join(f'<li><b>{e(c)}.</b> {e(p["criteria"][c])}</li>' for c, _ in CRITERIA)
+    upt = f'<details class="deep"><summary>Earthdata upgrade · {e(U["title"])}</summary><div class="prose"><p>{e(U["text"])}</p><p class="fine">{e(U["note"])}</p></div>{("<figure class=opera-fig>" + opera_svg() + "</figure>") if U.get("series") == "opera" else ""}</details>' if U else ""
     title = f"{p['name']} · Orbit to Ground"
-    return head(title, p["tagline"], f"/{p['slug']}/", p["card_img"].replace(".webp", "-og.png")) + nav(f"/{p['slug']}/") + f"""<main id="content">
-<section class="hero short"><div class="topo-hero" aria-hidden="true"></div><div class="wrap hero-copy">
-<p class="chip"><i></i>Module {p['n']} · {e(M['role'])} · {e(SITE['challenge'])}</p>
-<h1>{e(p['name'])}</h1>
-<p class="lede">{e(p['tagline'])}</p>
-<div class="actions"><a class="btn launch" href="/{p['slug']}/app/">Launch dashboard</a><a class="btn ghost" href="#demo">Try it on this page &darr;</a><a class="btn ghost" href="#story">The data story</a><a class="btn ghost" href="#trend">The trend</a></div>
+    return head(title, p["tagline"], f"/{s}/", p["card_img"].replace(".webp", "-og.png")) + nav(f"/{s}/") + f"""<main id="content">
+<section class="mod-hero"><div class="topo-hero" aria-hidden="true"></div><div class="wrap mod-hero-in">
+<div class="mod-hero-txt"><p class="chip"><i></i>Module {p['n']} · {e(M['role'])} · {e(A['name'])}</p>
+<h1>{e(A['headline'])}</h1><p class="lede">{e(A['line'])}</p>
+<div class="actions"><a class="btn launch" href="/{s}/app/">Launch dashboard</a><a class="btn ghost" href="#actions">See the actions</a></div></div>
+{person_fig(*A['hero'], cls="hero-person")}</div></section>
+
+<section class="section tight" id="problem"><div class="wrap">
+{step_head(1, "The problem", "")}
+<div class="problem-pic" data-fx="rise"><img src="/assets/img/{pimg}" alt="{e(pcap)}" loading="lazy" /><div class="pp-txt"><strong class="grad">{e(big)}</strong><p>{e(pline)}</p><small>{e(pcap)}</small></div></div>
 </div></section>
 
-<section class="block" id="demo" style="padding-top:1rem"><div class="wrap">
-<div class="demo-frame" data-fx="rise"><div class="demo-bar"><i></i><i></i><i></i><span>{e(SITE_URL.replace('https://',''))}/{p['slug']}/app/</span><a href="/{p['slug']}/app/">Full screen &nearr;</a></div>
-<iframe src="/{p['slug']}/app/" title="{e(p['name'])} live demo" loading="lazy" allow="fullscreen"></iframe></div>
-<p class="demo-note">Interactive and fully static: everything runs in your browser from precomputed data. Use the "Experiment briefing" button inside the tool for a guided walkthrough.</p>
+<section class="section tight" id="satellite"><div class="wrap">
+{step_head(2, "What the satellite shows", "")}
+<div class="shows">{shows}</div></div></section>
+
+<section class="section tight" id="actions"><div class="wrap">
+{step_head(3, "What I'll do", f"{len(A['recs'])} actions, each tied to a satellite result.")}
+{recs_block(s)}
+<p class="fine">People in photos are illustrative (AI-generated). Outcomes are qualitative: we haven't measured yields, lives or costs.</p>
 </div></section>
 
-<section class="section" id="why"><div class="wrap">
-<div class="part-mark" data-fx="rise"><b>Why</b><span>The problem this module solves</span></div>
-<div class="two"><div data-fx="rise"><p class="problem-line" style="margin-top:0">{e(M['statement'])}</p></div>
-<div class="prose" data-fx="rise">{probs}</div></div>
+<section class="section tight" id="impact"><div class="wrap">
+{step_head(4, "Impact", "Two sides of the same result.")}
+{impact_block(s)}
 </div></section>
 
-<div class="topo-rule" aria-hidden="true"></div>
-""" + STORIES[p["slug"]]() + usecases_module(p["slug"]) + f"""
-<section class="section" style="padding-bottom:2rem"><div class="wrap">
-<div class="part-mark" data-fx="rise"><b>What</b><span>{e(M['verb'])}</span></div>
-<div class="split-head" data-fx="rise"><div><h2>What the module delivers.</h2></div><ul class="findings" style="margin:0">{deliv}</ul></div>
-<div class="kpis k3" data-fx="stagger">{kpis}</div>
-<p class="demo-note">Held-out test data, compared against baselines. One seed per run, not a published benchmark.</p>
-</div></section>
-{ba}
-<section class="block"><div class="wrap"><div class="sec-head" data-fx="rise"><p class="eyebrow">Visuals</p><h2>Inside the tool</h2></div><div class="figs">{figs}</div></div></section>
-{up}
-<section class="block trend-sec" id="trend"><div class="wrap">
-<div class="sec-head" data-fx="rise"><p class="eyebrow">Trend layer · {e(T['theme'])}</p><h2>{e(T['title'])}</h2><p>{e(T['intro'])}</p></div>
-<div class="tw" data-trend="{T['widget']}" data-fx="rise"><noscript><p class="map-cap">The interactive trend chart needs JavaScript. The findings are listed below.</p></noscript></div>
-<ul class="findings" data-fx="rise">{finds}</ul>
-<p class="demo-note">Mann-Kendall (α = 0.05) and Sen's slope with 95% CI, one value per year. Hover or tap the chart for yearly values.</p>
-{maps_block(p["slug"])}
+<section class="section tight" id="try"><div class="wrap">
+<div class="step-head" data-fx="rise"><p class="eyebrow">Try it</p><h2>The dashboard, with the same steps built in.</h2></div>
+<div class="demo-frame" data-fx="rise"><div class="demo-bar"><i></i><i></i><i></i><span>/{s}/app/</span><a href="/{s}/app/">Full screen &nearr;</a></div>
+<iframe src="/{s}/app/" title="{e(p['name'])} live demo" loading="lazy" allow="fullscreen"></iframe></div>
+<div class="actions center"><a class="btn launch" href="/{s}/app/">Launch dashboard</a></div>
 </div></section>
 
-<div class="topo-rule" aria-hidden="true"></div>
-
-<section class="section"><div class="wrap">
-<div class="part-mark" data-fx="rise"><b>How</b><span>Approach, data and limits</span></div>
-<div class="two"><div data-fx="rise"><p class="eyebrow">The approach</p><ol class="steps"><span class="bar" aria-hidden="true"></span>{steps}</ol></div>
-<div data-fx="rise"><p class="eyebrow">Limits we know about</p><div class="callout"><ul style="margin:0;padding-left:1.1rem">{limits}</ul></div></div></div>
-<div class="table-wrap" style="margin-top:2.5rem" data-fx="rise"><table><thead><tr><th>Dataset</th><th>How it's used</th><th>Access</th><th>Link</th></tr></thead><tbody>{data}</tbody></table></div>
+<section class="section tight trend-sec" id="trend"><div class="wrap">
+<div class="step-head" data-fx="rise"><p class="eyebrow">Trend test · {e(T['theme'])}</p><h2>{e(T['title'])}</h2></div>
+<div class="tw" data-trend="{T['widget']}" data-fx="rise"><noscript><p class="map-cap">The interactive trend chart needs JavaScript.</p></noscript></div>
+<details class="deep"><summary>What the tests found</summary><ul class="findings">{finds}</ul><p class="fine">Mann-Kendall (α = 0.05) and Sen's slope with 95% CI, one value per year.</p></details>
+<details class="deep"><summary>Trend maps</summary>{maps_block(s)}</details>
 </div></section>
 
-<section class="block"><div class="wrap">
-<div class="sec-head" data-fx="rise"><p class="eyebrow">For the judges</p><h2>How it maps to the criteria</h2></div>
-<div class="grid g5" data-fx="stagger">{crit}</div>
-<p class="demo-note">First designed around the related Space Apps 2026 brief <a href="{p['challenge_url']}" style="color:var(--accent)">{e(p['challenge'])}</a>; here it is the {e(M['role']).lower()} module of one system in {e(SITE['challenge'])}</p>
+<section class="section tight" id="how"><div class="wrap">
+<div class="step-head" data-fx="rise"><p class="eyebrow">How</p><h2>Method, data and limits</h2></div>
+<details class="deep"><summary>Model results</summary><div class="kpis k3">{kpis}</div><p class="fine">Held-out test data vs baselines. One seed per run, not a published benchmark.</p></details>
+{upt}
+<details class="deep"><summary>Inside the tool</summary><div class="figs">{figs}</div></details>
+<details class="deep"><summary>The approach</summary><ul class="facts">{steps}</ul></details>
+<details class="deep"><summary>Limits we know about</summary><ul class="facts">{limits}</ul></details>
+<details class="deep"><summary>Data sources</summary><div class="table-wrap"><table><thead><tr><th>Dataset</th><th>How it's used</th><th>Access</th><th>Link</th></tr></thead><tbody>{data}</tbody></table></div></details>
+<details class="deep"><summary>Judging criteria</summary><ul class="facts">{crit}</ul><p class="fine">First designed around the Space Apps 2026 brief <a href="{p['challenge_url']}">{e(p['challenge'])}</a>; here it is the {e(M['role']).lower()} module of one system in {e(SITE['challenge'])}.</p></details>
 </div></section>
 
 <section class="block"><div class="wrap pager">
@@ -346,6 +348,7 @@ def project(i, p):
 </div></section>
 </main>
 """ + FOOT
+
 
 # ---------- slides ----------
 def slide_list():

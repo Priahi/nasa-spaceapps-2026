@@ -1,0 +1,92 @@
+/* In-dashboard guided steps + clearer tabs + mobile fixes */
+:root { --og-w: 380px; }
+html, body { max-width: 100%; overflow-x: hidden; }
+img, canvas, svg, video { max-width: 100%; }
+html.og-open body { padding-right: var(--og-w); transition: padding .25s; }
+.og-guide { position: fixed; z-index: 9400; font-family: "Geist", system-ui, sans-serif; color: #f4f6fb; background: rgba(10,13,32,.97);
+  border: 1px solid rgba(190,205,255,.22); box-shadow: 0 20px 60px rgba(0,0,0,.45); display: flex; flex-direction: column; -webkit-font-smoothing: antialiased; }
+.og-guide * { box-sizing: border-box; }
+@media (min-width: 1180px) {
+  .og-guide { top: 0; right: 0; bottom: 0; width: var(--og-w); border-width: 0 0 0 1px; }
+  .og-guide.closed { top: auto; bottom: 18px; right: 18px; width: auto; border-width: 1px; border-radius: 999px; }
+}
+@media (max-width: 1179px) {
+  .og-guide { left: 8px; right: 8px; bottom: 8px; max-height: 72vh; border-radius: 18px; }
+  .og-guide.closed { max-height: none; }
+}
+.og-guide.closed .og-steps, .og-guide.closed .og-panel, .og-guide.closed .og-nav { display: none; }
+.og-top { padding: 10px 12px 0; }
+.og-guide.closed .og-top { padding: 6px; }
+.og-toggle { all: unset; cursor: pointer; display: flex; align-items: center; gap: 10px; width: 100%; min-height: 44px; padding: 0 10px; border-radius: 999px; font-size: 15px; }
+.og-toggle:focus-visible { outline: 2px solid #9ec1ff; }
+.og-dot { width: 12px; height: 12px; border-radius: 50%; background: conic-gradient(from 210deg, #9ec1ff, #d4c4ff, #9ec1ff); box-shadow: 0 0 12px rgba(158,193,255,.6); flex: none; }
+.og-tl { font-weight: 600; }
+.og-st { color: #b7c0d6; font-size: 13px; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.og-car { transition: transform .2s; } .og-guide.closed .og-car { transform: rotate(180deg); }
+.og-steps { list-style: none; margin: 8px 0 0; padding: 0 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.og-steps button { all: unset; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; width: 100%; min-height: 52px; padding: 6px 2px; border-radius: 12px;
+  text-align: center; font-size: 12px; line-height: 1.15; color: #b7c0d6; background: rgba(158,193,255,.06); border: 1px solid rgba(190,205,255,.14); }
+.og-steps button span { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 600; background: rgba(158,193,255,.14); color: #f4f6fb; }
+.og-steps button.on { color: #f4f6fb; border-color: #9ec1ff; background: rgba(158,193,255,.14); }
+.og-steps button.on span, .og-steps button.done span { background: linear-gradient(120deg, #9ec1ff, #d4c4ff); color: #071018; }
+.og-panel { flex: 1; overflow: auto; padding: 14px 16px 6px; -webkit-overflow-scrolling: touch; }
+.og-panel h2 { margin: 2px 0 8px; font-size: 22px; font-weight: 600; letter-spacing: -.01em; color: #f4f6fb; }
+.og-panel p { margin: 0 0 10px; font-size: 14.5px; line-height: 1.45; color: #dfe5f5; }
+.og-k { font-family: "Geist Mono", ui-monospace, monospace; font-size: 11px !important; letter-spacing: .08em; text-transform: uppercase; color: #9ec1ff !important; margin: 0 0 4px !important; }
+.og-do { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 18px; margin: 4px 0 8px; border-radius: 999px; border: 0; cursor: pointer;
+  background: linear-gradient(120deg, #9ec1ff, #d4c4ff); color: #071018 !important; font: 600 14px "Geist", system-ui, sans-serif; text-decoration: none; }
+.og-shows { list-style: none; margin: 0 0 10px; padding: 0; display: grid; gap: 8px; }
+.og-shows li { display: grid; gap: 2px; padding: 10px 12px; border-radius: 12px; background: rgba(158,193,255,.07); border: 1px solid rgba(190,205,255,.14); }
+.og-shows strong { font-size: 20px; background: linear-gradient(120deg, #9ec1ff, #d4c4ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.og-shows span { font-size: 13.5px; color: #dfe5f5; line-height: 1.35; }
+.og-recs { display: grid; gap: 10px; }
+.og-rec { display: grid; grid-template-columns: 76px 1fr; gap: 10px; padding: 10px; border-radius: 14px; background: rgba(158,193,255,.06); border: 1px solid rgba(190,205,255,.14); }
+.og-rec img { width: 76px; height: 76px; object-fit: cover; border-radius: 10px; }
+.og-cls { display: inline-block; font: 600 11px "Geist Mono", monospace; letter-spacing: .06em; text-transform: uppercase; color: #071018; background: #d4c4ff; padding: 3px 8px; border-radius: 999px; margin-bottom: 6px; }
+.og-rec p { font-size: 13px !important; margin: 0 0 5px !important; line-height: 1.35 !important; }
+.og-rec b { display: block; font: 600 10.5px "Geist Mono", monospace; letter-spacing: .06em; text-transform: uppercase; color: #9ec1ff; }
+.og-rec .og-act b { color: #d4c4ff; } .og-rec .og-act { color: #fff !important; font-weight: 500; }
+.og-imp { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.og-imp > div { padding: 10px; border-radius: 12px; background: rgba(158,193,255,.07); border: 1px solid rgba(190,205,255,.14); }
+.og-imp > div:last-child { background: rgba(212,196,255,.08); border-color: rgba(212,196,255,.25); }
+.og-imp p { font-size: 13px !important; }
+.og-m { list-style: none; padding: 0; margin: 10px 0 6px; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.og-m li { padding: 8px 10px; border-radius: 10px; border: 1px solid rgba(190,205,255,.14); display: grid; gap: 2px; }
+.og-m strong { font-size: 17px; color: #f4f6fb; } .og-m span { font-size: 11.5px; color: #b7c0d6; line-height: 1.3; }
+.og-m li.neg strong { color: #ffb4a8; }
+.og-fine { font-size: 11.5px !important; color: #8b95ad !important; }
+.og-nav { display: flex; justify-content: space-between; gap: 8px; padding: 10px 12px 12px; border-top: 1px solid rgba(190,205,255,.12); }
+.og-nav button { all: unset; cursor: pointer; min-height: 44px; padding: 0 16px; border-radius: 999px; font-size: 14px; font-weight: 600; border: 1px solid rgba(190,205,255,.28); color: #f4f6fb; }
+.og-nav .og-next { background: #f4f6fb; color: #071018; }
+.og-nav button:disabled { opacity: .35; cursor: default; }
+@media (max-width: 1179px) { .og-imp, .og-m { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 380px) { .og-imp { grid-template-columns: 1fr; } }
+html.in-frame .og-guide.closed { bottom: 10px; right: 10px; }
+
+/* clearer tabs (SAR Change, Field Shift) */
+nav.tabs { display: flex !important; flex-wrap: wrap; gap: 8px !important; justify-content: center; padding: 10px 0 !important; }
+nav.tabs button { min-height: 44px; padding: 0 16px !important; border-radius: 999px !important; font-size: 15px !important; font-weight: 600 !important;
+  border: 1px solid rgba(190,205,255,.3) !important; background: rgba(158,193,255,.06) !important; color: #dfe5f5 !important; }
+nav.tabs button[aria-selected="true"] { background: linear-gradient(120deg, #9ec1ff, #d4c4ff) !important; color: #071018 !important; border-color: transparent !important; }
+
+/* mobile: center and stack */
+@media (max-width: 760px) {
+  body { padding-bottom: 76px; }
+  header, .app-header, .header-inner, .top { text-align: center; }
+  .controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+  .controls > *, .controls select { min-height: 44px; }
+  .grid-2, .layout, .compare, .phys-grid, .row { grid-template-columns: 1fr !important; }
+  .card { margin-left: auto; margin-right: auto; max-width: 100%; }
+  table { display: block; max-width: 100%; overflow-x: auto; }
+  button, .btn, select { min-height: 40px; }
+}
+.og-panel h2, .og-panel p, .og-panel b, .og-steps button { text-transform: none; letter-spacing: normal; }
+.og-panel .og-k, .og-cls, .og-rec b { text-transform: uppercase; }
+.og-panel h2 { font-family: "Geist", system-ui, sans-serif; }
+select, input, textarea { max-width: 100%; }
+@media (max-width: 760px) {
+  .header-inner, header.top > div:first-child { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; }
+  .header-inner h1, header h1 { text-align: center; }
+  .card select { width: 100%; text-overflow: ellipsis; }
+}
+@media (max-width: 760px) { .header-inner h1[style] { justify-content: center; flex-direction: column; gap: 10px !important; } }

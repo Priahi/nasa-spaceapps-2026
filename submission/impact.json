@@ -1,0 +1,33 @@
+{
+  "_note": "Illustrative what-ifs, not measured outcomes or predictions. Alerts/dispatch are simulated. No lives-saved claims. Full arithmetic and sources: submission/IMPACT.md (all URLs fetched 14 Nov 2026).",
+  "flood": {
+    "case": "Valencia DANA, 29 Oct 2024",
+    "headline": "12 hours earlier = an alert before the first death. Published warning curves put ~EUR 1.1 bn of Valencia's EUR 4.8 bn insured loss within reach (illustrative: 22% x EUR 4.8 bn).",
+    "baseline": {"deaths": 229, "died_before_alert": 156, "critical_at_alert": 37, "first_death": "11:45", "red_warning": "07:36", "es_alert": "20:11", "insured_cost_eur_bn": 4.8, "asset_loss_eur_bn_min": 17.0, "first_radar_map": "2024-10-31T18:02Z", "ems_extent_map": "2024-11-02"},
+    "scenarios": [
+      {"hours_earlier": 6,  "alert_time": "14:11 29 Oct", "factor": 0.13,   "factor_source": "Day (1970) curve, linear interpolation 4h->12h", "avoided_insured_eur_bn": 0.62, "avoided_assets_eur_bn": 2.21, "people": "before at least 146 of the 156 pre-20:11 deaths"},
+      {"hours_earlier": 12, "alert_time": "08:11 29 Oct", "factor": 0.22,   "factor_source": "Day (1970) curve via NHWC 2006", "avoided_insured_eur_bn": 1.06, "avoided_assets_eur_bn": 3.74, "people": "before the first recorded death (11:45)"},
+      {"hours_earlier": 24, "alert_time": "20:11 28 Oct", "factor": 0.30,   "factor_source": "Global Commission on Adaptation 2019", "avoided_insured_eur_bn": 1.44, "avoided_assets_eur_bn": 5.10, "people": "before the rain peak; relies on forecasts (EFAS/AEMET), not our observed signal"},
+      {"hours_earlier": 48, "alert_time": "20:11 27 Oct", "factor": 0.3285, "factor_range": [0.04, 0.40], "factor_source": "Pappenberger et al. 2015", "avoided_insured_eur_bn": 1.58, "avoided_insured_range_eur_bn": [0.19, 1.92], "avoided_assets_eur_bn": 5.58, "people": "before the rain; forecast-based"}
+    ],
+    "floor_domestic_only": {"factor": 0.073, "avoided_insured_eur_bn": 0.35},
+    "lives_context": "Ahr 2021 peer-reviewed simulation: modelled deaths up to 80% lower with timely warning + evacuation, 24.3% with better warning spread alone (Rocha Silva et al. 2025, NHESS). Not applied to Valencia.",
+    "days_claim": "Rain signal arrives ~2 days before the first post-storm radar map (31 Oct) and ~4 days before the Copernicus EMS province-wide extent map (2 Nov); 99% cloud blinded optical. Sentinel-1 was on a 12-day repeat with one satellite."
+  },
+  "fire": {
+    "case": "Alberta: Horse River (Fort McMurray) May 2016 + 2023 season",
+    "headline": "The data flags May months ahead: staffing by 15 April instead of 1 May gives 16 more days of readiness. Every escape prevented spares ~65,000 ha (illustrative, Alberta 2023), and one escaped May fire cost $8.9 bn in 2016.",
+    "baseline": {"horse_river_ha": 589552, "evacuated_2016": 88000, "insured_cad_bn": 3.58, "total_cad_bn": 8.9, "ab_2023_fires": 1088, "ab_2023_ha": 2200000, "ab_2023_evacuated": 38000, "canada_2023_evacuated": 230000, "canada_2023_ha": 14600000, "escape_rule": "3% of fires cause 97% of area (Stocks et al. 2002)"},
+    "readiness_days_gained": [{"season": 2016, "first_big_fire": "1 May", "days_with_15_apr_staffing": 16}, {"season": 2023, "first_big_fire": "23 Apr (Drayton Valley)", "days_with_15_apr_staffing": 8}],
+    "per_escape_ha": 65380,
+    "scenarios": [{"escapes_prevented": 1, "ha": 65380, "share": 0.030}, {"escapes_prevented": 2, "ha": 130760, "share": 0.059}, {"escapes_prevented": 5, "ha": 326900, "share": 0.149}],
+    "caveat": "MNP (2017): initial attack on Horse River was immediate; can't say an alternative would have changed the outcome. Escapes prevented is an assumption."
+  },
+  "field": {
+    "case": "2012 US drought, Iowa; Story County steepest 92 squares",
+    "headline": "In a 2012-type drought, rye on Story County's 92 steepest squares is worth ~$1.2 M net (illustrative: +11.1 bu/acre x $6.89 - $32/acre), and our map is ready before planting, not 11 months after.",
+    "baseline": {"iowa_corn_yield_2011": 172, "iowa_corn_yield_2012": 137, "iowa_lost_bu_m": 479.5, "price_usd_bu_2012": 6.89, "iowa_shortfall_usd_bn": 3.3, "us_indemnities_2012_usd_bn": 16.99, "cover_crop_corn_gain_bu": 11.1, "cover_crop_corn_gain_pct": 9.6, "cover_crop_cost_usd_acre": 32.09},
+    "scenario": {"acres": 26500, "gross_per_acre": 76.48, "net_per_acre": 44.39, "gross_usd_m": 2.03, "net_usd_m": 1.18, "normal_year": "usually negative without grazing/cost-share (ISU)"},
+    "lead_time": "Per-pixel next-season map ~Feb (once prior CDL is out), before planting; CDL for the season arrives ~11 months later; Prospective Plantings is state-level (31 Mar)."
+  }
+}

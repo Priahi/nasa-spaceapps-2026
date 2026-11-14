@@ -1,39 +1,43 @@
 1
-00:00:00,000 --> 00:00:01,800
-NASA data in, decisions out: detect, confirm, adapt, then test the trend
+00:00:00,000 --> 00:00:02,400
+NASA satellites see the change. Each tool turns it into the next move.
 
 2
-00:00:01,800 --> 00:00:05,200
-WHY: fires, floods, worn-out soil. The evidence is split across sensors.
+00:00:02,400 --> 00:00:05,000
+The problem: fire, flood and worn-out soil, and decisions come late
 
 3
-00:00:05,200 --> 00:00:08,800
-WHAT: three working modules feed one trend engine
+00:00:05,000 --> 00:00:07,600
+Satellite shows: +272 km² more burned ground every year (p = 0.004)
 
 4
-00:00:08,800 --> 00:00:11,700
-DETECT: 11.6M NASA fire detections, one 2000–2025 record
+00:00:07,600 --> 00:00:09,900
+I will: hire crews and stage them in Alberta and B.C. before July
 
 5
-00:00:11,700 --> 00:00:15,100
-Canada's fire detections: +3,019 a year since 2003 (p = 0.035)
+00:00:09,900 --> 00:00:12,800
+Radar shows: 77.7 km² of flood water two days after the storm, through cloud
 
 6
-00:00:15,100 --> 00:00:18,000
-CONFIRM: radar sees the Valencia flood through the clouds
+00:00:12,800 --> 00:00:15,000
+I will: clear the flooded districts first, from the first radar pass
 
 7
-00:00:18,000 --> 00:00:21,300
-Valencia's wettest-day rain: no trend (p = 0.28). Water storage: falling (p = 0.002)
+00:00:15,000 --> 00:00:17,500
+Satellite record shows: Iowa's frost-free season is about 19 days longer than in 1981
 
 8
-00:00:21,300 --> 00:00:24,300
-ADAPT: rank crop rotations by a farmer's own priorities
+00:00:17,500 --> 00:00:19,700
+I will: plant a longer-season corn hybrid on a test strip
 
 9
-00:00:24,300 --> 00:00:27,300
-Iowa's frost-free season: +0.43 days a year, later autumn frost (p = 0.006)
+00:00:19,700 --> 00:00:23,400
+Each dashboard has a 4-step guide: see the map → what changed → actions → impact
 
 10
-00:00:27,300 --> 00:00:29,200
+00:00:23,400 --> 00:00:26,300
+From orbit → on the ground. Radar water maps: 66.4% IoU vs 21.8% for a standard threshold
+
+11
+00:00:26,300 --> 00:00:28,000
 Every trend shows its slope, 95% CI and p-value. Live now.

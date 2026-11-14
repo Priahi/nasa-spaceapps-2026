@@ -164,7 +164,7 @@ def sar_story():
     g = ED["grace"]["valencia"]; im = ED["imerg"]["valencia"]
     return story("story", "The data story · Confirm", "Seeing a flood through the storm that caused it.",
         "Five beats: the raw radar, what changed, how sure we are, where it gets subtle, and who acts on it.", [
-        ("01 · The signal", "Radar sees through the cloud.", P("On 29 October 2024 a DANA storm dropped extreme rain on Valencia; 229 people died in the Valencia region. Under that cloud, optical satellites saw nothing useful.", "Sentinel-1 radar works through cloud and at night. Smooth water reflects the radar pulse away, so it shows up dark. SAR Change turns those images into a water map anyone can read."),
+        ("01 · The signal", "Radar sees through the cloud.", P("On 29 October 2024 a DANA storm dropped extreme rain on Valencia; about 230 people died in the Valencia region. Under that cloud, optical satellites saw nothing useful.", "Sentinel-1 radar works through cloud and at night. Smooth water reflects the radar pulse away, so it shows up dark. SAR Change turns those images into a water map anyone can read."),
          img("sar-after.webp", "Sentinel-1 radar false colour over Valencia after the flood (VV, VH, VV/VH).")),
         ("02 · What changed", "New water more than doubled in five days.", P("NASA/JPL's OPERA surface-water product, made from the same radar, counts water outside the lagoon and the sea. It rose from <b>30.7 km²</b> on 26 October to <b>77.7 km²</b> on 31 October, two days after the storm."),
          slider("opera-before.webp", "opera-after.webp", "26 Oct 2024", "31 Oct 2024")),

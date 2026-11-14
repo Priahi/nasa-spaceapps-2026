@@ -4,7 +4,7 @@
   "compare": [
    [
     "AEMET warnings",
-    "Red weather warning by zone at 7:36 AM, 12.5 h before phones were alerted. A warning isn't an instruction to the public.",
+    "Red weather warning by zone at about 7:30 AM, a 12-hour gap before phones were alerted. A warning isn't an instruction to the public.",
     "Turns the rain signal into a drafted, town-specific alert with what to do, ready to send (simulated)."
    ],
    [
@@ -14,7 +14,7 @@
    ],
    [
     "ES-Alert",
-    "Sent at 8:11 PM with \"avoid travel\" only.",
+    "Sent at about 8 PM with \"avoid travel\" only.",
     "Pre-fills the message and the target towns from the map (simulated; no real ES-Alert link)."
    ],
    [

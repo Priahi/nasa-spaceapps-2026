@@ -3,8 +3,12 @@
    Illustrative estimates only: no lives-saved claims, and the avoided-damage curve flattens after ~24 h. */
 (function () {
   const KEY = { "sar-change": "flood", hotspots: "fire", "field-shift": "field" }[window.OG_SLUG || ""];
-  // 12-hour clock for every displayed time ("20:11" -> "8:11 PM"); relative T+ times and ISO stamps are left alone.
-  const t12 = (s) => String(s).replace(/(^|[^\d+:T])([01]?\d|2[0-3]):([0-5]\d)(?![\d:])/g, (m, p, h, mi) => `${p}${(+h % 12) || 12}:${mi} ${+h < 12 ? "AM" : "PM"}`);
+  // Story times are shown rounded, in 12-hour time ("20:11" -> "about 8 PM", "11:45" -> "around noon").
+  // Exact times stay in the cited sources. Relative T+ times and ISO stamps are left alone.
+  const NAMED = { "07:36": "about 7:30 AM", "07:23": "about 7:30 AM", "11:45": "around noon", "12:07": "around noon" };
+  const round = (h, mi) => { const k = `${String(h).padStart(2, "0")}:${mi}`; if (NAMED[k]) return NAMED[k]; let H = +h + (+mi >= 30 ? 1 : 0); H %= 24; return H === 12 ? "around noon" : H === 0 ? "around midnight" : `about ${(H % 12) || 12} ${H < 12 ? "AM" : "PM"}`; };
+  const t12 = (s) => String(s).replace(/(^|[^\d+:T])([01]?\d|2[0-3]):([0-5]\d)(?![\d:])(?!\s?[AP]M)/g, (m, p, h, mi) => p + round(h, mi))
+    .replace(/before at least (\d+) of the (\d+) pre-about (\d+ [AP]M) deaths/g, "before nearly all of the deaths dated before about $3").replace(/([AP]M|noon) (\d{1,2} [A-Z][a-z]{2})/g, "$1, $2");
   const esc = (s) => t12(String(s == null ? "" : s)).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const pct = (f) => `${Math.round(f * 1000) / 10}%`;
   const n = (x) => Number(x).toLocaleString("en-US");
@@ -15,7 +19,7 @@
 
   function flood(c) {
     const B = c.baseline;
-    let h = `<div class="wi-kpis">${kpi("hours", "earlier alert: the danger was known (red warning " + esc(B.red_warning) + "); the gap was turning it into a town-specific alert")}${kpi("~2 days", "earlier map: the rain signal arrives before the first radar map (31 Oct); ~4 days before the Copernicus EMS extent map (2 Nov)")}${kpi(esc(B.died_before_alert) + " of " + esc(B.deaths), "had died before the 8:11 PM phone alert; first recorded death " + esc(B.first_death))}</div>`;
+    let h = `<div class="wi-kpis">${kpi("hours", "earlier alert: the danger was known (red warning " + esc(B.red_warning) + "); the gap was turning it into a town-specific alert")}${kpi("~2 days", "earlier map: the rain signal arrives before the first radar map (31 Oct); ~4 days before the Copernicus EMS extent map (2 Nov)")}${kpi("more than " + Math.floor(B.died_before_alert / 10) * 10, "of about " + Math.round(B.deaths / 10) * 10 + " people who died had died before the phone alert at about 8 PM; first recorded death " + esc(B.first_death))}</div>`;
     h += `<h3>If the alert had gone out earlier (damage only, upper bound)</h3>`;
     h += table(["Alert", "Clock time", "When it lands", "Avoided-damage factor", `× €${B.insured_cost_eur_bn} bn insured`], c.scenarios.map((s) => [
       `<b>${s.hours_earlier} h earlier</b>`, esc(s.alert_time), esc(s.people),
@@ -32,16 +36,16 @@
   const times = (ha, km2) => { const x = ha / 100 / km2; return x >= 1.95 ? `${(Math.round(x * 10) / 10)} times` : x >= 0.9 ? "about" : `${Math.round(x * 100)}% of`; };
   function fire(c) {
     const B = c.baseline;
-    let h = `<div class="wi-kpis">${kpi("months ahead", "the harmonized record flags May as Alberta's watch month in winter, before the season")}${kpi("+" + c.readiness_days_gained[0].days_with_15_apr_staffing + " days", "of full readiness in 2016 with staffing on 15 April instead of 1 May")}${kpi("~" + n(c.per_escape_ha) + " ha", "spared per escaped fire prevented (" + n(Math.round(c.per_escape_ha / 100)) + " km², " + times(c.per_escape_ha, PEI) + " Prince Edward Island; Alberta 2023 average; illustrative)")}</div>`;
+    let h = `<div class="wi-kpis">${kpi("months ahead", "the harmonized record flags May as Alberta's watch month in winter, before the season")}${kpi("+" + c.readiness_days_gained[0].days_with_15_apr_staffing + " days", "of full readiness in 2016 with staffing on 15 April instead of 1 May")}${kpi("~" + n(Math.round(c.per_escape_ha / 1000) * 1000) + " ha", "spared per escaped fire prevented (" + n(Math.round(c.per_escape_ha / 100)) + " km², " + times(c.per_escape_ha, PEI) + " Prince Edward Island; Alberta 2023 average; illustrative)")}</div>`;
     h += `<h3>Readiness across the whole season</h3>`;
     h += table(["Season", "First big fire", "Full readiness first, with 15 April staffing"], c.readiness_days_gained.map((r) => [`<b>${r.season}</b>`, esc(r.first_big_fire), `<b>${r.days_with_15_apr_staffing} days</b>`]));
-    h += table(["Escapes prevented (assumption)", "Area not burned", "Share of the 2023 season"], c.scenarios.map((s) => [`<b>${s.escapes_prevented}</b>`, `~${n(s.ha)} ha <small>${n(Math.round(s.ha / 100))} km² · ${times(s.ha, PEI)} P.E.I.</small>`, pct(s.share)]));
-    h += `<p class="wi-fine">For scale: Horse River (May 2016) burned ${n(B.horse_river_ha)} ha (${n(Math.round(B.horse_river_ha / 100))} km², ${times(B.horse_river_ha, PEI)} the size of Prince Edward Island), moved ${n(B.evacuated_2016)} people and cost $${B.insured_cad_bn} bn insured, about $${B.total_cad_bn} bn in total: roughly $${n(Math.round(B.total_cad_bn * 1e9 / B.evacuated_2016 / 1000) * 1000)} per person evacuated. Alberta 2023: ${(B.ab_2023_ha / 1e6).toFixed(1)} M ha, ${times(B.ab_2023_ha, PEI)} Prince Edward Island. Canada 2023: ${(B.canada_2023_ha / 1e6).toFixed(1)} M ha, ${times(B.canada_2023_ha, NS)} the area of Nova Scotia. Escape rule: ${esc(B.escape_rule)}. ${esc(c.caveat)} The value is readiness across the season, not stopping one fire.</p>`;
+    h += table(["Escapes prevented (assumption)", "Area not burned", "Share of the 2023 season"], c.scenarios.map((s) => [`<b>${s.escapes_prevented}</b>`, `~${n(Math.round(s.ha / 1000) * 1000)} ha <small>${n(Math.round(s.ha / 100))} km² · ${times(s.ha, PEI)} P.E.I.</small>`, pct(s.share)]));
+    h += `<p class="wi-fine">For scale: Horse River (May 2016) burned about ${n(Math.round(B.horse_river_ha / 10000) * 10000)} ha (about ${n(Math.round(B.horse_river_ha / 100 / 100) * 100)} km², ${times(B.horse_river_ha, PEI)} the size of Prince Edward Island), moved ${n(B.evacuated_2016)} people and cost $${B.insured_cad_bn} bn insured, about $${B.total_cad_bn} bn in total: roughly $${n(Math.round(B.total_cad_bn * 1e9 / B.evacuated_2016 / 1000) * 1000)} per person evacuated. Alberta 2023: ${(B.ab_2023_ha / 1e6).toFixed(1)} M ha, ${times(B.ab_2023_ha, PEI)} Prince Edward Island. Canada 2023: ${(B.canada_2023_ha / 1e6).toFixed(1)} M ha, ${times(B.canada_2023_ha, NS)} the area of Nova Scotia. Escape rule: ${esc(B.escape_rule)}. ${esc(c.caveat)} The value is readiness across the season, not stopping one fire.</p>`;
     return h;
   }
   function field(c) {
     const B = c.baseline, S = c.scenario;
-    let h = `<div class="wi-kpis">${kpi("before planting", "next-season map per 30 m pixel about February; the season's own crop map arrives ~11 months later")}${kpi("+$" + S.net_usd_m + " M", "net in a 2012-type drought for rye on the 92 steepest squares (" + n(S.acres) + " acres; illustrative)")}${kpi(B.iowa_corn_yield_2011 + " → " + B.iowa_corn_yield_2012, "Iowa corn, bu/acre, 2011 → 2012 drought (about $" + B.iowa_shortfall_usd_bn + " bn shortfall, roughly $" + n(Math.round(B.iowa_shortfall_usd_bn * 1e9 / 3046355 / 10) * 10) + " per Iowan, 2010 Census)")}</div>`;
+    let h = `<div class="wi-kpis">${kpi("before planting", "next-season map per 30 m pixel about February; the season's own crop map arrives ~11 months later")}${kpi("~$" + S.net_usd_m.toFixed(1) + " M", "net in a 2012-type drought for rye on the 92 steepest squares (" + n(S.acres) + " acres; illustrative)")}${kpi(B.iowa_corn_yield_2011 + " → " + B.iowa_corn_yield_2012, "Iowa corn, bu/acre, 2011 → 2012 drought (about $" + B.iowa_shortfall_usd_bn + " bn shortfall, roughly $" + n(Math.round(B.iowa_shortfall_usd_bn * 1e9 / 3046355 / 10) * 10) + " per Iowan, 2010 Census)")}</div>`;
     h += `<h3>Rye on the steep fields works like drought insurance</h3>`;
     h += table(["Item", "Per acre", `× ${n(S.acres)} acres`], [
       ["Extra corn in a 2012-type drought (+" + B.cover_crop_corn_gain_bu + " bu × $" + B.price_usd_bu_2012 + ")", "+$" + S.gross_per_acre, "+$" + S.gross_usd_m + " M"],

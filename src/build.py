@@ -12,7 +12,7 @@ from content import SITE, PROJECTS, CRITERIA, TRENDS, GLOSSARY, STAKES, SYSTEM_P
 ROOT = Path(__file__).resolve().parent.parent
 SRC, DIST = ROOT / "src", ROOT / "dist"
 DEMOS = Path(sys.argv[sys.argv.index("--demos") + 1]) if "--demos" in sys.argv else ROOT / "demos"
-SITE_URL = "https://nasa-spaceapps-2026.pages.dev"
+SITE_URL = "https://spaceapps.parsariahi.com"
 import os
 REPO_URL = "https://github.com/Priahi/nasa-spaceapps-2026"
 SLIDES = []
@@ -61,7 +61,12 @@ def copy_demo(slug):
         if t2 != t: f.write_text(t2)
 
 # ---------- page chrome ----------
-def head(title, desc, path, img="og.png"):
+OG_ALT = "About 230 people died because of one day of rain: Valencia, 29 Oct 2024, with the radar flood map of 8 towns. Orbit to Ground, NASA Space Apps 2026."
+LDJSON = '\n<script type="application/ld+json">' + json.dumps({"@context": "https://schema.org", "@type": "WebSite", "name": "Orbit to Ground", "url": SITE_URL + "/",
+    "description": "NASA satellite data turned into the next move for floods, wildfire and farms. NASA Space Apps Challenge 2026.",
+    "author": {"@type": "Person", "name": "Parsa Riahi", "address": {"@type": "PostalAddress", "addressLocality": "Toronto", "addressCountry": "CA"}},
+    "inLanguage": "en", "about": ["flood early warning", "wildfire readiness", "crop mapping", "NASA Earth observation"]}) + "</script>"
+def head(title, desc, path, img="og-home.jpg"):
     if SITE["author"] not in title: title = f"{title} · {SITE['author']}"
     return f"""<!doctype html>
 <html lang="en">
@@ -78,8 +83,16 @@ def head(title, desc, path, img="og.png"):
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{SITE_URL}{path}" />
 <meta property="og:image" content="{SITE_URL}/assets/img/{img}" />
+<meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="{e(OG_ALT if img == "og-home.jpg" else title)}" />
+<meta property="og:locale" content="en_CA" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="theme-color" content="#07091a" />
+<meta name="twitter:title" content="{e(title)}" /><meta name="twitter:description" content="{e(desc)}" /><meta name="twitter:image" content="{SITE_URL}/assets/img/{img}" />
+<meta name="robots" content="{"noindex" if path == "/404" else "index, follow, max-image-preview:large"}" />{LDJSON if path == "/" else ""}
+<meta name="color-scheme" content="dark light" />
+<meta name="theme-color" content="#07091a" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#f6f7fb" media="(prefers-color-scheme: light)" />
+<script>(function(){{var t;try{{t=localStorage.getItem("og-theme")}}catch(e){{}}document.documentElement.dataset.theme=t||(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark")}})();</script>
 <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
 <link rel="preload" href="/assets/fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="stylesheet" href="/shared/tokens.css" />
@@ -92,12 +105,12 @@ def head(title, desc, path, img="og.png"):
 """
 
 def nav(active):
-    items = [("/#night", "The night"), ("/#rewind", "Rewind"), ("/#fire", "Fire"), ("/#more", "Sectors")] + [(f"/{p['slug']}/", APPS[p["slug"]]["name"]) for p in PROJECTS] + [("/slides/", "Slides"), ("/#how", "Under the hood")]
+    items = [("/#night", "Imagine"), ("/#rewind", "Rewind"), ("/#whatif", "What if"), ("/#fire", "Fire"), ("/#fields", "Fields"), ("/#system", "System"), ("/#apps", "Apps"), ("/#deck", "Deck"), ("/#how", "Under the hood")]
     li = "".join(f'<li><a href="{h}"{" aria-current=\"page\"" if h==active else ""}>{e(t)}</a></li>' for h, t in items)
     mi = "".join(f'<a href="{h}">{e(t)}</a>' for h, t in items)
     return f"""<header class="nav"><a class="brand" href="/"><span class="brand-dot" aria-hidden="true"></span>Orbit to Ground</a>
 <nav aria-label="Main"><ul class="nav-links">{li}</ul></nav>
-<button class="menu-btn" aria-expanded="false" aria-controls="menu">Menu</button></header>
+<div class="nav-tools"><button class="theme-btn" type="button" aria-label="Switch colour theme" title="Light or dark"><span class="ti-sun" aria-hidden="true">&#9728;</span><span class="ti-moon" aria-hidden="true">&#9790;</span></button><button class="menu-btn" aria-expanded="false" aria-controls="menu">Menu</button></div></header>
 <div class="menu" id="menu">{mi}</div>
 """
 
@@ -296,57 +309,26 @@ def landing():
                   '<figure class="eng-map"><img src="/assets/img/field-map.webp" alt="Story County, Iowa, 2025: actual crops (USDA CDL), crops predicted by the model, and where they disagree (30.2% of farmed pixels)." width="1280" height="551" loading="lazy" />'
                   '<figcaption>Crop classification, Story County, Iowa, held-out 2025: actual (USDA CDL), predicted, and disagreement (30.2% of farmed pixels).</figcaption></figure></article>')
     eng_flow = '<ol class="eng-flow mono">' + "".join(f"<li>{x}</li>" for x in ("Satellite signal", "Map", "Drafted alert", "Task")) + "</ol>"
+    import deckflow as D
     return head(SITE["title"], SITE["desc"], "/") + nav("/") + f"""<main id="content">
-<section class="hero hero-tight hs-hook" id="hook"><div class="topo-hero" aria-hidden="true"></div><div class="wrap hero-copy">
-<p class="chip"><i></i>NASA Space Apps 2026 · {e(SITE['challenge'])}</p>
-<p class="eyebrow">Valencia, Spain · 29 October 2024</p>
-<h1>The red warning came around <span class="grad">7:30 AM</span>.<br/>The phone alert came around <span class="grad">8 PM</span>.</h1>
-<p class="lede">About 230 people died in the Valencia region, after a 12-hour gap between warning and alert. This is one night told twice: as it happened, and rewound with NASA satellite data.</p>
-<div class="actions"><a class="btn" href="#night">Start the story &darr;</a><a class="btn ghost" href="/sar-change/app/#demo">Open the flood dashboard</a><a class="btn ghost" href="#demo-video">&#9654; Demo video</a></div>
-<p class="fine">Sources: <a href="{_HS['aemet'][1]}" rel="noopener">AEMET</a>, <a href="{_HS['elpais'][1]}" rel="noopener">El País</a>. Orbit to Ground turns NASA satellite data into the next move.</p>
-</div></section>
+{D.hero()}
 {night}
+{D.bridge()}
+{D.rewind_intro()}
 {rewind}
-<section class="section tight hs-could"><div class="wrap" data-fx="rise">
-<p class="eyebrow">What could have changed</p>
-<blockquote>With an upstream rain signal and a radar map, Elena could have had a drafted alert for her town hours before the 8 PM phone alert, and a map of where the water went on day two.</blockquote>
-<p class="fine">A rewind, not a claim: alerts and tasking are simulated, and we make no claim about lives saved.</p>
-<div class="actions"><a class="btn launch" href="/sar-change/app/#demo">Try the rewind in the flood dashboard</a><a class="btn ghost" href="/sar-change/">The flood project</a></div>
-</div></section>
-
-<section class="section tight" id="fire"><div class="wrap hs-fire">
-<div class="hs-fire-copy" data-fx="rise"><p class="eyebrow">Second story · Canada, before fire season</p>
-<h2>A duty officer staffs up before May, not after.</h2>
-<ul class="hs-pts"><li><b>Rising.</b> Fire detections grow about 1,503 a year in Alberta (p = 0.035) and 2,587 in B.C. (p = 0.045), 2003–2025. Tentative: one sensor alone isn't significant.</li>
-<li><b>May is the watch month.</b> 5 of Alberta's 16 unusual fire months since 2000 were in May.</li>
-<li><b>The move (simulated).</b> Stage initial-attack crews before July, open seasonal hiring this spring, and tell forest communities to check evacuation plans before May.</li></ul>
-<p class="fine">7.46 M NASA FIRMS detections over Canada. A 2026 trend line of about 41,000 (Alberta) and 72,000 (B.C.) is a trend line, not a forecast.</p>
-<div class="actions"><a class="btn launch" href="/hotspots/app/#demo">Open Hot Spots</a><a class="btn ghost" href="/hotspots/">The fire project</a></div></div>
-<div data-fx="rise">{shows_visual("heat_map")}</div>
-</div></section>
-
-<section class="section tight" id="more"><div class="wrap">
-<div class="split-head" data-fx="rise"><div><p class="eyebrow">One engine, many sectors</p><h2>Same engine. Every sector.</h2></div><p>Flood and fire run on one loop. Swap the satellite input and the same loop serves farms, water and cities. Built ones are live today; future ones are clearly marked.</p></div>
-{eng_flow}
-{field_feat}
-<div class="x20-grid" data-fx="stagger">{sec_built}</div>
-<div class="x20-grid fut" data-fx="stagger">{sec_fut}</div>
-</div></section>
-
+{D.rewind_loops()}
+{D.flood_whatif()}
+{D.fire()}
+{D.fields()}
+{D.system(sec_built, sec_fut, mall)}
 <section class="section tight" id="apps"><div class="wrap">
-<div class="split-head" data-fx="rise"><div><p class="eyebrow">Three dashboards</p><h2>Open them. Every number is live data.</h2></div><p>Each one shows the signal, the map and the next move, with alerts and tasking clearly marked as simulated.</p></div>
+<div class="split-head" data-fx="rise"><div><p class="eyebrow">Three apps</p><h2>Open them. Every number is live data.</h2></div><p>Each one shows the signal, the map and the next move, with alerts and tasking clearly marked as simulated.</p></div>
 <div class="pcards">{people}</div></div></section>
-
-<section class="section tight" id="demo-video"><div class="wrap">
-<figure class="spot video-card" data-fx="rise"><video controls preload="metadata" playsinline src="/submission/demo.mp4"><track kind="captions" srclang="en" label="English" src="/submission/demo.en.vtt" /></video>
-<figcaption><span class="mono">Demo video</span> <a href="/submission/demo.mp4">MP4</a> · <a href="/submission/demo.en.srt">Captions</a> · <a href="/submission/deck.pdf">Slides (PDF)</a> · <a href="/submission/deck.pptx" download>Slides with video (PPTX)</a></figcaption></figure>
-</div></section>
-""" + slides_strip(SLIDES) + f"""
+""" + D.deck_links(slides_strip(SLIDES, bare=True)) + f"""
 <section class="section tight" id="how"><div class="wrap">
 <div class="step-head" data-fx="rise"><p class="eyebrow">Under the hood</p><h2>Built on NASA data. Tested before trusted.</h2></div>
 <h3 class="af-h">How each model works</h3>
 {_arch()}
-<p class="mstrip-k">Model accuracy · one seed per run, not a published benchmark</p>{mall}
 <details class="deep"><summary>The four trend questions, per module</summary><div class="case-grid">{cases}</div></details>
 <details class="deep"><summary>Do independent NASA records agree? · the agreement matrix</summary><div id="trend">{_mx()}</div></details>
 <details class="deep"><summary>Compare regions · same test, three places</summary>{_sm()}</details>
@@ -462,7 +444,7 @@ def project(i, p):
 def slide_list():
     """Newest deck files at build time: slide PNGs from submission/build, titles from submission/deck.html."""
     import re as _re
-    bd = ROOT / "submission" / "build"; files = sorted(bd.glob("slide-*.png"), key=lambda f: int(_re.findall(r"\d+", f.stem)[0]))
+    bd = ROOT / "submission" / "build"; files = sorted([f for f in bd.glob("slide-*.png") if _re.fullmatch(r"slide-\d+", f.stem)], key=lambda f: int(_re.findall(r"\d+", f.stem)[0]))
     titles = []
     dh = ROOT / "submission" / "deck.html"
     if dh.exists():
@@ -485,9 +467,10 @@ def copy_slides():
             shutil.copy(f, d / f"slide-{n}.webp")
     return sl
 
-def slides_strip(sl):
+def slides_strip(sl, bare=False):
     if not sl: return ""
     cards = "".join(f'<a class="slide-thumb" href="/slides/#slide-{n}"><img src="/slides/img/slide-{n}-thumb.webp" alt="Slide {n}: {e(t)}" loading="lazy" width="640" height="360" /><span class="mono">{n:02d}</span><b>{e(t)}</b></a>' for n, f, t in sl)
+    if bare: return f'<div class="slide-strip" data-fx="rise">{cards}</div>'
     return f"""<section class="section" id="slides" style="padding-top:2rem"><div class="wrap">
 <div class="split-head" data-fx="rise"><div><p class="eyebrow">The deck</p><h2>{len(sl)} slides, same story.</h2></div><p>Read the slides right here, or download the PDF. <span class="actions" style="display:inline-flex;margin:.6rem 0 0"><a class="btn" href="/slides/">View the slides</a><a class="btn ghost" href="/submission/deck.pdf">Download PDF</a><a class="btn ghost" href="/submission/deck.pptx" download>Slides with video (PPTX)</a></span></p></div>
 <div class="slide-strip" data-fx="rise">{cards}</div></div></section>"""
@@ -498,8 +481,8 @@ def slides_page(sl):
     return head("Slides · Orbit to Ground", "The Orbit to Ground deck: " + SITE["desc"], "/slides/") + nav("/slides/") + f"""<main id="content">
 <section class="hero short"><div class="topo-hero" aria-hidden="true"></div><div class="wrap hero-copy">
 <p class="chip"><i></i>NASA Space Apps 2026 · {e(SITE['challenge'])}</p><h1>The slides</h1>
-<p class="lede">{len(sl)} slides: the problem, the system, and one trend question per module, answered with NASA data.</p>
-<div class="actions"><a class="btn" href="/submission/deck.pdf">Download PDF</a><a class="btn ghost" href="/submission/deck.pptx" download>Slides with video (PPTX)</a><a class="btn ghost" href="/#demo-video">&#9654; Demo video</a><a class="btn ghost" href="/">Back to the site</a></div></div></section>
+<p class="lede">{len(sl)} slides: the human cost, the night rewound, the flood what-if, fire, fields, and the one system behind them.</p>
+<div class="actions"><a class="btn" href="/submission/deck.pdf">Download PDF</a><a class="btn ghost" href="/submission/deck.pptx" download>Slides with video (PPTX)</a><a class="btn ghost" href="/#rewind">&#9654; Demo video</a><a class="btn ghost" href="/">Back to the site</a></div></div></section>
 <section class="block" style="padding-top:0"><div class="wrap slides-wrap"><nav class="slide-dots mono" aria-label="Jump to slide">{dots}</nav><div class="slides">{slides}</div></div></section>
 </main>
 """ + FOOT

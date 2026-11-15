@@ -13,6 +13,13 @@
   const btn = document.querySelector(".menu-btn"), menu = document.getElementById("menu");
   if (btn && menu) btn.addEventListener("click", () => { const o = menu.classList.toggle("open"); btn.setAttribute("aria-expanded", String(o)); });
 
+  // Light / dark: follows the system until the visitor picks one
+  const root = document.documentElement, tb = document.querySelector(".theme-btn");
+  const label = () => tb && tb.setAttribute("aria-label", root.dataset.theme === "light" ? "Switch to dark theme" : "Switch to light theme");
+  if (tb) { label(); tb.addEventListener("click", () => { root.dataset.theme = root.dataset.theme === "light" ? "dark" : "light"; try { localStorage.setItem("og-theme", root.dataset.theme); } catch (_) {} label(); }); }
+  const mq = window.matchMedia("(prefers-color-scheme: light)");
+  if (mq.addEventListener) mq.addEventListener("change", (ev) => { let t = null; try { t = localStorage.getItem("og-theme"); } catch (_) {} if (!t) { root.dataset.theme = ev.matches ? "light" : "dark"; label(); } });
+
   // Spotlight cursor glow
   document.querySelectorAll(".spot").forEach((el) => el.addEventListener("mousemove", (e) => {
     const r = el.getBoundingClientRect(); el.style.setProperty("--mx", e.clientX - r.left + "px"); el.style.setProperty("--my", e.clientY - r.top + "px");
@@ -76,6 +83,30 @@
     });
   } else document.querySelectorAll(".beat-media, .story-panel").forEach((m) => m.classList.add("play"));
   if (reduce) document.querySelectorAll(".beat-media, .story-panel").forEach((m) => m.classList.add("play"));
+
+  // Lazy videos: no source until near the viewport (preload=none + poster first). Muted loops play only while
+  // on screen and pause when off. Reduced motion: never autoplay; show controls instead.
+  const vids = document.querySelectorAll("video.lazyv");
+  const arm = (v) => { if (v.dataset.armed) return; v.dataset.armed = "1"; v.querySelectorAll("source[data-src]").forEach((s) => { s.src = s.dataset.src; }); v.load(); };
+  vids.forEach((v) => { if (reduce) { v.removeAttribute("data-auto"); v.controls = true; v.addEventListener("play", () => arm(v), { once: true }); v.addEventListener("pointerdown", () => arm(v), { once: true }); } });
+  if ("IntersectionObserver" in window) {
+    const near = new IntersectionObserver((ents) => ents.forEach((en) => { if (en.isIntersecting) { arm(en.target); near.unobserve(en.target); } }), { rootMargin: "300px 0px" });
+    const vis = new IntersectionObserver((ents) => ents.forEach((en) => {
+      const v = en.target; if (!v.hasAttribute("data-auto")) return;
+      if (en.isIntersecting && en.intersectionRatio >= 0.5) {
+        if (v.dataset.once && v.dataset.played) return;
+        arm(v); if (v.dataset.once && !v.dataset.played) { try { v.currentTime = 0; } catch (_) {} }
+        v.dataset.played = "1"; const pr = v.play(); if (pr && pr.catch) pr.catch(() => { v.controls = true; });
+      } else if (!v.paused) v.pause();
+    }), { threshold: [0, 0.5] });
+    vids.forEach((v) => { if (!reduce) near.observe(v); vis.observe(v); });
+  } else vids.forEach((v) => { arm(v); v.controls = true; });
+  // the official demo: Unmute button; pause when the user scrolls away happens above
+  document.querySelectorAll(".dk-unmute").forEach((b) => {
+    const v = b.parentElement.querySelector("video"); if (!v) return;
+    b.addEventListener("click", () => { arm(v); v.muted = false; b.setAttribute("aria-pressed", "true"); const pr = v.play(); if (pr && pr.catch) pr.catch(() => {}); });
+    v.addEventListener("volumechange", () => b.setAttribute("aria-pressed", String(!v.muted)));
+  });
 
   if (reduce || !hasGsap) return;
 

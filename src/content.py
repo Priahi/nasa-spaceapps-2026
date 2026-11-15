@@ -9,7 +9,7 @@ SITE = {
     "challenge": "Be An Earth System Trend Detective!",
     "challenge_url": "https://www.spaceappschallenge.org/2026/challenges/earth-system-trend-detective/",
     "author": "Parsa Riahi",
-    "desc": "One connected system that turns NASA satellite data into decisions: detect fire across a 25-year multi-sensor record, confirm floods through cloud and night with radar, and adapt farm rotations on the ground. Every module answers what is changing, where, how much, and is it significant. Built solo by Parsa Riahi in Toronto.",
+    "desc": "About 230 people died because of one day of rain in Valencia. Orbit to Ground turns NASA satellite data into the next move: a town-specific flood alert, wildfire crews staffed before May, and next season's crop map before planting. Built solo by Parsa Riahi in Toronto.",
     "built_on": "Built on open-source libraries (pandas, NumPy, LightGBM, PyTorch, ONNX Runtime, pymannkendall, Leaflet, GSAP, Lenis) and our own earlier code: the three tools started before the event, and the trend layer was computed during it (14 Nov 2026).",
 }
 

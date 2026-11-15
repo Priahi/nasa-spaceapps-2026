@@ -11,8 +11,7 @@ SRC = {
   "elpais": ("El País", "https://elpais.com/espana/2025-10-26/como-donde-y-a-que-hora-murieron-las-229-victimas-de-la-dana.html"),
   "newtral": ("Newtral", "https://www.newtral.es/avisos-dana/20241031/"),
   "reuters": ("Reuters", "https://www.reuters.com/business/environment/spains-flood-disaster-was-its-worst-recent-history-heres-what-went-wrong-2024-11-09/"),
-  "norm": ("AEMET/WMO 1991–2020 normals, València", "https://www.nodc.noaa.gov/archive/arc0216/0253808/2.2/data/0-data/Region-6-WMO-Normals-9120/Spain/CSV/VALENCIA_8285.csv"),
-  "aemetn": ("AEMET normals", "https://www.aemet.es/es/serviciosclimaticos/datosclimatologicos/valoresclimatologicos?l=8416"),
+  "aemetn": ("AEMET normals 1981–2010", "https://www.aemet.es/es/serviciosclimaticos/datosclimatologicos/valoresclimatologicos?l=8416&k=val"),
   "vlc": ("Ajuntament de València, Recull 2024", "https://www.valencia.es/estadistica/Recull/Recull2024_Castellano.pdf"),
   "lv": ("La Vanguardia", "https://www.lavanguardia.com/local/valencia/20250409/10568338/emergencias-juzgado-18-43-chj-comunico-gran-crecida-barranco-poyo.html"),
 }
@@ -61,17 +60,17 @@ def towns_card():
     return f'<ul class="hs-towns">{li}</ul>'
 
 def home_sections(story, slider, alert):
-    night = story("night", "The flood · Valencia, 29 October 2024", "Imagine losing someone you love because no one knew how much rain was coming that day.",
-      "Elena is the emergency coordinator in Catarroja, one of the 8 towns where radar later mapped flood water. She is an illustrative composite: her day follows the public timeline, not a real person.",
-      [("About 7:30 AM · Warning", "A red warning, but no map.", "<p>The weather agency, AEMET, issues a red warning for Valencia. Elena has a forecast for the region. She has no picture of where the water will go.</p>",
-        tcard("~7:30 AM", "29 Oct · CET", "Red", "warning for Valencia", "The highest level of weather warning.", ("aemet", "newtral"), exact="Red warning issued 7:36 AM CET.")),
-       ("Around noon · Rain", "Upstream, the ravine stirs.", "<p>Inland at Turís, 771.8 mm of rain falls in 24 hours: <b>about 2.5 feet of water, 1.7 times what València gets in an average year</b> (457.9 mm). 184.6 mm (7.3 inches) falls in a single hour. The Poyo ravine passes its pre-alert level, 264 m³/s, around noon.</p>" + '<p class="fine">' + src("aemet", "lv", "aemetn", "norm") + "</p>",
+    night = story("night", "2 / 7 · Story 1 · Imagine · Valencia, 29 Oct 2024", "Imagine losing someone you love because no one knew how much rain was coming that day.",
+      "Elena is the emergency coordinator in Catarroja, one of the 8 towns where radar later mapped flood water. 25 people died there. She is an illustrative composite: her day follows the public timeline, not a real person.",
+      [("About 7:30 AM · Warning", "The danger was known.", "<p>The weather agency, AEMET, issues a red warning for the province. Elena has a forecast for the region, but no picture of where the water will go, or which streets to clear first.</p>",
+        tcard("~7:30 AM", "29 Oct · CET", "Red", "warning for Valencia", "The highest level of weather warning.", ("aemet", "newtral", "elpais"), exact="Red warning issued 7:36 AM CET.")),
+       ("Around noon · First death", "The first life lost.", "<p>Around noon a driver is swept away at the Benimodo ravine: the first recorded death. Inland at Turís, about 770 mm of rain falls in a single day: <b>about 2½ feet, roughly 1.6 years of València's rain</b> (475 mm a year). 184.6 mm (7.3 inches) falls in one hour. The Poyo ravine passes its pre-alert level, 264 m³/s.</p>" + '<p class="fine">' + src("elpais", "aemet", "lv", "aemetn") + ' <span class="hs-src">Exact: first death 11:45 AM; 771.8 mm in 24 h at Turís; normals 1981–2010.</span></p>',
         rain_svg()),
-       ("About 7 PM · Surge", "The surge.", "<p>By about 7 PM the Poyo carries 1,686 m³/s, then 2,282 m³/s minutes later. More than six times the noon pre-alert level.</p>",
+       ("About 7 PM · Surge", "The ravine became a river.", "<p>By about 7 PM the Poyo carries 1,686 m³/s, then 2,282 m³/s minutes later: more than eight times its pre-alert level. The water runs into the towns of l'Horta Sud, Catarroja among them.</p>",
         tcard("~7 PM", "Poyo ravine · flow", "1,686", "m³/s", "2,282 m³/s minutes later.", ("lv",), "hot", exact="Gauge readings at 6:43 PM and 6:55 PM CET.")),
-       ("About 8 PM · Alert", "The phones buzz at about 8 PM.", "<p>The ES-Alert reaches phones after a 12-hour gap from the red warning. By then, more than 150 of the people who died had already died. The 112 emergency line took more than 15,000 calls.</p>",
+       ("About 8 PM · Alert", "“Avoid any travel.”", "<p>The only phone alert, ES-Alert, says to avoid any travel. It comes 12 hours after the red warning. By then, more than 150 of the people who died had already died. The 112 emergency line took more than 15,000 calls.</p>",
         tcard("~8 PM", "ES-Alert to phones", "12 h", "gap after the red warning", "About 230 deaths in the Valencia region.", ("elpais", "reuters"), "hot", exact="ES-Alert sent 8:11 PM CET, 12 h 35 min after the 7:36 AM red warning; at least 156 of 229 deaths before it; 15,943+ calls to 112."))])
-    rewind = story("rewind", "Now rewind · the same night, with NASA data", "What Elena could have seen.",
+    rewind = story("rewind-steps", "Step by step · the same night, with NASA data", "What Elena could have seen.",
       "Four steps, each shown in the live flood dashboard. Real satellite data; the alert and tasking are simulated.",
       [("29 Oct · Rain", "1. A rain signal upstream.", "<p>NASA's GPM IMERG measures <b>91 mm</b> of rain upstream that day (a fifth of València's average year, in one day), almost nine times the wettest day of the fortnight before (10.4 mm). Cloud cover is <b>99%</b>, so ordinary cameras in orbit see nothing below.</p>"
         "<p class=\"fine\">A rule like “flag 50 mm upstream” is a design example. We haven't tested near-real-time timing.</p>",

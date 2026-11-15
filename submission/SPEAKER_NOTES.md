@@ -2,8 +2,11 @@
 
 Times are 12-hour, local (Valencia CET, Alberta MDT). Slides and speech use rounded figures ("about 7:30 AM", "about 230 died", "more than 150 before the alert"); the exact values and sources stay in these notes. Tasking and alerts are always "simulated". Say "could have", never "would have saved". Elena is a composite. No lives number for Valencia.
 
-## 1 · Hook: 29 October 2024
-"On 29 October 2024, one town near Valencia got about 770 mm of rain in a day: roughly two and a half feet, more than one and a half times what the city of València gets in a whole year. The phone alert went out around 8 PM. By then, more than 150 people had died."
+## 1 · Hook: about 230 people died because of one day of rain
+"About 230 people died because of one day of rain. In Valencia, on 29 October 2024, more than 150 of them were already dead when the phone alert went out, around 8 PM. One town got about 770 mm in a day, roughly two and a half feet, about 1.6 years of València's rain. And twelve hours passed between the red warning and that alert."
+- Slide (rounded): headline "About 230 people died…"; 150+ before the ~8 PM alert; ~1.6 yrs of rain in a single day; 12 hours. Date and place are only the small kicker.
+- Exact: 229 deaths in the Valencia region (El País, 26 Oct 2025, which also gives at least 156 of the 229 dead before the 8:11 PM ES-Alert); red warning 7:36 AM (Newtral) → 12 h 35 min gap; 771.8 mm at Turís in 24 h (AEMET).
+- Note "in a single day", not "one afternoon": 771.8 mm is the 24 h total (1.62 years). The afternoon alone (3–8 PM) was 616.8 mm = 1.30 years.
 - Exact: 771.8 mm; alert 8:11 PM; at least 156 of 229 dead before it.
 - Sources: AEMET event study (Turís 771.8 mm in 24 h); AEMET climate normals, València station 8416, 1981–2010: 475 mm a year; El País, 26 Oct 2025 (at least 156 of 229 died before the 8:11 PM alert).
 - Units: 771.8 mm ÷ 25.4 = 30.4 in ÷ 12 = 2.53 ft ("about 2½ feet"). 771.8 ÷ 475 = 1.62 ("1.6 times a year").
@@ -11,9 +14,9 @@ Times are 12-hour, local (Valencia CET, Alberta MDT). Slides and speech use roun
 
 ## 2 · Imagine
 "Imagine losing someone you love because no one knew how much rain was coming that day."
+- Builds on slide 1 (which gave the toll, the rain and the 12-hour gap): here the same day as four moments, in words, with the times small: the danger was known (~7:30 AM red warning), the first life lost (~noon, Benimodo ravine), the ravine became a river (~7 PM Poyo surge), "avoid any travel" (~8 PM, the only phone alert). Closing box: the rain was on NASA's record (~90 mm upstream, IMERG); what was missing was a map that turned it into an alert for Elena's town.
 - The rain panel is our flood app's own chart (NASA GPM IMERG V07, NASA POWER cloud): 91 mm upstream on 29 Oct. The timeline on the right is our dashboard's simulated timeline (T+ clock), the same night rewound.
 - "Elena is a composite, an emergency coordinator in Catarroja; 25 people died in her town."
-- Slide (rounded): ~7:30 AM warning, ~noon first death, ~7 PM Poyo ravine surge, ~8 PM phone alert, "a 12-hour gap", about 230 died.
 - Exact facts: 7:36 AM red warning (Newtral; El País gives 7:35 AM); 11:45 AM first recorded death (El País); 3–8 PM 616.8 mm at Turís (AEMET); 6:55 PM Poyo ravine at 2,282 m³/s (Reuters; La Vanguardia); 8:11 PM ES-Alert, at least 156 already dead (El País). 12 h 35 min from warning to alert; 229 deaths in the Valencia region.
 - Units: 616.8 ÷ 475 = 1.30, "1.3 years of València's rain in one afternoon".
 

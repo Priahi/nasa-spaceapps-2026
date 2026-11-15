@@ -191,7 +191,7 @@
     const c = meta.countries || {}; let html = "";
     for (const name of ["Canada", "Argentina"]) {
       const r = c[name]; if (!r || r.status !== "ok") continue;
-      const rows = [["Global ratio", r.baselines.global_ratio], ["Month ratio", r.baselines.month_ratio], ["Cell ratio", r.baselines.cell_ratio], ["EB cell ratio", r.baselines.eb_cell_ratio], ["Residual LightGBM (ours)", r.tuned_residual_test, true]];
+      const rows = [["Global ratio", r.baselines.global_ratio], ["Month ratio", r.baselines.month_ratio], ["Cell ratio", r.baselines.cell_ratio], ["EB cell ratio", r.baselines.eb_cell_ratio], ["Residual LightGBM (mine)", r.tuned_residual_test, true]];
       html += `<h3>${name}</h3><table class="metrics"><thead><tr><th>Method</th><th>RMSE log1p</th><th>Bias %</th><th>Spearman</th><th>Monthly MAPE %</th></tr></thead><tbody>` +
         rows.map(([l, m, best]) => `<tr class="${best ? "best" : ""}"><td>${l}</td><td class="num">${fmt(m.rmse_log1p, 4)}</td><td class="num">${fmt(m.total_bias_pct, 2)}</td><td class="num">${fmt(m.spearman, 3)}</td><td class="num">${fmt(m.monthly_total_mape_pct, 2)}</td></tr>`).join("") + "</tbody></table>";
       const iv = r.intervals || {};
@@ -311,7 +311,7 @@
       onTask: (a, t, s) => { taskSt[a.id + "|" + t.label] = s; if (state.action && state.action.id === a.id) { drawAssets(); zoneState(); } },
       onReset: () => { Object.keys(taskSt).forEach((k) => delete taskSt[k]); showAction(null); } });
     state.c2 = c2;
-    OGC2.impact("#impactHost", A.impact, { title: "Impact: before → with this tool", note: "Qualitative on purpose: we haven't measured lives, hectares or costs. The numbers are the satellite results and model tests behind each decision." });
+    OGC2.impact("#impactHost", A.impact, { title: "Impact: before → with this tool", note: "Qualitative on purpose: I haven't measured lives, hectares or costs. The numbers are the satellite results and model tests behind each decision." });
     // Deep links: #act=<id> selects an action; #alert=<id> opens its simulated alert (c2.js);
     // #demo or #demo=<id> is the capture state: select, approve (tasks run to Done in ~5 s) and open the alert draft.
     const m = /act=([\w-]+)/.exec(location.hash); if (m && c2) setTimeout(() => { c2.select(m[1]); toMap(); }, 700);

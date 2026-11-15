@@ -44,7 +44,7 @@ def build(segs, out, tag):
          "-crf", "20", "-pix_fmt", "yuv420p", "-r", "30", "-movflags", "+faststart", "-an", str(out)])
     return t, caps
 C = {  # captions (12-hour rounded story times only; no exact clock times)
- "slider": "Rewind with our tool. 1 · Drag the radar slider: before (26 Oct) ↔ after (31 Oct), through cloud",
+ "slider": "Rewind with my tool. 1 · Drag the radar slider: before (26 Oct) ↔ after (31 Oct), through cloud",
  "classify": "2 · Flood classification: new water outside normal rivers, about 47 km² more in 5 days",
  "preview": "3 · Preview each recommended action on the map",
  "dispatch": "4 · Dispatch: teams placed in the 8 towns. Queued → Tasked → In progress → Done",

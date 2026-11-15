@@ -10,7 +10,7 @@ SITE = {
     "challenge_url": "https://www.spaceappschallenge.org/2026/challenges/earth-system-trend-detective/",
     "author": "Parsa Riahi",
     "desc": "About 230 people died because of one day of rain in Valencia. Orbit to Ground turns NASA satellite data into the next move: a town-specific flood alert, wildfire crews staffed before May, and next season's crop map before planting. Built solo by Parsa Riahi in Toronto.",
-    "built_on": "Built on open-source libraries (pandas, NumPy, LightGBM, PyTorch, ONNX Runtime, pymannkendall, Leaflet, GSAP, Lenis) and our own earlier code: the three tools started before the event, and the trend layer was computed during it (14 Nov 2026).",
+    "built_on": "Built on open-source libraries (pandas, NumPy, LightGBM, PyTorch, ONNX Runtime, pymannkendall, Leaflet, GSAP, Lenis) and my own earlier code: the three tools started before the event, and the trend layer was computed during it (14 Nov 2026).",
 }
 
 CRITERIA = [
@@ -184,9 +184,9 @@ PROJECTS = [
 
 # ---------- Trend Detective layer (event work; numbers from trends/out/trends.json, see trends/RESULTS.md) ----------
 GLOSSARY = [
-    ("Trend", "A steady rise or fall over many years, not a single bad year. We test one value per year."),
+    ("Trend", "A steady rise or fall over many years, not a single bad year. I test one value per year."),
     ("Mann-Kendall test", "Compares every pair of years: does the later year tend to be higher (or lower)? It doesn't assume a straight line or a bell curve."),
-    ("Sen's slope", "The median change per year across all pairs of years. A single extreme year can't drag it much. We show it with a 95% confidence interval."),
+    ("Sen's slope", "The median change per year across all pairs of years. A single extreme year can't drag it much. I show it with a 95% confidence interval."),
     ("Significant (p < 0.05)", "Data with no real trend would look this trendy less than 5% of the time. It's evidence of change, not proof of a cause."),
 ]
 
@@ -210,13 +210,13 @@ TRENDS = {
   "sar-change": {
     "theme": "Water", "widget": "water",
     "title": "Was the Valencia flood part of a trend?",
-    "intro": "A flood map shows one event. To ask if heavy rain is changing, we tested 45 years (1981–2025) of NASA POWER daily precipitation over eastern Spain (around Valencia) and southern Ontario (around Toronto, a NISAR site in the viewer): annual totals, the wettest day of each year, and heavy-rain days.",
+    "intro": "A flood map shows one event. To ask if heavy rain is changing, I tested 45 years (1981–2025) of NASA POWER daily precipitation over eastern Spain (around Valencia) and southern Ontario (around Toronto, a NISAR site in the viewer): annual totals, the wettest day of each year, and heavy-rain days.",
     "case": {"spark": "water.valencia.rx1day", "mark": 2024, "what": "Rain on the wettest day of each year (Rx1day)", "where": "Eastern Spain (Valencia), 1981–2025",
              "how": "+0.08 mm a year (95% CI −0.09 to +0.22)", "sig": (False, "No, p = 0.28")},
     "findings": [
         ("Valencia: no significant trend in extremes.", "Wettest-day rain +0.08 mm a year (p = 0.28) and heavy-rain days (p = 0.44) don't trend in this reanalysis record. The 2024 DANA flood was extreme, but one extreme isn't a trend."),
         ("Annual totals: a patchy rise.", "8 of the 35 cells around Valencia show a significant rise in annual precipitation, including the cell over the city; the regional mean doesn't (p = 0.24)."),
-        ("Southern Ontario: a reanalysis signal satellites don't confirm.", "In MERRA-2 reanalysis (NASA POWER), wettest-day rain falls −0.24 mm a year and days with ≥ 20 mm fall −0.06 a year (both p < 0.001). GPM IMERG satellite rainfall over 1998–2024 shows no significant trend in the annual total (p = 0.28) or the wettest month (p = 0.36), so we don't claim Ontario's rain extremes are falling."),
+        ("Southern Ontario: a reanalysis signal satellites don't confirm.", "In MERRA-2 reanalysis (NASA POWER), wettest-day rain falls −0.24 mm a year and days with ≥ 20 mm fall −0.06 a year (both p < 0.001). GPM IMERG satellite rainfall over 1998–2024 shows no significant trend in the annual total (p = 0.28) or the wettest month (p = 0.36), so I don't claim Ontario's rain extremes are falling."),
         ("Drying ground, then a flash flood.", "GRACE/GRACE-FO gravity satellites show total water storage over eastern Spain falling by about 0.39 cm a year over 2003–2025 (p = 0.002, Earthdata login). Rain extremes didn't trend, but the land was holding less water before the DANA struck. Southern Ontario's storage is rising (+0.55 cm a year, p = 0.014)."),
         ("Cross-checked with satellite rainfall.", "GPM IMERG V07 (monthly, 0.1°, Earthdata login) over 1998–2024 agrees for eastern Spain: no significant trend in the annual total (p = 0.62), the September–November total (p = 0.80) or the wettest month (p = 0.21). One extreme event isn't a trend."),
     ],
@@ -230,7 +230,7 @@ TRENDS = {
   "field-shift": {
     "theme": "Crops", "widget": "crops",
     "title": "Is the growing season in Iowa changing?",
-    "intro": "Rotation choices depend on season length, heat and soil water. We built seven growing-season indicators from 45 years (1981–2025) of NASA POWER daily data for central Iowa and the Story County cell where Field Shift runs, and tested each for a trend.",
+    "intro": "Rotation choices depend on season length, heat and soil water. I built seven growing-season indicators from 45 years (1981–2025) of NASA POWER daily data for central Iowa and the Story County cell where Field Shift runs, and tested each for a trend.",
     "case": {"spark": "crops.frost_free_days.region", "what": "Frost-free season length", "where": "Central Iowa, 1981–2025",
              "how": "+0.43 days a year (95% CI +0.12 to +0.67), about 19 days longer on the trend line over 1981–2025", "sig": (True, "Yes, p = 0.006")},
     "findings": [
@@ -278,7 +278,7 @@ MODULES = {
 UPGRADES = {
   "sar-change": {
     "title": "NASA OPERA confirms the water",
-    "text": "We added NASA/JPL OPERA DSWx-S1, a surface-water map made from Sentinel-1 radar at 30 m, downloaded with an Earthdata login. 18 radar passes between 1 October and 19 November 2024 cover the coast south of Valencia. Outside water that was already there in early October, new water rose from 30.7 km² on 26 October to 77.7 km² on 31 October, two days after the flood, then stayed between about 30 and 60 km² for the next three weeks.",
+    "text": "I added NASA/JPL OPERA DSWx-S1, a surface-water map made from Sentinel-1 radar at 30 m, downloaded with an Earthdata login. 18 radar passes between 1 October and 19 November 2024 cover the coast south of Valencia. Outside water that was already there in early October, new water rose from 30.7 km² on 26 October to 77.7 km² on 31 October, two days after the flood, then stayed between about 30 and 60 km² for the next three weeks.",
     "note": "Read it with care. Most of the new water sits in the Albufera rice paddies around the lagoon, and it was already rising before the flood (from 4 km² on 1 October to 31 km² on 26 October), so the flood signal is the jump to 77.7 km². Radar water maps miss water between buildings, so the urban flooding in l'Horta Sud is under-detected, and much of it had drained by the first pass. Passes with under 80% valid pixels are left out.",
     "ba": ("opera-before.webp", "opera-after.webp", "26 Oct 2024 (before)", "31 Oct 2024 (2 days after)",
            "OPERA DSWx-S1 water classes, about 0.63–0.20°W, 39.20–39.55°N. Purple: water that wasn't there in early October. Blue: usual water (Albufera lagoon, sea, port)."),
@@ -289,13 +289,13 @@ UPGRADES = {
 UPGRADES["hotspots"] = {
   "title": "Burned area, mapped and tested",
   "eyebrow": "Earthdata upgrade · MODIS MCD64A1",
-  "text": "We added the MODIS MCD64A1 burned-area product (500 m, monthly), downloaded with an Earthdata login: 161 monthly files for tile h11v03, which covers the boreal forest of northeastern British Columbia, Alberta and Saskatchewan, about 50–60°N, April to October, 2003–2025. Detections tell you where fire burned at the moment of an overpass; burned area tells you how much ground it took. Summed per season, burned area in this tile rose by about 272 km² a year (Sen's slope, 95% CI +57 to +503; Mann-Kendall p = 0.004, also significant after the Hamed-Rao check). 2023 was the largest season at 28,262 km².",
+  "text": "I added the MODIS MCD64A1 burned-area product (500 m, monthly), downloaded with an Earthdata login: 161 monthly files for tile h11v03, which covers the boreal forest of northeastern British Columbia, Alberta and Saskatchewan, about 50–60°N, April to October, 2003–2025. Detections tell you where fire burned at the moment of an overpass; burned area tells you how much ground it took. Summed per season, burned area in this tile rose by about 272 km² a year (Sen's slope, 95% CI +57 to +503; Mann-Kendall p = 0.004, also significant after the Hamed-Rao check). 2023 was the largest season at 28,262 km².",
   "note": "One MODIS tile, not all of Canada. A single huge year (2023) sits at the end of the record, so the slope is sensitive to the last few seasons. Unmapped pixels average 1–3% per season.",
   "figs": [("mcd64-annual.webp", "Burned area per April–October season, MCD64A1 tile h11v03, 2003–2025.", "light"),
            ("mcd64-map.webp", "Year each pixel last burned since 2003, MCD64A1 tile h11v03 (about 50–60°N).", "")]}
 UPGRADES["field-shift"] = {
   "title": "Field by field at 30 m",
   "eyebrow": "Earthdata upgrade · NASA HLS",
-  "text": "We added NASA's Harmonized Landsat and Sentinel-2 (HLS v2.0, 30 m), downloaded with an Earthdata login, for Story County, Iowa (tile T15TVG). Comparing clear mid-summer scenes on 1 August 2024 (Sentinel-2) and 31 July 2025 (Landsat) over 866 km² of vegetated land, the median NDVI change is −0.01; 42 km² got greener by more than 0.1 and 22 km² got less green by more than 0.1.",
-  "note": "Two single dates from two sensors in two years. Mid-summer NDVI is near saturation over both corn and soybeans, so HLS here can't separate crop types: it shows field-by-field contrast, not a crop map or a trend. The 2024 Sentinel-2 scene covers only about 60% of the county. We also processed SMAP enhanced L3 surface soil moisture (9 km, Earthdata login, 1,602 daily files): May–September means of 0.16 to 0.22 m³/m³ in Story County over 2015–2025, with no significant trend (p = 0.47; central Iowa p = 0.21). Eleven seasons is a short record.",
+  "text": "I added NASA's Harmonized Landsat and Sentinel-2 (HLS v2.0, 30 m), downloaded with an Earthdata login, for Story County, Iowa (tile T15TVG). Comparing clear mid-summer scenes on 1 August 2024 (Sentinel-2) and 31 July 2025 (Landsat) over 866 km² of vegetated land, the median NDVI change is −0.01; 42 km² got greener by more than 0.1 and 22 km² got less green by more than 0.1.",
+  "note": "Two single dates from two sensors in two years. Mid-summer NDVI is near saturation over both corn and soybeans, so HLS here can't separate crop types: it shows field-by-field contrast, not a crop map or a trend. The 2024 Sentinel-2 scene covers only about 60% of the county. I also processed SMAP enhanced L3 surface soil moisture (9 km, Earthdata login, 1,602 daily files): May–September means of 0.16 to 0.22 m³/m³ in Story County over 2015–2025, with no significant trend (p = 0.47; central Iowa p = 0.21). Eleven seasons is a short record.",
   "figs": [("hls-ndvi.webp", "HLS 30 m NDVI, Story County: 1 Aug 2024, 31 Jul 2025 and the change between them (cloud, shadow and water masked).", "light wide")]}

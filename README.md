@@ -24,8 +24,8 @@ One pipeline with three working modules and a shared trend layer:
 
 - **Data:** NASA FIRMS (MODIS, VIIRS), NASA POWER, Sentinel-1 RTC, Sen1Floods11, NISAR metadata/browse, NASADEM, MODIS NDVI, USDA CDL, SoilGrids; with an Earthdata login: GRACE/GRACE-FO mascons, GPM IMERG, GLDAS, SMAP, OPERA DSWx-S1, MODIS MCD64A1 and HLS. Provenance: [`earthdata/EARTHDATA.md`](earthdata/EARTHDATA.md), [`trends/RESULTS.md`](trends/RESULTS.md), `model-code/PROVENANCE-*.md`.
 - **Methods:** empirical-Bayes + LightGBM sensor harmonization with conformal intervals; U-Net on Sen1Floods11 vs Otsu; LightGBM next-season crop model + FAO-56 water demand + NSGA-II rotation search; Mann-Kendall (with Hamed-Rao check) and Sen's slope with 95% CI at α = 0.05.
-- **Validation and limits:** time-split held-out tests against baselines (one seed each, not a published benchmark); honest misses are reported on the site. Trends show change, not cause; where datasets disagree (e.g. MERRA-2 vs GPM IMERG over southern Ontario) we say so.
-- **Provenance of the work:** the three tools build on our own earlier code and open-source libraries and were developed before the event; the trend layer and the Earthdata upgrades were computed during the event on 14 Nov 2026.
+- **Validation and limits:** time-split held-out tests against baselines (one seed each, not a published benchmark); honest misses are reported on the site. Trends show change, not cause; where datasets disagree (e.g. MERRA-2 vs GPM IMERG over southern Ontario) I say so.
+- **Provenance of the work:** the three tools build on my own earlier code and open-source libraries and were developed before the event; the trend layer and the Earthdata upgrades were computed during the event on 14 Nov 2026.
 
 Raw satellite downloads are not committed (see `.gitignore`); the fetch scripts in `trends/`, `earthdata/` and `upgrades/` re-create them. Earthdata scripts read credentials from `~/.netrc` or `EARTHDATA_USERNAME` / `EARTHDATA_PASSWORD`; nothing secret is stored here.
 
@@ -59,7 +59,7 @@ Not affiliated with or endorsed by NASA.
 ## Honesty notes
 
 - Every metric is one seed and not a published benchmark. Negative results (for example worse monthly-total error for Hot Spots, and worse calibration after temperature scaling for Field Shift) are shown next to the wins.
-- AI disclosure: AI coding assistants helped write and refactor parts of the code, site and text. All models, metrics and figures come from our own runs on the public data listed.
+- AI disclosure: AI coding assistants helped write and refactor parts of the code, site and text. All models, metrics and figures come from my own runs on the public data listed.
 - Includes pre-existing tooling, disclosed.
 
 ## Licence

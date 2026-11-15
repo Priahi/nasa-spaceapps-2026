@@ -542,7 +542,7 @@
     host.innerHTML = items.map(([label, rec, kind]) => `<div class="fs-bar ${kind}"><span>${esc(label)}</span><div><i style="width:${Math.max(2, rec[key] / max * 100)}%"></i></div><b>${rec[key].toFixed(3)}</b></div>`).join("");
   }
   const LABEL_AB = (k) => ({ history_only: "Crop history only", "+terrain_soil": "+ NASADEM terrain and soil", "+climate": "+ NASA POWER climate", "+ndvi (full)": "+ MODIS greenness (all)" }[k] || k.replace(/_/g, " "));
-  const BASES = (b, l) => [["Same as last year", b.persistence, "base"], ["Corn/soy alternation", b.corn_soy_alternation, "base"], ["Crop-history table", b.markov2, "base"], ["Our model", l, "ours"]];
+  const BASES = (b, l) => [["Same as last year", b.persistence, "base"], ["Corn/soy alternation", b.corn_soy_alternation, "base"], ["Crop-history table", b.markov2, "base"], ["My model", l, "ours"]];
   function renderModel() {
     const m = state.data.metrics; $("modelCaveat").textContent = m.caveat;
     barBlock($("baseBars"), BASES(m.baselines, m.lgbm), "acc");
@@ -554,7 +554,7 @@
     const c = state.colab, local = state.data.metrics; $("colabCaveat").textContent = c.caveat;
     barBlock($("colabBars"), BASES(c.baselines, c.lgbm), "acc");
     const pc = c.lgbm.per_class_f1;
-    $("colabText").textContent = `Accuracy shown. Macro-F1: crop-history table ${c.baselines.markov2.macro_f1.toFixed(4)}, our model ${c.lgbm.macro_f1.toFixed(4)}. Per-crop F1: corn ${pc.corn.toFixed(3)}, soybean ${pc.soy.toFixed(3)}, hay ${pc.hay.toFixed(3)}, grass ${pc.grass.toFixed(3)}, other ${pc.other_crop.toFixed(3)}, not farmed ${pc.non_ag.toFixed(3)}.`;
+    $("colabText").textContent = `Accuracy shown. Macro-F1: crop-history table ${c.baselines.markov2.macro_f1.toFixed(4)}, my model ${c.lgbm.macro_f1.toFixed(4)}. Per-crop F1: corn ${pc.corn.toFixed(3)}, soybean ${pc.soy.toFixed(3)}, hay ${pc.hay.toFixed(3)}, grass ${pc.grass.toFixed(3)}, other ${pc.other_crop.toFixed(3)}, not farmed ${pc.non_ag.toFixed(3)}.`;
     barBlock($("colabAbBars"), Object.entries(c.ablation).map(([k, v]) => [LABEL_AB(k), v, ""]), "acc");
     const nf = (v) => Number(v).toLocaleString("en-US");
     const rows = [["Pixels sampled / tested", `${nf(local.n_pixels_sampled)} / ${nf(local.n_test)}`, `${nf(c.n_pixels_sampled)} / ${nf(c.n_test)}`],

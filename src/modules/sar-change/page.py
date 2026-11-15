@@ -94,14 +94,14 @@ def impact():
   <div class="si-body"><p class="sa-cls">{e(it['user'])}</p><h3>{e(it['decision'])}</h3>
   <div class="si-ba"><div class="si-b"><p>Before</p><ul>{b}</ul></div><span aria-hidden="true">→</span><div class="si-a"><p>With SAR Change</p><ul>{a}</ul></div></div>
   <div class="si-nums"><div><small>From orbit</small><b>{e(it['geo']['v'])}</b><span>{e(it['geo']['l'])}</span></div><div><small>Model</small><b>{e(it['metric']['v'])}</b><span>{e(it['metric']['l'])}</span></div></div></div></article>"""
-    nums = [(f"{f1(K['after'])} km²", "new water mapped through cloud, 31 Oct"), (IMP[0]["metric"]["v"], f"water IoU of our radar model (Otsu threshold: {K['otsu'] * 100:.1f}%)"),
-            (f"{K['cpu_s']:.2f} s", "per 512 × 512 tile on a CPU"), ("p = 0.28", "no trend in the wettest day: we don't claim one")]
+    nums = [(f"{f1(K['after'])} km²", "new water mapped through cloud, 31 Oct"), (IMP[0]["metric"]["v"], f"water IoU of my radar model (Otsu threshold: {K['otsu'] * 100:.1f}%)"),
+            (f"{K['cpu_s']:.2f} s", "per 512 × 512 tile on a CPU"), ("p = 0.28", "no trend in the wettest day: I don't claim one")]
     strip = "".join(f'<li{" class=neg" if n.startswith("p =") else ""}><strong>{e(n)}</strong><span>{e(l)}</span></li>' for n, l in nums)
     return f"""<section class="section tight" id="impact"><div class="wrap">
 {step_head(4, "Impact", "Two people, two decisions, before and after.")}
 <div class="si-grid">{cards}</div>
 <p class="mstrip-k">Backed by the radar data and the model tests · one seed, not a published benchmark</p><ul class="mstrip">{strip}</ul>
-<p class="fine">Outcomes are qualitative: we haven't measured lives, damage or cost.</p>
+<p class="fine">Outcomes are qualitative: I haven't measured lives, damage or cost.</p>
 </div></section>
 """
 

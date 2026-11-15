@@ -73,10 +73,10 @@ def home_sections(story, slider, alert):
     rewind = story("rewind-steps", "Step by step · the same night, with NASA data", "What Elena could have seen.",
       "Four steps, each shown in the live flood dashboard. Real satellite data; the alert and tasking are simulated.",
       [("29 Oct · Rain", "1. A rain signal upstream.", "<p>NASA's GPM IMERG measures <b>91 mm</b> of rain upstream that day (a fifth of València's average year, in one day), almost nine times the wettest day of the fortnight before (10.4 mm). Cloud cover is <b>99%</b>, so ordinary cameras in orbit see nothing below.</p>"
-        "<p class=\"fine\">A rule like “flag 50 mm upstream” is a design example. We haven't tested near-real-time timing.</p>",
+        "<p class=\"fine\">A rule like “flag 50 mm upstream” is a design example. I haven't tested near-real-time timing.</p>",
         '<figure class="sv-fig hs-time"><p class="mono">NASA GPM IMERG · 29 Oct, upstream</p><strong>91 mm</strong><div class="hs-big"><b>99%</b><span>cloud cover</span></div><p>135.1 mm in the wettest 10 km cell. Ordinary optical satellites see nothing through that cloud. Radar can.</p><span class="hs-src">Rain chart above: the same NASA record, day by day.</span></figure>'),
        ("31 Oct · Radar", "2. Radar sees through cloud.", "<p>NASA/JPL OPERA radar maps <b>77.7 km²</b> of new water, up from 30.7 km² (+47.0): <b>more than half the area of the city of València</b> (134.65 km²). 75.8 km² of it is in 8 towns, Catarroja among them.</p>"
-        "<p>On held-out flood scenes, our own radar model scores 66.4% IoU, 3× a standard threshold method (21.8%).</p>" + towns_card() + '<p class="fine">' + src("vlc") + "</p>",
+        "<p>On held-out flood scenes, my own radar model scores 66.4% IoU, 3× a standard threshold method (21.8%).</p>" + towns_card() + '<p class="fine">' + src("vlc") + "</p>",
         slider("opera-before.webp", "opera-after.webp", "26 Oct 2024", "31 Oct 2024")),
        ("Simulated · Alert", "3. A drafted alert for her town.", "<p>The dashboard drafts one alert to all 8 towns: where the water is, the rain upstream, and what to do. Elena reviews it and approves.</p>", alert),
        ("Simulated · Dispatch", "4. The next move, for every team.", "<p>Rescue teams go to the flagged towns. The next radar pass is queued. Drones go to the streets radar can't see. Farm aid goes to the rice towns by the Albufera.</p>", dispatch_card())])

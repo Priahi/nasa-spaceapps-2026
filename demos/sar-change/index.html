@@ -199,7 +199,7 @@
     </section>
 
     <section class="panel" id="panel-physics" role="tabpanel" aria-labelledby="tab-physics">
-      <div class="card caveat">These scenes are C-band Sentinel-1 (5.4 GHz, ~5.6 cm wavelength) from 2024. NISAR L-band (~1.25 GHz, ~24 cm) was not yet imaging Valencia during the 29 Oct 2024 flood. The NISAR browses below are later (2025–2026) public previews of the same region, used here to explain the physics I would apply to a Saturday .h5 granule — not as images of the DANA event itself.</div>
+      <div class="card caveat">These scenes are C-band Sentinel-1 (5.4 GHz, ~5.6 cm wavelength) from 2024. NISAR L-band (~1.25 GHz, ~24 cm) was not yet imaging Valencia during the 29 Oct 2024 flood. The NISAR browses below are later (2025–2026) public previews of the same region, used here to explain the physics we would apply to a Saturday .h5 granule — not as images of the DANA event itself.</div>
       <div class="phys-grid">
         <article class="card">
           <h3>VV, VH, and the VV/VH ratio</h3>
@@ -226,12 +226,12 @@
         <article class="card">
           <h3>Why NISAR L-band can see flood under a canopy</h3>
           <p>C-band (Sentinel-1) interacts strongly with leaves and small branches. In orchards, marshes, and the Albufera wetland, C-band often never reaches the water under the vegetation, so a flood can be missed. L-band (NISAR) is about four times longer. It penetrates deeper into the canopy and can return a double-bounce signature from trunk and water — a brighter, not darker, response in inundated forest.</p>
-          <p>That contrast — C-band dark open water versus L-band canopy-penetrating inundation — is the story this challenge is built for. Saturday's Earthdata .h5 hook is how I put real NISAR polarizations on the same map.</p>
+          <p>That contrast — C-band dark open water versus L-band canopy-penetrating inundation — is the story this challenge is built for. Saturday's Earthdata .h5 hook is how we put real NISAR polarizations on the same map.</p>
         </article>
         <article class="card">
           <h3>What this viewer is (and is not)</h3>
           <p>Every Valencia frame is a real Sentinel-1 RTC GeoTIFF, downsampled for the web, with VV, VH, and VV/VH rendered from the same pixels. Before/after pairs are always the same orbit and the same grid. The change map is a VV dB difference, not a neural-network mask.</p>
-          <p>The U-Net numbers in the Metrics tab were measured on Sen1Floods11, not on these Valencia tiles. Valencia is the storytelling AOI; Sen1Floods11 is the labelled test set. I do not pretend otherwise.</p>
+          <p>The U-Net numbers in the Metrics tab were measured on Sen1Floods11, not on these Valencia tiles. Valencia is the storytelling AOI; Sen1Floods11 is the labelled test set. We do not pretend otherwise.</p>
         </article>
       </div>
     </section>

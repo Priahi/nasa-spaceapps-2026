@@ -40,7 +40,7 @@ for i in range(1, 8):
         mp4 = S + r['src']; vw, vh = dims(mp4)
         sc = min(r['w'] / vw, r['h'] / vh); w, h = vw * sc, vh * sc; x = r['x'] + (r['w'] - w) / 2; y = r['y'] + (r['h'] - h) / 2
         mv = sl.shapes.add_movie(mp4, Emu(int(x * k)), Emu(int(y * k)), Emu(int(w * k)), Emu(int(h * k)), poster_frame_image=S + r['poster'], mime_type='video/mp4')
-        loop = r['src'].startswith('clips/'); autoplay(sl, mv.shape_id, int(secs(mp4) * 1000), loop=loop, mute=loop)
+        autoplay(sl, mv.shape_id, int(secs(mp4) * 1000), loop=True, mute=True)
     notes = {3: 'The official demo starts by itself when this slide opens (PowerPoint/Keynote); click it to pause. Also at https://spaceapps.parsariahi.com/submission/demo.mp4'}
     if i in notes: sl.notes_slide.notes_text_frame.text = notes[i]
 prs.save(S + 'deck.pptx'); print('deck.pptx', round(os.path.getsize(S + 'deck.pptx') / 1e6, 1), 'MB')

@@ -1,5 +1,5 @@
 # Site outline: Orbit to Ground (WHY / WHAT / HOW)
-Live: https://nasa-spaceapps-2026.pages.dev · Challenge: Be An Earth System Trend Detective! · Built solo by Parsa Riahi
+Live: https://nasa-spaceapps-2026.pages.dev · Challenge: Be An Earth System Trend Detective! · Built by Parsa Riahi and Yara Riahi
 Design: personal-site design system (Geist / Geist Mono, #07091a ground, blue #9ec1ff → violet #d4c4ff gradient, contour rules,
 GSAP ScrollTrigger + Lenis, spotlight / border-beam cards, tier metric panels, pinned "engine" pipeline diagram). No outside brand names.
 
@@ -49,7 +49,7 @@ Hero → live demo iframe (+ full screen /app/) → WHY (problem statement) → 
 - Caveats on site: Albufera paddies already rising before the flood (4 → 31 km², 1–26 Oct); urban flooding under-detected by SAR; HLS can't separate crop types.
 
 ## 14 Nov 2026, 11:40–12:30 ET pass: less text, people, actions, impact
-- Every page now reads: 1 problem (picture + one number) → 2 what the satellite shows (chart/map + one number) → 3 actions ("Satellite shows → I will → Expected", 4–5 per app, different classes) → 4 impact (geospatial finding vs human impact, plus a real model-metrics strip). Methods, data, limits, trend findings and judging moved into collapsible "deep dive" panels.
+- Every page now reads: 1 problem (picture + one number) → 2 what the satellite shows (chart/map + one number) → 3 actions ("Satellite shows → We will → Expected", 4–5 per app, different classes) → 4 impact (geospatial finding vs human impact, plus a real model-metrics strip). Methods, data, limits, trend findings and judging moved into collapsible "deep dive" panels.
 - Illustrative AI-generated photos of the people who use each tool, labelled "Illustrative" on every image. No logos, brands or real people.
 - Each dashboard (/hotspots/app/, /sar-change/app/, /field-shift/app/) now has a 4-step guide (See the map → What changed → Actions → Impact) as a right-hand panel on desktop and a bottom sheet on phones, with buttons that drive the dashboard (Alberta preset, swipe, metrics tab, featured tile). Tabs are larger and higher-contrast.
 - Mobile pass at 390×844 and 768×1024: centred headings, cards and images; no horizontal overflow; 44 px tap targets.

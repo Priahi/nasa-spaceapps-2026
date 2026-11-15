@@ -40,7 +40,7 @@ s1 = '''<!-- 1 · Hook -->
   </div>
   <div class="shot fill"><img src="assets/shots/comp-flood-hook.png" alt="Radar flood map of the 8 towns, 31 Oct 2024" style="object-position:center"><span class="tag">Radar flood map · 31 Oct · 8 towns</span></div>
  </div>
- <div class="ft"><span class="src">AEMET event study (Turís) · AEMET normals, València 1981–2010: 475 mm a year · Newtral · El País, 26 Oct 2025 · map: NASA/JPL OPERA DSWx-S1</span><span>Built solo by Parsa Riahi · Toronto</span></div>
+ <div class="ft"><span class="src">AEMET event study (Turís) · AEMET normals, València 1981–2010: 475 mm a year · Newtral · El País, 26 Oct 2025 · map: NASA/JPL OPERA DSWx-S1</span><span>Built by Parsa Riahi and Yara Riahi · Toronto</span></div>
 </section>
 
 '''

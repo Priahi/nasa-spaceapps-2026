@@ -19,7 +19,7 @@ then tell a second story, and only then broaden it: "you're feeling that now, im
 
 ## The person (story 1)
 
-**Elena** is the municipal emergency coordinator in **Catarroja**, one of the 8 towns where my radar map finds the most new water.
+**Elena** is the municipal emergency coordinator in **Catarroja**, one of the 8 towns where our radar map finds the most new water.
 She is an **illustrative composite**, not a real person. Always label her "Illustrative composite" in small text. Never give her quotes
 taken from real victims, never attach real deaths to her, and never imply she existed. Her day only uses the public, sourced timeline below.
 
@@ -44,15 +44,15 @@ Source URLs:
 - La Vanguardia, "Hasta las 18:43 la CHJ no comunicó la gran crecida en el barranco del Poyo": https://www.lavanguardia.com/local/valencia/20250409/10568338/emergencias-juzgado-18-43-chj-comunico-gran-crecida-barranco-poyo.html
 - EchoGéo, "Analyse d'une alerte massive arrivée tardivement… Valence, 29 octobre 2024": https://journals.openedition.org/echogeo/30425
 
-## Rewind: what my tool shows for the same event (my real outputs only, worded as "could have")
+## Rewind: what our tool shows for the same event (our real outputs only, worded as "could have")
 
 1. **Rain signal (leading).** NASA GPM IMERG V07 daily, upstream box (lon −1.0 to −0.3, lat 39.2 to 39.6): **91.0 mm mean on 29 Oct,
    135.1 mm in the wettest 0.1° cell**, against a few mm on the days before. NASA POWER cloud amount: **99%** that day, so optical satellites were blind and radar was needed.
    The "alert when upstream rain passes 50 mm" rule is a **design example**, not a tested or measured result.
-   My series is the research-grade Final run; a live system would use IMERG's near-real-time runs. I have **not** tested their timing.
+   Our series is the research-grade Final run; a live system would use IMERG's near-real-time runs. We have **not** tested their timing.
 2. **Radar flood map (confirm).** NASA/JPL OPERA DSWx-S1 (Sentinel-1, 30 m): **77.7 km² of new water on 31 Oct**, up from 30.7 km² on 26 Oct (**+47.0 km² net**),
    mapped through cloud. **75.8 km²** of it sits in 8 municipalities: Sueca, València, Sollana, Silla, Alfafar, Catarroja, Cullera, Massanassa.
-   My own radar water model: **66.4% IoU** on 90 hand-labelled Sen1Floods11 test chips, against **21.8%** for the standard Otsu threshold (3.0×); 1.63 s per 512×512 tile on a CPU.
+   Our own radar water model: **66.4% IoU** on 90 hand-labelled Sen1Floods11 test chips, against **21.8%** for the standard Otsu threshold (3.0×); 1.63 s per 512×512 tile on a CPU.
 3. **Draft alert (simulated).** The dashboard drafts an alert to those 8 towns: the new-water area, the upstream rain, and "stay off low ground and flooded roads".
 4. **Dispatch (simulated).** Rescue teams go to the flagged districts, and the next radar pass is queued.
    Damage teams also go to l'Horta Sud streets that radar can't see (dense streets: radar maps only 0.48 km² across 8 of those towns, so drones check them).
@@ -92,8 +92,8 @@ Decision, made 14 Nov from the data files:
 **Future** (not built; label it "Future"): the same signal → map → alert → task loop for landslides after rain, drought and crop stress, coastal storm surge,
 smoke and air quality for schools, and heat waves for care homes.
 
-## My numbers (single source of truth)
-Flood: 91.0 mm / 135.1 mm upstream rain on 29 Oct; 99% cloud; 30.7 → 77.7 km² (+47.0 net); 8 towns hold 75.8 km²; IoU 66.4% vs 21.8% (3.0×); 1.63 s/tile; water held at 30–60 km² for 3 weeks over 7 passes; wettest-day rain trend p = 0.28 (no trend, so I don't claim one).
+## Our numbers (single source of truth)
+Flood: 91.0 mm / 135.1 mm upstream rain on 29 Oct; 99% cloud; 30.7 → 77.7 km² (+47.0 net); 8 towns hold 75.8 km²; IoU 66.4% vs 21.8% (3.0×); 1.63 s/tile; water held at 30–60 km² for 3 weeks over 7 passes; wettest-day rain trend p = 0.28 (no trend, so we don't claim one).
 Fire: as above. Field: 0.8176 accuracy (crop history alone 0.8136), macro-F1 0.5012 (baseline 0.4633), 0.811 pixel accuracy, 22 km² got less green. Honest miss: hay F1 0.33.
 Every model score is from one seed and is not a published benchmark.
 
@@ -102,5 +102,5 @@ Every model score is from one seed and is not a published benchmark.
 - The composite person carries "Illustrative composite" in small text. Don't quote real victims or name real victims.
 - Use "could have", never "would have saved". Make no lives-saved or time-saved claims, and no invented outcome numbers.
 - The 50 mm rule is a design example. Trend lines are not forecasts.
-- No AI-generation wording in the deck or video. No company, client or product names. The team is "Team GeoAI Toronto", Parsa Riahi (solo).
+- No AI-generation wording in the deck or video. No company, client or product names. The team is Parsa Riahi and Yara Riahi.
 - Human value first, not money.

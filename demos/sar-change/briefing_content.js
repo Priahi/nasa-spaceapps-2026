@@ -33,10 +33,10 @@
   const slides = [
     {
       kicker: "In one minute",
-      title: `My model maps flooded land about ${Math.round(t.unet_final / t.otsu_per_chip)}× better than the standard automatic method`,
+      title: `Our model maps flooded land about ${Math.round(t.unet_final / t.otsu_per_chip)}× better than the standard automatic method`,
       html: `<div class="bf-onemin">
         <div><h3>The problem</h3><p>Floods come with storms and clouds, so ordinary satellite photos often show nothing. Radar satellites see through cloud, day or night.</p></div>
-        <div><h3>What I built</h3><p>An interactive radar viewer for the October 2024 Valencia flood, plus a model that outlines water in radar images.</p></div>
+        <div><h3>What we built</h3><p>An interactive radar viewer for the October 2024 Valencia flood, plus a model that outlines water in radar images.</p></div>
         <div><h3>Does it work?</h3><p>On flood images it had never seen, its water map overlapped the true flood area by ${pc(t.unet_final)}, versus ${pc(t.otsu_per_chip)} for the standard automatic method and ${pc(t.global_vv_threshold)} for a single brightness cut-off.</p></div>
         <div><h3>Where it falls short</h3><p>The model was tested on a global flood dataset, not on Valencia itself. Its saved files were lost when the free cloud computer shut down, so the charts here are rebuilt from the printed results.</p></div></div>`,
       why: "Emergency managers and insurers need a flood map within hours, whatever the weather. Radar plus a tested model can provide it.",
@@ -53,7 +53,7 @@
     {
       kicker: "The data",
       title: `${nDates} radar passes over Valencia, a global set of hand-drawn flood maps, and NASA's new NISAR`,
-      body: [`<b>Sentinel-1 radar</b>: ${nDates} passes over Valencia from ${orbits.length} different satellite tracks, before and after the flood.`, `<b>Sen1Floods11</b>: radar images from floods worldwide where people drew the true water by hand. I use its official test set of 90 images to score the model; ${man.sen1floods11.length} of them can be browsed in the app.`, `<b>NISAR</b> (NASA–ISRO): NASA's catalogue lists ${nis.map((n) => `${n.n_granules_cmr} images over ${n.city[0].toUpperCase() + n.city.slice(1)}`).join(", ")}. These are from 2025–2026, after the flood, and show what I will plug in next.`],
+      body: [`<b>Sentinel-1 radar</b>: ${nDates} passes over Valencia from ${orbits.length} different satellite tracks, before and after the flood.`, `<b>Sen1Floods11</b>: radar images from floods worldwide where people drew the true water by hand. We use its official test set of 90 images to score the model; ${man.sen1floods11.length} of them can be browsed in the app.`, `<b>NISAR</b> (NASA–ISRO): NASA's catalogue lists ${nis.map((n) => `${n.n_granules_cmr} images over ${n.city[0].toUpperCase() + n.city.slice(1)}`).join(", ")}. These are from 2025–2026, after the flood, and show what we will plug in next.`],
       visual: `<div class="bf-grid">${B.fig("tiles/sen1/Spain_5650136/fcc.png", "A Sen1Floods11 test image from Spain (radar, false colour).")}${B.fig("tiles/sen1/Spain_5650136/label.png", "Its hand-drawn water map.")}${B.fig("tiles/nisar/valencia/" + "NISAR_L2_PR_GCOV_034_066_D_069_2005_DHDH_M_20261028T185318_20261028T185353_P0503.jpg", "A NISAR L-band preview over Valencia, 28 Oct 2026 (not the 2024 flood).")}</div>`,
       why: "Scoring on hand-drawn maps from many countries is what makes the accuracy number believable outside one city.",
       expert: `<p>Sentinel-1 RTC via Planetary Computer / ASF. Orbits: ${orbits.map((o) => `${B.esc(o.label)} (${o.n_dates})`).join("; ")}. Sen1Floods11 (Bonafilia et al. 2020, CC-BY-4.0). NISAR L2 GCOV browse: ${nis.reduce((s, n) => s + n.n_browse_staged, 0)} staged; full .h5 granules need Earthdata login. JRC Global Surface Water as permanent-water prior.</p>`,
@@ -68,7 +68,7 @@
     {
       kicker: "How it works",
       title: "A model that looks at each radar image and colours in the water",
-      body: ["I feed the model three versions of each radar image: two polarisations (VV and VH) and the ratio between them. It shrinks the image to understand the big picture, then rebuilds it at full detail and labels every pixel as water or dry."],
+      body: ["We feed the model three versions of each radar image: two polarisations (VV and VH) and the ratio between them. It shrinks the image to understand the big picture, then rebuilds it at full detail and labels every pixel as water or dry."],
       visual: unet,
       why: "This kind of model (a U-Net) is small enough to run on an ordinary computer during an emergency.",
       expert: `<p>U-Net: 3 encoder blocks (w, 2w, 4w) with max-pool, 8w bottleneck with dropout, 3 decoder blocks with transposed conv + skip concat, 1×1 conv head (2 classes). Loss: class-weighted cross-entropy + w·Dice. OneCycle LR, AMP. Optuna: ${M.hpo.trials} trials (${M.hpo.pruned} pruned) × 10 epochs; searched width {16, 32, 48}, lr 2e-4–3e-3, water weight 1–6, Dice weight 0–1, crop {128, 256}, dropout 0–0.3. Best validation water IoU ${f4(M.hpo.best_valid_water_iou)}. Final 40 epochs; ablation arms 20. The chosen width was not saved.</p>`,
@@ -83,16 +83,16 @@
     },
     {
       kicker: "Result",
-      title: `My model's flood map overlaps the true flood about ${xOtsu}× more than the standard method`,
+      title: `Our model's flood map overlaps the true flood about ${xOtsu}× more than the standard method`,
       body: [`On 90 flood images it had never seen, the predicted water overlapped the hand-drawn water by ${pc(t.unet_final)}. That's about ${xOtsu}× the standard automatic method (${pc(t.otsu_per_chip)}) and ${moreThr}% more than the best single cut-off (${pc(t.global_vv_threshold)}).`],
-      visual: B.bars([{ label: "Call everything dry", value: t.all_dry }, { label: "Standard automatic cut-off", value: t.otsu_per_chip }, { label: "Best single cut-off", value: t.global_vv_threshold }, { label: "My model", value: t.unet_final, hl: true }], { min: 0, max: 0.8, fmt: (v) => pc(v), labelWidth: 230, axis: "Overlap between predicted and true flood area (higher is better)" }),
+      visual: B.bars([{ label: "Call everything dry", value: t.all_dry }, { label: "Standard automatic cut-off", value: t.otsu_per_chip }, { label: "Best single cut-off", value: t.global_vv_threshold }, { label: "Our model", value: t.unet_final, hl: true }], { min: 0, max: 0.8, fmt: (v) => pc(v), labelWidth: 230, axis: "Overlap between predicted and true flood area (higher is better)" }),
       why: "Fewer missed flooded streets and fewer false alarms means relief goes to the right neighbourhoods first.",
       expert: `<p>Test water IoU ${f4(t.unet_final)}; Δ vs global threshold +${f4(t.unet_final - t.global_vv_threshold)}, vs Otsu +${f4(t.unet_final - t.otsu_per_chip)}. Best validation IoU during tuning ${f4(M.hpo.best_valid_water_iou)}. Charts rebuilt from printed numbers; original PNGs lost when the Colab runtime ended.</p>`,
     },
     {
-      kicker: "What I tested",
+      kicker: "What we tested",
       title: "Each extra radar view helps the model find more water",
-      body: [`Using only one radar view (VV), the overlap was ${pc(ab.vv)}. Adding the second view (VH) raised it to ${pc(ab.vv_vh)}, and adding the ratio between them to ${pc(ab.vv_vh_ratio)}. Nothing else changed between these three runs.`, `Honest note: this shorter 3-view run (${pc(ab.vv_vh_ratio)}) scored a little above my longer final model (${pc(t.unet_final)}). With a single run each, that gap is within normal run-to-run variation, so I don't claim longer training helps.`],
+      body: [`Using only one radar view (VV), the overlap was ${pc(ab.vv)}. Adding the second view (VH) raised it to ${pc(ab.vv_vh)}, and adding the ratio between them to ${pc(ab.vv_vh_ratio)}. Nothing else changed between these three runs.`, `Honest note: this shorter 3-view run (${pc(ab.vv_vh_ratio)}) scored a little above our longer final model (${pc(t.unet_final)}). With a single run each, that gap is within normal run-to-run variation, so we don't claim longer training helps.`],
       visual: B.bars([{ label: "VV only", value: ab.vv }, { label: "VV + VH", value: ab.vv_vh }, { label: "VV + VH + ratio", value: ab.vv_vh_ratio, hl: true }], { min: 0.5, max: 0.7, fmt: (v) => pc(v), labelWidth: 200, axis: "Overlap with true flood area (axis starts at 50%)" }),
       why: "Both polarisations are free from Sentinel-1 and NISAR. Using both is a cheap win for any flood service.",
       expert: `<p>Channel ablation, test water IoU, 20-epoch arms: VV ${f4(ab.vv)}, VV+VH ${f4(ab.vv_vh)}, VV+VH+ratio ${f4(ab.vv_vh_ratio)}. Final tuned model (40 epochs): ${f4(t.unet_final)}.</p>`,
@@ -100,7 +100,7 @@
     {
       kicker: "Speed",
       title: "A flood map tile takes under 2 seconds on an ordinary computer",
-      body: [`Converted to a standard format (ONNX), the model maps a 512×512-pixel tile in ${f2(cpu.onnx_fp32.seconds)} seconds on a regular processor, faster than the original setup (${f2(cpu.torch_fp32.seconds)} s).`, `A compressed version is a third of the size (${cpu.onnx_int8.size_mb} MB vs ${cpu.onnx_fp32.size_mb} MB) and just as accurate, but it was about ${Math.round(cpu.onnx_int8.seconds / cpu.onnx_fp32.seconds)}× slower on this computer, so I don't use it.`],
+      body: [`Converted to a standard format (ONNX), the model maps a 512×512-pixel tile in ${f2(cpu.onnx_fp32.seconds)} seconds on a regular processor, faster than the original setup (${f2(cpu.torch_fp32.seconds)} s).`, `A compressed version is a third of the size (${cpu.onnx_int8.size_mb} MB vs ${cpu.onnx_fp32.size_mb} MB) and just as accurate, but it was about ${Math.round(cpu.onnx_int8.seconds / cpu.onnx_fp32.seconds)}× slower on this computer, so we don't use it.`],
       visual: B.bars([{ label: "Standard format (ONNX)", value: cpu.onnx_fp32.seconds, hl: true }, { label: "Original (PyTorch)", value: cpu.torch_fp32.seconds }, { label: "Compressed (INT8)", value: cpu.onnx_int8.seconds, neg: true }], { fmt: (v) => v.toFixed(2) + " s", labelWidth: 220, axis: "Seconds per 512 px tile on a regular processor (lower is better)" }),
       why: "Emergency teams don't always have GPUs or fast internet. A model that runs on a laptop is usable in the field.",
       expert: `<table class="bf-table"><thead><tr><th>Runtime</th><th>s / tile</th><th>Water IoU (30-chip subset)</th><th>Size</th></tr></thead><tbody><tr><td>ONNX FP32</td><td class="n">${cpu.onnx_fp32.seconds}</td><td class="n">${cpu.onnx_fp32.water_iou_30chip_subset}</td><td class="n">${cpu.onnx_fp32.size_mb} MB</td></tr><tr><td>PyTorch FP32</td><td class="n">${cpu.torch_fp32.seconds}</td><td class="n">—</td><td class="n">—</td></tr><tr><td>ONNX dynamic INT8</td><td class="n">${cpu.onnx_int8.seconds}</td><td class="n">${cpu.onnx_int8.water_iou_30chip_subset}</td><td class="n">${cpu.onnx_int8.size_mb} MB</td></tr></tbody></table><p>${B.esc(M.note_int8)}</p>`,
@@ -114,23 +114,23 @@
       expert: `<p>VV dB difference per same-track pair; shared stretch per orbit. Pairs: ${pairs.map((p) => B.esc(p.id)).join(", ")}. Not a model mask; the U-Net numbers come from Sen1Floods11.</p>`,
     },
     {
-      kicker: "How I got here",
-      title: "My first flood model was much weaker; tuning and more data fixed that",
-      body: [`My first try (10 Nov, a tiny model trained briefly on small image crops) only reached ${pc(E8.model_water_iou)} water overlap. An even earlier test on my own computer, on just 12 images for one pass, reached ${pc(PROTO.unet_water_iou)} versus ${pc(PROTO.otsu_water_iou)} for the standard method.`, `The full run, with tuning and 40 training passes, reached ${pc(t.unet_final)} on the official test set.`],
+      kicker: "How we got here",
+      title: "Our first flood model was much weaker; tuning and more data fixed that",
+      body: [`Our first try (10 Nov, a tiny model trained briefly on small image crops) only reached ${pc(E8.model_water_iou)} water overlap. An even earlier test on our own computer, on just 12 images for one pass, reached ${pc(PROTO.unet_water_iou)} versus ${pc(PROTO.otsu_water_iou)} for the standard method.`, `The full run, with tuning and 40 training passes, reached ${pc(t.unet_final)} on the official test set.`],
       visual: B.bars([{ label: "Box prototype (12 images, 1 pass)", value: PROTO.unet_water_iou }, { label: "First Colab try (Nov 10)", value: E8.model_water_iou, neg: true }, { label: "Full tuned model", value: t.unet_final, hl: true }], { min: 0, max: 0.8, fmt: (v) => pc(v), labelWidth: 270, axis: "Water overlap. Earlier runs used different, smaller test sets, so compare with care." }),
-      why: "I show the weak early numbers so judges can see the improvement came from method, not luck in picking a result.",
+      why: "We show the weak early numbers so judges can see the improvement came from method, not luck in picking a result.",
       expert: `<p>E8 (Colab T4): ${B.esc(E8.model)}, ${E8.n_train} train / ${E8.n_val} val chips (official hand-labelled), ${E8.steps} steps, crop ${E8.crop}. mIoU ${E8.model_miou} vs ${E8.baseline} ${E8.baseline_miou}; water IoU ${E8.model_water_iou} (all-dry water IoU recorded as ${E8.baseline_water_iou_as_recorded}). Source: <code class="bf">${B.esc(E8.source)}</code>.</p><p>Box prototype: ${B.esc(PROTO.note)} Otsu ${PROTO.otsu_water_iou}, U-Net ${PROTO.unet_water_iou}, CPU ${PROTO.cpu_s_per_512_tile} s per 512 px tile (untrained-scale model). Source: <code class="bf">${B.esc(PROTO.source)}</code>.</p>`,
     },
     {
       kicker: "Related change-detection experiments",
       title: "Spotting new buildings between two satellite photos is much harder",
-      body: [`I also tried a related task: finding where cities changed between two Sentinel-2 photos (the OSCD dataset). My best small model balanced catches and false alarms at ${pc(R17.test_f1)}, a little above a simple pixel-difference rule (${pc(R17.difference_test_f1)}).`, `A larger pretrained model fine-tuned on very little data did worse than leaving it untouched (${pc(E5.lora_f1)} vs ${pc(E5.lora_off_linear_f1)}). Both results are weak and I treat them as such.`],
+      body: [`We also tried a related task: finding where cities changed between two Sentinel-2 photos (the OSCD dataset). Our best small model balanced catches and false alarms at ${pc(R17.test_f1)}, a little above a simple pixel-difference rule (${pc(R17.difference_test_f1)}).`, `A larger pretrained model fine-tuned on very little data did worse than leaving it untouched (${pc(E5.lora_f1)} vs ${pc(E5.lora_off_linear_f1)}). Both results are weak and we treat them as such.`],
       visual: `<div class="bf-grid">${B.fig("figs/r17_examples.png", "OSCD change detection examples (Colab round 2).")}${B.fig("figs/r17_metrics.png", "OSCD scores by model.")}</div>`,
       why: "Floods change the surface far more strongly than new buildings do, which is why the flood model works and urban change still needs work.",
       expert: `<p>R17 (Colab T4, seed ${R17.seed}, ${R17.epochs} epochs): ${B.esc(R17.dataset)}, train ${R17.cities.train.length} / select ${R17.cities.select.length} / test ${R17.cities.test.length} cities (${R17.cities.test.join(", ")}). Chosen ${B.esc(R17.chosen_config)}: test F1 ${R17.test_f1} vs difference threshold ${R17.difference_test_f1}, no-change ${R17.no_change_f1}. Licence ${B.esc(R17.licence)}. E5: DINOv2-small + LoRA r8, ${E5.train_crops} train / ${E5.val_crops} val crops, ${E5.steps} steps: F1 ${E5.lora_f1} (P ${E5.lora_precision}, R ${E5.lora_recall}) vs LoRA-off ${E5.lora_off_linear_f1}. Sources: <code class="bf">${B.esc(R17.source)}</code>, <code class="bf">${B.esc(E5.source)}</code>.</p>`,
     },
     {
-      kicker: "What I'm running at the event",
+      kicker: "What we're running at the event",
       title: "Planned next steps (no results yet)",
       body: ["These are planned or queued. None has finished, so there are no numbers."],
       html: `<ul class="bf-plan">
@@ -146,7 +146,7 @@
     {
       kicker: "Limits",
       title: "What this does not prove yet",
-      body: ["All numbers come from one training run. The model was scored on a global flood dataset, not on Valencia, where there's no hand-drawn truth. The Valencia maps are raw radar changes, not model output.", "The NISAR previews are from 2025–2026, after the flood. I use them to show the data format, not as images of the event."],
+      body: ["All numbers come from one training run. The model was scored on a global flood dataset, not on Valencia, where there's no hand-drawn truth. The Valencia maps are raw radar changes, not model output.", "The NISAR previews are from 2025–2026, after the flood. We use them to show the data format, not as images of the event."],
       why: "Treat the model as a fast first draft of the flood extent that local teams should confirm, not a final map.",
       expert: `<p>Seed ${M.seed}. ONNX weights and figures not saved (free T4 runtime ended after RESULT_FILES). Full NISAR .h5 granules (~1.5–7 GB) not processed.</p>`,
     },

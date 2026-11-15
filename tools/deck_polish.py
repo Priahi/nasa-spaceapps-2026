@@ -116,7 +116,7 @@ s7 = f'''<!-- 7 · System + close -->
 <section class="s">
 {hd('One system · how it works', 7)} <h2 class="title" style="font-size:40px;margin-top:10px">Shared NASA inputs, one engine, one loop: signal → map → alert → task.</h2>
  <div class="sysfig"><img src="assets/shots/arch-system.png" alt="Shared inputs feed one engine of trend detection and per-signal models, then the signal, map, alert, task loop, then outputs and results per vertical"></div>
- <div class="strip1"><b>Same engine, every sector:</b>{chips}<div class="who"><b>Parsa Riahi</b> · built solo</div></div>
+ <div class="strip1"><b>Same engine, every sector:</b>{chips}<div class="who"><b>Parsa Riahi and Yara Riahi</b></div></div>
  <div class="ft"><span class="src">One seed each, not a published benchmark · civil uses only · tasking and alerts are simulated · not affiliated with NASA</span><span><a href="deck.pptx" download style="color:var(--accent)">Slides with video (PPTX)</a> · <a href="deck.pdf" style="color:var(--accent)">PDF</a> · <span class="grad" style="font-weight:600">See it. Decide. Act.</span></span></div>
 </section>
 '''

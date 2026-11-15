@@ -137,7 +137,7 @@
       onReset() { Object.keys(approved).forEach((k) => delete approved[k]); Object.keys(taskState).forEach((k) => delete taskState[k]); select(null); },
     });
     if (APP.impact && APP.impact.length) {
-      OGC2.impact("#opsImpact", APP.impact, { title: "Impact: who decides what, before → after", note: "Outcomes are qualitative: I haven't measured lives, damage or cost. The numbers are the real inputs: OPERA water areas and my model's test scores (one seed, not a published benchmark)." });
+      OGC2.impact("#opsImpact", APP.impact, { title: "Impact: who decides what, before → after", note: "Outcomes are qualitative: we haven't measured lives, damage or cost. The numbers are the real inputs: OPERA water areas and our model's test scores (one seed, not a published benchmark)." });
       document.querySelectorAll("#opsImpact .c2-imp").forEach((el, i) => { const it = APP.impact[i]; if (it && it.img) el.insertAdjacentHTML("afterbegin", `<img class="ops-imp-img" src="/assets/img/${esc(it.img)}" alt="" loading="lazy" width="1152" height="864">`); });
     }
     /* the always-visible "Alert everyone (simulated)" button opens the 8-town alert draft */

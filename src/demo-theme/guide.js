@@ -31,7 +31,7 @@
   }
   const btn = (b) => b ? `<button type="button" class="og-do" data-cmd="${esc(b[1])}">${esc(b[0])}</button>` : "";
   const recHTML = (r) => `<article class="og-rec"><img src="/assets/img/${esc(r.img)}" alt="" loading="lazy" /><div><span class="og-cls">${esc(r.cls)}</span>
-    <p class="og-sat"><b>Satellite shows</b>${esc(r.sat)}</p><p class="og-act"><b>I will</b>${esc(r.act)}</p><p class="og-out"><b>Expected</b>${esc(r.out)}</p></div></article>`;
+    <p class="og-sat"><b>Satellite shows</b>${esc(r.sat)}</p><p class="og-act"><b>We will</b>${esc(r.act)}</p><p class="og-out"><b>Expected</b>${esc(r.out)}</p></div></article>`;
   function render() {
     el.querySelectorAll(".og-steps button").forEach((b, i) => { b.classList.toggle("on", i === cur); b.classList.toggle("done", i < cur); b.setAttribute("aria-current", i === cur ? "step" : "false"); });
     el.querySelector(".og-st").textContent = `Step ${cur + 1} of 4 · ${STEPS[cur]}`;

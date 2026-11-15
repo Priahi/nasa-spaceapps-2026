@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
-<title>Orbit to Ground · Built solo by Parsa Riahi · NASA Space Apps 2026</title>
+<title>Orbit to Ground · Built by Parsa Riahi and Yara Riahi · NASA Space Apps 2026</title>
 <meta name="viewport" content="width=1920">
 <style>
 /* Story deck (14 Nov): flood rewind first, fire second, then times twenty. Light, main-site palette; screens are real captures with the simulation running. */
@@ -17,6 +17,15 @@ h1,h2,h3{font-weight:600;letter-spacing:-.03em}
 .s{position:relative;width:1920px;height:1080px;overflow:hidden;padding:56px 88px 44px;display:flex;flex-direction:column;break-after:page;margin:0 auto 24px;
  background:radial-gradient(1200px 600px at 0% -20%,rgba(158,193,255,.45),transparent 60%),radial-gradient(1000px 560px at 105% -10%,rgba(212,196,255,.45),transparent 58%),var(--bg)}
 @media print{html,body{background:none}.s{margin:0}}
+@media screen{
+  html,body{margin:0;height:100%;overflow:hidden;background:#111}
+  .s{margin:0;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(var(--fit,1));transform-origin:center center;visibility:hidden;pointer-events:none}
+  .s.on{visibility:visible;pointer-events:auto;z-index:1}
+  .dnav{position:fixed;bottom:16px;right:20px;z-index:5}
+}
+/* hide the static poster once the video is actually playing; GIF/poster remains visible if autoplay fails */
+.shot.is-playing .lp-poster,.frame.is-playing>img{visibility:hidden}
+
 .hd,.ft{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);text-transform:uppercase;letter-spacing:.12em;font-size:15px;color:var(--faint)}
 .hd b{color:var(--accent);font-weight:600}
 .ft{margin-top:auto;font-size:14px;padding-top:14px}
@@ -393,7 +402,7 @@ h1,h2,h3{font-weight:600;letter-spacing:-.03em}
   </div>
   <div class="shot fill"><img src="assets/shots/comp-flood-hook.png" alt="Radar flood map of the 8 towns, 31 Oct 2024" style="object-position:center"><span class="tag">Radar flood map · 31 Oct · 8 towns</span></div>
  </div>
- <div class="ft"><span class="src">AEMET event study (Turís) · AEMET normals, València 1981–2010: 475 mm a year · Newtral · El País, 26 Oct 2025 · map: NASA/JPL OPERA DSWx-S1</span><span>Built solo by Parsa Riahi · Toronto</span></div>
+ <div class="ft"><span class="src">AEMET event study (Turís) · AEMET normals, València 1981–2010: 475 mm a year · Newtral · El País, 26 Oct 2025 · map: NASA/JPL OPERA DSWx-S1</span><span>Built by Parsa Riahi and Yara Riahi · Toronto</span></div>
 </section>
 
 <!-- 2 · Imagine -->
@@ -403,11 +412,11 @@ h1,h2,h3{font-weight:600;letter-spacing:-.03em}
  <div class="e2" style="flex:none;margin-top:30px">
   <div class="l">
    <div class="shot nat"><img src="assets/shots/flood-rain-panel.png" alt="The flood app's rain and cloud panel: 91 mm upstream on 29 October"></div>
-   <p class="cap" style="margin-top:0">From my flood app · NASA rain and cloud, 15 Oct → 20 Nov 2024</p>
+   <p class="cap" style="margin-top:0">From our flood app · NASA rain and cloud, 15 Oct → 20 Nov 2024</p>
   </div>
   <div style="display:flex;flex-direction:column;gap:14px;min-height:0">
    <div class="shot nat"><img src="assets/shots/flood-timeline.png" alt="The flood app's alert and dispatch timeline"><span class="tk">Simulated</span></div>
-   <p class="cap" style="margin-top:0">My app's timeline · the same night, rewound</p>
+   <p class="cap" style="margin-top:0">Our app's timeline · the same night, rewound</p>
    <div class="person" style="margin-top:0;padding:16px 20px"><div class="av" style="width:60px;height:60px;font-size:26px">E</div><div><h3 style="font-size:24px">Elena, emergency coordinator, Catarroja</h3><p style="font-size:17px">25 people died in her town. <span class="ill">Illustrative composite</span></p></div></div>
   </div>
  </div>
@@ -418,7 +427,7 @@ h1,h2,h3{font-weight:600;letter-spacing:-.03em}
   <div class="late"><b>"Avoid any travel"</b><span>the only phone alert, too late · <time>~8 PM</time></span></div>
  </div>
  <div class="gap" style="margin-top:16px;padding:16px 26px"><strong style="font-size:40px;white-space:nowrap">The rain was on the record.</strong><span style="font-size:24px">NASA's satellites logged ~90 mm upstream that day. What no one had was a map that turned it into an alert for Elena's town.</span></div>
- <div class="ft"><span class="src">AEMET (event study; normals 475 mm/yr) · Newtral · El País, 26 Oct 2025 · rain: NASA GPM IMERG V07, cloud: NASA POWER · timeline: my dashboard, simulated</span><span>Orbit to Ground</span></div>
+ <div class="ft"><span class="src">AEMET (event study; normals 475 mm/yr) · Newtral · El País, 26 Oct 2025 · rain: NASA GPM IMERG V07, cloud: NASA POWER · timeline: our dashboard, simulated</span><span>Orbit to Ground</span></div>
 </section>
 
 <!-- 3 · Rewind -->
@@ -431,7 +440,7 @@ h1,h2,h3{font-weight:600;letter-spacing:-.03em}
    <figure><figcaption>② Same map · actions <i>(simulated)</i></figcaption><img src="assets/shots/sq-flood-act.png" alt="Evacuate and flag: evacuation alert to 8 municipalities, rescue teams to Sueca and València, next radar pass (simulated)"></figure>
   </div>
   <div class="vbig">
-   <div class="frame"><img src="assets/shots/demo-poster.jpg" alt="Official demo video poster"><video id="demoVid" class="demo" controls muted playsinline preload="auto" poster="assets/shots/demo-poster.jpg"><source src="demo.mp4" type="video/mp4"></video><button class="unmute" id="demoUnmute" type="button">🔇 Unmute</button></div>
+   <div class="frame"><img src="assets/shots/demo-poster.jpg" alt="Official demo video poster"><video id="demoVid" class="demo" controls muted loop autoplay playsinline preload="auto" poster="assets/shots/demo-poster.jpg"><source src="demo.mp4" type="video/mp4"></video><button class="unmute" id="demoUnmute" type="button">🔇 Unmute</button></div>
    <div class="cap"><span><span class="k">The official 30-second demo</span>Elena <b>could have</b> had a drafted alert for her town hours before the ~8 PM phone alert.</span><a href="https://nasa-spaceapps-2026.pages.dev/sar-change/app/#demo" style="color:var(--accent);font-size:18px;white-space:nowrap">Open the flood app →</a></div>
   </div>
  </div>
@@ -464,7 +473,7 @@ h1,h2,h3{font-weight:600;letter-spacing:-.03em}
   <div class="t"><time style="font-size:44px">~noon</time><h4 style="font-size:24px">First recorded death</h4><p style="font-size:19px">a driver at the Benimodo ravine</p></div>
   <div class="t late"><time style="font-size:44px">~8 PM</time><h4 style="font-size:24px">The real phone alert</h4><p style="font-size:19px">more than 150 already dead</p></div>
  </div>
- <div class="est" style="max-width:62%"><b>How I estimated</b>Published warning curves: 13% of damage avoidable at 6 h, 22% at 12 h, 30% at 24 h, ~33% at 48 h (levels off; does not stack per day). 22% × €4.8 bn ≈ €1.1 bn. That's ~€19,000 per claim over ~250,000 claims; ~78 km² of new water = more than half the city of València. No lives number for Valencia. Sources: Day (1970) via NHWC · GCA 2019 · Pappenberger 2015 · CCS · El País · València Recull 2024.</div>
+ <div class="est" style="max-width:62%"><b>How we estimated</b>Published warning curves: 13% of damage avoidable at 6 h, 22% at 12 h, 30% at 24 h, ~33% at 48 h (levels off; does not stack per day). 22% × €4.8 bn ≈ €1.1 bn. That's ~€19,000 per claim over ~250,000 claims; ~78 km² of new water = more than half the city of València. No lives number for Valencia. Sources: Day (1970) via NHWC · GCA 2019 · Pappenberger 2015 · CCS · El País · València Recull 2024.</div>
  <div class="ft"><span class="pill">Illustrative estimate · alerts simulated</span><span class="src"><a href="https://nasa-spaceapps-2026.pages.dev/sar-change/app/#demo" style="color:var(--accent)">The flood app's What if? panel →</a></span></div>
 </section>
 
@@ -475,11 +484,11 @@ h1,h2,h3{font-weight:600;letter-spacing:-.03em}
  <div class="v4">
   <figure class="map"><img src="assets/shots/map8-fire.jpg" alt="Canada burn history: satellite fire detections per year, 2003-2025 average, on the live Hot Spots map"><figcaption>Canada burn history · fires per year, 2003–2025</figcaption></figure>
   <div class="right">
-   <div class="loop shot"><img class="lp-poster" src="assets/shots/deck-fire-map.jpg" alt="Hot Spots live: the burn-history layer across Canada, the boreal belt and B.C., the burn calendar, then Assign crews (simulated)" style="object-fit:contain"><video class="lp" autoplay muted loop playsinline preload="auto" poster="assets/shots/deck-fire-map.jpg" style="object-fit:contain"><source src="clips/deck-fire-map.webm" type="video/webm"><source src="clips/deck-fire-map.mp4" type="video/mp4"></video><span class="tk">Tasking (simulated)</span></div>
+   <div class="loop shot"><img class="lp-poster" src="clips/deck-fire-map.gif" alt="Hot Spots live: the burn-history layer across Canada, the boreal belt and B.C., the burn calendar, then Assign crews (simulated)" style="object-fit:contain"><video class="lp" autoplay muted loop playsinline preload="auto" poster="assets/shots/deck-fire-map.jpg" style="object-fit:contain"><source src="clips/deck-fire-map.webm" type="video/webm"><source src="clips/deck-fire-map.mp4" type="video/mp4"></video><span class="tk">Tasking (simulated)</span></div>
    <div class="how">In the app: burn history → calendar flags May → Assign crews</div>
    <div class="cards"><div class="st"><strong>~1,500 more fires</strong><span>detected in Alberta each year than the year before (2003–2025 trend)</span></div><div class="st"><strong>+16 days</strong><span>of full readiness: crews staffed 15 April instead of 1 May</span></div><div class="st"><strong>~65,000 ha <small>+ ~$25 M</small></strong><span>of forest and firefighting cost spared per escaped fire stopped</span></div></div>
   </div>
-  <div class="low"><div class="whatif"><b>What if · illustrative estimate</b>Each escaped May fire stopped spares an area about the size of the City of Toronto.</div><div class="est2"><b>How I estimated</b>Trend in NASA FIRMS detections; 15 Apr vs 1 May staffing; Alberta 2023 area and cost ÷ ~33 escapes. Full formulas in speaker notes.</div></div>
+  <div class="low"><div class="whatif"><b>What if · illustrative estimate</b>Each escaped May fire stopped spares an area about the size of the City of Toronto.</div><div class="est2"><b>How we estimated</b>Trend in NASA FIRMS detections; 15 Apr vs 1 May staffing; Alberta 2023 area and cost ÷ ~33 escapes. Full formulas in speaker notes.</div></div>
  </div>
  <div class="ft"><span class="pill">Illustrative estimate · staffing tasks simulated</span><span class="src">NASA FIRMS (MODIS + VIIRS) · Alberta Forestry and Parks 2023–24 · Stocks et al. 2002 · StatCan · tiles © Esri</span></div>
 </section>
@@ -490,11 +499,11 @@ h1,h2,h3{font-weight:600;letter-spacing:-.03em}
  <div class="v4">
   <figure class="map"><img src="assets/shots/map8-field.jpg" alt="Story County, Iowa: crop classification map at 30 m (corn, soybean, grass, hay) on the live Field Shift map"><figcaption>Story County, Iowa · crop map, 30 m</figcaption><div class="lg"><span><i style="background:#f5c02c"></i>Corn</span><span><i style="background:#2a8a4a"></i>Soybean</span><span><i style="background:#a5d94a"></i>Grass</span><span><i style="background:#a85a32"></i>Hay</span><span><i style="background:#7a2bd6"></i>Small grain</span></div></figure>
   <div class="right">
-   <div class="loop shot"><img class="lp-poster" src="assets/shots/deck-field-rye.jpg" alt="Field Shift, Story County: slope map, the 92 steepest squares, Act: seed winter rye, task queued (simulated), What if? ~$1.2 M" style="object-fit:contain"><video class="lp" autoplay muted loop playsinline preload="auto" poster="assets/shots/deck-field-rye.jpg" style="object-fit:contain"><source src="clips/deck-field-rye.webm" type="video/webm"><source src="clips/deck-field-rye.mp4" type="video/mp4"></video><span class="tk">Tasking (simulated)</span></div>
+   <div class="loop shot"><img class="lp-poster" src="clips/deck-field-rye.gif" alt="Field Shift, Story County: slope map, the 92 steepest squares, Act: seed winter rye, task queued (simulated), What if? ~$1.2 M" style="object-fit:contain"><video class="lp" autoplay muted loop playsinline preload="auto" poster="assets/shots/deck-field-rye.jpg" style="object-fit:contain"><source src="clips/deck-field-rye.webm" type="video/webm"><source src="clips/deck-field-rye.mp4" type="video/mp4"></video><span class="tk">Tasking (simulated)</span></div>
    <div class="how">In the app: slope map → Act: winter rye → task → What if?</div>
-   <div class="cards"><div class="st"><strong>~$1.2 M</strong><span>net in a 2012-type drought from winter rye on the steepest squares</span></div><div class="st"><strong>26,500 acres <small>≈ 10,700 ha</small></strong><span>of the most erosion-prone farmland protected</span></div><div class="st"><strong>Before planting</strong><span>my map is ready in February; USDA's arrives ~11 months later</span></div></div>
+   <div class="cards"><div class="st"><strong>~$1.2 M</strong><span>net in a 2012-type drought from winter rye on the steepest squares</span></div><div class="st"><strong>26,500 acres <small>≈ 10,700 ha</small></strong><span>of the most erosion-prone farmland protected</span></div><div class="st"><strong>Before planting</strong><span>our map is ready in February; USDA's arrives ~11 months later</span></div></div>
   </div>
-  <div class="low"><div class="whatif"><b>What if · illustrative estimate</b>Rye on the steepest fields costs a little most years and pays back in a dry one.</div><div class="est2"><b>How I estimated</b>~$44 an acre net in a drought (SARE 2012 yield gain × Iowa State costs) × 26,500 acres. Next-crop map ~82% vs ~81% from history alone. Full formulas in speaker notes.</div></div>
+  <div class="low"><div class="whatif"><b>What if · illustrative estimate</b>Rye on the steepest fields costs a little most years and pays back in a dry one.</div><div class="est2"><b>How we estimated</b>~$44 an acre net in a drought (SARE 2012 yield gain × Iowa State costs) × 26,500 acres. Next-crop map ~82% vs ~81% from history alone. Full formulas in speaker notes.</div></div>
  </div>
  <div class="ft"><span class="pill">Illustrative · seeding tasks simulated</span><span class="src">USDA NASS CDL · SARE/CTIC · Iowa State · NASA HLS · NASA POWER · NASA SRTM · tiles © Esri</span></div>
 </section>
@@ -503,37 +512,67 @@ h1,h2,h3{font-weight:600;letter-spacing:-.03em}
  <div class="hd"><span>One system · how it works</span><span>7 / 7</span></div>
  <h2 class="title" style="font-size:40px;margin-top:10px">Shared NASA inputs, one engine, one loop: signal → map → alert → task.</h2>
  <div class="sysfig"><img src="assets/shots/arch-system.png" alt="Shared inputs feed one engine of trend detection and per-signal models, then the signal, map, alert, task loop, then outputs and results per vertical"></div>
- <div class="strip1"><b>Same engine, every sector:</b><span class="c">✓ Flood</span><span class="c">✓ Wildfire</span><span class="c">✓ Farms</span><span class="c">✓ Groundwater</span><b style="margin-left:10px">Next:</b><span class="c f">Drought</span><span class="c f">Smoke</span><span class="c f">Infrastructure</span><span class="c f">Landslides</span><div class="who"><b>Parsa Riahi</b> · built solo</div></div>
+ <div class="strip1"><b>Same engine, every sector:</b><span class="c">✓ Flood</span><span class="c">✓ Wildfire</span><span class="c">✓ Farms</span><span class="c">✓ Groundwater</span><b style="margin-left:10px">Next:</b><span class="c f">Drought</span><span class="c f">Smoke</span><span class="c f">Infrastructure</span><span class="c f">Landslides</span><div class="who"><b>Parsa Riahi and Yara Riahi</b></div></div>
  <div class="ft"><span class="src">One seed each, not a published benchmark · civil uses only · tasking and alerts are simulated · not affiliated with NASA</span><span><a href="deck.pptx" download style="color:var(--accent)">Slides with video (PPTX)</a> · <a href="deck.pdf" style="color:var(--accent)">PDF</a> · <span class="grad" style="font-weight:600">See it. Decide. Act.</span></span></div>
 </section>
 <div class="dnav"><button id="deckPrev" aria-label="Previous slide">‹</button><span id="deckNum">1 / 7</span><button id="deckNext" aria-label="Next slide">›</button></div>
 <script>
 (function(){
   var S=[].slice.call(document.querySelectorAll('section.s')), cur=0;
-  function go(i){ i=Math.max(0,Math.min(S.length-1,i)); cur=i; S[i].scrollIntoView({block:'start'}); num(); }
-  function num(){ var n=document.getElementById('deckNum'); if(n) n.textContent=(cur+1)+' / '+S.length; }
+  function fit(){ document.documentElement.style.setProperty('--fit', String(Math.min(innerWidth/1920, innerHeight/1080))); }
+  addEventListener('resize', fit); fit();
+  function vids(sec){ return [].slice.call((sec||document).querySelectorAll('video')); }
+  function arm(v){
+    if(v.dataset.armed) return;
+    v.dataset.armed='1';
+    v.muted=true; v.loop=true; v.playsInline=true; v.preload='auto';
+    v.setAttribute('playsinline',''); v.setAttribute('muted',''); v.setAttribute('loop','');
+    v.addEventListener('ended', function(){ if(v.dataset.want==='1'){ try{v.currentTime=0;}catch(e){} play(v); } });
+    v.addEventListener('canplay', function(){ if(v.dataset.want==='1' && v.paused) play(v); });
+    v.addEventListener('playing', function(){ var box=v.closest('.shot,.frame'); if(box) box.classList.add('is-playing'); });
+    v.addEventListener('pause', function(){ if(v.dataset.want!=='1'){ var box=v.closest('.shot,.frame'); if(box) box.classList.remove('is-playing'); } });
+  }
+  vids(document).forEach(arm);
+  function play(v){
+    v.dataset.want='1';
+    v.muted = (v.id!=='demoVid') || !v._wantSound;
+    if(v.id!=='demoVid') v.muted=true;
+    v.loop=true;
+    var p=v.play();
+    if(p&&p.catch) p.catch(function(){ v.muted=true; v.play().catch(function(){}); });
+  }
+  function stop(v){
+    v.dataset.want='0';
+    try{ v.pause(); }catch(e){}
+    var box=v.closest('.shot,.frame'); if(box) box.classList.remove('is-playing');
+  }
+  function activate(i){
+    i=Math.max(0,Math.min(S.length-1,i)); cur=i;
+    S.forEach(function(sec,j){
+      sec.classList.toggle('on', j===i);
+      vids(sec).forEach(function(v){
+        if(j===i){ try{ v.currentTime=0; }catch(e){} play(v); }
+        else stop(v);
+      });
+    });
+    var n=document.getElementById('deckNum'); if(n) n.textContent=(cur+1)+' / '+S.length;
+  }
+  function go(i){ activate(i); }
   document.getElementById('deckNext').onclick=function(){ go(cur+1); };
   document.getElementById('deckPrev').onclick=function(){ go(cur-1); };
-  addEventListener('keydown',function(e){ if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){e.preventDefault();go(cur+1);} if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(cur-1);} });
-  var loops=[].slice.call(document.querySelectorAll('video.lp'));
-  loops.forEach(function(v){ v.muted=true; v.loop=true; v.playsInline=true; v.preload='auto';
-    v.addEventListener('ended',function(){ v.currentTime=0; v.play(); }); });
-  function start(sec){ sec.querySelectorAll('video.lp').forEach(function(v){ v.muted=true; v.loop=true; try{ v.currentTime=0; }catch(e){} var p=v.play(); if(p&&p.catch) p.catch(function(){}); }); }
-  var io=new IntersectionObserver(function(es){ es.forEach(function(e){ var i=S.indexOf(e.target);
-    if(e.isIntersecting&&e.intersectionRatio>=.5){ cur=i; num(); start(e.target); }
-    else if(!e.isIntersecting){ e.target.querySelectorAll('video.lp').forEach(function(v){ v.pause(); }); } }); },{threshold:[0,.5]});
-  S.forEach(function(x){ io.observe(x); });
-})();
-</script>
-<script id="demoAuto">
-(function(){
-  var v=document.getElementById('demoVid'), b=document.getElementById('demoUnmute'); if(!v) return;
-  var sec=v.closest('section'), wantSound=false;
-  function label(){ b.textContent = v.muted ? '🔇 Unmute' : '🔊 Mute'; }
-  b.onclick=function(e){ e.stopPropagation(); wantSound=v.muted; v.muted=!v.muted; if(v.paused){ var p=v.play(); if(p&&p.catch)p.catch(function(){}); } label(); };
-  v.addEventListener('volumechange',label);
-  function enter(){ v.muted=!wantSound; try{ v.currentTime=0; }catch(e){} var p=v.play(); if(p&&p.catch) p.catch(function(){ v.muted=true; label(); v.play().catch(function(){}); }); label(); }
-  new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting&&e.intersectionRatio>=.5) enter(); else if(e.intersectionRatio<.5) v.pause(); }); },{threshold:[0,.5]}).observe(sec);
+  addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '){ e.preventDefault(); go(cur+1); }
+    if(e.key==='ArrowLeft'||e.key==='PageUp'){ e.preventDefault(); go(cur-1); }
+  });
+  addEventListener('visibilitychange', function(){ if(!document.hidden) activate(cur); });
+  var v=document.getElementById('demoVid'), b=document.getElementById('demoUnmute');
+  if(v&&b){
+    v._wantSound=false;
+    function label(){ b.textContent = v.muted ? '🔇 Unmute' : '🔊 Mute'; }
+    b.onclick=function(e){ e.stopPropagation(); v._wantSound=v.muted; v.muted=!v.muted; if(v.paused && v.dataset.want==='1') play(v); label(); };
+    v.addEventListener('volumechange', label); label();
+  }
+  activate(0);
 })();
 </script>
 </body></html>

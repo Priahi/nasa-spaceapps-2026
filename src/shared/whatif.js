@@ -27,10 +27,10 @@
       `<b>${s.hours_earlier} h earlier</b>`, esc(s.alert_time), esc(s.people),
       `${pct(s.factor)}${s.factor_range ? ` (${pct(s.factor_range[0])}–${pct(s.factor_range[1])})` : ""}<small>${esc(s.factor_source)}</small>`,
       `<b>€${s.avoided_insured_eur_bn} bn</b>${s.avoided_insured_range_eur_bn ? ` <small>(€${s.avoided_insured_range_eur_bn[0]}–${s.avoided_insured_range_eur_bn[1]} bn)</small>` : ""}`]));
-    h += `<p class="wi-fine">The published curve flattens after about a day: 30% at 24 h, 4–40% at 48 h. It is <b>not</b> 30% for each extra 24 h. The 24 h and 48 h rows rely on forecasts (AEMET, EFAS), which my tool doesn't make. Upper bound: assumes everyone got the alert and acted, and much of the bill can't be moved out of the water. Floor (domestic property only): ${pct(c.floor_domestic_only.factor)}, €${c.floor_domestic_only.avoided_insured_eur_bn} bn.</p>`;
+    h += `<p class="wi-fine">The published curve flattens after about a day: 30% at 24 h, 4–40% at 48 h. It is <b>not</b> 30% for each extra 24 h. The 24 h and 48 h rows rely on forecasts (AEMET, EFAS), which our tool doesn't make. Upper bound: assumes everyone got the alert and acted, and much of the bill can't be moved out of the water. Floor (domestic property only): ${pct(c.floor_domestic_only.factor)}, €${c.floor_domestic_only.avoided_insured_eur_bn} bn.</p>`;
     const AFF = 190000; // people potentially affected, Copernicus EMS extent map via ESA (IMPACT.md F8)
     h += `<p class="wi-fine"><b>Per person.</b> The €${B.insured_cost_eur_bn} bn insured loss is about €${n(Math.round(B.insured_cost_eur_bn * 1e9 / AFF / 1000) * 1000)} for each of the ~${n(AFF)} people potentially affected (ESA); the 12 h row (€${c.scenarios[1].avoided_insured_eur_bn} bn) is about €${n(Math.round(c.scenarios[1].avoided_insured_eur_bn * 1e9 / AFF / 100) * 100)} each.</p>`;
-    h += `<p class="wi-fine"><b>Lives.</b> I give no lives number for Valencia. An earlier alert means people reached before the water, not lives saved. ${esc(c.lives_context)}</p>`;
+    h += `<p class="wi-fine"><b>Lives.</b> We give no lives number for Valencia. An earlier alert means people reached before the water, not lives saved. ${esc(c.lives_context)}</p>`;
     return h;
   }
   // Province areas (km²), Statistics Canada table 15.6

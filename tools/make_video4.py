@@ -44,7 +44,7 @@ def build(segs, out, tag):
          "-crf", "20", "-pix_fmt", "yuv420p", "-r", "30", "-movflags", "+faststart", "-an", str(out)])
     return t, caps
 C = {  # captions (12-hour rounded story times only; no exact clock times)
- "slider": "Rewind with my tool. 1 · Drag the radar slider: before (26 Oct) ↔ after (31 Oct), through cloud",
+ "slider": "Rewind with our tool. 1 · Drag the radar slider: before (26 Oct) ↔ after (31 Oct), through cloud",
  "classify": "2 · Flood classification: new water outside normal rivers, about 47 km² more in 5 days",
  "preview": "3 · Preview each recommended action on the map",
  "dispatch": "4 · Dispatch: teams placed in the 8 towns. Queued → Tasked → In progress → Done",
@@ -62,7 +62,7 @@ if __name__ == "__main__":
             ("card", ("impact", 3.0), "What if (illustrative estimate): an alert 12 hours earlier, about 8 AM, comes before the first death. About €1.1 bn of the €4.8 bn insured loss within reach."),
             ("take", ("fire", "dispatch", T["fire"]["marks"]["dispatch"] + 3.0, 1.76), "Fire: crews staged in Alberta and B.C. before the July peak"),
             ("take", ("field", "dispatch", T["field"]["marks"]["dispatch"] + 3.0, 1.76), "Farms: drone and scout sent to about 110 uncertain squares"),
-            ("card", ("close", 2.3), "One engine, every sector: signal → map → task → alert. Try it live: spaceapps.parsariahi.com · Parsa Riahi · solo build.")]
+            ("card", ("close", 2.3), "One engine, every sector: signal → map → task → alert. Try it live: spaceapps.parsariahi.com · Parsa Riahi and Yara Riahi.")]
     total, caps = build(DEMO, OUT, "demo")
     assert total <= 30.0, total
     (S / "demo.en.srt").write_text("\n".join(f"{i + 1}\n{st(a)} --> {st(b)}\n{c}\n" for i, (a, b, c, _) in enumerate(caps)))

@@ -42,7 +42,7 @@
             <h3 class="c2-act">${esc(a.title || a.act)}</h3>
             <dl class="c2-flow">
               <div><dt>Satellite shows</dt><dd>${esc(a.sat)}</dd></div>
-              ${a.act && a.title ? `<div><dt>I will</dt><dd>${esc(a.act)}</dd></div>` : ""}
+              ${a.act && a.title ? `<div><dt>We will</dt><dd>${esc(a.act)}</dd></div>` : ""}
               <div><dt>Expected</dt><dd>${esc(a.out)}</dd></div>
             </dl>
             ${(a.tasks || []).length ? `<ul class="c2-assets">${a.tasks.map((t) => `<li>${icon(t.asset)}<span>${esc(t.label)}</span></li>`).join("")}</ul>` : ""}

@@ -24,18 +24,18 @@
   function metricTable(r) {
     const row = (l, m, cls) => `<tr class="${cls || ""}"><td>${l}</td><td class="n">${f4(m.rmse_log1p)}</td><td class="n">${f3(m.mae)}</td><td class="n">${f3(m.spearman)}</td><td class="n">${f2(m.total_bias_pct)}</td><td class="n">${f2(m.monthly_total_mape_pct)}</td></tr>`;
     return `<table class="bf-table"><thead><tr><th>Method</th><th>RMSE log1p</th><th>MAE</th><th>Spearman</th><th>Total bias %</th><th>Monthly-total MAPE %</th></tr></thead><tbody>` +
-      METHODS.map(([k, l]) => row(l, r.baselines[k])).join("") + row("My model (v2 residual LightGBM, blended on 2021)", r.tuned_residual_test, "hl") +
-      row("My model before the 2021 blend step", r.unmixed_residual_test) + "</tbody></table>";
+      METHODS.map(([k, l]) => row(l, r.baselines[k])).join("") + row("Our model (v2 residual LightGBM, blended on 2021)", r.tuned_residual_test, "hl") +
+      row("Our model before the 2021 blend step", r.unmixed_residual_test) + "</tbody></table>";
   }
 
   function resultSlide(name, low) {
     const r = C[name], m = r.tuned_residual_test, bl = r.baselines;
     const rows = METHODS.map(([k, l]) => ({ label: l.replace(" (best simple method)", ""), value: bl[k].rmse_log1p }));
-    rows.push({ label: "My model", value: m.rmse_log1p, hl: true });
+    rows.push({ label: "Our model", value: m.rmse_log1p, hl: true });
     return {
       kicker: `Result · ${name} · years the model never saw (${P.test_years[0]}–${P.test_years[P.test_years.length - 1]})`,
-      title: `${name}: my model's average error is about ${low}% lower than the best simple method`,
-      body: [`I hid ${P.test_years[0]}–${P.test_years[P.test_years.length - 1]} from the model, then asked it to predict how many VIIRS fire detections each map square got each month from the MODIS detections alone. Shorter bars are better.`],
+      title: `${name}: our model's average error is about ${low}% lower than the best simple method`,
+      body: [`We hid ${P.test_years[0]}–${P.test_years[P.test_years.length - 1]} from the model, then asked it to predict how many VIIRS fire detections each map square got each month from the MODIS detections alone. Shorter bars are better.`],
       visual: B.bars(rows, { min: Math.min(...rows.map((x) => x.value)) * 0.85, max: Math.max(...rows.map((x) => x.value)) * 1.03, labelWidth: 330, axis: "Average error per map square per month (lower is better; the axis does not start at zero)", aria: `${name} error by method` }),
       why: name === "Canada"
         ? "Fire managers comparing today's season with the early 2000s get numbers on the same scale, square by square, instead of a jump caused by a new satellite."
@@ -52,12 +52,12 @@
   const slides = [
     {
       kicker: "In one minute",
-      title: "I put 26 years of satellite fire records on one consistent scale",
+      title: "We put 26 years of satellite fire records on one consistent scale",
       html: `<div class="bf-onemin">
         <div><h3>The problem</h3><p>NASA's older fire satellite (MODIS) and newer one (VIIRS) count the same fires very differently. VIIRS spots about ${f1(ca.global_ratio_value)}× more fire pixels in Canada. A 25-year fire history that mixes them is misleading.</p></div>
-        <div><h3>What I built</h3><p>A model that translates every old MODIS month into "what VIIRS could have seen", with a range of uncertainty, for any area you draw on a map.</p></div>
+        <div><h3>What we built</h3><p>A model that translates every old MODIS month into "what VIIRS could have seen", with a range of uncertainty, for any area you draw on a map.</p></div>
         <div><h3>Does it work?</h3><p>On years it never saw, its average error is about ${caLow}% lower than the best simple method in Canada and ${arLow}% lower in Argentina.</p></div>
-        <div><h3>Where it falls short</h3><p>My first version lost to the simple method in Canada. The current one still does worse on whole-country monthly totals, so for those I show the simple method too.</p></div></div>`,
+        <div><h3>Where it falls short</h3><p>Our first version lost to the simple method in Canada. The current one still does worse on whole-country monthly totals, so for those we show the simple method too.</p></div></div>`,
       why: "Firefighters, planners and insurers can ask \"was this month really unusual?\" and trust that the answer isn't just a satellite change.",
       expert: `<p>All results: one seed, not a published benchmark. Model: LightGBM on the log1p residual over an empirical-Bayes cell-ratio offset, Mondrian conformal intervals. Data: NASA FIRMS MODIS C6.1 and VIIRS S-NPP country archives.</p>`,
     },
@@ -65,14 +65,14 @@
       kicker: "The problem",
       title: "Two satellites, two very different fire counts",
       body: ["MODIS has flown since 2000 with big 1 km pixels and is near the end of its life. VIIRS has flown since 2012 with 375 m pixels, so it catches smaller and cooler fires that MODIS misses.", "Joining the two records naively creates a fake jump in fire activity in 2012."],
-      visual: B.fig("figs/fig_08.png", "Canada, yearly totals: raw MODIS (dotted) vs my translated VIIRS-scale series (red). The gap is the sensor difference, not the fires."),
+      visual: B.fig("figs/fig_08.png", "Canada, yearly totals: raw MODIS (dotted) vs our translated VIIRS-scale series (red). The gap is the sensor difference, not the fires."),
       why: "Climate and fire-season trend claims depend on a consistent record. Without one, a better camera looks like a worse fire problem.",
       expert: `<p>VIIRS/MODIS global ratio: Canada ${f2(ca.global_ratio_value)}, Argentina ${f2(ar.global_ratio_value)} (training years). Annual series from the Colab v1 run.</p>`,
     },
     {
       kicker: "The data",
       title: `Over ${Math.floor((D.Canada.modis_detections + D.Canada.viirs_detections + D.Argentina.modis_detections + D.Argentina.viirs_detections) / 1e6)} million NASA fire detections across two countries`,
-      body: [`Canada: ${nf(D.Canada.modis_detections)} MODIS and ${nf(D.Canada.viirs_detections)} VIIRS detections. Argentina: ${nf(D.Argentina.modis_detections)} MODIS and ${nf(D.Argentina.viirs_detections)} VIIRS detections.`, `I grouped them into map squares about 25 km across (${P.cell_deg}°) and months, from 2000 to 2025. No login was needed: these are NASA FIRMS public archives.`],
+      body: [`Canada: ${nf(D.Canada.modis_detections)} MODIS and ${nf(D.Canada.viirs_detections)} VIIRS detections. Argentina: ${nf(D.Argentina.modis_detections)} MODIS and ${nf(D.Argentina.viirs_detections)} VIIRS detections.`, `We grouped them into map squares about 25 km across (${P.cell_deg}°) and months, from 2000 to 2025. No login was needed: these are NASA FIRMS public archives.`],
       visual: `<div class="bf-grid">${B.fig("figs/fig_10.png", "Canada: where VIIRS sees relatively more fire (red) than MODIS, 2022–2025.")}${B.fig("figs/fig_04.png", "Argentina: same map.")}</div>`,
       why: "Canada (big forest fires) and Argentina (farm and grassland burning) test the method on two very different kinds of fire.",
       expert: `<p>${B.esc(meta.citations.data)} Cell-months with detections: Canada MODIS ${nf(D.Canada.modis_cell_months)}, VIIRS ${nf(D.Canada.viirs_cell_months)}; Argentina MODIS ${nf(D.Argentina.modis_cell_months)}, VIIRS ${nf(D.Argentina.viirs_cell_months)}. Features per cell-month: MODIS count, FRP sum/median, brightness, night and Aqua fractions, pixel size, low-FRP and off-nadir fractions, month, lat/lon, lag/lead months.</p>`,
@@ -94,9 +94,9 @@
     {
       kicker: "The bar to beat",
       title: "Four simple methods most teams would use",
-      body: ["Before trusting a model, I compare it with simple, explainable rules. The best of them, a per-square factor that is steadied in sparse areas, is the one I have to beat."],
+      body: ["Before trusting a model, we compare it with simple, explainable rules. The best of them, a per-square factor that is steadied in sparse areas, is the one we have to beat."],
       visual: `<table class="bf-table"><thead><tr><th>Simple method</th><th>Canada average error</th><th>Argentina average error</th></tr></thead><tbody>${METHODS.map(([k, l]) => `<tr class="${k === "eb_cell_ratio" ? "hl" : ""}"><td>${l}</td><td class="n">${f4(ca.baselines[k].rmse_log1p)}</td><td class="n">${f4(ar.baselines[k].rmse_log1p)}</td></tr>`).join("")}</tbody></table>`,
-      why: "If a fancy model can't beat a one-line rule, nobody should use it. I show the rule's numbers next to mine.",
+      why: "If a fancy model can't beat a one-line rule, nobody should use it. We show the rule's numbers next to ours.",
       expert: `<p>Error = RMSE on log1p(VIIRS count) per cell-month. Global ratio: Canada ${f2(ca.global_ratio_value)}×, Argentina ${f2(ar.global_ratio_value)}×. EB = empirical-Bayes (gamma-Poisson) shrinkage of each cell's ratio toward the global ratio.</p>`,
     },
     resultSlide("Canada", caLow),
@@ -104,34 +104,34 @@
     {
       kicker: "Honest trade-off",
       title: "Better square by square, but worse at whole-country monthly totals",
-      body: [`For a single map square, my model is closer. But when you add up a whole country for a month, the simple method is closer: its monthly totals are off by ${f1(ca.baselines.eb_cell_ratio.monthly_total_mape_pct)}% on average in Canada vs ${f1(ca.tuned_residual_test.monthly_total_mape_pct)}% for my model (Argentina ${f1(ar.baselines.eb_cell_ratio.monthly_total_mape_pct)}% vs ${f1(ar.tuned_residual_test.monthly_total_mape_pct)}%).`, `In Argentina a final adjustment step cut a systematic undercount from ${f1(ar.unmixed_residual_test.total_bias_pct)}% to ${f1(ar.tuned_residual_test.total_bias_pct)}%, at a small cost in per-square error.`],
-      visual: B.bars([{ label: "Canada · simple method", value: ca.baselines.eb_cell_ratio.monthly_total_mape_pct, hl: true }, { label: "Canada · my model", value: ca.tuned_residual_test.monthly_total_mape_pct, neg: true }, { label: "Argentina · simple method", value: ar.baselines.eb_cell_ratio.monthly_total_mape_pct, hl: true }, { label: "Argentina · my model", value: ar.tuned_residual_test.monthly_total_mape_pct, neg: true }], { fmt: (v) => v.toFixed(1) + "%", labelWidth: 230, axis: "Average error of whole-country monthly totals (lower is better)" }),
+      body: [`For a single map square, our model is closer. But when you add up a whole country for a month, the simple method is closer: its monthly totals are off by ${f1(ca.baselines.eb_cell_ratio.monthly_total_mape_pct)}% on average in Canada vs ${f1(ca.tuned_residual_test.monthly_total_mape_pct)}% for our model (Argentina ${f1(ar.baselines.eb_cell_ratio.monthly_total_mape_pct)}% vs ${f1(ar.tuned_residual_test.monthly_total_mape_pct)}%).`, `In Argentina a final adjustment step cut a systematic undercount from ${f1(ar.unmixed_residual_test.total_bias_pct)}% to ${f1(ar.tuned_residual_test.total_bias_pct)}%, at a small cost in per-square error.`],
+      visual: B.bars([{ label: "Canada · simple method", value: ca.baselines.eb_cell_ratio.monthly_total_mape_pct, hl: true }, { label: "Canada · our model", value: ca.tuned_residual_test.monthly_total_mape_pct, neg: true }, { label: "Argentina · simple method", value: ar.baselines.eb_cell_ratio.monthly_total_mape_pct, hl: true }, { label: "Argentina · our model", value: ar.tuned_residual_test.monthly_total_mape_pct, neg: true }], { fmt: (v) => v.toFixed(1) + "%", labelWidth: 230, axis: "Average error of whole-country monthly totals (lower is better)" }),
       why: "If you need a national monthly number for a report, use the simple method. If you need local detail, use the model. The app shows both.",
       expert: `<p>Monthly-total MAPE: Canada EB ${f2(ca.baselines.eb_cell_ratio.monthly_total_mape_pct)} vs v2 ${f2(ca.tuned_residual_test.monthly_total_mape_pct)}; Argentina EB ${f2(ar.baselines.eb_cell_ratio.monthly_total_mape_pct)} vs v2 ${f2(ar.tuned_residual_test.monthly_total_mape_pct)}. Argentina blend on 2021: unmixed RMSE ${f4(ar.unmixed_residual_test.rmse_log1p)}, bias ${f2(ar.unmixed_residual_test.total_bias_pct)}% → blended RMSE ${f4(ar.tuned_residual_test.rmse_log1p)}, bias ${f2(ar.tuned_residual_test.total_bias_pct)}% (scale 1.3025, from artifacts/refine.log). Total bias v2: Canada ${f2(ca.tuned_residual_test.total_bias_pct)}%.</p>`,
     },
     {
-      kicker: "My first attempt",
-      title: "Version 1 lost to the simple method in Canada, and that taught me why",
-      body: [`My first model (run on Google Colab) had an average error of ${f4(LG.Canada.tuned_test.rmse_log1p)} in Canada, worse than the simple method's ${f4(V1.FIRMS_CANADA_BASELINES.eb_cell_ratio.rmse_log1p)}, and undercounted fires by ${Math.abs(Math.round(LG.Canada.tuned_test.total_bias_pct))}%. In Argentina it did win (${f4(LG.Argentina.tuned_test.rmse_log1p)} vs ${f4(V1.FIRMS_ARGENTINA_BASELINES.eb_cell_ratio.rmse_log1p)}).`, "The cause: it was memorizing each square's past fire totals instead of learning how the satellites differ. Version 2 removes that memory and only learns corrections."],
+      kicker: "Our first attempt",
+      title: "Version 1 lost to the simple method in Canada, and that taught us why",
+      body: [`Our first model (run on Google Colab) had an average error of ${f4(LG.Canada.tuned_test.rmse_log1p)} in Canada, worse than the simple method's ${f4(V1.FIRMS_CANADA_BASELINES.eb_cell_ratio.rmse_log1p)}, and undercounted fires by ${Math.abs(Math.round(LG.Canada.tuned_test.total_bias_pct))}%. In Argentina it did win (${f4(LG.Argentina.tuned_test.rmse_log1p)} vs ${f4(V1.FIRMS_ARGENTINA_BASELINES.eb_cell_ratio.rmse_log1p)}).`, "The cause: it was memorizing each square's past fire totals instead of learning how the satellites differ. Version 2 removes that memory and only learns corrections."],
       visual: B.bars([{ label: "Simple method", value: V1.FIRMS_CANADA_BASELINES.eb_cell_ratio.rmse_log1p }, { label: "Version 1 (Colab)", value: LG.Canada.tuned_test.rmse_log1p, neg: true }, { label: "Version 1 without the memory", value: AB.Canada.no_cell_history.rmse_log1p }, { label: "Version 2 (this app)", value: ca.tuned_residual_test.rmse_log1p, hl: true }], { min: 0.25, max: 0.33, labelWidth: 260, axis: "Canada average error (lower is better; axis starts at 0.25)" }),
       why: "Showing the failure and the fix is how people on the ground can tell this isn't a cherry-picked result.",
       expert: `<p>Colab v1 tuned LightGBM (${LG.Canada.best_params.objective}, ${LG.Canada.hpo_trials} Optuna trials): Canada RMSE ${f4(LG.Canada.tuned_test.rmse_log1p)}, Spearman ${f3(LG.Canada.tuned_test.spearman)}, bias ${f2(LG.Canada.tuned_test.total_bias_pct)}%, Δ vs EB +${f4(LG.Canada.delta_rmse_log1p_vs_eb_cell_ratio)}. Argentina (${LG.Argentina.best_params.objective}): RMSE ${f4(LG.Argentina.tuned_test.rmse_log1p)}, Δ ${f4(LG.Argentina.delta_rmse_log1p_vs_eb_cell_ratio)}. Untuned defaults: Canada RMSE ${f4(LG.Canada.default_params_test.rmse_log1p)} (diverged), Argentina ${f4(LG.Argentina.default_params_test.rmse_log1p)}. v1 top features included raw <code class="bf">cell_v</code>, <code class="bf">cell_ratio</code>, <code class="bf">cell_active</code>.</p>${B.fig("figs/fig_07.png", "Canada v1: baselines vs LightGBM and every ablation arm.")}`,
     },
     {
-      kicker: "What I tested (version 1)",
+      kicker: "What we tested (version 1)",
       title: "Removing the memory helped in both countries; removing timing or fire-intensity clues hurt",
-      body: ["I switched off one group of clues at a time to see which ones matter. Shorter bars are better."],
+      body: ["We switched off one group of clues at a time to see which ones matter. Shorter bars are better."],
       visual: `<div class="bf-grid"><div><h3>Canada</h3>${B.bars(ablRows("Canada"), { min: 0.25, max: 0.36, labelWidth: 290, rowH: 30, axis: "average error (axis starts at 0.25)" })}</div><div><h3>Argentina</h3>${B.bars(ablRows("Argentina"), { min: 0.45, max: 0.57, labelWidth: 290, rowH: 30, axis: "average error (axis starts at 0.45)" })}</div></div>`,
-      html: `<p>I also tried smaller (≈10 km) and bigger (≈50 km) map squares. Bigger squares gave better country-wide monthly totals in both countries (Canada ${f1(AB.Canada["cell_0.5deg"].monthly_total_mape_pct)}% vs ${f1(AB.Canada["cell_0.1deg"].monthly_total_mape_pct)}% error for the smallest; Argentina ${f1(AB.Argentina["cell_0.5deg"].monthly_total_mape_pct)}% vs ${f1(AB.Argentina["cell_0.1deg"].monthly_total_mape_pct)}%).</p>`,
+      html: `<p>We also tried smaller (≈10 km) and bigger (≈50 km) map squares. Bigger squares gave better country-wide monthly totals in both countries (Canada ${f1(AB.Canada["cell_0.5deg"].monthly_total_mape_pct)}% vs ${f1(AB.Canada["cell_0.1deg"].monthly_total_mape_pct)}% error for the smallest; Argentina ${f1(AB.Argentina["cell_0.5deg"].monthly_total_mape_pct)}% vs ${f1(AB.Argentina["cell_0.1deg"].monthly_total_mape_pct)}%).</p>`,
       why: "Knowing which clues matter tells agencies what data they must keep collecting: month-to-month timing and fire intensity.",
       expert: ablTable("Canada") + ablTable("Argentina") + `<p>${B.esc(AB.Canada.note)}</p>`,
     },
     {
       kicker: "Uncertainty",
-      title: "My ranges now contain the true value about 9 times in 10 where fires burned",
-      body: [`Every estimate comes with a low–high range. I aimed for the true value to fall inside 90% of the time. Where fires actually happened, version 1 managed only ${pc(IV.Canada.cqr_coverage_on_viirs_active_cells)} in Canada and ${pc(IV.Argentina.cqr_coverage_on_viirs_active_cells)} in Argentina. Version 2 reaches ${pc(ca.intervals.cqr_coverage_on_viirs_active_cells)} and ${pc(ar.intervals.cqr_coverage_on_viirs_active_cells)}.`],
+      title: "Our ranges now contain the true value about 9 times in 10 where fires burned",
+      body: [`Every estimate comes with a low–high range. We aimed for the true value to fall inside 90% of the time. Where fires actually happened, version 1 managed only ${pc(IV.Canada.cqr_coverage_on_viirs_active_cells)} in Canada and ${pc(IV.Argentina.cqr_coverage_on_viirs_active_cells)} in Argentina. Version 2 reaches ${pc(ca.intervals.cqr_coverage_on_viirs_active_cells)} and ${pc(ar.intervals.cqr_coverage_on_viirs_active_cells)}.`],
       visual: B.bars([{ label: "Canada · version 1", value: IV.Canada.cqr_coverage_on_viirs_active_cells, neg: true }, { label: "Canada · version 2", value: ca.intervals.cqr_coverage_on_viirs_active_cells, hl: true }, { label: "Argentina · version 1", value: IV.Argentina.cqr_coverage_on_viirs_active_cells }, { label: "Argentina · version 2", value: ar.intervals.cqr_coverage_on_viirs_active_cells, hl: true }, { label: "Target", value: 0.9, color: "#f0b43c" }], { min: 0, max: 1, fmt: (v) => Math.round(v * 100) + "%", labelWidth: 200, axis: "How often the range contains the true count, in squares that burned" }),
-      why: "Emergency managers need to know how sure a number is. Canada is still a little under the 90% target, and I say so.",
+      why: "Emergency managers need to know how sure a number is. Canada is still a little under the 90% target, and we say so.",
       expert: `<table class="bf-table"><thead><tr><th></th><th>Canada v1</th><th>Canada v2</th><th>Argentina v1</th><th>Argentina v2</th></tr></thead><tbody>
         <tr><td>Coverage, all cell-months</td><td class="n">${f3(IV.Canada.cqr_coverage)}</td><td class="n">${f3(ca.intervals.cqr_coverage)}</td><td class="n">${f3(IV.Argentina.cqr_coverage)}</td><td class="n">${f3(ar.intervals.cqr_coverage)}</td></tr>
         <tr><td>Coverage, VIIRS-active</td><td class="n">${f3(IV.Canada.cqr_coverage_on_viirs_active_cells)}</td><td class="n">${f3(ca.intervals.cqr_coverage_on_viirs_active_cells)}</td><td class="n">${f3(IV.Argentina.cqr_coverage_on_viirs_active_cells)}</td><td class="n">${f3(ar.intervals.cqr_coverage_on_viirs_active_cells)}</td></tr>
@@ -166,20 +166,20 @@
     {
       kicker: "Related fire experiment",
       title: "Mapping burn scars from NASA's HLS imagery: a small early test",
-      body: [`Separately, I trained a small model to outline burned land in NASA Harmonized Landsat–Sentinel (HLS) images. On ${E2.n_val_scenes} test scenes, its outline overlapped the true burn scar by ${pc(E2.model_burn_iou)}; a do-nothing baseline that calls everything unburned scores 0%.`, `A copy of a similar small model ran in ${E10.onnx_fp32_ms} milliseconds per image on an ordinary computer processor, about ${Math.round(E10.pytorch_ms / E10.onnx_fp32_ms)}× faster than the standard setup.`],
+      body: [`Separately, we trained a small model to outline burned land in NASA Harmonized Landsat–Sentinel (HLS) images. On ${E2.n_val_scenes} test scenes, its outline overlapped the true burn scar by ${pc(E2.model_burn_iou)}; a do-nothing baseline that calls everything unburned scores 0%.`, `A copy of a similar small model ran in ${E10.onnx_fp32_ms} milliseconds per image on an ordinary computer processor, about ${Math.round(E10.pytorch_ms / E10.onnx_fp32_ms)}× faster than the standard setup.`],
       why: "Hotspots say where fire was seen; burn scars say what actually burned. Together they could check each other. This was a tiny test, so treat it as a promising start, not a result.",
       expert: `<p>E2 (Colab T4, Nov 10): ${B.esc(E2.model)}, ${E2.n_train_scenes} train / ${E2.n_val_scenes} val scenes, ${E2.steps} steps. mIoU ${E2.model_miou} vs ${E2.baseline} ${E2.baseline_miou}; burn IoU ${E2.model_burn_iou} vs ${E2.baseline_burn_iou}. Source: <code class="bf">${B.esc(E2.source)}</code>.</p><p>E10 (box CPU): ${B.esc(E10.what)}. ONNX FP32 ${E10.onnx_fp32_ms} ms (mIoU ${E10.miou_fp32}), PyTorch ${E10.pytorch_ms} ms, ONNX INT8 ${E10.onnx_int8_ms} ms (mIoU ${E10.miou_int8}). Source: <code class="bf">${B.esc(E10.source)}</code>.</p>`,
     },
     {
       kicker: "Earliest prototype",
-      title: "My first box test was too small to tell anything, so I scaled up",
-      body: ["Before the full run, I tried the idea on a tiny slice of Canada (2012–2015, one test year) on my own computer. The model roughly tied the per-month rule, which told me I needed all the years and a calibration step."],
+      title: "Our first box test was too small to tell anything, so we scaled up",
+      body: ["Before the full run, we tried the idea on a tiny slice of Canada (2012–2015, one test year) on our own computer. The model roughly tied the per-month rule, which told us we needed all the years and a calibration step."],
       visual: `<table class="bf-table"><thead><tr><th>Method (tiny prototype)</th><th>Average error</th><th>Ranking agreement</th><th>Bias %</th></tr></thead><tbody>${PROTO.rows.map((r) => `<tr><td>${B.esc(r[0])}</td><td class="n">${r[1].toFixed(3)}</td><td class="n">${r[2].toFixed(3)}</td><td class="n">${r[3] > 0 ? "+" : ""}${r[3]}</td></tr>`).join("")}</tbody></table>`,
-      why: "Small tests are cheap and catch bad ideas early, but their numbers aren't evidence. I only report them here for completeness.",
+      why: "Small tests are cheap and catch bad ideas early, but their numbers aren't evidence. We only report them here for completeness.",
       expert: `<p>${B.esc(PROTO.note)} RMSE log1p, Spearman, total bias. Source: <code class="bf">${B.esc(PROTO.source)}</code>.</p>`,
     },
     {
-      kicker: "What I'm running at the event",
+      kicker: "What we're running at the event",
       title: "Planned next steps (no results yet)",
       body: ["These are planned or queued. None has been run yet, so there are no numbers."],
       html: `<ul class="bf-plan">
@@ -190,7 +190,7 @@
         <li><b>Count fires, not pixels.</b> Group detections into fire events.</li>
         <li><b>Steadier estimates for sparse regions.</b> A hierarchical Bayesian count model.</li>
         <li><b>More seeds and countries</b> so results come with error bars.</li></ul>`,
-      why: "The event is where I turn a working prototype into a tool any agency can point at its own region.",
+      why: "The event is where we turn a working prototype into a tool any agency can point at its own region.",
     },
     {
       kicker: "Limits",
@@ -207,13 +207,13 @@
         ["VIIRS", "Newer instrument (since 2012) with 375 m pixels. It sees smaller fires."],
         ["FIRMS", "NASA's Fire Information for Resource Management System, which publishes the fire detections."],
         ["Detection / hotspot", "One satellite pixel flagged as burning at one moment."],
-        ["Map square (cell)", "A ≈25 km grid square (0.25°). I count detections per square per month."],
-        ["Simple method (baseline)", "A conversion factor anyone could compute. My model has to beat it."],
+        ["Map square (cell)", "A ≈25 km grid square (0.25°). We count detections per square per month."],
+        ["Simple method (baseline)", "A conversion factor anyone could compute. Our model has to beat it."],
         ["Average error", "How far predictions are from reality on average, on a scale that treats 10→20 like 100→200 (RMSE of log counts)."],
         ["Hidden years (test)", "2022–2025 were kept away from the model until the final check."],
         ["Uncertainty range", "A low–high band meant to contain the true value 9 times out of 10 (conformal prediction)."],
         ["Unusual month", "A month far outside the 26-year normal for that calendar month (robust z-score above 3.5)."],
-        ["Back-cast", "My estimate of what VIIRS could have seen in 2000–2011, before it flew."],
+        ["Back-cast", "Our estimate of what VIIRS could have seen in 2000–2011, before it flew."],
         ["Bias", "Systematic over- or undercounting, as a percentage of the total."],
       ]),
     },

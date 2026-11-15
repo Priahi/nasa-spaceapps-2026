@@ -48,9 +48,9 @@ def copy_demo(slug):
     h = h.replace("Unlisted demo, not submitted, not a published benchmark.", "One seed, not a published benchmark.")
     h = h.replace("Local demo for NASA International Space Apps Challenge 2026", "NASA International Space Apps Challenge 2026")
     h = h.replace("Cite every source in a Space Apps submission and disclose this pre-existing tooling. This is a local demo, not a submitted project and not a published benchmark.",
-                  "All sources are cited above. Builds on my earlier code and open-source libraries. One seed, not a published benchmark.")
-    h = h.replace("Cite every source in a Space Apps submission and disclose this pre-existing tooling.", "Builds on my earlier code and open-source libraries.")
-    h = re.sub(r"<title>(.*?)</title>", lambda m: f"<title>{m.group(1)} · Parsa Riahi</title>\n  <meta name=\"author\" content=\"Parsa Riahi\" />", h, count=1)
+                  "All sources are cited above. Builds on our earlier code and open-source libraries. One seed, not a published benchmark.")
+    h = h.replace("Cite every source in a Space Apps submission and disclose this pre-existing tooling.", "Builds on our earlier code and open-source libraries.")
+    h = re.sub(r"<title>(.*?)</title>", lambda m: f"<title>{m.group(1)} · Parsa Riahi and Yara Riahi</title>\n  <meta name=\"author\" content=\"Parsa Riahi and Yara Riahi\" />", h, count=1)
     h = re.sub(r"(<footer[^>]*>)", lambda m: m.group(1) + f'<p class="og-credit">{html.escape(SITE["credit"])}.</p>', h, count=1)
     idx.write_text(h)
     for f in list(out.glob("*.js")) + list(out.glob("*.css")) + [idx]:
@@ -64,7 +64,10 @@ def copy_demo(slug):
 OG_ALT = "About 230 people died because of one day of rain: Valencia, 29 Oct 2024, with the radar flood map of 8 towns. Orbit to Ground, NASA Space Apps 2026."
 LDJSON = '\n<script type="application/ld+json">' + json.dumps({"@context": "https://schema.org", "@type": "WebSite", "name": "Orbit to Ground", "url": SITE_URL + "/",
     "description": "NASA satellite data turned into the next move for floods, wildfire and farms. NASA Space Apps Challenge 2026.",
-    "author": {"@type": "Person", "name": "Parsa Riahi", "address": {"@type": "PostalAddress", "addressLocality": "Toronto", "addressCountry": "CA"}},
+    "author": [
+        {"@type": "Person", "name": "Parsa Riahi", "address": {"@type": "PostalAddress", "addressLocality": "Toronto", "addressCountry": "CA"}},
+        {"@type": "Person", "name": "Yara Riahi", "address": {"@type": "PostalAddress", "addressLocality": "Toronto", "addressCountry": "CA"}},
+    ],
     "inLanguage": "en", "about": ["flood early warning", "wildfire readiness", "crop mapping", "NASA Earth observation"]}) + "</script>"
 def head(title, desc, path, img="og-home.jpg"):
     if SITE["author"] not in title: title = f"{title} · {SITE['author']}"
@@ -118,7 +121,7 @@ REPO_NOTE = f' Source code: <a href="{REPO_URL}">{REPO_URL.replace("https://",""
 FOOT = f"""<footer class="site"><div class="wrap">
 <p><strong>Orbit to Ground</strong> · NASA International Space Apps Challenge 2026 · {e(SITE['challenge'])} · {e(SITE['credit'])}.{REPO_NOTE}</p>
 <p>Data: NASA FIRMS, NASA-ISRO NISAR (via NASA CMR and ASF DAAC), NASA POWER, NASADEM, MODIS, plus ESA Copernicus Sentinel-1, Sen1Floods11, USDA NASS CDL and ISRIC SoilGrids. Province outlines: Natural Earth (public domain). Each project page lists its sources and licences. This site is not affiliated with or endorsed by NASA.</p>
-<p>AI disclosure: AI coding assistants helped write and refactor parts of the code, site and text. All models, metrics and figures come from my own runs on the public data listed. Photos of people are AI-generated illustrations, not real people or events; every chart, map and number comes from data. Model metrics are one seed each, not a published benchmark. {e(SITE['built_on'])}</p>
+<p>AI disclosure: AI coding assistants helped write and refactor parts of the code, site and text. All models, metrics and figures come from our own runs on the public data listed. Photos of people are AI-generated illustrations, not real people or events; every chart, map and number comes from data. Model metrics are one seed each, not a published benchmark. {e(SITE['built_on'])}</p>
 </div></footer>
 <script src="/assets/vendor/gsap.min.js" defer></script>
 <script src="/assets/vendor/ScrollTrigger.min.js" defer></script>
@@ -294,7 +297,7 @@ def landing():
                ("built", "Water resources", "Groundwater · eastern Spain", "Stored water falling 0.39 cm a year since 2002 (p = 0.002), from gravity satellites.", "/sar-change/#trend", "See the trend"),
                ("future", "Transport", "Landslides after rain", "Rain signal plus slope maps, to close roads before they slide.", "", ""),
                ("future", "Food security", "Drought and crop stress", "Soil water and greenness, to target aid before harvests fail.", "", ""),
-               ("future", "Coastal cities", "Storm surge", "Radar water maps for low streets, the way I mapped Valencia.", "", ""),
+               ("future", "Coastal cities", "Storm surge", "Radar water maps for low streets, the way we mapped Valencia.", "", ""),
                ("future", "Schools", "Smoke and air quality", "Fire detections plus wind, to move recess indoors in time.", "", ""),
                ("future", "Care homes", "Heat waves", "Surface heat by block, to send staff where it's hottest.", "", "")]
     def _sc(k, sec, t, d, u, lt):
@@ -334,7 +337,7 @@ def landing():
 <details class="deep"><summary>Compare regions · same test, three places</summary>{_sm()}</details>
 <details class="deep"><summary>Data sources ({len(seen)})</summary><div class="table-wrap"><table><thead><tr><th>Dataset</th><th>Module</th><th>How it's used</th><th>Access</th></tr></thead><tbody>{drows}</tbody></table></div></details>
 <details class="deep"><summary>Methods</summary><ul class="facts">{meth}</ul></details>
-<details class="deep"><summary>Validation and limits</summary><ul class="facts"><li><b>What holds up.</b> Models trained on earlier years, tested on later ones, against simple baselines. Trends checked on a second NASA record where one exists.</li><li><b>Where it falls short.</b> Canada's monthly-total fire error is worse than the baseline (39.4% vs 16.7%). Provincial fire trends are tentative. Trends show change, not cause. GPM IMERG doesn't confirm the reanalysis drop in southern Ontario's rain extremes, so I don't claim it. The flood rewind uses archive data; I haven't tested near-real-time timing.</li></ul></details>
+<details class="deep"><summary>Validation and limits</summary><ul class="facts"><li><b>What holds up.</b> Models trained on earlier years, tested on later ones, against simple baselines. Trends checked on a second NASA record where one exists.</li><li><b>Where it falls short.</b> Canada's monthly-total fire error is worse than the baseline (39.4% vs 16.7%). Provincial fire trends are tentative. Trends show change, not cause. GPM IMERG doesn't confirm the reanalysis drop in southern Ontario's rain extremes, so we don't claim it. The flood rewind uses archive data; we haven't tested near-real-time timing.</li></ul></details>
 <details class="deep"><summary>Judging criteria</summary><ul class="facts">{crit}</ul></details>
 <p class="fine center">{e(SITE['credit'])}</p>
 </div></section>
@@ -395,9 +398,9 @@ def project(i, p):
 <div class="shows">{shows}</div></div></section>
 """
     secs["actions"] = f"""<section class="section tight" id="actions"><div class="wrap">
-{step_head(3, "What I'll do", f"{len(A['recs'])} actions, each tied to a satellite result.")}
+{step_head(3, "What we'll do", f"{len(A['recs'])} actions, each tied to a satellite result.")}
 {recs_block(s)}
-<p class="fine">Outcomes are qualitative: I haven't measured yields, lives or costs. Each button opens the dashboard with that action selected; tasking there is simulated.</p>
+<p class="fine">Outcomes are qualitative: we haven't measured yields, lives or costs. Each button opens the dashboard with that action selected; tasking there is simulated.</p>
 </div></section>
 """
     secs["impact"] = f"""<section class="section tight" id="impact"><div class="wrap">
@@ -426,7 +429,7 @@ def project(i, p):
 {upt}
 <details class="deep"><summary>Inside the tool</summary><div class="figs">{figs}</div></details>
 <details class="deep"><summary>The approach</summary><ul class="facts">{steps}</ul></details>
-<details class="deep"><summary>Limits I know about</summary><ul class="facts">{limits}</ul></details>
+<details class="deep"><summary>Limits we know about</summary><ul class="facts">{limits}</ul></details>
 <details class="deep"><summary>Data sources</summary><div class="table-wrap"><table><thead><tr><th>Dataset</th><th>How it's used</th><th>Access</th><th>Link</th></tr></thead><tbody>{data}</tbody></table></div></details>
 <details class="deep"><summary>Judging criteria</summary><ul class="facts">{crit}</ul><p class="fine">First designed around the Space Apps 2026 brief <a href="{p['challenge_url']}">{e(p['challenge'])}</a>; here it is the {e(M['role']).lower()} module of one system in {e(SITE['challenge'])}.</p></details>
 </div></section>

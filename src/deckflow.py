@@ -102,7 +102,7 @@ def hero():
 {src("aemet", "aemetn", "newtral", "elpais")}
 </div>
 <figure class="dk-hero-map"><img src="{IMG}hero-flood-map.webp" srcset="{IMG}hero-flood-map-640.webp 640w, {IMG}hero-flood-map.webp 900w" sizes="(max-width: 959px) 92vw, 40vw" alt="Radar flood map of the Valencia area, 31 October 2024: new surface water in blue across 8 towns including València, Catarroja, Sollana and Sueca." width="900" height="953" fetchpriority="high" decoding="async" />
-<figcaption>Radar flood map, 31 Oct 2024, 8 towns · NASA/JPL OPERA DSWx-S1, from my flood app</figcaption></figure>
+<figcaption>Radar flood map, 31 Oct 2024, 8 towns · NASA/JPL OPERA DSWx-S1, from our flood app</figcaption></figure>
 </div></section>"""
 
 def bridge():
@@ -151,7 +151,7 @@ def flood_whatif():
         ("~7:30 AM", "Red warning. The danger is known.", ""), ("~8 AM", "What if: the town alert goes out 12 h earlier, drafted by the dashboard " + tag("Simulated"), "us"),
         ("~noon", "First recorded death, a driver at the Benimodo ravine.", "hot"), ("~8 PM", "The real phone alert. More than 150 already dead.", "hot")])
     names = {6: "~2 PM, 29 Oct", 12: "~8 AM, 29 Oct", 24: "~8 PM, 28 Oct", 48: "~8 PM, 27 Oct"}
-    lands = {6: "before nearly all of the deaths dated before ~8 PM", 12: "before the first recorded death (~noon)", 24: "before the rain peak; relies on forecasts, not my signal", 48: "before the rain; forecast-based"}
+    lands = {6: "before nearly all of the deaths dated before ~8 PM", 12: "before the first recorded death (~noon)", 24: "before the rain peak; relies on forecasts, not our signal", 48: "before the rain; forecast-based"}
     rows = [[f'{s["hours_earlier"]} h earlier', names.get(s["hours_earlier"], ""), lands.get(s["hours_earlier"], ""), f'{round(s["factor"] * 100)}%' + (f' ({round(s["factor_range"][0]*100)}–{round(s["factor_range"][1]*100)}%)' if s.get("factor_range") else ""),
              f'€{s["avoided_insured_eur_bn"]:.2f} bn', f'€{s["avoided_assets_eur_bn"]:.1f} bn'] for s in sc]
     tbl = table(["Alert sent", "Clock time", "When it lands", "Damage avoidable", "of €4.8 bn insured", "of €17 bn assets"], rows,
@@ -164,8 +164,8 @@ def flood_whatif():
 </div>
 <div class="dk-two">
 <div><h3 class="dk-h3">The same morning, with the alert moved up</h3><ol class="dk-tl">{tl}</ol></div>
-<div><h3 class="dk-h3">How I estimated</h3><p>Published curves: <b>13%</b> of flood damage avoidable with 6 hours of warning, <b>22%</b> at 12 h, <b>30%</b> at 24 h, and <b>~33%</b> at 48 h. Then it levels off. 22% × €4.8 bn ≈ €1.1 bn. The ~78 km² of new water is more than half the area of the city of València.</p>
-<p class="fine">No lives number for Valencia. I quote one for a different flood: in a peer-reviewed simulation of Germany's 2021 Ahr Valley flood, timely warnings with fast evacuation cut modelled deaths by up to 80%. I don't apply it here.</p></div>
+<div><h3 class="dk-h3">How we estimated</h3><p>Published curves: <b>13%</b> of flood damage avoidable with 6 hours of warning, <b>22%</b> at 12 h, <b>30%</b> at 24 h, and <b>~33%</b> at 48 h. Then it levels off. 22% × €4.8 bn ≈ €1.1 bn. The ~78 km² of new water is more than half the area of the city of València.</p>
+<p class="fine">No lives number for Valencia. We quote one for a different flood: in a peer-reviewed simulation of Germany's 2021 Ahr Valley flood, timely warnings with fast evacuation cut modelled deaths by up to 80%. We don't apply it here.</p></div>
 </div>
 {tbl}
 <h3 class="dk-h3">How it compares with what exists today</h3>
@@ -173,7 +173,7 @@ def flood_whatif():
 <details class="deep"><summary>Hours for the alert, days for the map</summary><ul class="facts">
 <li><b>Hours, for the alert.</b> The danger was known: AEMET's red warning came around 7:30 AM and EFAS had sent notices on 26 and 28 Oct. The 12-hour case needs no new detection. It needs that signal turned into a drafted, town-specific alert with the right instructions. That is what the dashboard does (simulated).</li>
 <li><b>Days, for the map.</b> It was 99% cloudy, so optical satellites were blind. The first post-storm radar map came on 31 Oct, about 2 days later; the first province-wide Copernicus map on 2 Nov, about 4 days later. The rain signal arrives before either. NISAR adds more radar passes for the next event.</li>
-<li><b>What I haven't tested.</b> Near-real-time IMERG timing on this event (I used the research run). The 24 h and 48 h rows rely on forecasts, which my tool doesn't make.</li></ul></details>
+<li><b>What we haven't tested.</b> Near-real-time IMERG timing on this event (we used the research run). The 24 h and 48 h rows rely on forecasts, which our tool doesn't make.</li></ul></details>
 {src("ccs", "ivie", "nhwc", "gca", "papp", "elpais", "newtral", "esa", "imerg", "ahr", "vlc")}
 </div></section>"""
 
@@ -195,8 +195,8 @@ def fire():
 <div><h3 class="dk-h3">Why May</h3><ul class="facts"><li><b>The record.</b> 5 of Alberta's 16 unusual fire months since 2000 were in May, including 2016 (Horse River, Fort McMurray) and 2023. B.C. rises too, about +2,600 a year (p = 0.045).</li>
 <li><b>The date.</b> Alberta staffed fully by 1 May; for 2024 it moved to 15 April. Horse River started on 1 May 2016: 0 days of margin. In 2023 the first big fire came on 23 April, before full staffing.</li>
 <li><b>Why the start matters.</b> About 97% of Canadian fires are held small; the 3% that escape burn 97% of the area.</li></ul></div>
-<div><h3 class="dk-h3">How I estimated</h3>{table(["Step", "Value"], [["Alberta 2023 fires × 3% escaped", "1,088 × 3% ≈ 33 escapes"], ["97% of 2.2 M ha ÷ 33", "≈ 65,000 ha per escape"], ["$851 M wildfire cost ÷ 2.2 M ha", "≈ $385 per ha"], ["$385 × 65,000 ha", "≈ $25 M per escape"], ["65,000 ha vs Toronto (631 km²)", "≈ 1.04 ×"]])}
-<p class="fine">An assumption, not a finding: I found no source linking staffing dates to escape rates, so the number of escapes stopped is the input you vary. In 2016 initial attack on Horse River was immediate; I don't claim earlier crews could have stopped it.</p></div>
+<div><h3 class="dk-h3">How we estimated</h3>{table(["Step", "Value"], [["Alberta 2023 fires × 3% escaped", "1,088 × 3% ≈ 33 escapes"], ["97% of 2.2 M ha ÷ 33", "≈ 65,000 ha per escape"], ["$851 M wildfire cost ÷ 2.2 M ha", "≈ $385 per ha"], ["$385 × 65,000 ha", "≈ $25 M per escape"], ["65,000 ha vs Toronto (631 km²)", "≈ 1.04 ×"]])}
+<p class="fine">An assumption, not a finding: we found no source linking staffing dates to escape rates, so the number of escapes stopped is the input you vary. In 2016 initial attack on Horse River was immediate; we don't claim earlier crews could have stopped it.</p></div>
 </div>
 <h3 class="dk-h3">How it compares with what exists today</h3>
 {compare("fire")}
@@ -216,14 +216,14 @@ def fields():
 <div class="dk-stats3" data-fx="stagger">
 {stat("~$1.2 M", "net in a 2012-type drought from winter rye on the steepest squares " + tag("Illustrative", "est"), "us")}
 {stat("26,500 acres", "≈ 10,700 ha of the most erosion-prone farmland protected")}
-{stat("Before planting", "my map is ready in February; USDA's for that season arrives ~11 months later")}
+{stat("Before planting", "our map is ready in February; USDA's for that season arrives ~11 months later")}
 </div>
 <p class="dk-quote small" data-fx="rise">Rye on the steepest fields costs a little most years and pays back in a dry one: drought insurance.</p>
 <div class="dk-two">
-<div><h3 class="dk-h3">How I estimated</h3>{table(["Item", "Per acre", "× 26,500 acres"], [["Extra corn in a 2012-type drought: 11.1 bu × $6.89", "+$76", "+$2.0 M"], ["Rye seed + planting (Iowa mean)", "−$32", "−$0.85 M"], ["<b>Net in a drought year</b>", "<b>+$44</b>", "<b>≈ +$1.2 M</b>"], ["In a normal year", "usually negative", "–"]])}
-<p class="fine">The yield gain is a national, self-reported farmer survey from 2012, not a trial; Iowa results will differ. The 67% lower erosion figure is a planning score from my model, not measured soil loss.</p></div>
+<div><h3 class="dk-h3">How we estimated</h3>{table(["Item", "Per acre", "× 26,500 acres"], [["Extra corn in a 2012-type drought: 11.1 bu × $6.89", "+$76", "+$2.0 M"], ["Rye seed + planting (Iowa mean)", "−$32", "−$0.85 M"], ["<b>Net in a drought year</b>", "<b>+$44</b>", "<b>≈ +$1.2 M</b>"], ["In a normal year", "usually negative", "–"]])}
+<p class="fine">The yield gain is a national, self-reported farmer survey from 2012, not a trial; Iowa results will differ. The 67% lower erosion figure is a planning score from our model, not measured soil loss.</p></div>
 <div><h3 class="dk-h3">What the model gets right, and where it doesn't</h3><ul class="facts"><li><b>81.8%</b> of 30 m squares get the right next crop on held-out 2024–25 data, against 81.4% from crop history alone: a small edge, one county, one seed.</li>
-<li><b>Climate is shifting.</b> The frost-free season is about 19 days longer than in 1981 (p = 0.006). Summer soil water shows no trend, and I say so.</li>
+<li><b>Climate is shifting.</b> The frost-free season is about 19 days longer than in 1981 (p = 0.006). Summer soil water shows no trend, and we say so.</li>
 <li><b>2012 was costly.</b> Iowa corn fell from 172 to 137 bushels an acre (−20%).</li></ul></div>
 </div>
 <h3 class="dk-h3">How it compares with what exists today</h3>
@@ -244,7 +244,7 @@ def system(sec_built, sec_fut, mstrip):
 <h3 class="dk-h3">Same engine, every sector</h3>
 <div class="x20-grid" data-fx="stagger">{sec_built}</div>
 <div class="x20-grid fut" data-fx="stagger">{sec_fut}</div>
-<p class="dk-credit">Parsa Riahi · built solo · Toronto</p>
+<p class="dk-credit">Parsa Riahi and Yara Riahi · Toronto</p>
 <p class="fine center">Civil uses only · tasking and alerts are simulated · not affiliated with NASA</p>
 </div></section>"""
 

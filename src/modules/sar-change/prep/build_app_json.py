@@ -59,7 +59,7 @@ impact = [
   "before": ["Optical satellites see only cloud", "Towns ranked from calls and road reports"],
   "after": ["A water map from the first radar pass after the storm, ranked by municipality", f"{len(z1)} municipalities flagged on day two; l'Horta Sud streets checked by drone"],
   "geo": {"v": f"{f1(T['new_after_km2'])} km²", "l": f"new water on 31 Oct, up from {f1(T['new_before_km2'])} km² on 26 Oct (NASA OPERA)"},
-  "metric": {"v": f"{pct(iou)}%", "l": f"water IoU of my radar model vs {pct(otsu)}% for the Otsu threshold (Sen1Floods11 test, 90 chips)"}},
+  "metric": {"v": f"{pct(iou)}%", "l": f"water IoU of our radar model vs {pct(otsu)}% for the Otsu threshold (Sen1Floods11 test, 90 chips)"}},
  {"user": "City drainage engineer", "decision": "What to build before the next storm", "img": "people/engineer.webp",
   "before": ["Upgrades sized for an assumed rising trend in extreme rain", "No map of where the water actually spread"],
   "after": [f"Basins and drains planned for {lst(z3, 4)}", "Sized for the 2024 event; the 45-year record shows no trend in the wettest day"],

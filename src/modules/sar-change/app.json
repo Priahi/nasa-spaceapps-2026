@@ -191,7 +191,7 @@
    },
    "metric": {
     "v": "66.4%",
-    "l": "water IoU of my radar model vs 21.8% for the Otsu threshold (Sen1Floods11 test, 90 chips)"
+    "l": "water IoU of our radar model vs 21.8% for the Otsu threshold (Sen1Floods11 test, 90 chips)"
    }
   },
   {

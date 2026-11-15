@@ -7,7 +7,7 @@
     "scenarios": [
       {"hours_earlier": 6,  "alert_time": "14:11 29 Oct", "factor": 0.13,   "factor_source": "Day (1970) curve, linear interpolation 4h->12h", "avoided_insured_eur_bn": 0.62, "avoided_assets_eur_bn": 2.21, "people": "before at least 146 of the 156 pre-20:11 deaths"},
       {"hours_earlier": 12, "alert_time": "08:11 29 Oct", "factor": 0.22,   "factor_source": "Day (1970) curve via NHWC 2006", "avoided_insured_eur_bn": 1.06, "avoided_assets_eur_bn": 3.74, "people": "before the first recorded death (11:45)"},
-      {"hours_earlier": 24, "alert_time": "20:11 28 Oct", "factor": 0.30,   "factor_source": "Global Commission on Adaptation 2019", "avoided_insured_eur_bn": 1.44, "avoided_assets_eur_bn": 5.10, "people": "before the rain peak; relies on forecasts (EFAS/AEMET), not my observed signal"},
+      {"hours_earlier": 24, "alert_time": "20:11 28 Oct", "factor": 0.30,   "factor_source": "Global Commission on Adaptation 2019", "avoided_insured_eur_bn": 1.44, "avoided_assets_eur_bn": 5.10, "people": "before the rain peak; relies on forecasts (EFAS/AEMET), not our observed signal"},
       {"hours_earlier": 48, "alert_time": "20:11 27 Oct", "factor": 0.3285, "factor_range": [0.04, 0.40], "factor_source": "Pappenberger et al. 2015", "avoided_insured_eur_bn": 1.58, "avoided_insured_range_eur_bn": [0.19, 1.92], "avoided_assets_eur_bn": 5.58, "people": "before the rain; forecast-based"}
     ],
     "floor_domestic_only": {"factor": 0.073, "avoided_insured_eur_bn": 0.35},
@@ -25,7 +25,7 @@
   },
   "field": {
     "case": "2012 US drought, Iowa; Story County steepest 92 squares",
-    "headline": "In a 2012-type drought, rye on Story County's 92 steepest squares is worth ~$1.2 M net (illustrative: +11.1 bu/acre x $6.89 - $32/acre), and my map is ready before planting, not 11 months after.",
+    "headline": "In a 2012-type drought, rye on Story County's 92 steepest squares is worth ~$1.2 M net (illustrative: +11.1 bu/acre x $6.89 - $32/acre), and our map is ready before planting, not 11 months after.",
     "baseline": {"iowa_corn_yield_2011": 172, "iowa_corn_yield_2012": 137, "iowa_lost_bu_m": 479.5, "price_usd_bu_2012": 6.89, "iowa_shortfall_usd_bn": 3.3, "us_indemnities_2012_usd_bn": 16.99, "cover_crop_corn_gain_bu": 11.1, "cover_crop_corn_gain_pct": 9.6, "cover_crop_cost_usd_acre": 32.09},
     "scenario": {"acres": 26500, "gross_per_acre": 76.48, "net_per_acre": 44.39, "gross_usd_m": 2.03, "net_usd_m": 1.18, "normal_year": "usually negative without grazing/cost-share (ISU)"},
     "lead_time": "Per-pixel next-season map ~Feb (once prior CDL is out), before planting; CDL for the season arrives ~11 months later; Prospective Plantings is state-level (31 Mar)."

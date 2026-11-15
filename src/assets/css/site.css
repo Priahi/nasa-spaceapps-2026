@@ -358,7 +358,7 @@ td.login-y, td.login-n { white-space: nowrap; }
 .story-js .story-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 3.5rem; align-items: start; }
 .story-js .story-stage { display: block; position: sticky; top: calc(var(--nav-h) + 4vh); height: calc(100svh - var(--nav-h) - 8vh); }
 .story-js .story-stage-in { position: relative; height: calc(100% - 2.2rem); }
-.story-js .beat { min-height: 78svh; display: flex; flex-direction: column; justify-content: center; border-top: 0; padding: 0 0 0 1.25rem; border-left: 1px solid var(--line); opacity: .55; transition: opacity .5s ease, border-color .5s ease; }
+.story-js .beat { min-height: 78svh; display: flex; flex-direction: column; justify-content: center; border-top: 0; padding: 0 0 0 1.25rem; border-left: 1px solid var(--line); opacity: 1; transition: opacity .5s ease, border-color .5s ease; }
 .story-js .beat.is-active { opacity: 1; border-left-color: var(--accent); }
 .story-js .beat-media { display: none; }
 .story-panel { position: absolute; inset: 0; display: grid; align-content: center; gap: .9rem; opacity: 0; visibility: hidden; transform: translateY(14px) scale(.985); transition: opacity .6s ease, transform .7s cubic-bezier(.2,.7,.2,1), visibility 0s .6s; overflow: hidden; }
@@ -977,3 +977,5 @@ details.deep .facts b { color: var(--ink); }
 .dk-tw td { color: var(--ink) !important; }
 @media (max-width: 640px) { .dk-tw .dk-t.wide { min-width: 640px; } }
 [data-theme="light"] .chip { background: rgba(255,255,255,.75); }
+/* inactive story beats: dim the text colour, not the opacity, so highlighted chips keep their contrast */
+.story-js .beat:not(.is-active) :is(h3, p, li:not(.her), .beat-k) { color: var(--faint); transition: color .5s ease; }
